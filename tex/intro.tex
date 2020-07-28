@@ -1,0 +1,47 @@
+\chapter{Introduction}
+Some wordiness will go here.
+
+\section{My first section}
+Post-introductory wordiness
+
+Main goal:  To achieve at least one of the below
+\begin{itemize}
+\item run more efficiently (faster and/or use less memory)
+\item Scalability.  If one only scales well up to, say 4-8 cores, but the other works up to a much larger number of cores, then that would suggest that the latter approach is much more future-proof, since best guesses still suggest that manycore systems are the way of the future.
+\item `cleaner'/nicer code (by some reasonably objective, quantifiable measure)
+\item `easier to program/easier to read' -- lower complexity (how does one measure that though?)
+\end{itemize}
+
+Why is message passing better than using an algorithmic skeleton?  Or how much can the two ideas be unified?  (e.g. a Concurrent~ML inspired skeleton for operations on regular grids -- perhaps using specific neighbourhoods).
+
+Some of the stereo matching algorithms can be described in terms of message passing, but also can be given fairly efficient GPU implementations.  How do the two connect?
+
+From \url{https://abacus.bates.edu/~ganderso/biology/resources/writing/HTWsections.html}:  ``the Introduction must answer the questions, "What was I studying? Why was it an important question? What did we know about it before I did this study? How will this study advance our knowledge?"''
+
+\section{Research Questions}
+\begin{enumerate}
+    \item Can real-time message passing-based stereo matching be implemented using a message passing programming approach?
+    \item How do the results compare with more traditional implementations?
+    \item 
+\end{enumerate}
+
+\subsection{Research Question One}
+Here real-time means achieving a speed of at least 1 frame per second, i.e. at least 1 Hz.
+
+\subsection{Research Question Two}
+Comparisons can be (will be?) made based on runtime efficiency, both with `wall time' taken and peak memory use, as well as based on code-quality measures in some fashion.  Also, if possible, check how well each approach scales.
+
+\subsection{Research Question Three}
+
+\section{Hypotheses}
+
+\subsection{Hypothesis One}
+On larger/more powerful systems, yes.  On smaller systems (e.g. Nvidia Jetson Nano) no.
+
+\subsection{Hypothesis Two}
+\gls{mpbsm} will be \emph{slower} than traditional methods, and use more memory.  The program will be longer, but it will be more clearly logically structured.  It will scale better than traditional approaches though, when there is shared memory but distinct processors.
+
+\subsection{Hypothesis Three}
+
+\section{Outline}
+Where I summarise the upcoming dissertation (this section probably needs a different/better name).  Where in the intro do I explain the novelty?
