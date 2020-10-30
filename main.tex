@@ -18,9 +18,6 @@
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage[binary-units]{siunitx}
-\usepackage[acronym,noredefwarn]{glossaries}
-\setacronymstyle{long-short}
-\makeglossaries
 
 %
 % Add, delete or un-comment packages below as required.
@@ -29,16 +26,13 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
-\usepackage{graphicx} % for inserting graphics files
-\usepackage{appendix} % for appendices
-
-\usepackage{hyperref} % for formatting web addresses and other URLs
-\urlstyle{same} % try also tt, sf if this option doesn't produce clear enough output
-
 % Readability options
 %
 \usepackage{booktabs} % for table rules
 \usepackage{microtype} % for improved justification
+
+\usepackage{graphicx} % for inserting graphics files
+\usepackage{appendix} % for appendices
 
 % Typeface options — choose one if desired
 % or choose a different typeface to accommmodate character sets
@@ -111,11 +105,50 @@
   }
 }
 
+\usepackage{hyperref} % for formatting web addresses and other URLs
+\urlstyle{same} % try also tt, sf if this option doesn't produce clear enough output
+
+%%% All the glossaries stuff was put here, since the Glossaries documentation says it should be used after hyperref.
+
+\usepackage[acronym,noredefwarn,toc]{glossaries}
+\setacronymstyle{long-short}
+\makeglossaries
+
+% The below was taken from https://tex.stackexchange.com/a/562932.  It is used in the glossary.tex file, but placed here because I'm not sure putting it in the glossary file won't b0rk things.  It was originally called 'newdefineabbreviation', but I changed it because that was irritatingly long.
+% #1 - reference e.g. api
+% #2 - Short e.g. API
+% #3 - Full name e.g. Application Programming Interface
+% #4 - Description
+\newcommand{\newdefacr}[4]
+{
+    % Glossary entry
+    \newglossaryentry{#1-glossary}
+    {
+        text={#2},
+        long={#3},
+        name={\glsentrylong{#1-glossary} (\glsentrytext{#1-glossary})},
+        description={#4}
+    }
+
+    % Acronym
+    \newglossaryentry{#1}
+    {
+        type=\acronymtype,
+        name={\glsentrytext{#1-glossary}}, % Short
+        description={\glsentrylong{#1-glossary}}, % Full name
+        first={\glsentryname{#1-glossary}\glsadd{#1-glossary}},
+        see=[Glossary:]{#1-glossary} % Reference to corresponding glossary entry
+    }
+}
+
+\loadglsentries{glossary}
+
 \begin{document}
 
 % \newcommand{\cml}{Concurrent~ML}
 % \newcommand{\csp}{Communicating Sequential Processes}
 \newcommand{\fsharp}{F\nolinebreak\hspace{-.05em}\raisebox{.3ex}{\tiny{\textbf{\#}}}}
+\newcommand{\cps}{cP~systems}
 
 % ====================================================
 %
@@ -127,12 +160,12 @@
 % ====================================================
 
 % Specify the title page content
-\title{Message passing-based stereo matching algorithms in cP~systems and Concurrent~ML}
+\title{Message Passing-Based Stereo Matching Algorithms in cP~systems and Concurrent~ML}
 %\subtitle{Using functional programming to make life simpler and promote efficiency}
 \author{James Cooper}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
-\degreecompletionyear{2020}
+\degreecompletionyear{2021}
 
 % Print the title page
 \maketitle
@@ -142,10 +175,10 @@
 
 % Dedication (optional)
 %\thesisdedication{Dedicated to grandma, and to grammar.}
-\thesisdedication{This work is dedicated to the interested reader and all those who make use of material presented within.}
+% \thesisdedication{This work is dedicated to the interested reader and all those who make use of material presented within.}
 
 % Preface and/or acknowledgements (optional)
-\input{tex/acknowledgements.tex} % it's in a separate file
+% \input{tex/acknowledgements.tex} % it's in a separate file
 
 % Contents, lists of tables and figures
 \settocdepth{subsection} % choose chapter, section, subsection 
@@ -154,7 +187,7 @@
 %\cleardoublepage\listoftables
 
 % Glossary (optional)
-\input{glossary}
+% \input{glossary}
 
 % ====================================================
 %
@@ -169,12 +202,12 @@
 %
 % ====================================================
 
-\input{tex/intro.tex}
-\input{tex/litreview}
-\input{tex/choiceoflang.tex}
-\input{tex/beliefprop.tex}
-\input{tex/concprop.tex}
-\input{tex/discussion.tex}
+\input{chapters/intro.tex}
+\input{chapters/litreview/litreview}
+\input{chapters/choiceoflang/choiceoflang}
+\input{chapters/beliefprop/beliefprop}
+\input{chapters/concprop/concprop}
+\input{chapters/discussion.tex}
 \input{tex/conclusion.tex}
 %\input{tex/chapter1} % I hope that you have better titles than this
 %\input{chapter2} 
@@ -190,11 +223,11 @@
 % ====================================================
 
 \printbibliography[title={Works Cited}, heading=bibintoc]
-\chapter*{Glossary}
+% \chapter*{Glossary}
 
-\printglossary[type=\acronymtype]
- 
 \printglossary
+ 
+\printglossary[type=\acronymtype]
 
 \cleardoublepage % start afresh on a new page
 \setcounter{page}{1} % re-sets the page counter

@@ -24,6 +24,9 @@ In practice, \gls{cml} has a major advantage in terms of resource requirements. 
 
 Move the above into the introduction perhaps?
 
+\subsection{Beyond Go}
+Go is the obvious shared-memory message-passing language at the time of writing, but it doesn't have the full complement of \gls{cml} primitives (instead, it rougly corresponds to \gls{csp}).  For this reason, this work needs to consider far beyond simply Go (or indeed, many other equivalent options).
+
 \section{Requirements}
 % Requirements:
 % \begin{itemize}
@@ -76,20 +79,20 @@ Languages and their relevant libraries
 % See also \url{https://github.com/kevin-chalmers/cpa-lang-shootout} and \url{www.teigfam.net/oyvind/home/technology/135-towards-a-taxonomy-of-csp-based-systems/} and \url{https://arrayfire.com/}\footnote{On top of ArrayFire, there's also Thrust \url{https://thrust.github.io/}  and ConcurrencyKit \url{http://concurrencykit.org/} and LibCDS \url{https://github.com/khizmax/libcds}}.  ArrayFire is the only one that appears to have bindings for any other languages besides C/C++, however.  Also, Furthark \url{https://futhark-lang.org/}
 
 % \begin{itemize}
-% \item Concurrent ML/\gls{csp}/Pi calculus
+% \item \gls{cml}/\gls{csp}/Pi calculus
 % \begin{itemize}
     % \item Standard ML -- it seems that MLTon is still under development, and it provides a recent implementation of Standard ML and \gls{cml}.\footnote{see \url{http://mlton.org/ConcurrentML}}
     % \item \sout{Concurrent C?  Appears to be loooong dead.}
-    % \item Concurrent Haskell -- It's not entirely clear what the status of \gls{cml}/\gls{csp} style stuff is in Haskell.  Most up-to-date part seems to be Communicating Haskell Processes,\footnote{\url{https://hackage.haskell.org/package/chp}} though that appears to have been unmaintained for a few years.
+    % \item Concurrent Haskell -- It's not entirely clear what the status of \gls{cml}/\gls{csp} style stuff is in Haskell.  Most up-to-date part seems to be Communicating Haskell Processes,\footnote{\url{https://hackage.haskell.org/package/chp}} though that appears to have been unmaintained for a few years.  See also Transactional Events.\footnote{\url{https://www.cs.rit.edu/~mtf/research/tx-events/}}
     % \item \sout{Occam?  Looks like Occam-Pi is the only version that's even close to current, and it doesn't look like that's under active development}\footnote{\url{https://github.com/concurrency/kroc}}
     % \item \sout{F\# with Hopac (Hopac seems to be fairly well no longer under development) and CoreRT.\footnote{For useful CoreRT references, see \url{https://github.com/dotnet/corert}, \url{https://github.com/dotnet/corert/tree/master/samples/HelloWorld} and \url{https://github.com/FoggyFinder/FSharpCoreRtTest}}}  Could possibly use System.Threading.Channels myself, it's apparently super-fast.\footnote{See e.g. \url{https://ndportmann.com/system-threading-channels/}}  Could perhaps alternatively use the TPL Dataflow library (F\# utility wrappers here:  \url{https://github.com/TheAngryByrd/FSharp.TPLDataflow})
     % \item Fibers in Guile Scheme
     % \item OCaml with Events module
-    % \item SML/NJ is still going apparently\footnote{\url{https://www.smlnj.org}} although I'm not sure if \gls{cml} is up to date enough to work with it.  Bigger problem is that I \emph{think} it doesn't support parallelism at all.  There's also PolyML (\url{https://www.polyml.org/}) but it doesn't appear to include CML at all.
-    % \item Clojure with core.async using an AOT compiler or lightweight JVM.  GraalVM\footnote{\url{https://www.graalvm.org/}} appears to offer the former, while OpenJ9\footnote{\url{https://www.eclipse.org/openj9/index.html}} is apparently the latter, but as of writing it appears that neither of them supports targeting ARM.  See \url{https://neanderthal.uncomplicate.org/} and \url{} apparently for fast linear algebra operations.  There's also \url{http://docs.paralleluniverse.co/quasar/}, which apparently basically does Go fibers in Java - but it hasn't been updated in a while, and it looks like the company behind it might have gone out of business.
+    % \item SML/NJ is still going apparently\footnote{\url{https://www.smlnj.org}} although I'm not sure if \gls{cml} is up to date enough to work with it.  Bigger problem is that I \emph{think} it doesn't support parallelism at all.  There's also PolyML (\url{https://www.polyml.org/}) but it doesn't appear to include \gls{cml} at all.
+    % \item Clojure with core.async using an AOT compiler or lightweight JVM.  GraalVM\footnote{\url{https://www.graalvm.org/}} appears to offer the former, while OpenJ9\footnote{\url{https://www.eclipse.org/openj9/index.html}} is apparently the latter, but as of writing it appears that neither of them supports targeting ARM (looks like Graal does kinda now).  See \url{https://neanderthal.uncomplicate.org/} and \url{} apparently for fast linear algebra operations.  There's also \url{http://docs.paralleluniverse.co/quasar/}, which apparently basically does Go fibers in Java - but it hasn't been updated in a while, and it looks like the company behind it might have gone out of business.
     % \item Rust\footnote{see \url{https://doc.rust-lang.org/book/ch16-02-message-passing.html}} with Crossbeam and its subcrates -- see also Tokio and Actix, as well as Desync\footnote{\url{https://github.com/logicalshift/desync/}}, Grease\footnote{\url{https://github.com/cambridgeconsultants/grease}} and Threadpool\footnote{\url{https://github.com/rust-threadpool/rust-threadpool} and see also \url{https://gsquire.github.io/static/post/a-rusty-go-at-channels/}} plus \url{https://gluon-lang.org/} (Gluon is a Haskell-y version of Rust, essentially).  Also \url{https://crates.io/crates/single_value_channel/1.2.1}.
     % \item Manticore is kinda sorta a successor to SML/NJ apparently, with a strong focus on \gls{cml}-style parallelism\footnote{\url{http://manticore.cs.uchicago.edu/}}
-    % \item Go?  \sout{Apparently Crystal has a very similar \gls{csp}-derived built-in basis for Concurrency.}\footnote{While Crystal has similar built-in support for channels like Go, it apparently doesn't yet do parallelism - see near the start of \url{https://crystal-lang.org/reference/guides/concurrency.html}}  \url{https://www.gonum.org/}  Go's support for SIMD seems to be kinda clunky:  \url{https://medium.com/@c_bata_/optimizing-go-by-avx2-using-auto-vectorization-in-llvm-118f7b366969}, \url{https://www.reddit.com/r/golang/comments/ep4vyp/question_how_do_you_implement_simd_in_go/}, \url{https://goroutines.com/asm}, \url{https://golang.org/doc/asm}, \url{https://github.com/minio/simdjson-go}, \url{https://github.com/golang/crypto/tree/master/blake2b}, \url{https://www.reddit.com/r/golang/comments/42zppi/is_there_any_way_to_use_simd_intrinsics_in_gccgo/}.
+    % \item Go?  \sout{Apparently Crystal has a very similar \gls{csp}-derived built-in basis for Concurrency.}\footnote{While Crystal has similar built-in support for channels like Go, it apparently doesn't yet do parallelism - see near the start of \url{https://crystal-lang.org/reference/guides/concurrency.html}}  \url{https://www.gonum.org/}  Go's support for SIMD seems to be kinda clunky:  \url{https://medium.com/@c_bata_/optimizing-go-by-avx2-using-auto-vectorization-in-llvm-118f7b366969}, \url{https://www.reddit.com/r/golang/comments/ep4vyp/question_how_do_you_implement_simd_in_go/}, \url{https://goroutines.com/asm}, \url{https://golang.org/doc/asm}, \url{https://github.com/minio/simdjson-go}, \url{https://github.com/golang/crypto/tree/master/blake2b}, \url{https://www.reddit.com/r/golang/comments/42zppi/is_there_any_way_to_use_simd_intrinsics_in_gccgo/}.  Could an events library over the top of what's in Go be viable?
     % \item Is there anything in C++?  (Couldn't find anything when I looked the other day)\footnote{but see \url{https://docs.microsoft.com/en-us/cpp/parallel/concrt/concurrency-runtime?view=vs-2017} which is Windows only I think, also \url{https://www.cs.kent.ac.uk/projects/ofa/c++csp/} and \url{https://stackoverflow.com/questions/218786/concurrent-programming-c}}.  Also, there are a number of Boost libraries which come close, but none of which do precisely what I need:  \url{https://www.boost.org/doc/libs/?view=category_concurrent}.  MicroC++ (\url{https://plg.uwaterloo.ca/~usystem/uC++.html}) is similar.  Also, Stackless Coroutines introduced channels, but it looks like that is a dead experiment:  \url{https://github.com/jbandela/stackless_coroutine/tree/channel_dev} \& \url{https://github.com/CppCon/CppCon2016/blob/master/Presentations/Channels%20-%20An%20Alternative%20to%20Callbacks%20and%20Futures/Channels%20-%20An%20Alternative%20to%20Callbacks%20and%20Futures%20-%20John%20Bandela%20-%20CppCon%202016.pdf}  Actually, Boost:Fiber \emph{might} provide what I need.  See its channels, and \texttt{when_any} construct.
     % \item \sout{Smalltalk -> Objective-C \& Parallax (all of these have been out of active development for too long, but they probably will make good references)}\footnote{see \UrlBreaks{https://stackoverflow.com/questions/6145421/what-other-programming-languages-have-a-smalltalk-like-message-passing-syntax}}
     % \item Pharo(?)\footnote{\url{http://www.pharo.org/web}} -- a modern version of Smalltalk, apparently.  Also, Squeak.\footnote{\url{https://squeak.org}}
@@ -110,12 +113,12 @@ Languages and their relevant libraries
 %     \item \sout{Don't forget Pony...  (almost certainly not stable enough at this point)}
 %     \item Rust with Actix
 % \end{itemize}
-% \item Julia?\footnote{\url{https://docs.julialang.org/en/v1/manual/parallel-computing/index.html} \& \url{https://docs.julialang.org/en/v1/manual/control-flow/\#man-tasks-1}} -- it is supposed to be very close to mathematical notation, so that's a big plus.  Can't find anything suggesting that there's a Concurrent ML/\gls{csp}/Pi calculus type thingy out there yet, though they do have lightweight threads and channels.  Plus, parallelism is apparently not really a big thing in it yet.
+% \item Julia?\footnote{\url{https://docs.julialang.org/en/v1/manual/parallel-computing/index.html} \& \url{https://docs.julialang.org/en/v1/manual/control-flow/\#man-tasks-1}} -- it is supposed to be very close to mathematical notation, so that's a big plus.  Can't find anything suggesting that there's a \gls{cml}/\gls{csp}/Pi calculus type thingy out there yet, though they do have lightweight threads and channels.  Plus, parallelism is apparently not really a big thing in it yet.
 % \item What of the LMAX Disruptor approach?\footnote{\url{https://github.com/LMAX-Exchange/disruptor}} -- looks like that would have me working on the JVM, so probably Java/Scala/Kotlin/Ceylon/Clojure/probably something else is out there too.  There is a .NET port of it too.\footnote{\url{https://github.com/disruptor-net/Disruptor-net}}  Definitely looks like it would be worth investigating, but it doesn't follow the \gls{csp} model, so it is out-of-scope for this particular work.  Also \url{https://github.com/lthibault/turbine}.
 % \item Scala with Chymist \sout{(there was also JCSP (\url{https://www.cs.kent.ac.uk/projects/ofa/jcsp/}), which seems to be long dead now, but see Communicating Scala Objects, though I can't find an actual implementation of that available anywhere)}
 % \item \sout{SCOOP (Betrand Meyer) \& Eiffel (too OO, not really close enough to \gls{csp} it looks like)}
 % \item \sout{Does ATS \cite{Shi2013} include anything? (couldn't find anything)}  Or D?\footnote{relevant: \url{http://www.informit.com/articles/article.aspx?p=1609144} and \url{https://wiki.dlang.org/Go_to_D}}  Or Nim?  \sout{Idris?  C++?}\footnote{There's C++CSP, but despite the most recent paper apparently being published in 2016, I couldn't find anywhere that actually hosted a usable version.  Could only find \url{https://www.cs.kent.ac.uk/projects/ofa/c++csp/doc/index.html} \& \url{https://github.com/olahol/cpp-csp}, neither of which are complete or recently-updated.}  Looks like I should check C++ Concurrency in Action, 2nd Edition -- it'll probably cover this if anything does (update: it doesn't).
-% \item Further C++ CSP libraries:  SObjectizer\footnote{\url{https://stiffstream.com/en/products/sobjectizer.html}}, libmill\footnote{\url{http://libmill.org/index.html}} \& libdill\footnote{\url{http://libdill.org/index.html}}, LibProxC++\footnote{\url{https://github.com/edvardsp/libproxcplusplus} (also LibProxC \url{https://github.com/edvardsp/libproxc})}.  High Performance ParallelX\footnote{\url{http://stellar-group.org/libraries/hpx/}} claims to be a replacement to/improvement over \gls{csp} (see \url{https://stellar-group.github.io/hpx/docs/sphinx/tags/1.4.0/html/why_hpx.html#what-is-hpx}).
+% \item Further C++ \gls{csp} libraries:  SObjectizer\footnote{\url{https://stiffstream.com/en/products/sobjectizer.html}}, libmill\footnote{\url{http://libmill.org/index.html}} \& libdill\footnote{\url{http://libdill.org/index.html}}, LibProxC++\footnote{\url{https://github.com/edvardsp/libproxcplusplus} (also LibProxC \url{https://github.com/edvardsp/libproxc})}.  High Performance ParallelX\footnote{\url{http://stellar-group.org/libraries/hpx/}} claims to be a replacement to/improvement over \gls{csp} (see \url{https://stellar-group.github.io/hpx/docs/sphinx/tags/1.4.0/html/why_hpx.html#what-is-hpx}).
 % \item \sout{How can strong typing be used beneficially? (if at all?)}
 % \item \sout{Probably don't need transactional memory (?)}
 % \item \sout{Lock-free is better than locking, but how to achieve?  Is that a relevant consideration here?  In theory at least, should be able to leave that up to the implementation I'm using.}
@@ -161,10 +164,11 @@ The ones (that probably will be) finally chosen to assess are among:
 % \item Manticore -- has a full \gls{cml} library
 \item MLTon -- has a full \gls{cml} library
 % \item Nim -- Unfortunately, Nim does not appear to have any selection over channels capability
-\item OCaml with Events module -- Events is a full \gls{cml} library
+\item OCaml with Events module -- Events is a full \gls{cml} library, but OCaml is (currently) single-core only
 % \item Pharo
 \item Rust with Crossbeam crate -- Crossbeam seems to be channels + selection only
 \item Racket with its Sync library
+\item Felix-lang (?) (\url{https://github.com/felix-lang/felix})
 \end{itemize}
 
 Big table assessing what features they in fact have goes here (?).  That can be used as the basis of choosing, say, the top 3-5 languages that seem like they would be best suited to what I want to do, and those ones can be further assessed.
@@ -242,6 +246,7 @@ Yes.
 \subsubsection{Inter-operation with C/C++}
 
 \paragraph{C++}
+N/A
 
 \paragraph{Clojure}
 It is likely possible, but not sure that it is \emph{easy}.
@@ -267,7 +272,6 @@ Yes.  Nim actually transpiles to C, which is then compiled as normal.
 \paragraph{OCaml}
 Yes.
 
-
 \paragraph{Rust}
 Yes.
 
@@ -275,6 +279,7 @@ Yes.
 \subsubsection{Ahead-of-time compilation to native executables}
 
 \paragraph{C++}
+Yes
 
 \paragraph{Clojure}
 Kinda with OpenJ9.  Yes with GraalVM.
@@ -300,13 +305,13 @@ Yes (in fact, they brag they're particularly good at it)
 \paragraph{OCaml}
 Yes.
 
-
 \paragraph{Rust}
 Yes.
 
 \subsubsection{High-quality implementations of stereo matching algorithms already available}
 
 \paragraph{C++}
+Er... OpenCV?
 
 \paragraph{Clojure}
 Didn't find anything.  It seems unlikely.  I did see somewhere that there is apparently a Clojure wrapper of OpenCV, though.
@@ -332,13 +337,13 @@ There are wrappers over OpenCV, at least.
 \paragraph{OCaml}
 Couldn't find any.
 
-
 \paragraph{Rust}
 Didn't find any, but could well be out there.
 
 \subsubsection{Works on x86* \emph{and} ARM}
 
 \paragraph{C++}
+Yes - GCC definitely supports ARM targets, I'm pretty sure LLVM does too.
 
 \paragraph{Clojure}
 Not 100\% clear.  It basically comes down to whether a JVM implementation supports targeting more architectures than x84-64.  It \emph{looks like} OpenJ9 doesn't support ARM, and neither does GraalVM.
@@ -356,7 +361,7 @@ It has a native compilation feature, which supports x86-64, and one of ARM32 or 
 No.  x86-64 only.
 
 \paragraph{MLTon}
-Yes.
+Potentially, yes, if you fiddle with the GCC settings it uses.
 
 \paragraph{Nim}
 Yes (I believe it should work for whatever architectures GCC and Clang/LLVM support).
@@ -364,13 +369,13 @@ Yes (I believe it should work for whatever architectures GCC and Clang/LLVM supp
 \paragraph{OCaml}
 Yes.
 
-
 \paragraph{Rust}
 Yes.
 
 \subsubsection{More than one individual's toy/research language, and still under active development/support}
 
 \paragraph{C++}
+Yes.
 
 \paragraph{Clojure}
 Yes.
@@ -385,10 +390,10 @@ Doesn't have a huge team or wealthy company behind it, but it is a central part 
 Yes.
 
 \paragraph{Manticore}
-Yes, though it is definitely a research language with a small core group at present.
+Not really, it is a research language with a small core group, most of whom are inactive.
 
 \paragraph{MLTon}
-Yes.  The last formal release is over 2 years old, but it appears that development is still in progress to some degree.
+Yes.  It appears that development is still in progress to some degree.
 
 \paragraph{Nim}
 Yes.
@@ -396,31 +401,30 @@ Yes.
 \paragraph{OCaml}
 Yes.
 
-
 \paragraph{Rust}
 Yes.
 
 % \subsubsection{Support for optimisation algorithms}
 
-\subsection{Excluded options}
-The following options were investigated but excluded from consideration due to a variety of issues.  These include that they emulate a related model such as Join Calculus or Actors, but not \gls{csp}.  
+% \subsection{Excluded options}
+% The following options were investigated but excluded from consideration due to a variety of issues.  These include that they emulate a related model such as Join Calculus or Actors, but not \gls{csp}.  
 
-\subsubsection{Actors}
-\begin{itemize}
-    \item Erlang / Elixir
-    \item Halide with message-passing?  There's \url{https://doi.org/10.1016/j.sysarc.2017.10.005}, \url{https://doi.org/10.1007/s11265-017-1283-1}, and Aaron Epstein's Masters Thesis at MIT, ``A Distributed Backend for Halide'', but with regards to message passing they all seem to focus on MPI.%  I couldn't find anything on \gls{cml} style in Halide.
-    \item \sout{Don't forget Pony...  (almost certainly not stable enough at this point)}
-    \item Rust with Actix
-    \item \gls{mpi}
-\end{itemize}
+% \subsubsection{Actors}
+% \begin{itemize}
+%     \item Erlang / Elixir
+%     \item Halide with message-passing?  There's \url{https://doi.org/10.1016/j.sysarc.2017.10.005}, \url{https://doi.org/10.1007/s11265-017-1283-1}, and Aaron Epstein's Masters Thesis at MIT, ``A Distributed Backend for Halide'', but with regards to message passing they all seem to focus on MPI.%  I couldn't find anything on \gls{cml} style in Halide.
+%     \item \sout{Don't forget Pony...  (almost certainly not stable enough at this point)}
+%     \item Rust with Actix
+%     \item \gls{mpi}
+% \end{itemize}
 
-\subsubsection{Join Calculus}
-\begin{itemize}
-    \item \fsharp{} with Joinads
-    \item JOCaml
-    \item Scala with Chymist\footnote{\url{https://github.com/Chymyst}}
-    \item \sout{Polyphonic C\#/C\(\omega\)}
-\end{itemize}
+% \subsubsection{Join Calculus}
+% \begin{itemize}
+%     \item \fsharp{} with Joinads
+%     \item JOCaml
+%     \item Scala with Chymist\footnote{\url{https://github.com/Chymyst}}
+%     \item \sout{Polyphonic C\#/C\(\omega\)}
+% \end{itemize}
 
 
 \section{Assessment of chosen candidates}
@@ -452,12 +456,12 @@ And the winner is...
 List of languages that were investigated but fell at the first hurdle, namely not meeting one of the essential requirements above.  This is not a complete list.
 
 \begin{itemize}
-    \item \texttt{Standard ML of New Jersey} with \texttt{Concurrent ML}:  The original \gls{cml} implementation was in fact intended only for concurrent programming, and not parallel.  Thus, it does not support modern multiprocessors well.  Instead, MLTon or Manticore can perhaps be used.
-    \item \texttt{Julia}:  Does not have support for parallelism in its channels operations.  ``The current version of Julia multiplexes all tasks onto a single OS thread.'' (from \url{https://docs.julialang.org/en/v1/manual/parallel-computing/#Coroutines-1}, accessed on 2 February 2020)
+    \item \texttt{Standard ML of New Jersey} with \texttt{\gls{cml}}:  The original \gls{cml} implementation was in fact intended only for concurrent programming, and not parallel.  Thus, it does not support modern multiprocessors well.  Instead, MLTon or Manticore can perhaps be used.  (MLton is single-threaded-only, it turns out)
+    \item \texttt{Julia}:  Does not have support for parallelism in its channels operations.  ``The current version of Julia multiplexes all tasks onto a single OS thread.'' (from \url{https://docs.julialang.org/en/v1/manual/parallel-computing/#Coroutines-1}, accessed on 2 February 2020).  --- It \emph{looks like} the situation has changed, and Julia now supports running tasks across multiple cores.  Need to investigate further.  Seems pretty likely that it doesn't have Events, but \emph{maybe} they could be implemented with relatively little difficulty.
     \item \texttt{Concurrent C}:  Long dead.
     \item \texttt{Crystal}:  At present, Crystal does have fibers, but not support for parallelism.  ``At the moment of this writing, Crystal has concurrency support but not parallelism: several tasks can be executed, and a bit of time will be spent on each of these, but two code paths are never executed at the same exact time.'' (from \url{https://crystal-lang.org/reference/guides/concurrency.html}, accessed on 2 February 2020)
     \item \texttt{\fsharp{}} with \texttt{Hopac}:  More-or-less abandoned at this point, it seems.  Apparently (according to gossip) the original creator doesn't even work in \fsharp{} anymore, and the `current maintainer' doesn't seem to have much interest.  Also looked at .NET with \texttt{System.Threading.Channels}, but it doesn't seem to have any ability to select over channels.
-    \item \texttt{Concurrent Haskell}:  There have been a number of \gls{csp}-inspired libraries implemented in Haskell.  The most recent known one, however is Communicating Haskell Processes, which has not been updated since 2014 (see \url{https://hackage.haskell.org/package/chp}).
+    \item \texttt{Concurrent Haskell}:  There have been a number of \gls{csp}-inspired libraries implemented in Haskell.  The most recent known one, however is Communicating Haskell Processes, which has not been updated since 2014 (see \url{https://hackage.haskell.org/package/chp}).  Matthew Fluet suggested his Haskell `Transactional Events' (see \url{https://www.cs.rit.edu/~mtf/research/tx-events/} and \url{https://hackage.haskell.org/package/transactional-events})
     \item \texttt{Eiffel} with \texttt{SCOOP}:  SCOOP implements synchronous rendezvous, but does not seem to support actual message-passing.  It should be considered for future efforts, but is not close enough to \gls{cml} to be appropriate here.
     \item \texttt{Occam/Occam-\(\pi\)}:  The latest version of an Occam compiler, KRoC,\footnote{https://github.com/concurrency/kroc/} has not been updated since April 2017.
     \item \texttt{Haxe}:  It claims to be fast, and run cross-platform.  Unfortunately, no message-passing system could be found for it, in the standard library or user-created libraries.

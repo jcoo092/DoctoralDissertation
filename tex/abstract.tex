@@ -1,12 +1,12 @@
 % \begin{abstract}
-% Something about how there's a group of stereo matching algorithms that can be regarded as `message passing-based', and how they can be represented in cP~systems, as well as with Concurrent~ML.
+% Something about how there's a group of stereo matching algorithms that can be regarded as `message passing-based', and how they can be represented in \gls{cps}, as well as with \gls{cml}.
 
-% This dissertation presents both cP~systems representations and Concurrent~ML-based implementations of four stereo matching algorithms.
+% This dissertation presents both \gls{cps} representations and \gls{cml}-based implementations of four stereo matching algorithms.
 % \end{abstract}
 
 \chapter*{Abstract}
-Something about how there's a group of stereo matching algorithms that can be regarded as `message passing-based', and how they can be represented in cP~systems, as well as with Concurrent~ML.
+Something about how there's a group of stereo matching algorithms that can be regarded as `message passing-based', and how they can be represented in \gls{cps}, as well as with \gls{cml}.
 
-This dissertation presents both cP~systems representations and Concurrent~ML-based implementations of message-passing-based stereo matching algorithms.
+This dissertation presents both \gls{cps} representations and \gls{cml}-based implementations of message-passing-based stereo matching algorithms.
 
 Could also look at doing something where I `fake' message passing on a shared-memory system using a backing array or two.  As in, while the program is written with a message passing basis, where each disparity map pixel does its own thing and then sends out messages to its neighbours, but in reality all that is happening is that there is a big array behind it all, and each message passing step is just transformed behind-the-scenes into array updates.  Thus, one could program with a message passing style, but still retain the relatively efficient array-update style in the background.
