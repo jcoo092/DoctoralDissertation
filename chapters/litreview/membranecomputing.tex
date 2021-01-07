@@ -1,0 +1,71 @@
+\section{\glsentrytext{ps}/\glsentrytext{mc}}
+\gls{ps}, also known as \gls{mc} (the two terms are generally used interchangeably), is a bio-inspired model of computing created by Păun in the late 1990s \cite{tPaun98a,Paun2000}, originally conceived of by considering the process of chemical reactions and exchanges that occur inside living biological cells \& the membranes within, and regarding this process as a form of computation.
+
+Păun describes \gls{mc} \cite[p.~VII]{Paun2002} as:
+\begin{quote}
+Membrane computing is a branch of natural computing which abstracts from
+the structure and the functioning of living cells. In the basic model, the membrane
+systems - also called P systems - are distributed parallel computing
+devices, processing multisets of objects, synchronously, in the compartments
+delimited by a membrane structure. The objects, which correspond to chemicals
+evolving in the compartments of a cell, can also pass through membranes.
+The membranes form a hierarchical structure - they can be dissolved, divided,
+created, and their permeability can be modified. A sequence of transitions between
+configurations of a system forms a computation. The result of a halting
+computation is the number of objects present at the end of the computation
+in a specified membrane, called the output membrane. The objects can also
+have a structure of their own that can be described by strings over a given
+alphabet of basic molecules - then the result of a computation is a set of
+strings.
+\end{quote}
+
+\Gls{mc} works analogously to a typical modern electronic computer, in that the system stores data, and processes \& updates those data based on a predefined program, with a view to arriving at a computable answer based on the starting state and any inputs to the system \cite{Paun2002,Paun2010b}.  In the case of \gls{ps}, the data are multisets of symbols, representing various chemicals and their quantities.  These are found inside one or more cells, based on real biological cells, which (to a certain extent at least) form a hybrid between main memory and the processing units of a computer.  The instructions of the program itself are provided by rules, which specify transformations of objects and interactions with the surrounding environment and other membranes or cells.
+
+There are now, broadly, three main families of \gls{ps} variants:  \gls{clps} \fxnote[inline]{[ref]}, \gls{tlps} \cite{tMaPaPaRo01a,Martin-Vide2003} and \gls{snps} \cite{Ionescu2006}.\footnote{Other variants have been created, but most are used infrequently, if ever.  Apart from Numerical \gls{ps} and \gls{cps}, described in \autoref{subsec:numpsys} and \autoref{subsec:cpsys} respectively, this work will not address them.}  \Gls{clps} is the original, and sees objects compartmented into `membranes', which are arranged in a graphical tree structure with the outermost membrane (separating the cell from its environment) as the root of the tree.  In most variants, objects can evolve inside a membrane, but also be communicated between membranes (and the environment).  Furthermore, membranes can divide or dissolve themselves, and may have one or more special properties, such as `polarization' \fxnote[inline]{[ref]}.
+
+Conversely, \gls{tlps} and \gls{snps} both arrange their computing compartments, named `cells' or `neurons' respectively, as nodes in arbitrary digraphs, with the edges between them representing connecting channels.  Whereas \gls{clps} emphasise the evolution of multisets of objects inside compartments, \gls{tlps} and \gls{snps} emphasise communication between separate cells/neurons, and many \gls{tlps} variants do not include any capacity for internal evolution inside cells -- if new objects are required, they are imported via communication with the environment, which is considered to possess an unlimited number of all objects, but has no rules of its own.
+
+While \gls{tlps} have arbitrary alphabets, only one object is used in \gls{snps}, the `spike'.  This means that \gls{tlps} are frequently much like \gls{clps} in that they have custom objects for each purpose, with the key difference (usually) being in how the \glspl{prox} are arranged relative to each other and the choice between the two motivated primarily by which one seems like a better fit to the computation to be modelled.
+
+Conversely, \gls{snps} force everything to be represented through the use of differing quantities of the spike, kept in different neurons.  This means that it can be more complex to model certain problems, but also arguably means that \gls{snps} are, \textit{prima facie}, closer to Lambda Calculus \cite{Barendregt1984} and Church Numerals \fxnote[inline]{[ref]}, as well as Register Machines \fxnote[inline]{[ref]} (and indeed Register Machines have been simulated with \gls{snps} \fxnote[inline]{[ref]}).  All three approaches have been proven Turing-universal though \fxnote[inline]{[ref]}, so all three should be capable of expressing the same computations in different forms.
+
+Arguably, the most notable and important aspects of \gls{ps} models are that they:  i) Generally have no space limit.  That is, they contain an arbitrary number of cells, objects and membranes;  ii) Across all cells and membranes, all rules that can be applied are applied, as many times as possible given the current number of objects available.  These two features mean that \gls{ps} have unbounded space and processing capacity, which can be used to solve traditionally computationally-difficult problems relatively quickly \cite{Sosik2003,Jimenez2003,Paun1999a,Henderson2020}.  Most of these solutions, however, rely on trading time complexity for space complexity.  While this works in the theoretical framework, electronic simulations of the systems do not have access to unlimited instantaneous memory space, meaning many of the fast solutions are impractical with current real-world computers, e.g. \cite{Cooper2019} \fxnote[inline]{[refs]}.
+
+\Gls{mc} is not just a theoretical model with limited practical use, however.  Besides Image Processing \& Computer Vision (see \autoref{subsec:imgprocpsys}), \gls{ps} variants have been applied to a range of fields, from power grid management to robotic control systems \cite{Zhang2017}.  [P-Lingua and simulation systems, e.g. MeCoSim]
+
+\subsection{\label{subsec:numpsys}Numerical \glsentrytext{ps}}
+Numerical P systemsss
+
+\subsection{\label{subsec:cpsys}\glsentrytext{cps}}
+\cite{Nicolescu2014b,Nicolescu2017}
+
+\gls{cps} is another variant of \gls{ps}, developed by Nicolescu and collaborators in the early 2010s \fxnote[inline]{[ref]}.  It is largely based on \gls{clps}, and can be seen, to some extent at least, as a higher-level abstraction over it \cite{Nicolescu2018}.  It can also incorporate elements of \gls{tlps}, however, in that it includes concepts of channels and message passing between cells \cite{Henderson2019}.  Nicolescu, Ipate \& Wu demonstrated that not only is \gls{cps} capable of performing the same tasks as other \gls{ps} variants, but also can be used fairly cleanly to model typical computer programs \cite{Nicolescu2014a}.
+
+The major advantage of \gls{cps} over traditional \gls{clps} is a simplification in the specification of complete systems to solve a given problem.  \gls{clps} (as well as \gls{tlps} and \gls{snps}) typically require the definition of a family of rulesets customised to the specific instance of the problem at hand, whereas \gls{cps} usually requires only the definition of a fixed (usually much shorter) set of rules that cover all possible instances.  Only inputs to the system need vary to solve different instances of the problem, e.g. in \cite{Cooper2019} only five fixed rules were needed to solve any instance of the Travelling Salesman Problem, with only customisation of the input objects (in this case, elements describing the nodes and edges of the graph) required.
+
+
+
+\subsection{\label{subsec:imgprocpsys}Image Processing and Computer Vision in P~systems}
+\cite{Zhang2012}
+
+Perhaps owing to the unbounded potential space and parallelism of \gls{ps}, combined with the embarrassingly parallel nature of many tasks in Image Processing \& Computer Vision, the latter has proved to be fertile ground for the former, although not every publication puts its model to the test with a computerised simulation, or if it does, the authors may only provide scant details \cite{Diaz-Pernil2019}.  
+
+Christinal, Díaz-Pernil \& Real \cite{Christinal2011} described a family of \gls{tlps} to perform region-based segmentation of both 2D and 3D images.  Despite their family of systems requiring only two cells, it also needed custom rule sets based on the size of the images as well as the number of colours present, with a number of rules per set proportional to the same measurements.  The paper showed the results of simulating the system, but provides no details on performance.
+
+Díaz-Pernil \textit{et al.} \cite{Diaz-Pernil2013} commented that ``... commonly [a] parallel algorithm needs to be re-designed with only slight references to the [sequential original].  ... the design of a new parallel implementation not inspired by the sequential one allows ... the proposal of new creative solutions.''  They then demonstrated this fact by designing a new edge detection and segmentation algorithm named `A Graphical P (AGP) segmentator', inspired by the Sobel operator (see e.g. \cite{Nixon2012}) and using the segmentation method from \cite{Christinal2011}, which they modelled in \gls{tlps}.  The authors implemented their new algorithm on a \gls{gpu} and compared it with an implementation of the 3x3 and 5x5 Sobel operators, finding that theirs had near-identical runtimes but superior edge detection capabilities.
+
+Díaz-Pernil \textit{et al.} \cite{Diaz-Pernil2013a} further explored modelling classic image processing techniques by implementing Guo \& Hall's binary image skeletonisation technique \cite{Guo1989} with \gls{snps}.  The overall system's rules templates are reasonably simple, but include references to a set \(DEL\) (used as a lookup to determine whether a cell should turn white or stay black) which does not appear to be modelled inside the system, meaning that it is not self-contained.  The authors simulated this system on a \gls{gpu}, but found that their implementation was upwards of twice as slow as another pre-existing implementation.  Confusingly, however, they state that one of the reasons for this is ``that the use of an alphabet with only one object, the spike \(a\), does not fit in the GPU architecture''.  This statement is difficult to understand, given that spikes can easily be represented as simple integers.  The authors also commented that the synchronous nature of the model is unrealistic, and imposing a global clock upon the system can be problematic.
+
+Nicolescu \cite{Nicolescu2014} alternatively applied \gls{cps} to image skeletonisation based on Guo \& Hall's technique \cite{Guo1989}, presenting three forms of a solution: Synchronous versions that use multiple or a single cell (essentially the latter replicates the former via the use of sub-membranes), and an asynchronous multi-cell version.  The asynchronous version no longer assumes that all messages are passed between cells simultaneously and instantaneously, compensating for this by increasing the number of messages used.  This form, while arguably more realistic to modern computers, requires a greater message complexity. A prospective \gls{actor}-model-based (see \autoref{subsec:actors}) simplified implementation using \fsharp{}'s \texttt{MailboxProcessor} \cite[ch.~11]{Syme2015a} was presented also, but no results from running it were reported.
+
+Nicolescu \cite{Nicolescu2015a} further applied \gls{cps} to seeded region growing of grayscale images.  The described system used a two-level approach, based on the `Structured Grid Dwarf' of the 13 Berkeley Dwarves \cite{Asanovic2006}, where the image was divided into rectangular blocks of multiple pixels.  Each block was modelled with a single cell, inter-block processing was carried out via message passing, and intra-block processing was performed by typical object evolution.  It was again suggested that this would fit well to the \gls{actor} model.
+
+Díaz-Pernil \textit{et al.} \cite{Diaz-Pernil2016} built upon their AGP segmentator algorithm to create a version that works with RGB images rather than grayscale and applied it to a common medical Computer Vision task, isolating the `optic disc' in images of the inner eye.  With this they used the skeletonisation algorithm from \cite{Diaz-Pernil2013a} and a number of other steps not based on \gls{ps} to produce a complete imaging pipeline.  The authors implemented this on a \gls{gpu}, and found that their system was both more accurate and faster than previous systems.
+
+Most directly relevant to the current work are \cite{GimelFarb2013a,Gimelfarb2011,Nicolescu2014b}, which model Dynamic Programming \gls{sm} in \gls{ps}, and indeed saw the genesis of \gls{cp} (\autoref{subsec:concprop}).  
+
+\subsubsection{\glsentrytext{ps} on \glsentrylongpl{gpu}}
+In many instances, a \gls{ps} model for a problem involves many separate small elements processing their data separately, and perhaps updating each other's state at the end of a step.  Given that this sounds remarkably close to the Single-Instruction Multiple-Thread \cite[Ch. 4.4.1]{Hennessy2012} nature of modern \gls{gpgpu}, it is no surprise that there has been much work put into simulating \gls{ps} on \glspl{gpu}.
+
+\cite{Cecilia2010,Cecilia2010a,Cecilia2013,Macias-Ramos2015,Martinez-Del-Amor2015,Martinez-Del-Amor2013a,Maroosi2014,Maroosi2014a}
+

@@ -1,3 +1,5 @@
+\glsresetall
+
 \chapter{\glsentrylong{bp}}
 
 Fundamentally most of the pixel-based stereo matching algorithms (at least the ones I'm familiar with) boil down to solving an equation like
@@ -17,7 +19,9 @@ A \emph{possible} optimisation might be to apply some sort of pre-processing ste
 
 Introduce \gls{bp} here
 
-Note to self.  In all instances, the final produced programs should really include some way to update each pixel/task/communicating process with its new intensity value from the new image.  So, the ideal operation is that at startup the program initialises its \glspl{prox}, then somehow supplies to them their intensity value, and then once computations are performed the \glspl{prox} then send their final disparity decisions back to somewhere to be compiled into the final product.  So, timing testing will need to be done over more than just one iteration of an image.  Preferably many more.
+\begin{anfxnote}{Update with new intensities}
+In all instances, the final produced programs should really include some way to update each pixel/task/communicating process with its new intensity value from the new image.  So, the ideal operation is that at startup the program initialises its \glspl{prox}, then somehow supplies to them their intensity value, and then once computations are performed the \glspl{prox} then send their final disparity decisions back to somewhere to be compiled into the final product.  So, timing testing will need to be done over more than just one iteration of an image.  Preferably many more.
+\end{anfxnote}
 
 \section{Operation of \glsentrylong{bp}}
 Description of \gls{bp} goes here.  (A programmer's intro to \gls{bp}?)

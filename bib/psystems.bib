@@ -301,7 +301,7 @@ year = {2015}
 @article{GimelFarb2013a,
 abstract = {Designing parallel versions of sequential algorithms has attracted renewed attention, due to recent hardware advances, including various general-purpose multi-core and many-core processors, as well as special-purpose FPGA implementations. P systems consist of networks of autonomous cells, such that each cell transforms its input signals in accord with its symbol-rewriting rules and feeds the output results into its immediate neighbours. Inherent massive intra- and inter-cell parallelisms make P systems a prospective theoretical testbed for designing efficient parallel and parallel-sequential algorithms. This paper discusses the capabilities of P systems to implement the symmetric dynamic programming stereo (SDPS) matching algorithm, which explicitly accounts for binocular or monocular visibility of 3D surface points. Given enough cells, the P system implementation speeds up the inner algorithm loop from O(nd) to O(n+d), where n is the width of a stereo image and d is the disparity range. The implementation gives also an insight into a more general SDPS that accounts for a possible multiplicity of solutions of the ill-posed problem of optimal stereo matching.},
 % address = {Boston},
-author = {Gimel'farb, Georgy and Nicolescu, Radu and Ragavan, Sharvin},
+author = {Gimel'farb, Georgy L. and Nicolescu, Radu and Ragavan, Sharvin},
 doi = {10.1007/s10851-012-0367-6},
 file = {:D$\backslash$:/jarak/Documents//Gimel'farb, Nicolescu, Ragavan - 2013 - P system implementation of dynamic programming stereo.pdf:pdf},
 issn = {09249907},
@@ -318,7 +318,7 @@ year = {2013}
 @incollection{Gimelfarb2011,
 abstract = {Designing parallel versions of sequential algorithms has attracted renewed attention, due to recent hardware advances, including various general-purpose multi-core, multiple core and many-core processors, as well as special-purpose FPGA implementations. P systems consist of networks of autonomous cells, such that each cell transforms its input signals in accord with symbol-rewriting rules and feeds the output results into its immediate neighbours. Inherent intra- and inter-cell parallelism make the P systems a prospective theoretical testbed for designing parallel algorithms. This paper discusses capabilities of P systems to implement the symmetric dynamic programming algorithm for stereo matching, with due account to binocular or monocular visibility of 3D surface points. {\textcopyright} 2011 Springer-Verlag.},
 address = {Berlin, Heidelberg},
-author = {Gimel'farb, Georgy and Nicolescu, Radu and Ragavan, Sharvin},
+author = {Gimel'farb, Georgy L. and Nicolescu, Radu and Ragavan, Sharvin},
 booktitle = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
 doi = {10.1007/978-3-642-23678-5_33},
 editor = {Real, Pedro and Diaz-Pernil, Daniel and Molina-Abril, Helena and Berciano, Ainhoa and Kropatsch, Walter},
@@ -401,7 +401,7 @@ year = {2016}
 }
 @article{Nicolescu2014b,
 abstract = {We propose a novel approach to justify and guide regularisation of an ill-posed one-dimensional global optimisation with multiple solutions using a massively parallel (P system) model of the solution space. Classical optimisation assumes a well-posed problem with a stable unique solution. Most of important practical problems are ill posed due to an unstable or non-unique global optimum and are regularised to get a unique best-suited solution. Whilst regularisation theory exists largely for unstable unique solutions, its recommendations are often routinely applied to inverse optical problems with essentially non-unique solutions, e.g. computer stereo vision or image segmentation, typically formulated in terms of global energy minimisation. In these cases the recommended regularisation becomes purely heuristic and does not guarantee a unique solution. As a result, classical optimisation algorithms: dynamic programming (DP) and belief propagation (BP) - meet with difficulties. Our recent concurrent propagation (CP), leaning upon the P systems paradigm, extends DP and BP to always detect whether the problem is ill posed or not and store in the ill-posed case an entire space of solutions that yield the same global optimum. This suggests a radically new path to proper regularisation: select the best-suited unique solution by exploring statistical and structural features of this space. We propose a P systems based implementation of CP and set out as a case study an application of CP to the image matching problem in stereo vision.},
-author = {Nicolescu, Radu and Gimel'farb, Georgy and Delmas, Patrice and Gong, Rui},
+author = {Nicolescu, Radu and Gimel'farb, Georgy L. and Delmas, Patrice and Gong, Rui},
 doi = {10.3233/FI-2014-1026},
 file = {:D$\backslash$:/jarak/Documents/Nicolescu et al. - 2014 - Regularising ill-posed discrete optimisation Quests with P systems.pdf:pdf},
 issn = {01692968},
@@ -584,4 +584,48 @@ pages = {405--424},
 title = {{Characterizing the parallel simulation of P systems on the GPU}},
 volume = {9},
 year = {2013}
+}
+
+@book{Hennessy2012,
+abstract = {"Computer Architecture: A Quantitative Approach explores the ways that software and technology in the cloud are accessed by digital media, such as cell phones, computers, tablets, and other mobile devices. The book became a part of Intel"s 2012 recommended reading list for developers, and it covers the revolution of mobile computing. The text also highlights the two most important factors in architecture today: parallelism and memory hierarchy. The six chapters that this book is composed of follow a consistent framework: explanation of the ideas in each chapter; a ""crosscutting issues"" section, which presents how the concepts covered in one chapter connect with those given in other chapters; a ""putting it all together"" section that links these concepts by discussing how they are applied in real machine; and detailed examples of misunderstandings and architectural traps commonly encountered by developers and architects. The first chapter of the book includes formulas for energy, static and dynamic power, integrated circuit costs, reliability, and availability. Chapter 2 discusses memory hierarchy and includes discussions about virtual machines, SRAM and DRAM technologies, and new material on Flash memory. The third chapter covers the exploitation of instruction-level parallelism in high-performance processors, superscalar execution, dynamic scheduling and multithreading, followed by an introduction to vector architectures in the fourth chapter. Chapters 5 and 6 describe multicore processors and warehouse-scale computers (WSCs), respectively."},
+address = {Waltham, Mass.},
+author = {Hennessy, John L. and Patterson, David A.},
+edition = {5th Ed.},
+isbn = {978-0-12-383872-8},
+keywords = {Computer architecture},
+publisher = {Morgan Kaufmann/Elsevier},
+title = {{Computer Architecture - A Quantitative Approach}},
+year = {2012}
+}
+
+@book{Rauber2010,
+abstract = {Innovations in hardware architecture, like hyper-threading or multicore processors, mean that parallel computing resources are available for inexpensive desktop computers. In only a few years, many standard software products will be based on concepts of parallel programming implemented on such hardware, and the range of applications will be much broader than that of scientific computing, up to now the main application area for parallel computing. Rauber and R{\"{u}}nger take up these recent developments in processor architecture by giving detailed descriptions of parallel programming techniques that are necessary for developing efficient programs for multicore processors as well as for parallel cluster systems and supercomputers. Their book is structured in three main parts, covering all areas of parallel computing: the architecture of parallel systems, parallel programming models and environments, and the implementation of efficient application algorithms. The emphasis lies on parallel programming techniques needed for different architectures. The main goal of the book is to present parallel programming techniques that can be used in many situations for many application areas and which enable the reader to develop correct and efficient parallel programs. Many examples and exercises are provided to show how to apply the techniques. The book can be used as both a textbook for students and a reference book for professionals. The presented material has been used for courses in parallel programming at different universities for many years. {\textcopyright} Springer-Verlag Berlin Heidelberg 2010. All rights are reserved.},
+address = {Berlin, Heidelberg},
+author = {Rauber, Thomas and R{\"{u}}nger, Gudula},
+booktitle = {Parallel Programming: For Multicore and Cluster Systems},
+doi = {10.1007/978-3-642-04818-0},
+file = {:D$\backslash$:/Users/jcoo092/Documents/Mendeley Desktop/Rauber, R{\"{u}}nger - 2010 - Parallel programming For multicore and cluster systems.pdf:pdf},
+isbn = {9783642048173},
+issn = {1097024X},
+keywords = {Operating systems,PASCAL,Simulation,Synchronization},
+pages = {1--455},
+publisher = {Springer Berlin Heidelberg},
+title = {{Parallel programming: For multicore and cluster systems}},
+url = {http://link.springer.com/10.1007/978-3-642-04818-0},
+year = {2010}
+}
+
+@article{Henderson2020,
+abstract = {There have been a few NP-hard problems solved using cP systems including the travelling salesman problem. However, these problems are typically in NP rather than higher in the polynomial time hierarchy. In this paper, we solve QSAT (also known as TQBF), which is a well-known PSPACE-complete problem. Compared to other extant confluent P systems solutions, our deterministic cP solution only uses a small constant number of custom alphabet symbols (19), a small constant number of rules (10) and a small constant upper limit of membrane nesting depth (6), independent of the problem size.},
+author = {Henderson, Alec and Nicolescu, Radu and Dinneen, Michael J},
+doi = {10.1007/s41965-020-00064-w},
+issn = {2523-8906},
+journal = {Journal of Membrane Computing},
+month = {12},
+number = {4},
+pages = {311--322},
+title = {{Solving a PSPACE-complete problem with cP systems}},
+url = {https://doi.org/10.1007/s41965-020-00064-w http://link.springer.com/10.1007/s41965-020-00064-w},
+volume = {2},
+year = {2020}
 }

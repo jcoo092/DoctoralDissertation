@@ -1,3 +1,5 @@
+\glsresetall
+
 \chapter{Choice of model, programming language and library}
 
 \section{Selection of theoretical model}
@@ -98,6 +100,7 @@ Languages and their relevant libraries
     % \item Pharo(?)\footnote{\url{http://www.pharo.org/web}} -- a modern version of Smalltalk, apparently.  Also, Squeak.\footnote{\url{https://squeak.org}}
     % \item Ada (something about rendezvous).  Supposedly has a proper real-time focus, might be worth looking at.
     % \item Kotlin.  Has channels, and apparently an (experimental) implementation of selection:  \url{https://kotlinlang.org/docs/reference/coroutines/channels.html} ... ``Only single-threaded code (JS-style) on Kotlin/Native is currently supported.'' (\url{https://github.com/Kotlin/kotlinx.coroutines})
+    % \item Swift.  Plenty of libraries out there for various parts of concurrency, but the library `Concurrent' (\url{https://github.com/typelift/Concurrent}) is explicitly based on Concurrent ML, and actually includes events.  Unfortunately, it seems to be unmaintained, and is possibly Apple-only.
 % \end{itemize}
 % \item Join Calculus
 % \begin{itemize}

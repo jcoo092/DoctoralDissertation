@@ -1,28 +1,33 @@
 % \makeglossaries
 
-% Acronyms
+% Acronyms (sorted in alphabetical order by their label, rather than their full definition)
 
 %% A-M
 \newacronym{bp}{BP}{Belief~Propagation}
 % \newacronym{cml}{CML}{Concurrent~ML}
 \newacronym{cp}{CP}{Concurrent~Propagation}
 \newacronym{csp}{CSP}{Communicating Sequential Processes}
+\newacronym{dpsm}{DPSM}{Dynamic~Programming Stereo~Matching}
 \newacronym{fps}{FPS}{Frames per Second}
 \newacronym{gpu}{GPU}{Graphics Processing Unit}
 \newacronym{gpgpu}{GPGPU}{General-purpose GPU}
-\newacronym{mpbsm}{MPBSM}{Message Passing-Based Stereo Matching}
+\newacronym{lbp}{LBP}{Loopy Belief~Propagation}
+\newacronym{mpbsm}{MPBSM}{Message Passing-Based Stereo~Matching}
 \newacronym{mpi}{MPI}{Message Passing Interface}
+\newacronym{mrf}{MRF}{Markov Random Field}
 
 %% N-Z
+\newacronym{ndcsm}{NDCSM}{Noise-Driven Concurrent Stereo~Matching}
 \newacronym{prox}{proxel}{Processing Element}
 \newacronym{sad}{SAD}{Sum of Absolute Differences}
-\newacronym{sm}{Stereo~Matching}{Stereo~Matching}
+% \newacronym{sm}{SM}{Stereo~Matching}
 \newacronym{ssd}{SSD}{Sum of Squared Differences}
 
 % Combo glossary & acronyms
 
 % A-M
 \newdefacr{cml}{CML}{Concurrent~ML}{A programming style introduced by John Reppy.  Channels}
+\newdefacr{sgm}{SGM}{Semi-global~Matching}{A Stereo Matching algorithm introduced by Hirschmüller that, as the name suggests, sits somewhere between traditional global and local Stereo Matching Algorithms.  This provides advantages in that retains much of the speed advantage of local algorithms, while also receiving much of the benefit derived from taking into consideration a larger part of the total input images.}
 
 % N - Z
 
@@ -30,11 +35,15 @@
 % \newglossaryentry{}{name={},description={}}
 
 %% A-M
+\newglossaryentry{actor}{name={Actor},description={A model of message-passing-based concurrent programming originally developed  chiefly by Carl Hewitt.  Its defining characteristics are arguably that it uses asynchronous messaging, whereby the sender and receiver do not need to coordinate or synchronise at all; and that instead of using channels or similar as a go-between, Actors send messages directly to each other, which necessitates `knowing' (i.e. holding a reference to) the intended recipient.  Notable examples of implementations of Actors are found in the programming languages Erlang and Pony, and the Scala library Akka}}
 \newglossaryentry{clps}{name={Cell-like P~systems},description={The original variant, based on the operation of chemicals in cells}}
 \newglossaryentry{cps}{name={cP~systems},description={A variant of P~systems created by Nicolescu}}
-\newglossaryentry{mc}{name={Membrane Computing},description={A computational model inspired by the functioning of biological systems, specifically the interactions of chemicals inside the membranes of a biological cell}}
+\newglossaryentry{disparity}{name={disparity},description={The shift, measured as a number of pixels, of a point in one stereo image to its location in the other image.  When combined with information about the cameras derived from calibration, the measured disparity is used to estimate the distance from the cameras to the point in the scene}}
+\newglossaryentry{mc}{name={Membrane Computing},description={A computational model inspired by the functioning of biological systems, specifically the interactions of chemicals inside the membranes of a biological cell.  The terms Membrane Computing and P systems are frequently used interchangeably}}
 
 %% N-Z
 \newglossaryentry{ps}{name={P~systems},description={See \glsentrytext{mc}}}
+% \newglossaryentry{sm}{name={Stereo~Matching},description={A family of methods to match points from different images of the same scene to estimate the distance from the capturing cameras to objects in the scene.  See \autoref{subsec:smgeneral}.}}
+\newglossaryentry{sm}{name={Stereo~Matching},description={A family of methods to match points from different images of the same scene to estimate the distance from the capturing cameras to objects in the scene.  See \autoref{subsec:smgeneral}}}
 \newglossaryentry{snps}{name={Spiking Neural P~systems},description={Based on the workings of the brain}}
 \newglossaryentry{tlps}{name={Tissue-like P~systems},description={Based on the transmission of chemicals between cells via channels in biological tissue}}

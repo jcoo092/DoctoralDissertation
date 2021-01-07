@@ -1,4 +1,63 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%
+%  Dynamic Programming  %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+@article{Gimelfarb1979,
+author = {Gimel'farb, Georgy L.},
+doi = {10.1007/BF01069335},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/Gimel'farb - 1979 - Symmetrical approach to the problem of automating stereoscopic measurements in photogrammetry.pdf:pdf},
+% isbn = {9780080453705},
+issn = {1573-8337},
+journal = {Cybernetics},
+% mendeley-groups = {PhD/Computer Vision/Stereo},
+number = {2},
+pages = {235--247},
+title = {{Symmetrical approach to the problem of automating stereoscopic measurements in photogrammetry}},
+url = {https://doi.org/10.1007/BF01069335},
+volume = {15},
+year = {1979}
+}
+
+@article{Ohta1985,
+abstract = {This paper presents a stereo matching algorithm using the dynamic programming technique. The stereo matching problem, that is, obtaining a correspondence between right and left images, can be cast as a search problem. When a pair of stereo images is rectified, pairs of corresponding points can be searched for within the same scanlines. We call this search intra-scanline search. This intra-scanline search can be treated as the problem of finding a matching path on a two-dimensional (2D) search plane whose axes are the right and left scanlines. Vertically connected edges in the images provide consistency constraints across the 2D search planes. Inter-scanline search in a three-dimensional (3D) search space, which is a stack of the 2D search planes, is needed to utilize this constraint. Our stereo matching algorithm uses edge-delimited intervals as elements to be matched, and employs the above mentioned two searches: one is inter-scanline search for possible correspondences of connected edges in right and left images and the other is intra-scanline search for correspondences of edge-delimited intervals on each scanline pair. Dynamic programming is used for both searches which proceed simultaneously: the former supplies the consistency constraint to the latter while the latter supplies the matching score to the former. An interval-based similarity metric is used to compute the score. The algorithm has been tested with different types of images including urban aerial images, synthesized images, and block scenes, and its computational requirement has been discussed.},
+author = {Ohta, Yuichi and Kanade, Takeo},
+doi = {10.1109/TPAMI.1985.4767639},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/Ohta, Kanade - 1985 - Stereo by Intra- and Inter-Scanline Search Using Dynamic Programming.pdf:pdf},
+issn = {0162-8828},
+journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+keywords = {Dynamic Programming Stereo},
+% mendeley-groups = {PhD/Computer Vision/Stereo},
+% mendeley-tags = {Dynamic Programming Stereo},
+month = {3},
+number = {2},
+pages = {139--154},
+title = {{Stereo by Intra- and Inter-Scanline Search Using Dynamic Programming}},
+url = {http://ieeexplore.ieee.org/document/4767639/},
+volume = {PAMI-7},
+year = {1985}
+}
+
+@inproceedings{Salmen2009,
+abstract = {Dynamic Programming (DP) is a popular and efficient method for calculating disparity maps from stereo images. It allows for meeting real-time constraints even on low-cost hardware. Therefore, it is frequently used in real-world applications, although more accurate algorithms exist. We present a refined DP stereo processing algorithm which is based on a standard implementation. However it is more flexible and shows increased performance. In particular, we introduce the idea of multi-path backtracking to exploit the information gained from DP more effectively. We show how to automatically tune all parameters of our approach offline by an evolutionary algorithm. The performance was assessed on benchmark data. The number of incorrect disparities was reduced by 40 {\%} compared to the DP reference implementation while the overall complexity increased only slightly.},
+address = {Berlin, Heidelberg},
+author = {Salmen, Jan and Schlipsing, Marc and Edelbrunner, Johann and Hegemann, Stefan and L{\"{u}}ke, Stefan},
+booktitle = {Computer Analysis of Images and Patterns},
+doi = {10.1007/978-3-642-03767-2_133},
+editor = {Jiang, Xiaoyi and Petkov, Nicolai},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/Salmen et al. - 2009 - Real-Time Stereo Vision Making More Out of Dynamic Programming.pdf:pdf},
+isbn = {978-3-642-03767-2},
+% issn = {03029743},
+% mendeley-groups = {PhD/Computer Vision/Stereo},
+pages = {1096--1103},
+publisher = {Springer Berlin Heidelberg},
+title = {{Real-Time Stereo Vision: Making More Out of Dynamic Programming}},
+url = {http://link.springer.com/10.1007/978-3-642-03767-2{\_}133},
+volume = {5702 LNCS},
+year = {2009}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
 %  Belief Propagation   %
 %%%%%%%%%%%%%%%%%%%%%%%%%
 @article{Felzenszwalb2006,
@@ -176,21 +235,23 @@ url = {http://ieeexplore.ieee.org/document/1206509/},
 volume = {25},
 year = {2003}
 }
+
 @inproceedings{Tappen2003,
 abstract = {Recent stereo algorithms have achieved impressive results by modelling the disparity image as a Markov Random Field (MRF). An important component of an MRF-based approach is the inference algorithm used to find the most likely setting of each node in the MRF. Algorithms have been proposed which use Graph Cuts or Belief Propagation for inference. These stereo algorithms differ in both the inference algorithm used and the formulation of the MRF. It is unknown whether to attribute the responsibility for differences in performance to the MRF or the inference algorithm. We address this through controlled experiments by comparing the Belief Propagation algorithm and the Graph Cuts algorithm on the same MRF's, which have been created for calculating stereo disparities. We find that the labellings produced by the two algorithms are comparable. The solutions produced by Graph Cuts have a lower energy than those produced with Belief Propagation, but this does not necessarily lead to increased performance relative to the ground-truth.},
-author = {Tappen and Freeman},
-booktitle = {Proceedings Ninth IEEE International Conference on Computer Vision},
-doi = {10.1109/ICCV.2003.1238444},
-file = {:C$\backslash$:/Users/jcoo092/AppData/Local/Mendeley Ltd./Mendeley Desktop/Downloaded/Tappen, Freeman - 2004 - Comparison of graph cuts with belief propagation for stereo, using identical MRF parameters.pdf:pdf},
+author = {Tappen, Marshall F. and Freeman, William T.},
+booktitle = {Proceedings of the Ninth IEEE International Conference on Computer Vision},
+doi = {10.1109/iccv.2003.1238444},
+file = {:D$\backslash$:/Users/jcoo092/Documents/Mendeley Desktop/Tappen, Freeman - 2003 - Comparison of graph cuts with belief propagation for stereo, using identical MRF parameters.pdf:pdf},
 isbn = {0-7695-1950-4},
-keywords = {Belief Propagation},
-pages = {900--906 vol.2},
+keywords = {Belief Propagation,Graph Cuts},
+pages = {900--906},
 publisher = {IEEE},
 title = {{Comparison of graph cuts with belief propagation for stereo, using identical MRF parameters}},
 url = {http://ieeexplore.ieee.org/document/1238444/},
 volume = {2},
 year = {2003}
 }
+
 @article{Hazan2010,
 abstract = {In this paper we treat both forms of probabilistic inference, estimating marginal probabilities of the joint distribution and finding the most probable assignment, through a unified message-passing algorithm architecture. We generalize the Belief Propagation (BP) algorithms of sum-product and max-product and tree-rewaighted (TRW) sum and max product algorithms (TRBP) and introduce a new set of convergent algorithms based on "convex-free-energy" and Linear-Programming (LP) relaxation as a zero-temprature of a convex-free-energy. The main idea of this work arises from taking a general perspective on the existing BP and TRBP algorithms while observing that they all are reductions from the basic optimization formula of {\$}f + \backslashsum{\_}i h{\_}i{\$} where the function {\$}f{\$} is an extended-valued, strictly convex but non-smooth and the functions {\$}h{\_}i{\$} are extended-valued functions (not necessarily convex). We use tools from convex duality to present the "primal-dual ascent" algorithm which is an extension of the Bregman successive projection scheme and is designed to handle optimization of the general type {\$}f + \backslashsum{\_}i h{\_}i{\$}. Mapping the fractional-free-energy variational principle to this framework introduces the "norm-product" message-passing. Special cases include sum-product and max-product (BP algorithms) and the TRBP algorithms. When the fractional-free-energy is set to be convex (convex-free-energy) the norm-product is globally convergent for estimating of marginal probabilities and for approximating the LP-relaxation. We also introduce another branch of the norm-product, the "convex-max-product". The convex-max-product is convergent (unlike max-product) and aims at solving the LP-relaxation.},
 author = {Hazan, Tamir and Shashua, Amnon},
@@ -305,7 +366,7 @@ year = {2007}
 
 %Semi-global matching
 @inproceedings{Gong2015,
-author = {Gong, Rui and Gimel'farb, Georgy and Delmas, Patrice},
+author = {Gong, Rui and Gimel'farb, Georgy L. and Delmas, Patrice},
 booktitle = {2015 International Conference on Image and Vision Computing New Zealand (IVCNZ)},
 doi = {10.1109/IVCNZ.2015.7761553},
 file = {:D$\backslash$:/jarak/Documents/Gong, Gimel'farb, Delmas - 2015 - Semi-global stereo matching under large and spatially variant perceptive deviations.pdf:pdf},
@@ -322,7 +383,7 @@ year = {2015}
 }
 @inproceedings{Gong2013a,
 address = {Wellington, New Zealand},
-author = {Gong, Rui and Gimel'farb, Georgy and Nicolescu, Radu and Delmas, Patrice},
+author = {Gong, Rui and Gimel'farb, Georgy L. and Nicolescu, Radu and Delmas, Patrice},
 booktitle = {2013 28th International Conference on Image and Vision Computing New Zealand (IVCNZ 2013)},
 doi = {10.1109/IVCNZ.2013.6726998},
 file = {:D$\backslash$:/jarak/Documents/Gong et al. - 2013 - Towards structural analysis of solution spaces for ill-posed discrete 1D optimisation problems(2).pdf:pdf},
@@ -516,4 +577,88 @@ title = {{Parallel Thinning with Two-Subiteration Algorithms}},
 url = {http://portal.acm.org/citation.cfm?doid=62065.62074},
 volume = {32},
 year = {1989}
+}
+
+@inbook{Nixon2012,
+abstract = {We shall define low-level features to be those basic features that can be extracted automatically from an image without any shape information (information about spatial relationships). As such, thresholding is actually a form of low-level feature extraction performed as a point operation. Naturally, all of these approaches can be used in high-level feature extraction, where we find shapes in images. It is well known that we can recognize people from caricaturists' portraits. That is the first low-level feature we shall encounter. It is called edge detection and it aims to produce a line drawing, something akin to a caricaturist's sketch, though without the exaggeration a caricaturist would imbue. There are very basic techniques and more advanced ones and we shall look at some of the most popular approaches. The first-order detectors are equivalent to first-order differentiation and, naturally, the second-order edge-detection operators are equivalent to a one-higher level of differentiation. An alternative form of edge detection is called phase congruency and we shall again see the frequency domain used to aid analysis, this time for low-level feature extraction. We shall also consider corner detection which can be thought of as detecting those points where lines bend very sharply with high curvature. These are another low-level feature that again can be extracted automatically from the image. These are largely techniques for localized feature extraction, in this case the curvature, and the more modern approaches extend to the detection of localized regions or patches of interest. Finally, we shall investigate a technique that describes motion, called optical flow. All of these can provide a set of points, albeit points with different properties, but all are suitable for grouping for shape extraction. Consider a square box moving through a sequence of images. The edges are the perimeter of the box; the corners are the apices; the flow is how the box moves. All these can be collected together to find the moving box. We shall start with the edge-detection techniques, with the first-order operators, which accord with the chronology of development. The first-order techniques date back by more than 30 years. Keywords Edge detection, first order, Roberts, Prewitt, Sobel, Canny, frequency domain, second order, Laplacian, Zero-crossing detection, Marr–Hildreth, Laplacian of Gaussian, difference of Gaussian, scale space, phase congruency, planar curvature, corners, curvature estimation, Harris corner detector, SIFT, SURF, Saliency, optical flow, aperture problem, differential, Horn and Schunk, correlation.},
+address = {Oxford},
+author = {Nixon, Mark S. and Aguado, Alberto S.},
+booktitle = {Feature Extraction {\&} Image Processing for Computer Vision},
+chapter = {Four},
+doi = {10.1016/b978-0-12-396549-3.00004-5},
+edition = {Third},
+editor = {Nixon, Mark S and Aguado, Alberto S},
+isbn = {978-0-12-396549-3},
+pages = {137--216},
+publisher = {Elsevier},
+title = {{Low-level feature extraction (including edge detection)}},
+url = {http://www.sciencedirect.com/science/article/pii/B9780123965493000045 https://linkinghub.elsevier.com/retrieve/pii/B9780123965493000045},
+year = {2012}
+}
+
+@book{Szeliski2011,
+address = {London},
+author = {Szeliski, Richard},
+doi = {10.1007/978-1-84882-935-0},
+editor = {Gries, David and Schneider, Fred B.},
+file = {:D$\backslash$:/Users/jcoo092/Documents/Mendeley Desktop/Szeliski - 2011 - Computer Vision.pdf:pdf},
+isbn = {978-1-84882-935-0},
+pages = {823},
+publisher = {Springer London},
+series = {Texts in Computer Science},
+title = {{Computer Vision}},
+url = {http://link.springer.com/10.1007/978-1-84882-935-0},
+volume = {42},
+year = {2011}
+}
+
+@inproceedings{Liu2005,
+abstract = {Conventional stereo correspondence algorithms which search for a ‘best' match are defeated by the many sources of noise possible in a pair of stereo images. We propose a new reconstruction paradigm, Concurrent Stereo Matching (CSM), that starts with a noise model and marks regions which could not be considered matches - given the noise model. The work presented here uses spatially varying noise values obtained empirically from segmented images. These noise levels determine admissable matches and define candidate surfaces, which are then processed using local constraints only to a final set of reconstructed surfaces. For a complex scene with many small surfaces, CSM ranks highly amongst existing benchmarked algorithms. The current CSM implementation does not handle large sloping surfaces well but work is underway to rectify this.},
+address = {Queensland, Australia},
+author = {Liu, Jiang and Delmas, P. and Gimel'farb, Georgy L. and Morris, J.},
+booktitle = {Digital Image Computing: Techniques and Applications (DICTA'05)},
+doi = {10.1109/dicta.2005.77},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop//Jiang Liu et al. - 2006 - Stereo Reconstruction Using an Image Noise Model.pdf:pdf},
+isbn = {0-7695-2467-2},
+keywords = {Noise-driven Concurrent Stereo Matching},
+pages = {69--69},
+publisher = {IEEE},
+title = {{Stereo Reconstruction Using an Image Noise Model}},
+url = {http://ieeexplore.ieee.org/document/1587671/},
+year = {2006}
+}
+
+@misc{bsmpcvpic,
+author = "James Cooper",
+title = "{Pictorial Representation of the Basic Stereo Matching Process in Computer Vision}",
+year = "2020",
+month = "8",
+url = "https://auckland.figshare.com/articles/figure/Pictorial_Representation_of_the_Basic_Stereo_Matching_Process_in_Computer_Vision/12787604",
+doi = "10.17608/k6.auckland.12787604.v1"
+}
+
+@misc{lbpmpsmpic,
+author = "James Cooper",
+title = "{Pictorial Representation of Loopy Belief Propagation Message Passing for Stereo Matching}",
+year = "2020",
+month = "8",
+url = "https://auckland.figshare.com/articles/figure/Pictorial_Representation_of_Loopy_Belief_Propagation_Message_Passing_for_Stereo_Matching/12786815",
+doi = "10.17608/k6.auckland.12786815.v1"
+}
+
+@inproceedings{Kolmogorov2001,
+abstract = {Several new algorithms for visual correspondence based on graph cuts [7, 14, 17] have recently been developed. While these methods give very strong results in practice, they do not handle occlusions properly. Specifically, they treat the two input images asymmetrically, and they do not ensure that a pixel corresponds to at most one pixel in the other image. In this paper, we present a new method which properly addresses occlusions, while preserving the advantages of graph cut algorithms. We give experimental results for stereo as well as motion, which demonstrate that our method performs well both at detecting occlusions and computing disparities.},
+author = {Kolmogorov, V. and Zabih, R.},
+booktitle = {Proceedings Eighth IEEE International Conference on Computer Vision. ICCV 2001},
+doi = {10.1109/ICCV.2001.937668},
+isbn = {0-7695-1143-0},
+keywords = {Graph Cuts},
+% mendeley-groups = {PhD/Computer Vision,PhD/Computer Vision/Stereo},
+% mendeley-tags = {Graph Cuts},
+pages = {508--515},
+publisher = {IEEE Comput. Soc},
+title = {{Computing visual correspondence with occlusions using graph cuts}},
+url = {http://ieeexplore.ieee.org/document/937668/},
+volume = {2},
+year = {2001}
 }

@@ -1,4 +1,5 @@
 \documentclass[11pt,partial,draft,doublespace]{aucklandthesis}
+% \documentclass[11pt,partial]{aucklandthesis}
 %
 % This is a template for University of Auckland theses.
 %
@@ -18,7 +19,9 @@
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage[binary-units]{siunitx}
-
+\usepackage{fixme}
+% \fxsetup{targetlayout=changebar}
+\fxusetheme{color}
 %
 % Add, delete or un-comment packages below as required.
 %
@@ -81,11 +84,14 @@
 % Automated bibliography
 %
 \usepackage[
-	style=numeric-comp, 
-% 	citestyle=authortitle,
+	bibstyle=ieee, 
+	citestyle=numeric-comp,
 	backend=biber,
 	sorting=nyt,
-	sortcites=true,
+	sortcites,
+	backref,
+	dashed=false,
+	urldate=long,
 	]
 	{biblatex}
 	\addbibresource{bib/stereo.bib}
@@ -160,8 +166,10 @@
 % ====================================================
 
 % Specify the title page content
-\title{Message Passing-Based Stereo Matching Algorithms in cP~systems and Concurrent~ML}
-%\subtitle{Using functional programming to make life simpler and promote efficiency}
+% \title{Message Passing-Based Stereo Matching Algorithms in cP~systems and Concurrent~ML}
+% \subtitle{Using functional programming to make life simpler and promote efficiency}
+\title{Neighbourhood Message Passing Computation on a Grid}
+\subtitle{With Application to Stereo Matching}
 \author{James Cooper}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
@@ -171,7 +179,7 @@
 \maketitle
 
 % Abstract, up to 350 words
-\input{tex/abstract} % it's in a separate file
+% \input{tex/abstract} % it's in a separate file
 
 % Dedication (optional)
 %\thesisdedication{Dedicated to grandma, and to grammar.}
@@ -185,6 +193,7 @@
 \cleardoublepage\tableofcontents
 %\cleardoublepage\listoffigures
 %\cleardoublepage\listoftables
+\cleardoublepage\listoffixmes
 
 % Glossary (optional)
 % \input{glossary}
@@ -202,13 +211,13 @@
 %
 % ====================================================
 
-\input{chapters/intro.tex}
+% \input{chapters/intro.tex}
 \input{chapters/litreview/litreview}
-\input{chapters/choiceoflang/choiceoflang}
-\input{chapters/beliefprop/beliefprop}
-\input{chapters/concprop/concprop}
-\input{chapters/discussion.tex}
-\input{tex/conclusion.tex}
+% \input{chapters/choiceoflang/choiceoflang}
+% \input{chapters/beliefprop/beliefprop}
+% \input{chapters/concprop/concprop}
+% \input{chapters/discussion.tex}
+% \input{tex/conclusion.tex}
 %\input{tex/chapter1} % I hope that you have better titles than this
 %\input{chapter2} 
 %\input{chapter3} 
