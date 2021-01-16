@@ -2,6 +2,24 @@
 %  Dynamic Programming  %
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
+@article{Gimelfarb1972,
+abstract = {1.We propose a new algorithm for automatic identification of identical points on mutually oriented stereopair photographs which is based on the method of dynamic programming. The algo rithm differs profitably from the known correlation methods in the fact that in it we allow for the basic physical properties of real stereopair photographs, in particular, the ordered arrangement of identical regions on the photograph, the constrained steepness, and the constrained terrain-relief altitude gradient.2.The experimental results with this algorithm for real data permitted us to conclude that it has prospects in the automation of stereophotogrammetric processes.3.The specific shortcoming of this algorithm is the requirement of a large amount of operative memory and high computer speed in its programmed realization. However, this shortcoming is not insurmountable.},
+author = {Gimel'farb, G L and Marchenko, V B and Rybak, V I},
+doi = {10.1007/BF01068505},
+file = {:D$\backslash$:/Users/jcoo092/Documents/Mendeley Desktop/Gimel'farb, Marchenko, Rybak - 1972 - An algorithm for automatic identification of identical sections on stereopair photographs.pdf:pdf},
+issn = {1573-8337},
+journal = {Cybernetics},
+language = {langenglish},
+% mendeley-groups = {PhD/Computer Vision/Stereo},
+number = {2},
+origlanguage = {fromrussian},
+pages = {311--322},
+title = {{An algorithm for automatic identification of identical sections on stereopair photographs}},
+url = {https://doi.org/10.1007/BF01068505},
+volume = {8},
+year = {1972}
+}
+
 @article{Gimelfarb1979,
 author = {Gimel'farb, Georgy L.},
 doi = {10.1007/BF01069335},
@@ -9,13 +27,33 @@ file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/Gimel'farb - 1979 - Sym
 % isbn = {9780080453705},
 issn = {1573-8337},
 journal = {Cybernetics},
+language = {langenglish},
 % mendeley-groups = {PhD/Computer Vision/Stereo},
+% note = {Translated from Russian},
 number = {2},
+origlanguage = {fromrussian},
 pages = {235--247},
 title = {{Symmetrical approach to the problem of automating stereoscopic measurements in photogrammetry}},
 url = {https://doi.org/10.1007/BF01069335},
 volume = {15},
 year = {1979}
+}
+
+@techreport{Gimelfarb1998,
+abstract = {This TR is a review of the symmetric dynamic programming approach to stereo terrain reconstruction.},
+address = {Auckland},
+author = {Gimel'farb, Georgy L.},
+file = {:D$\backslash$:/Users/jcoo092/Documents/Mendeley Desktop/Gimel'farb - 1998 - Stereo Terrain Reconstruction by Dynamic Programming.pdf:pdf},
+institution = {University of Auckland},
+keywords = {Dynamic Programming Stereo},
+% mendeley-groups = {PhD/Computer Vision/Stereo},
+% mendeley-tags = {Dynamic Programming Stereo},
+month = {6},
+number = {CITR-TR-21},
+pages = {1--26},
+% series = {Centre for Image Technology and Robotics Technical Reports},
+title = {{Stereo Terrain Reconstruction by Dynamic Programming}},
+year = {1998}
 }
 
 @article{Ohta1985,
@@ -54,6 +92,56 @@ title = {{Real-Time Stereo Vision: Making More Out of Dynamic Programming}},
 url = {http://link.springer.com/10.1007/978-3-642-03767-2{\_}133},
 volume = {5702 LNCS},
 year = {2009}
+}
+
+@techreport{Gimelfarb2001,
+abstract = {The paper considers probabilistic regularisation of partial occlusions in the intensity-based symmetric dynamic programming stereo (SDPS). The regularised SDPS relates the total similarity of corresponding pixels to a cumulative log-likelihood ratio for a profile that yields the correspondences. Transition probability models are investigated in detail in order to explicitly relate the likelihood ratios to reconstruction parameters. Possibilities of defining confidence of the reconstruction in terms of local distributions of the cumulative log-likelihood ratios along the GPV are discussed.},
+address = {Auckland, New Zealand},
+author = {Gimel'farb, Georgy and Wu, Tao},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/Gimel'farb, Wu - 2001 - Likelihood and Confidence of Terrain Profles in the Symmetric Dynamic Programming Stereo.pdf:pdf},
+institution = {University of Auckland},
+% mendeley-groups = {PhD/Computer Vision/Stereo},
+number = {September},
+pages = {10},
+title = {{Likelihood and Confidence of Terrain Profles in the Symmetric Dynamic Programming Stereo}},
+% volume = {98},
+year = {2001}
+}
+
+@inproceedings{Nguyen2013,
+abstract = {In this paper, three stereo matching algorithms are investigated: Block Matching Stereo (BMS) represents local area matching techniques, Symmetric Dynamic Programming Stereo (SDPS) represents semi-global matching, and Graph Cuts Stereo (GCS) represents global matching. Both local and semiglobal methods are relatively fast and feasible for parallel implementation. On the other hand, global GCS obtains a higher stereo matching accuracy but it is very computationally expensive. Thus, we propose a technique that guides SDPS using pre-computed Local-based BMS's result which both restricts and guides the Dynamic Programming search for optimal profile related to BMS's signals. The technique is not only parallel-able for a faster processing speed but also self-repeatable for an enhancement of the 3D reconstruction. Our experimental results show that this proposed technique is superior to the Global Graph Cuts Stereo (GCS) in both speed and accuracy. As well as reconstructing relatively accurate results from the infamous Middlebury datasets, this method is also demonstrated to be fast, robust, and reliable in reconstructing high quality 3D scenes from real-life stereo images.},
+author = {Nguyen, Minh and Chan, Yuk Hin and Delmas, Patrice and Gimel'farb, Georgy},
+booktitle = {2013 28th International Conference on Image and Vision Computing New Zealand (IVCNZ 2013)},
+doi = {10.1109/IVCNZ.2013.6726997},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/Nguyen et al. - 2013 - Symmetric dynamic programming stereo using block matching guidance.pdf:pdf},
+isbn = {978-1-4799-0883-7},
+% issn = {21512191},
+keywords = {Dynamic Programming Stereo},
+% mendeley-groups = {PhD/Computer Vision/Stereo},
+% mendeley-tags = {Dynamic Programming Stereo},
+month = {11},
+pages = {88--93},
+publisher = {IEEE},
+title = {{Symmetric dynamic programming stereo using block matching guidance}},
+url = {http://ieeexplore.ieee.org/document/6726997/},
+year = {2013}
+}
+
+@article{VanMeerbergen2001,
+abstract = {In this paper, a new hierarchical stereo algorithm is presented.$\backslash$nThe algorithm matches individual pixels in corresponding scanlines by$\backslash$nminimizing a cost function. Several cost functions are compared. The$\backslash$nalgorithm achieves a tremendous gain in speed and memory requirements by$\backslash$nimplementing it hierarchically. The images are down sampled an optimal$\backslash$nnumber of times and the disparity map of a lower level is used as$\backslash$n'offset' disparity map at a higher level. An important contribution$\backslash$nconsists of the complexity analysis of the algorithm. It is shown that$\backslash$nthis complexity is independent of the disparity range. This result is$\backslash$nalso used to determine the-optimal number of down sample levels. This$\backslash$nspeed gain results in the ability to use more complex (compute$\backslash$nintensive) cost functions that deliver high quality disparity maps.$\backslash$nAnother advantage of this algorithm is that cost functions can be chosen$\backslash$nindependent of the optimisation algorithm. Finally, the algorithm was$\backslash$ncarefully implemented so that a minimal amount of memory is used. It has$\backslash$nproven its efficiency on large images with a high disparity range as$\backslash$nwell as its quality. Examples are given in this paper},
+author = {{Van Meerbergen}, G. and Vergauwen, M. and Pollefeys, M. and {Van Gool}, L.},
+doi = {10.1109/SMBV.2001.988775},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/Van Meerbergen et al. - 2001 - A hierarchical stereo algorithm using dynamic programming.pdf:pdf},
+% isbn = {0769513271},
+issn = {09205691},
+journal = {Proceedings - IEEE Workshop on Stereo and Multi-Baseline Vision, SMBV 2001},
+keywords = {Dynamic Programming Stereo,disparity computation,dynamic programming,hierarchical stereo algorithm,stereo vision,symmetric},
+% mendeley-groups = {PhD/Computer Vision/Stereo,PhD/Computer Vision},
+% mendeley-tags = {Dynamic Programming Stereo},
+pages = {166--174},
+title = {{A hierarchical stereo algorithm using dynamic programming}},
+volume = {47},
+year = {2001}
 }
 
 
@@ -381,6 +469,7 @@ url = {http://ieeexplore.ieee.org/document/7761553/},
 volume = {2016-Novem},
 year = {2015}
 }
+
 @inproceedings{Gong2013a,
 address = {Wellington, New Zealand},
 author = {Gong, Rui and Gimel'farb, Georgy L. and Nicolescu, Radu and Delmas, Patrice},
@@ -396,6 +485,7 @@ title = {{Towards structural analysis of solution spaces for ill-posed discrete 
 url = {http://ieeexplore.ieee.org/document/6726998/},
 year = {2013}
 }
+
 @article{Hamzah2016b,
 abstract = {This paper presents a literature survey on existing disparity map algorithms. It focuses on four main stages of processing as proposed by Scharstein and Szeliski in a taxonomy and evaluation of dense two-frame stereo correspondence algorithms performed in 2002. To assist future researchers in developing their own stereo matching algorithms, a summary of the existing algorithms developed for every stage of processing is also provided. The survey also notes the implementation of previous software-based and hardware-based algorithms. Generally, the main processing module for a software-based implementation uses only a central processing unit. By contrast, a hardware-based implementation requires one or more additional processors for its processing module, such as graphical processing unit or a field programmable gate array. This literature survey also presents a method of qualitative measurement that is widely used by researchers in the area of stereo vision disparity mappings.},
 author = {Hamzah, Rostam Affendi and Ibrahim, Haidi},
@@ -410,6 +500,7 @@ url = {http://www.hindawi.com/journals/js/2016/8742920/},
 volume = {2016},
 year = {2016}
 }
+
 @collection{Blake2011,
 abstract = {This volume demonstrates the power of the Markov random field (MRF) in vision, treating the MRF both as a tool for modeling image data and, utilizing recently developed algorithms, as a means of making inferences about images. These inferences concern underlying image and scene structure as well as solutions to such problems as image reconstruction, image segmentation, 3D vision, and object labeling. It offers key findings and state-of-the-art research on both algorithms and applications. After an introduction to the fundamental concepts used in MRFs, the book reviews some of the main algorithms for performing inference with MRFs; presents successful applications of MRFs, including segmentation, super-resolution, and image restoration, along with a comparison of various optimization methods; discusses advanced algorithmic topics; addresses limitations of the strong locality assumptions in the MRFs discussed in earlier chapters; and showcases applications that use MRFs in more complex ways, as components in bigger systems or with multiterm energy functions. The book will be an essential guide to current research on these powerful mathematical tools.},
 address = {Cambridge, Mass.},
@@ -422,18 +513,19 @@ title = {{Markov Random Fields for Vision and Image Processing}},
 url = {https://direct.mit.edu/books/book/2128/markov-random-fields-for-vision-and-image},
 year = {2011}
 }
+
 @article{Tippetts2016,
 abstract = {A significant amount of research in the field of stereo vision has been published in the past decade. Considerable progress has been made in improving accuracy of results as well as achieving real-time performance in obtaining those results. This work provides a comprehensive review of stereo vision algorithms with specific emphasis on real-time performance to identify those suitable for resource-limited systems. An attempt has been made to compile and present accuracy and runtime performance data for all stereo vision algorithms developed in the past decade. Algorithms are grouped into three categories: (1) those that have published results of real-time or near real-time performance on standard processors, (2) those that have real-time performance on specialized hardware (i.e. GPU, FPGA, DSP, ASIC), and (3) those that have not been shown to obtain near real-time performance. This review is intended to aid those seeking algorithms suitable for real-time implementation on resource-limited systems, and to encourage further research and development of the same by providing a snapshot of the status quo.},
 author = {Tippetts, Beau and Lee, Dah Jye and Lillywhite, Kirt and Archibald, James},
 doi = {10.1007/s11554-012-0313-2},
 file = {:D$\backslash$:/jarak/Documents/Tippetts et al. - 2016 - Review of stereo vision algorithms and their suitability for resource-limited systems.pdf:pdf},
-isbn = {1861-8200},
-issn = {1861-8200},
+% isbn = {1861-8200},
+% issn = {1861-8200},
 journal = {Journal of Real-Time Image Processing},
 month = {1},
 number = {1},
 pages = {5--25},
-publisher = {Springer-Verlag},
+% publisher = {Springer-Verlag},
 title = {{Review of stereo vision algorithms and their suitability for resource-limited systems}},
 url = {http://dx.doi.org/10.1007/s11554-012-0313-2 http://link.springer.com/10.1007/s11554-012-0313-2},
 volume = {11},
@@ -441,8 +533,75 @@ year = {2016}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
+%   Other methods       %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+@book{Hansard2013,
+address = {London},
+author = {Hansard, Miles and Lee, Seungkyu and Choi, Ouk and Horaud, Radu},
+doi = {10.1007/978-1-4471-4658-2},
+isbn = {978-1-4471-4657-5},
+% mendeley-groups = {PhD/Computer Vision},
+publisher = {Springer London},
+series = {SpringerBriefs in Computer Science},
+title = {{Time-of-Flight Cameras}},
+url = {http://link.springer.com/10.1007/978-1-4471-4658-2},
+year = {2013}
+}
+
+@book{Giancola2018,
+address = {Cham},
+author = {Giancola, Silvio and Valenti, Matteo and Sala, Remo},
+doi = {10.1007/978-3-319-91761-0},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/Giancola, Valenti, Sala - 2018 - A Survey on 3D Cameras Metrological Comparison of Time-of-Flight, Structured-Light and Active Stereosco.pdf:pdf},
+isbn = {978-3-319-91760-3},
+% issn = {21915776},
+% mendeley-groups = {PhD/Computer Vision},
+pages = {89--90},
+publisher = {Springer International Publishing},
+series = {SpringerBriefs in Computer Science},
+title = {{A Survey on 3D Cameras: Metrological Comparison of Time-of-Flight, Structured-Light and Active Stereoscopy Technologies}},
+url = {http://link.springer.com/10.1007/978-3-319-91761-0},
+year = {2018}
+}
+
+@book{Zanuttigh2016,
+abstract = {This book provides a comprehensive overview of the key technologies and applications related to new cameras that have brought 3D data acquisition to the mass market. It covers both the theoretical principles behind the acquisition devices and the practical implementation aspects of the computer vision algorithms needed for the various applications. Real data examples are used in order to show the performances of the various algorithms. The performance and limitations of the depth camera technology are explored, along with an extensive review of the most effective methods for addressing challenges in common applications. Applications covered in specific detail include scene segmentation, 3D scene reconstruction, human pose estimation and tracking and gesture recognition. This book offers students, practitioners and researchers the tools necessary to explore the potential uses of depth data in light of the expanding number of devices available for sale. It explores the impact of these devices on the rapidly growing field of depth-based computer vision.},
+address = {Cham},
+author = {Zanuttigh, Pietro and Marin, Giulio and {Dal Mutto}, Carlo and Dominio, Fabio and Minto, Ludovico and Cortelazzo, Guido Maria},
+doi = {10.1007/978-3-319-30973-6},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/Zanuttigh et al. - 2016 - Time-of-Flight and Structured Light Depth Cameras.pdf:pdf},
+isbn = {978-3-319-30973-6},
+% mendeley-groups = {PhD/Computer Vision},
+pages = {1--355},
+publisher = {Springer International Publishing},
+series = {SpringerBriefs in Computer Science},
+title = {{Time-of-Flight and Structured Light Depth Cameras}},
+url = {http://link.springer.com/10.1007/978-3-319-30973-6},
+year = {2016}
+}
+
+@book{Dong2017,
+abstract = {The last decade has seen a rapid increase in the applications of light detection and ranging (LiDAR) in various fields. This book introduces the fundamentals of LiDAR remote sensing, LiDAR data processing, and LiDAR applications in forestry, urban environments, and geosciences. LiDAR data collected in 27 areas in the United States, Brazil, Canada, Ghana, and Haiti are included in the book, and a total of 183 figures were created to introduce the concepts, methods, and applications in an easily understood manner, along with over 500 references. Compared with some other books on LiDAR, a unique feature of this book is the combination of LiDAR principles, data processing basics, applications, and hands-on practices. The 11 step- by-step projects are mostly based on Esri's ArcGIS software to support seamless integration of LiDAR products and other GIS data. Over 4.4 GB of LiDAR data for the projects are available online, fully tested in ArcGIS 10.2.2 and 10.4.1, and can be used for ArcGIS 10.2 and later versions. The first six projects are for basic LiDAR data visualization and processing, while the remaining five projects cover more advanced topics: mapping gaps in mangrove forests in Everglades National Park, FL, analyzing powerline corridor in Denton, TX, estimating small-area population in Denton, TX, measuring sand dune migration in the White Sands Dune Field, NM, and generating trend surfaces for rock layers in Raplee Ridge, UT.},
+address = {Boca Raton, FL : Taylor {\&} Francis, 2018.},
+author = {Dong, Pinliang and Chen, Qi},
+% booktitle = {LiDAR Remote Sensing and Applications},
+doi = {10.4324/9781351233354},
+isbn = {9781351233354},
+% mendeley-groups = {PhD/Computer Vision/Stereo},
+month = {12},
+publisher = {CRC Press},
+title = {{LiDAR Remote Sensing and Applications}},
+url = {https://www.taylorfrancis.com/books/9781351233347},
+year = {2017}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
 %   Miscellaneous       %
 %%%%%%%%%%%%%%%%%%%%%%%%%
+
 @article{Geman1984,
 abstract = {We make an analogy between images and statistical mechanics systems. Pixel gray levels and the presence and orientation of edges are viewed as states of atoms or molecules in a lattice-like physical system. The assignment of an energy function in the physical system determines its Gibbs distribution. Because of the Gibbs distribution Markov random field (MRF) equivalence, this assignment also determines an MRF image model. The energy function is a more convenient and natural mechanism for embodying picture attributes than are the local characteristics of the MRF. For a range of degradation mechanisms including blurring, nonlinear deformations, and multiplicative or additive noise, the posterior distribution is an MRF with a structure akin to the image model. By the analogy, the posterior distribution defines another (imaginary) physical system. Gradual temperature reduction in the physical system isolates low energy states (“annealing”) or what is the same thing, the most probable states under the Gibbs distribution. The analogous operation under the posterior distribution yields the maximum a posteriori (MAP) estimate of the image given the degraded observations. The result is a highly parallel “relaxation” algorithm for MAP estimation. We establish convergence properties of the algorithm and we experiment with some simple pictures, for which good restorations are obtained at low signal-to-noise ratios. {\textcopyright} 1984, IEEE.},
 author = {Geman, Stuart and Geman, Donald},
@@ -564,6 +723,7 @@ title = {{Concurrent ML as an Alternative Parallel Programming Style for Image P
 url = {https://ieeexplore.ieee.org/document/8634712/},
 year = {2018}
 }
+
 @article{Guo1989,
 abstract = {Two parallel thinning algorithms are presented and evaluated in this article. The two algorithms use two-subiteration approaches: 1989 alternatively deleting north and east and then south and west boundary pixels and (2) alternately applying a thinning operator to one of two subfields. Image connectivities are proven to be preserved and the algorithms' speed and medial curve thinness are compared to other two-subiteration approaches and a fully parallel approach. Both approaches produce very thin medial curves and the second achieves the fastest overall parallel thinning. {\textcopyright} 1989, ACM. All rights reserved.},
 author = {Guo, Zicheng and Hall, Richard W.},
@@ -661,4 +821,104 @@ title = {{Computing visual correspondence with occlusions using graph cuts}},
 url = {http://ieeexplore.ieee.org/document/937668/},
 volume = {2},
 year = {2001}
+}
+
+@incollection{Sinha2020,
+abstract = {Multiview stereo (MVS) refers to the task of reconstructing the 3D shape of the scene from multiple color or intensity images captured from different viewpoints such that the field of view of the associated cameras overlaps. Typically, the cameras are assumed to be fully calibrated. Various choices of 3D shape representations are possible for the estimated 3D scene reconstruction. For example, dense 3D point cloud or surface mesh representations are common in applications that synthesize a new photorealistic image of the scene using computer graphic rendering techniques. The topics of multiview stereo and multi-baseline stereo matching share key concepts related to the recovery of dense 2D pixel correspondences in multiple images.},
+address = {Cham},
+author = {Sinha, Sudipta N.},
+booktitle = {Computer Vision},
+doi = {10.1007/978-3-030-03243-2_203-1},
+editor = {Ikekuchi, Katsushi},
+isbn = {978-3-030-03243-2},
+% mendeley-groups = {PhD/Computer Vision/Stereo},
+pages = {1--9},
+publisher = {Springer International Publishing},
+title = {{Multiview Stereo}},
+url = {https://doi.org/10.1007/978-3-030-03243-2{\_}203-1 http://link.springer.com/10.1007/978-3-030-03243-2{\_}203-1},
+year = {2021}
+}
+
+@article{VanDerMark2006,
+abstract = {Stereo vision is an attractive passive sensing technique for obtaining three-dimensional (3-D) measurements. Recent hardware advances have given rise to a new class of real-time dense disparity estimation algorithms. This paper examines their suitability for intelligent vehicle (IV) applications. In order to gain a better understanding of the performance and the computational-cost tradeoff, the authors created a framework of real-time implementations. This consists of different methodical components based on single instruction multiple data (SIMD) techniques. Furthermore, the resulting algorithmic variations are compared with other publicly available algorithms. The authors argue that existing publicly available stereo data sets are not very suitable for the IV domain. Therefore, the authors' evaluation of stereo algorithms is based on novel realistically looking simulated data as well as real data from complex urban traffic scenes. In order to facilitate future benchmarks, all data used in this paper is made publicly available. The results from this study reveal that there is a considerable influence of scene conditions on the performance of all tested algorithms. Approaches that aim for (global) search optimization are more affected by this than other approaches. The best overall performance is achieved by the proposed multiple-window algorithm, which uses local matching and a left-right check for a robust error rejection. Timing results show that the simplest of the proposed SIMD variants are more than twice as fast than the most complex one. Nevertheless, the latter still achieves real-time processing speeds, while their average accuracy is at least equal to that of publicly available non-SIMD algorithms. {\textcopyright} 2006 IEEE.},
+author = {{Van Der Mark}, Wannes and Gavrila, Dariu M.},
+doi = {10.1109/TITS.2006.869625},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/vanderMark, Gavrila - 2006 - Real-time dense stereo for intelligent vehicles.pdf:pdf},
+issn = {15249050},
+journal = {IEEE Transactions on Intelligent Transportation Systems},
+keywords = {Dense disparity,Real time,Single instruction multiple data (SIMD),Stereo vision},
+% mendeley-groups = {PhD/Computer Vision/Stereo},
+month = {3},
+number = {1},
+pages = {38--50},
+title = {{Real-time dense stereo for intelligent vehicles}},
+url = {http://ieeexplore.ieee.org/document/1603551/},
+volume = {7},
+year = {2006}
+}
+
+@article{Zhao2011,
+abstract = {We introduce a new GPGPU-based real-time dense stereo matching algorithm. The algorithm is based on a progressive multi-resolution pipeline which includes background modeling and dense matching with adaptive windows. For applications in which only moving objects are of interest, this approach effectively reduces the overall computation cost quite significantly, and preserves the high definition details. Running on an off-the-shelf commodity graphics card, our implementation achieves a 36 fps stereo matching on 1024 × 768 stereo video with a fine 256 pixel disparity range. This is effectively same as 7200 M disparity evaluations per second. For scenes where the static background assumption holds, our approach outperforms all published alternative algorithms in terms of the speed performance, by a large margin. We envision a number of potential applications such as real-time motion capture, as well as tracking, recognition and identification of moving objects in multi-camera networks. {\textcopyright} 2010 Elsevier B.V. All rights reserved.},
+author = {Zhao, Yong and Taubin, Gabriel},
+doi = {10.1016/j.imavis.2011.01.007},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/Zhao, Taubin - 2011 - Real-time stereo on GPGPU using progressive multi-resolution adaptive windows.pdf:pdf},
+issn = {02628856},
+journal = {Image and Vision Computing},
+keywords = {GPGPU,Real-time stereo},
+% mendeley-groups = {PhD/Computer Vision/Stereo},
+month = {5},
+number = {6},
+pages = {420--432},
+% publisher = {Elsevier B.V.},
+title = {{Real-time stereo on GPGPU using progressive multi-resolution adaptive windows}},
+url = {http://dx.doi.org/10.1016/j.imavis.2011.01.007 https://linkinghub.elsevier.com/retrieve/pii/S026288561100014X},
+volume = {29},
+year = {2011}
+}
+
+@inproceedings{Mei2011,
+abstract = {This paper presents a GPU-based stereo matching system with good performance in both accuracy and speed. The matching cost volume is initialized with an AD-Census measure, aggregated in dynamic cross-based regions, and updated in a scanline optimization framework to produce the disparity results. Various errors in the disparity results are effectively handled in a multi-step refinement process. Each stage of the system is designed with parallelism considerations such that the computations can be accelerated with CUDA implementations. Experimental results demonstrate the accuracy and the efficiency of the system: currently it is the top performer in the Middlebury benchmark, and the results are achieved on GPU within 0.1 seconds. We also provide extra examples on stereo video sequences and discuss the limitations of the system. {\textcopyright} 2011 IEEE.},
+author = {Mei, Xing and Sun, Xun and Zhou, Mingcai and Jiao, Shaohui and Wang, Haitao and {Xiaopeng Zhang}},
+booktitle = {2011 IEEE International Conference on Computer Vision Workshops (ICCV Workshops)},
+doi = {10.1109/ICCVW.2011.6130280},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/Mei et al. - 2011 - On building an accurate stereo matching system on graphics hardware.pdf:pdf},
+isbn = {978-1-4673-0063-6},
+% mendeley-groups = {PhD/Computer Vision},
+month = {11},
+pages = {467--474},
+publisher = {IEEE},
+title = {{On building an accurate stereo matching system on graphics hardware}},
+url = {http://ieeexplore.ieee.org/document/6130280/},
+year = {2011}
+}
+
+@inproceedings{Khan2016,
+abstract = {Fast and accurate reconstruction of a 3D scene, e.g. for tracking and recognition of subject or predicting crowd behaviour, with robust real-time intelligent vision systems is essential for crime detection and prevention. Depth contours characterising a high resolution stereo depth map can play an important role. Our depth contour generation designed for the Symmetric Dynamic Programming Stereo (SDPS) depth map, called the Salmon algorithm can generate number of critical contours in real-time. SDPS algorithm is one of the highest throughput stereo matching techniques, being available on both the GPU and FPGA hardware platforms. We build ground truths to check the accuracy of the Salmon contours and compare the performance to a conventional border follower algorithm available in the OpenCV library. Experimental results show that our algorithm is as accurate as the OpenCV border follower but it is more than six times faster.},
+author = {Khan, Tariq and Biglari-Abhari, Morteza and Gimel'farb, Georgy},
+booktitle = {7th International Conference on Imaging for Crime Detection and Prevention (ICDP 2016)},
+doi = {10.1049/ic.2016.0083},
+file = {:D$\backslash$:/jarak/Documents/Mendeley Desktop/Khan, Biglari-Abhari, Gimel'farb - 2016 - Analysing Depth Contours for Robust Real-Time Stereo Vision.pdf:pdf},
+isbn = {978-1-78561-400-2},
+keywords = {Depth contours,Depth map,Real-time stereo,SDPS,Stereo vision},
+% mendeley-groups = {PhD/Computer Vision},
+number = {6},
+pages = {15 (6 .)--15 (6 .)},
+publisher = {Institution of Engineering and Technology},
+title = {{Analysing Depth Contours for Robust Real-Time Stereo Vision}},
+url = {https://digital-library.theiet.org/content/conferences/10.1049/ic.2016.0083},
+year = {2016}
+}
+
+@book{Wohler2013,
+address = {London},
+author = {W{\"{o}}hler, Christian},
+doi = {10.1007/978-1-4471-4150-1},
+file = {:D$\backslash$:/Users/jcoo092/Documents/Mendeley Desktop/W{\"{o}}hler - 2013 - 3D Computer Vision.pdf:pdf},
+isbn = {978-1-4471-4149-5},
+% mendeley-groups = {PhD/Computer Vision},
+publisher = {Springer London},
+series = {X.media.publishing},
+title = {{3D Computer Vision}},
+url = {http://link.springer.com/10.1007/978-1-4471-4150-1},
+year = {2013}
 }

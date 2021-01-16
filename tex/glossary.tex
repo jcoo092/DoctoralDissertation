@@ -8,6 +8,8 @@
 \newacronym{cp}{CP}{Concurrent~Propagation}
 \newacronym{csp}{CSP}{Communicating Sequential Processes}
 \newacronym{dpsm}{DPSM}{Dynamic~Programming Stereo~Matching}
+\newacronym{dsp}{DSP}{Digital Signal Processor}
+\newacronym{fpga}{FPGA}{Field-Programmable Gate Array}
 \newacronym{fps}{FPS}{Frames per Second}
 \newacronym{gpu}{GPU}{Graphics Processing Unit}
 \newacronym{gpgpu}{GPGPU}{General-purpose GPU}
@@ -36,9 +38,12 @@
 
 %% A-M
 \newglossaryentry{actor}{name={Actor},description={A model of message-passing-based concurrent programming originally developed  chiefly by Carl Hewitt.  Its defining characteristics are arguably that it uses asynchronous messaging, whereby the sender and receiver do not need to coordinate or synchronise at all; and that instead of using channels or similar as a go-between, Actors send messages directly to each other, which necessitates `knowing' (i.e. holding a reference to) the intended recipient.  Notable examples of implementations of Actors are found in the programming languages Erlang and Pony, and the Scala library Akka}}
+\newglossaryentry{blas}{name={BLAS},description={Basic Linear Algebra Subroutines}}
 \newglossaryentry{clps}{name={Cell-like P~systems},description={The original variant, based on the operation of chemicals in cells}}
 \newglossaryentry{cps}{name={cP~systems},description={A variant of P~systems created by Nicolescu}}
-\newglossaryentry{disparity}{name={disparity},description={The shift, measured as a number of pixels, of a point in one stereo image to its location in the other image.  When combined with information about the cameras derived from calibration, the measured disparity is used to estimate the distance from the cameras to the point in the scene}}
+\newglossaryentry{disparity}{name={disparity},description={The shift, measured as a number of pixels, of a point in one stereo image to its location in the other image.  When combined with information about the cameras derived from calibration, the measured disparity is used to estimate the distance from the cameras to the point in the scene}.  Disparity is often also referred to as `parallax'.}
+\newglossaryentry{disparitymap}{name={disparity map},description={An output array/image (often just using a single channel of 8- or 16-bit integers) which encodes the final estimated disparities for every pixel in the input images.  The range of values in a disparity map itself is restricted to range of possible disparities used in the \gls{sm} algorithm.  It is common, however, to adjust the disparity map in some fashion to make differences in disparity estimates more visible through techniques such as histogram equalisation.  Most published figures of disparity maps will have had such an adjustment applied to make them more useful.  Disparity maps are sometimes also referred to as `digital parallax maps.'}}
+\newglossaryentry{lapack}{name={LAPACK},description={Linear Algebra Package (???)}}
 \newglossaryentry{mc}{name={Membrane Computing},description={A computational model inspired by the functioning of biological systems, specifically the interactions of chemicals inside the membranes of a biological cell.  The terms Membrane Computing and P systems are frequently used interchangeably}}
 
 %% N-Z

@@ -20,13 +20,12 @@
 \usepackage{amsmath}
 \usepackage[binary-units]{siunitx}
 \usepackage{fixme}
-% \fxsetup{targetlayout=changebar}
 \fxusetheme{color}
 %
 % Add, delete or un-comment packages below as required.
 %
 
-\usepackage[utf8]{inputenc}
+% \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
 % Readability options
@@ -58,20 +57,20 @@
 
 
 % To set the sans serif font (for \sffamily):
-%\usepackage[scaled]{helvet} % Nimbus, like Helvetica
-%\usepackage{universalis} % Universalis
-%\usepackage{avant} % URW Gothic, like Avant Garde
-%\usepackage{PTSansNarrow}
-%\usepackage{AlegreyaSans} % Alegreya Sans
+% \usepackage[scaled]{helvet} % Nimbus, like Helvetica
+% \usepackage{universalis} % Universalis
+% \usepackage{avant} % URW Gothic, like Avant Garde
+% \usepackage{PTSansNarrow}
+% \usepackage{AlegreyaSans} % Alegreya Sans
 
 % To set the mathematics font:
-%\usepackage{eulervm} % Euler, based on a Zapf design
+% \usepackage{eulervm} % Euler, based on a Zapf design
 
 % To set the (usually monospaced) typewriter font:
-%\usepackage[ttdefault=true]{AnonymousPro}
-%\usepackage[scaled]{beramono}
-%\usepackage{inconsolata}
-%\usepackage{sourcecodepro}
+% \usepackage[ttdefault=true]{AnonymousPro}
+% \usepackage[scaled]{beramono}
+% \usepackage{inconsolata}
+% \usepackage{sourcecodepro}
 
 %\usepackage{cjk} % for Chinese, Japanese, Korean
 
@@ -133,7 +132,8 @@
         text={#2},
         long={#3},
         name={\glsentrylong{#1-glossary} (\glsentrytext{#1-glossary})},
-        description={#4}
+        description={#4},
+        sort={#3}
     }
 
     % Acronym
@@ -143,11 +143,12 @@
         name={\glsentrytext{#1-glossary}}, % Short
         description={\glsentrylong{#1-glossary}}, % Full name
         first={\glsentryname{#1-glossary}\glsadd{#1-glossary}},
-        see=[Glossary:]{#1-glossary} % Reference to corresponding glossary entry
+        see=[Glossary:]{#1-glossary}, % Reference to corresponding glossary entry
+        sort={#2}
     }
 }
 
-\loadglsentries{glossary}
+\loadglsentries{tex/glossary}
 
 \begin{document}
 
@@ -212,11 +213,17 @@
 % ====================================================
 
 % \input{chapters/intro.tex}
+\glsresetall
 \input{chapters/litreview/litreview}
+% \glsresetall
 % \input{chapters/choiceoflang/choiceoflang}
+% \glsresetall
 % \input{chapters/beliefprop/beliefprop}
+% \glsresetall
 % \input{chapters/concprop/concprop}
+% \glsresetall
 % \input{chapters/discussion.tex}
+% \glsresetall
 % \input{tex/conclusion.tex}
 %\input{tex/chapter1} % I hope that you have better titles than this
 %\input{chapter2} 

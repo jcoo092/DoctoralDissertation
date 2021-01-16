@@ -3,8 +3,31 @@
 I did some stuff!
 
 \section{Future Directions}
-The use of Full/Empty bits looks highly promising for making message passing more efficient.  It doesn't seem to have any real support in mainstream/commodity hardware, however.
+The use of Full/Empty bits looks highly promising for making message passing more efficient.  It doesn't seem to have any real support in mainstream/commodity hardware, however.  There were Intel's TGX instructions, but they have been taken out of processors again.
 
 Extended Dataflow Actors?  Or is it Extended Dataflow Architecture?
 
-See also the Bulk Synchronous Parallel approach.
+\fxerror*{Not entirely sure BSP is relevant here}{See also the Bulk Synchronous Parallel approach.}
+
+% https://scholar.google.co.nz/scholar?q=related:Z8GZl-HQcSkJ:scholar.google.com/&scioq=A+Static+Mapping+System+for+Logically+Shared+Memory+Parallel+Programs&hl=en&as_sdt=0,5&inst=15360723290749679499
+
+% http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.50.8739&rep=rep1&type=pdf
+
+% https://link.springer.com/chapter/10.1007/BFb0057916
+
+% https://link.springer.com/chapter/10.1007/3-540-63697-8_82
+
+None of the below were investigated further, due to a lack of time, but they are obvious next steps to look at.
+
+\subsection{\glsentrytext{cml}}
+\Gls{cml} seems like the obvious approach to take from here.\footnote{In fact, considerable time and effort was spent on attempting to identify a suitable \gls{cml} implementation to use for just this purpose.  Unfortunately, in the end it was found that there was not currently a usable \gls{cml} implementation with appropriate performance available at this time.}
+
+\subsection{`Faked' message passing in shared memory}
+Roughly, most of the message passing involved here is largely, in effect, just handing around pointers to memory locations.  It would seem that the message passing itself places some overhead in the way of that.  Could there be some way to fake the message passing, so that to the program's writer it looks like an actual message passing implementation, but in reality it is just doing normal updates on mutable memory?  This \emph{might} enable the best of both worlds -- programming the algorithms according to their theory, but running in a highly-efficient fashion `under-the-hood'.
+
+It is not too clear how to achieve this (if it is indeed possible), but Rust would appear to be a good language to target for it.  Rust is fairly high-performance by default and enables quite a lot of low-level memory manipulation.  Moreover, its move semantics pretty much fit exactly to the concepts used here, and, on the face of it, its macro system would appear to be a convenient way to abstract over many of the details and provide a message passing façade, while actually doing efficient operations behind that.
+
+\subsection{Other hardware}
+This work focused on CPU-based systems, largely to the exclusion of other hardware.  If used well, all three of \glspl{gpu}, \glspl{fpga} and \glspl{dsp} have potential to perform vastly more computations per second, suggesting that a high-performance message passing-based system would do well to use them.  In each case, however, they do not work in quite the same way as CPUs, meaning that programming them is not necessarily straightforward, especially when trying to achieve a programming style that differs to their default.  As described in \fxwarning*{insert the appropriate cross-reference}{the literature review chapter}, fast \gls{gpu} implementations of \gls{bp} have been created, suggesting that message passing on a \gls{gpu} is entirely plausible.
+
+It would appear worthwhile to investigate how one might be able to implement some sort of message passing system atop these hardware alternatives, due to the potential for many more computations per second.  Even better would be to create a heterogeneous system which can take full advantage of the strengths of each hardware type, while overcoming its weaknesses.  Precisely how to achieve efficient implementations on them is unknown.  The fact that OpenCL \fxerror[inline]{[ref]} (and, to some extent at least, OpenACC \fxerror[inline]{[ref]}) can be compiled from the same base code to different devices makes it an obvious starting point.   There has already been at least one publication on implementing \glspl{actor} in OpenCL \fxerror[inline]{[ref]}, suggesting it is possible -- though how well synchronous message passing will work as compared to asynchronous remains to be seen.
