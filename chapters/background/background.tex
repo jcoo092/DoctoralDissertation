@@ -1,0 +1,39 @@
+% % \chapter{\glsentrylong{bp}}
+% % \chapter{Background}
+
+% \section{\glsentrylong{bp}}
+
+% Fundamentally most of the pixel-based stereo matching algorithms (at least the ones I'm familiar with) boil down to solving an equation like
+
+% \[ E(\vec{f}) = \sum_{p \in \Omega} \Bigg[ E_{data}(p, f_p) + \sum_{q \in A(p)} E_{smooth}(f_p, f_q)\Bigg] \] with the goal of finding
+% \[ \arg\min_{\vec{f}} E(\vec{f})\] where \(f_p \in L\) is a label from the set of possible disparities \(L = 0, 1, \ldots, D_{max}\), \(p\) is a given pixel in the disparity map, \(\Omega\) is the set of all pixels in the disparity map, \(A(p)\) is the set of all pixels that are considered `adjacent' to \(p\) for some meaning of adjacency, and \(E\) is the total error over the whole image and \(\vec{f}\) is the vector of all disparity labels assigned to pixels in the disparity map, i.e. \( \forall_{f_p}~f_p\) is in \(\vec{f}\), and \(|\vec{f}| = |\Omega|\).
+
+% (alternative notation can be seen in Felzenswalb and Zabih 2011)
+
+% They're all essentially some form of global optimisation (though in cases where there is no smoothness function used, they degenerate to the local optimisation case because the overall lowest cost assignment becomes the lowest cost assignment at each particular location \(p\)).  The biggest differences between each of them are the functions used for the data and smoothness costs, the meaning of adjacency and the scheduling of the computations (plus whether there are iterations, etc).
+
+% Come to think of it, why can't these parts all be separated out?
+
+% All the known adjacency forms are \emph{symmetric}, meaning that \(x A y \implies y A x\), where A is the binary adjacency relation.  Thus, in every single rendezvous of \glspl{prox}, \emph{both} of them will want to both send to and receive from the other, and thus two-way exchanges are to be preferred, rather than the usual one-way of base \gls{cml}.  Except, when using F\&H's bifurcation approach, half of the \glspl{prox} will be sending only, and the others will be receiving only...
+
+% A \emph{possible} optimisation might be to apply some sort of pre-processing step on each input stereo image, where all contiguous pixels of the exact same intensity are grouped together into one super-pixel (which I believe is, in fact, different from regular super-pixel approaches -- those could be trialled also), and then those super-pixels used as the message-exchanging entities.  Potential downsides to this approach, beyond the obvious that the pre-computation will take some time, are that the regular grid layout of the images, which is kinda relied upon in the adjacency/neighbourhood relations as well as in determining which pixels are along a given epipolar line.  This approach would likely reduce the number of message-passing entities, but at the cost of a greater number of messages sent by each, as it seems plausible that each one of them could end up being considered to be adjacent to many more super-pixels than the typical 4.  There have apparently been some attempts to do similar, but simply using rectangular blocks, without a great deal of success \fxerror{Expand.  These are discussed a bit in sect. 2.2 of Rui Gong's 2011 Masters thesis} \fxerror[inline]{[refs]}.
+% % \begin{anfxnote}{Update with new intensities}
+% % In all instances, the final produced programs should really include some way to update each pixel/task/communicating process with its new intensity value from the new image.  So, the ideal operation is that at startup the program initialises its \glspl{prox}, then somehow supplies to them their intensity value, and then once computations are performed the \glspl{prox} then send their final disparity decisions back to somewhere to be compiled into the final product.  So, timing testing will need to be done over more than just one iteration of an image.  Preferably many more.
+% % \end{anfxnote}
+
+% % \section{Operation of \glsentrylong{bp}}
+% % Description of \gls{bp} goes here.  (A programmer's intro to \gls{bp}?)
+
+% % \section{\glsentrytext{cps}}
+
+% % Will probably need to give relevant background on cP systems here also.
+
+% % Look at incorporating use of PROMELA too?
+
+% % \section{\glsentrylong{cml-glossary} implementation}
+
+% % Perhaps this section should be moved into a `methods' chapter.  Wherever I write it, I should really explain which particular style of \gls{bp} I chose to emulate, and why.
+
+% % \section{Experiments}
+
+% % Perhaps this section should be moved into a `results' chapter.

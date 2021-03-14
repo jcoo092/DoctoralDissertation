@@ -3,6 +3,11 @@
 I did some stuff!
 
 \section{Future Directions}
+
+\begin{anfxwarning}{Where should this go?}
+    Similar material is also covered in the discussion chapter.  Should much of the below be shifted into there?  Alternatively, should much of the stuff from the discussion chapter move to here?
+\end{anfxwarning}
+
 The use of Full/Empty bits looks highly promising for making message passing more efficient.  It doesn't seem to have any real support in mainstream/commodity hardware, however.  There were Intel's TGX instructions, but they have been taken out of processors again.
 
 Extended Dataflow Actors?  Or is it Extended Dataflow Architecture?
@@ -27,7 +32,14 @@ Roughly, most of the message passing involved here is largely, in effect, just h
 
 It is not too clear how to achieve this (if it is indeed possible), but Rust would appear to be a good language to target for it.  Rust is fairly high-performance by default and enables quite a lot of low-level memory manipulation.  Moreover, its move semantics pretty much fit exactly to the concepts used here, and, on the face of it, its macro system would appear to be a convenient way to abstract over many of the details and provide a message passing façade, while actually doing efficient operations behind that.
 
+It looks like the C++ \texttt{mess} library is intended to be exactly this sort of thing:  \url{https://github.com/LouisCharlesC/mess}.  The developer seems to say that the user gets to write their program in a message-passing fashion, but mess does some clever meta-programming so that there ends up being zero overhead in the end.  Also, absolutely \emph{must} address Halide, and explain why it wasn't pursued here.  Otherwise, that'll be the elephant in the room.
+
 \subsection{Other hardware}
 This work focused on CPU-based systems, largely to the exclusion of other hardware.  If used well, all three of \glspl{gpu}, \glspl{fpga} and \glspl{dsp} have potential to perform vastly more computations per second, suggesting that a high-performance message passing-based system would do well to use them.  In each case, however, they do not work in quite the same way as CPUs, meaning that programming them is not necessarily straightforward, especially when trying to achieve a programming style that differs to their default.  As described in \fxwarning*{insert the appropriate cross-reference}{the literature review chapter}, fast \gls{gpu} implementations of \gls{bp} have been created, suggesting that message passing on a \gls{gpu} is entirely plausible.
 
 It would appear worthwhile to investigate how one might be able to implement some sort of message passing system atop these hardware alternatives, due to the potential for many more computations per second.  Even better would be to create a heterogeneous system which can take full advantage of the strengths of each hardware type, while overcoming its weaknesses.  Precisely how to achieve efficient implementations on them is unknown.  The fact that OpenCL \fxerror[inline]{[ref]} (and, to some extent at least, OpenACC \fxerror[inline]{[ref]}) can be compiled from the same base code to different devices makes it an obvious starting point.   There has already been at least one publication on implementing \glspl{actor} in OpenCL \fxerror[inline]{[ref]}, suggesting it is possible -- though how well synchronous message passing will work as compared to asynchronous remains to be seen.
+
+See also \url{https://hastlayer.com/} -- they seem to say that they do relevant stuff on FPGAs.  Interestingly, the also do unums/posits, apparently.
+
+\subsection{Universal Numbers}
+The \gls{cps} work kinda ignored non-integer numbers, which in real practice is quite a glaring omission.  Investigating modelling IEEE-754 floating point (and/or the fixed-point version), as well as Gufstafson's unums/posits, would be another good step to take.

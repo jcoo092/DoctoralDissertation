@@ -25,7 +25,7 @@
 % Add, delete or un-comment packages below as required.
 %
 
-% \usepackage[utf8]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
 % Readability options
@@ -148,14 +148,11 @@
     }
 }
 
+\newcommand{\fsharp}{F\nolinebreak\hspace{-.05em}\raisebox{.3ex}{\tiny{\textbf{\#}}}}
+
 \loadglsentries{tex/glossary}
 
 \begin{document}
-
-% \newcommand{\cml}{Concurrent~ML}
-% \newcommand{\csp}{Communicating Sequential Processes}
-\newcommand{\fsharp}{F\nolinebreak\hspace{-.05em}\raisebox{.3ex}{\tiny{\textbf{\#}}}}
-\newcommand{\cps}{cP~systems}
 
 % ====================================================
 %
@@ -167,10 +164,8 @@
 % ====================================================
 
 % Specify the title page content
-% \title{Message Passing-Based Stereo Matching Algorithms in cP~systems and Concurrent~ML}
-% \subtitle{Using functional programming to make life simpler and promote efficiency}
 \title{Neighbourhood Message Passing Computation on a Grid}
-\subtitle{With Application to Stereo Matching}
+\subtitle{Modelled with cP systems and applied to Stereo Matching}
 \author{James Cooper}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
@@ -180,24 +175,22 @@
 \maketitle
 
 % Abstract, up to 350 words
-% \input{tex/abstract} % it's in a separate file
+\input{tex/abstract} % it's in a separate file
 
 % Dedication (optional)
-%\thesisdedication{Dedicated to grandma, and to grammar.}
+\thesisdedication{Dedicated to grandma, and to grammar.}
 % \thesisdedication{This work is dedicated to the interested reader and all those who make use of material presented within.}
 
 % Preface and/or acknowledgements (optional)
-% \input{tex/acknowledgements.tex} % it's in a separate file
+\input{tex/acknowledgements.tex} % it's in a separate file
 
 % Contents, lists of tables and figures
 \settocdepth{subsection} % choose chapter, section, subsection 
 \cleardoublepage\tableofcontents
-%\cleardoublepage\listoffigures
-%\cleardoublepage\listoftables
+\cleardoublepage\listoffigures
+\cleardoublepage\listoftables
 \cleardoublepage\listoffixmes
-
-% Glossary (optional)
-% \input{glossary}
+% \cleardoublepage\listof{ruleset}{cpruleset}
 
 % ====================================================
 %
@@ -212,19 +205,26 @@
 %
 % ====================================================
 
-% \input{chapters/intro.tex}
+\input{chapters/intro.tex}
 \glsresetall
 \input{chapters/litreview/litreview}
-% \glsresetall
+\glsresetall
+\input{chapters/background/background}
+\glsresetall
+\input{chapters/nmp/nmp}
+\glsresetall
+\chapter{Belief Propagation in cP~systems}
+The \gls{bp}-specific stuff that builds on the \gls{nmp} work goes here.
+\glsresetall
+\input{chapters/experiments/experiments}
+\glsresetall
 % \input{chapters/choiceoflang/choiceoflang}
-% \glsresetall
-% \input{chapters/beliefprop/beliefprop}
 % \glsresetall
 % \input{chapters/concprop/concprop}
 % \glsresetall
-% \input{chapters/discussion.tex}
-% \glsresetall
-% \input{tex/conclusion.tex}
+\input{chapters/discussion.tex}
+\glsresetall
+\input{tex/conclusion.tex}
 %\input{tex/chapter1} % I hope that you have better titles than this
 %\input{chapter2} 
 %\input{chapter3} 
@@ -239,15 +239,17 @@
 % ====================================================
 
 \printbibliography[title={Works Cited}, heading=bibintoc]
-% \chapter*{Glossary}
 
 \printglossary
  
 \printglossary[type=\acronymtype]
 
-\cleardoublepage % start afresh on a new page
-\setcounter{page}{1} % re-sets the page counter
-\appendixpage* % makes a page to mark beginning of appendices
+\cleardoublepage
+Put an index here?
+
+% \cleardoublepage % start afresh on a new page
+% \setcounter{page}{1} % re-sets the page counter
+% \appendixpage* % makes a page to mark beginning of appendices -- currently there are no appendices
 % \input{appendix1} 
 
 

@@ -20,6 +20,7 @@
 
 %% N-Z
 \newacronym{ndcsm}{NDCSM}{Noise-Driven Concurrent Stereo~Matching}
+\newacronym{nmp}{NMP}{neighbourhood message passing}
 \newacronym{prox}{proxel}{Processing Element}
 \newacronym{sad}{SAD}{Sum of Absolute Differences}
 % \newacronym{sm}{SM}{Stereo~Matching}
@@ -39,7 +40,7 @@
 %% A-M
 \newglossaryentry{actor}{name={Actor},description={A model of message-passing-based concurrent programming originally developed  chiefly by Carl Hewitt.  Its defining characteristics are arguably that it uses asynchronous messaging, whereby the sender and receiver do not need to coordinate or synchronise at all; and that instead of using channels or similar as a go-between, Actors send messages directly to each other, which necessitates `knowing' (i.e. holding a reference to) the intended recipient.  Notable examples of implementations of Actors are found in the programming languages Erlang and Pony, and the Scala library Akka}}
 \newglossaryentry{blas}{name={BLAS},description={Basic Linear Algebra Subroutines}}
-\newglossaryentry{clps}{name={Cell-like P~systems},description={The original variant, based on the operation of chemicals in cells}}
+\newglossaryentry{clps}{name={Cell-like P~systems},description={The original \gls{ps} variant, based on the operation of chemicals in cells}}
 \newglossaryentry{cps}{name={cP~systems},description={A variant of P~systems created by Nicolescu}}
 \newglossaryentry{disparity}{name={disparity},description={The shift, measured as a number of pixels, of a point in one stereo image to its location in the other image.  When combined with information about the cameras derived from calibration, the measured disparity is used to estimate the distance from the cameras to the point in the scene}.  Disparity is often also referred to as `parallax'.}
 \newglossaryentry{disparitymap}{name={disparity map},description={An output array/image (often just using a single channel of 8- or 16-bit integers) which encodes the final estimated disparities for every pixel in the input images.  The range of values in a disparity map itself is restricted to range of possible disparities used in the \gls{sm} algorithm.  It is common, however, to adjust the disparity map in some fashion to make differences in disparity estimates more visible through techniques such as histogram equalisation.  Most published figures of disparity maps will have had such an adjustment applied to make them more useful.  Disparity maps are sometimes also referred to as `digital parallax maps.'}}
@@ -48,7 +49,6 @@
 
 %% N-Z
 \newglossaryentry{ps}{name={P~systems},description={See \glsentrytext{mc}}}
-% \newglossaryentry{sm}{name={Stereo~Matching},description={A family of methods to match points from different images of the same scene to estimate the distance from the capturing cameras to objects in the scene.  See \autoref{subsec:smgeneral}.}}
 \newglossaryentry{sm}{name={Stereo~Matching},description={A family of methods to match points from different images of the same scene to estimate the distance from the capturing cameras to objects in the scene.  See \autoref{subsec:smgeneral}}}
 \newglossaryentry{snps}{name={Spiking Neural P~systems},description={Based on the workings of the brain}}
 \newglossaryentry{tlps}{name={Tissue-like P~systems},description={Based on the transmission of chemicals between cells via channels in biological tissue}}
