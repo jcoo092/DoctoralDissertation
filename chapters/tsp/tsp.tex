@@ -1,0 +1,73 @@
+%$Id: figuide.tex,v 1.2 2000/06/24 06:57:31 piotrek Exp $
+% \documentclass{fundam}
+% \usepackage{amssymb,url,cleveref,framed,changepage,cite,booktabs,graphicx}
+% \usepackage[final]{listings}
+% \usepackage{alltt}
+% \usepackage{minted}
+
+\chapter{The Hamiltonian Path and Travelling Salesman Problems}
+
+% \newcommand{\modmin}{\mathtt{min}}
+% \newcommand{\modpar}{\mathtt{par}}
+% \newcommand{\modmax}{\mathtt{max}}
+% \newcommand{\one}{\textsl{1}}
+
+% \newcommand{\scriptmodmin}{\scriptstyle\mathtt{min}\displaystyle}
+% \newcommand{\scriptmodmax}{\scriptstyle\mathtt{max}\displaystyle}
+% \newcommand{\scriptmodminz}{\scriptstyle\mathtt{min?}\displaystyle}
+% \newcommand{\scriptmodmaxz}{\scriptstyle\mathtt{max?}\displaystyle}
+
+\lstset{frame=single}
+\lstset{mathescape=true,escapechar=\#}
+\lstset{showstringspaces=false}
+\lstset{basicstyle=\small}
+
+% % \begin{document}
+% \setcounter{page}{1001}
+% \issue{XXI~(2001)}
+
+% \title{The Hamiltonian Cycle and Travelling Salesman Problems in cP~systems}
+
+% \address{Department of Computer Science, The University of Auckland, Private Bag 92019, Auckland 1142, New Zealand}
+% \author{James Cooper\corresponding\\
+% Department of Computer Science \\
+% University of Auckland\\ 
+% Auckland, New Zealand\\
+% jcoo092{@}aucklanduni.ac.nz
+% \and Radu Nicolescu\\
+% Department of Computer Science \\
+% University of Auckland \\
+% Auckland, New Zealand } \maketitle
+
+% \runninghead{J. Cooper, R. Nicolescu}{The HCP \& TSP in cP~systems}
+
+% \begin{abstract}
+% The Hamiltonian Cycle Problem (HCP) and Travelling Salesman Problem (TSP) are long-standing and well-known NP-hard problems.  The \gls{hpp} is concerned with finding paths through a given graph such that those paths visit each node exactly once after the start, and end where they began (i.e., Hamiltonian cycles).  The TSP builds on the \gls{hpp} and is concerned with computing the lowest cost Hamiltonian cycle on a weighted (di)graph.  Many solutions to these problems exist, including some from the perspective of P~systems.  For the TSP however, almost all these papers have combined membrane computing with other approaches for approximate solution algorithms, which is surprising given the plethora of P~systems solutions to the \gls{hpp}.  A recent paper presented a brute-force style P~systems solution to the TSP with a time complexity of \(\mathcal{O}(n^2)\), exploiting the ability of P~systems to reduce time complexity in exchange for space complexity, but the resultant system had a fairly high number of rules, around 50.  Inspired by this paper, and seeking a more concise representation of an exact brute-force TSP algorithm, we have devised a P~systems algorithm based on cP~systems (P~systems with Complex Objects) which requires five rules and takes \(n + 3\) steps.  We first provide some background on cP~systems and demonstrate a fast new cP~systems method to find the minimum of a multiset, then describe our solution to the \gls{hpp}, and build on that for our TSP algorithm.  This paper describes said algorithms, and provides an example application of our TSP algorithm to a given graph and a digraph variant.
+% \end{abstract}
+
+% \begin{keywords}
+% cP~systems, P~systems, Prolog terms and unification, Travelling Salesman Problem, Hamiltonian Cycle Problem
+% \end{keywords}
+
+
+%-------------------------------------------------
+
+\input{chapters/tsp/tex/intro}
+% \input{chapters/tsp/tex/cpsystems}
+\input{chapters/tsp/tex/hppalgo}
+\input{chapters/tsp/tex/tspalgo}
+\input{chapters/tsp/tex/example}
+\input{chapters/tsp/tex/variations}
+\input{chapters/tsp/tex/conc}
+
+%-------------------------------------------------
+
+% \bibliographystyle{fundam}
+% \bibliography{biblio}
+
+% \begin{appendix}
+\input{chapters/tsp/tex/simul}
+% \end{appendix}
+
+
+% \end{document}

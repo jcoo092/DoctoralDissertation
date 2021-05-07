@@ -1,0 +1,31 @@
+\section{\label{sect:simulation}Simulations}
+In order to demonstrate that this approach can be applied in practice to small problem graphs, sample simulations were written in SWI-Prolog, \fsharp{} and Erlang for the \gls{tsp} algorithm.  In each case, the programs were written with an emphasis on matching the \gls{cps} algorithm, rather than with a focus on memory or time efficiency.  Better implementations from a real-world-use viewpoint could likely be created, but they may not reflect the \gls{cps} rules quite as well.  The Prolog program in particular matches very closely to the \gls{cps} algorithm, and so is fully presented here.  A complete program listing for the Prolog program's rules corresponding to our algorithm is in \autoref{app:codeprolog}, while \autoref{app:probprolog} defines the problem graph.  A copy of the source code for each simulation is available at \url{https://github.com/jcoo092/cP-Systems-TSP}.  While care was taken to keep these simulations similar to each other, differences between the languages inevitably means they are not identical.
+
+All three languages are reasonably well-suited to implementing \gls{cps}.  As mentioned, the Prolog program in particular maps well to our algorithm, requiring only 7 Prolog rules in total, plus a variable number of facts specifying the problem graph, 17 in this case.  The functional elements of \fsharp{} such as higher-order functions also allow a reasonable approximation, if perhaps not with quite the fidelity of Prolog.  Erlang, possibly owing to the fact it was originally implemented atop Prolog, appears to fall in between the two approaches, leaning more towards the functional side.  It is clear from these programs that there is at least one potential close mapping from \gls{cps} to both logic and functional programming languages.  We note however that the emphasis here was on demonstrating the similarities of the languages to \gls{cps}, and not on performance.  As such, no attempt has yet been made to optimise the simulations.
+
+To gauge their `real-world' effectiveness, the simulations were informally tested with increasing digraph sizes.  All three ably coped with digraph sizes of up to 10 vertices, returning an answer at most in a matter of a few seconds.  \fsharp{} and Erlang struggled somewhat at 11 vertices, with the latter taking more than one minute to complete, while Prolog quickly failed with an out-of-stack-memory error.  The \fsharp{} simulation was tested on a digraph of size 12, but the test was terminated after 90 minutes running time due to time constraints, failing to complete and return a minimum cost path.  Due to this, a 12 vertex run was not attempted with Erlang.
+
+Considering that for a totally-connected 11 vertex digraph, at the 11th step almost 40 million (\(11!\)) subcells would be required, it is unsurprising that memory limits may become an issue.  These results suggest that, while the fundamental process does indeed lead to determining lowest-cost paths, much more effective use of memory will be required in order to make software simulations practically relevant with highly connected digraphs of any significant size (i.e. greater than approximately 11 or 12 vertices).
+
+A comparison of \autoref{fig:utree} and \autoref{fig:dtree} suggests, however, that for graphs that are not totally connected, the implementations may cope much better, as would be expected.  With ultimately fewer paths to explore, the explosion in the number of objects will not be so great, and thus the space requirements will be lower.  This is not unique by any means to the \gls{cps} version of the \gls{tsp} - any method to solve the \gls{tsp} which involves a breadth-first search of the graph, taking into account whether nodes have already been visited, will experience the same. 
+
+%\newpage
+
+\subsection{Prolog simulation}
+
+It is perhaps interesting to contrast the Prolog method for exploring the problem space and finding an answer with that of \gls{cps}.  On the surface they appear quite similar -- a handful of rules and some initial statements specific to the problem, combined with unification.   In some ways, however, they appear also to be opposing duals of each other.  Prolog in general, and thus in the case of our program, works on a top-down backward-chaining approach, whilst \gls{cps} works on a bottom-up forward-chaining approach.
+
+That is to say that (sequential) Prolog tries to do the least work and use the least space possible, so it starts with the definition of the requested inference (an invocation of \texttt{go} in our program), and only evaluates elements of that definition as it discovers they are needed in order to provide a result.  In the case of the digraph exploration, this essentially means that it tries to perform a linear depth-first search of the digraph, stopping as soon as it has an answer -- though with the \gls{tsp} it inevitably must evaluate every cycle in order to know which has minimum cost.
+
+Conversely, our \gls{cps} algorithm starts with the definition of the problem graph, and does all possible work in order to find the result in what is essentially a breadth-first search.  All possible cycles from the root node are instantiated and eventually checked for minimum cost. The ability of \gls{cps} to perform these instantiations and the comparison completely in parallel means that a relatively small number of steps are required to find the minimum -- though at the cost of a potentially (exponentially) large space and processing complexity.
+\\
+%\newpage
+\begin{listing}
+\caption{\label{app:probprolog}SWI-Prolog code defining the example problem undirected graph G shown in \autoref{fig:ugraph}}
+\inputminted[linenos,breaklines,frame=lines,autogobble,lastline=3]{prolog}{chapters/tsp/code/tsp.pl.txt}
+\end{listing}
+
+\begin{listing}
+\caption{\label{app:codeprolog}Complete SWI-Prolog code for the rules of our \gls{tsp} algorithm}
+\inputminted[linenos,breaklines,frame=lines,autogobble,firstline=5]{prolog}{chapters/tsp/code/tsp.pl.txt}
+\end{listing}

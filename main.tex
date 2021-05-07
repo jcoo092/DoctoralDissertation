@@ -1,5 +1,5 @@
-\documentclass[11pt,partial,draft,doublespace]{aucklandthesis}
-% \documentclass[11pt,partial]{aucklandthesis}
+% \documentclass[11pt,partial,draft,doublespace]{aucklandthesis}
+\documentclass[11pt,partial]{aucklandthesis}
 %
 % This is a template for University of Auckland theses.
 %
@@ -17,10 +17,24 @@
 
 %%%% Packages introduced by me, not included with the template
 \usepackage[normalem]{ulem}
-\usepackage{amsmath}
+\usepackage{amsmath,amssymb,cpsystems}
+\usepackage{listings,minted,alltt}
 \usepackage[binary-units]{siunitx}
+\usepackage{url,subcaption,clrscode3e,backnaur,threeparttable} % look at removing all of these --- they were only introduced to make the G Col Rep stuff build
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.14}
 \usepackage{fixme}
 \fxusetheme{color}
+
+\usepackage{morewrites}
+\usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newcommand{\theoremautorefname}{Proposition}
+\newtheorem{proposition}{Proposition}[chapter]
+\newcommand{\propositionautorefname}{Proposition}
+
+\newcommand{\listingautorefname}{Listing}
 %
 % Add, delete or un-comment packages below as required.
 %
@@ -97,6 +111,12 @@
 	\addbibresource{bib/compmodels.bib}
 	\addbibresource{bib/psystems.bib}
 	\addbibresource{bib/languages.bib}
+	\addbibresource{bib/medianfilter.bib}
+	\addbibresource{bib/tsp.bib}
+	\addbibresource{bib/g-col.bib}
+
+    % \addbibresource{chapters/tsp/biblio.bib}
+    % \addbibresource{chapters/gcol/biblio.bib}
 % bibliography{bibliography1.bib, bibliography2.bib} % Specify bibliography files 
 % bibliography{bib/stereo.bib, Mendeley.bib}
 
@@ -164,8 +184,11 @@
 % ====================================================
 
 % Specify the title page content
-\title{Neighbourhood Message Passing Computation on a Grid}
-\subtitle{Modelled with cP systems and applied to Stereo Matching}
+% \title{Neighbourhood Message Passing Computation on a Grid}
+% \subtitle{Modelled with cP systems and applied to Stereo Matching}
+\title{Highly-Concurrent Solutions to Graph and Image Processing Problems}
+% \title{Bio-inspired Solutions to Selected Graph and Image Problems}
+\subtitle{Modelled for shared-memory scenarios in cP systems and various programming languages \\ {\small v0.0.5.8 compiled on \today}}
 \author{James Cooper}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
@@ -178,7 +201,7 @@
 \input{tex/abstract} % it's in a separate file
 
 % Dedication (optional)
-\thesisdedication{Dedicated to grandma, and to grammar.}
+% \thesisdedication{Dedicated to grandma, and to grammar.}
 % \thesisdedication{This work is dedicated to the interested reader and all those who make use of material presented within.}
 
 % Preface and/or acknowledgements (optional)
@@ -189,8 +212,9 @@
 \cleardoublepage\tableofcontents
 \cleardoublepage\listoffigures
 \cleardoublepage\listoftables
+\cleardoublepage\listofcprulesetfloats
+\cleardoublepage\listofcpobjectsfloats
 \cleardoublepage\listoffixmes
-% \cleardoublepage\listof{ruleset}{cpruleset}
 
 % ====================================================
 %
@@ -209,15 +233,21 @@
 \glsresetall
 \input{chapters/litreview/litreview}
 \glsresetall
-\input{chapters/background/background}
+% \input{chapters/background/background}
+% \glsresetall
+\input{chapters/tsp/tsp}
+\glsresetall
+\input{chapters/gcol/g-col-rep}
 \glsresetall
 \input{chapters/nmp/nmp}
 \glsresetall
 \chapter{Belief Propagation in cP~systems}
 The \gls{bp}-specific stuff that builds on the \gls{nmp} work goes here.
 \glsresetall
-\input{chapters/experiments/experiments}
+\input{chapters/medianfilter/cml}
 \glsresetall
+% \input{chapters/experiments/experiments}
+% \glsresetall
 % \input{chapters/choiceoflang/choiceoflang}
 % \glsresetall
 % \input{chapters/concprop/concprop}

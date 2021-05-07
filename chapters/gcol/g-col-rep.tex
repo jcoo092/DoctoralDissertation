@@ -1,0 +1,106 @@
+% %%%%%%%%%%%%%%%%%%%%%%% file template.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% % This is a general template file for the LaTeX package SVJour3
+% % for Springer journals.          Springer Heidelberg 2010/09/16
+% %
+% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+
+% \RequirePackage{fix-cm}
+% \RequirePackage{amsmath}
+% %
+% %\documentclass{svjour3}                     % onecolumn (standard format)
+% %\documentclass[smallcondensed]{svjour3}     % onecolumn (ditto)
+% \documentclass[smallextended,]{svjour3}       % onecolumn (second format)
+% %\documentclass[twocolumn]{svjour3}          % twocolumn
+% %
+% \smartqed  % flush right qed marks, e.g. at end of proof
+% %
+% \usepackage{graphicx}
+
+% %
+% % \usepackage{mathptmx}      % use Times fonts if available on your TeX system
+% %
+% % insert here the call for the packages your document requires
+% %\usepackage{latexsym}
+% % etc.
+% \usepackage{amssymb,framed,booktabs,url,subcaption,clrscode3e,backnaur}
+% \usepackage[utf8]{inputenc}
+% \usepackage{soul,xcolor}
+% \usepackage{hyperref}
+% \usepackage{threeparttable}
+
+% \newcommand{\cml}{Concurrent~ML}
+\newcommand{\bo}{\(b\)}
+%
+% \journalname{Journal of Membrane Computing}
+% %
+% \begin{document}
+
+% \title{Alternative Representations of P~Systems Solutions to the Graph Colouring Problem}
+\chapter{The Graph Colouring Problem}
+
+% \titlerunning{Alt. P~Systems solutions to Graph Col. Problem}        % if too long for running head
+
+% \author{James Cooper         \and
+%         Radu Nicolescu %etc.
+% }
+
+% \authorrunning{J. Cooper \& R. Nicolescu} % if too long for running head
+
+% \institute{J. Cooper \at
+%               Department of Computer Science, University of Auckland, Auckland 1142, New Zealand \\
+%               \email{jcoo092@aucklanduni.ac.nz}\\           %  \\
+% %             
+%               ORCID: 0000-0001-9954-3280
+%           \and
+%           R. Nicolescu \at
+%               Department of Computer Science, University of Auckland, Auckland 1142, New Zealand \\
+%               \email{r.nicolescu@auckland.ac.nz}\\
+%               ORCID: 0000-0003-2498-1002
+% }
+
+% \date{Received: date / Accepted: date}
+
+
+% \maketitle
+
+% \begin{abstract}
+% This paper first presents a simulation of the Simple Kernel \gls{ps} solution to the Graph 3-colouring Problem presented in a previous paper by Gheorghe \textit{et al.}, implemented in a programming style named \gls{cml}, which is based on the concept of synchronous communication between logical processing elements.  This paper then presents and informally analyses an alternative compact single-cell solution to the same problem using \gls{ps} with compound objects (\gls{cps}), which has the benefit of naturally adapting to the use of any number of colours greater than zero -- only the specified colour symbols need to be changed.  Successful and failing examples of the latter solution are also presented.
+% \keywords{\gls{cps} \and Simple Kernel \gls{ps} \and Graph Colouring Problem \and Concurrent~ML}
+% \end{abstract}
+
+\section{\label{intro}Introduction}
+
+The graph colouring problem is a deceptively simple problem in graph theory.  In its most basic form, it is the problem of assigning labels such as colours to the nodes in a graph, such that no two nodes connected by an edge share a colour, usually with the addition of the extra requirement either of finding the minimum number of colours required or only using a number of colours up to some upper bound --- for any graph with \(N\) nodes, it is trivial to colour it using \(N\) colours.  The problem finds applications in many areas, including timetabling, register allocation for compilers, as well as solving Sudoku puzzles (which are in turn a special case of Latin Squares) \cite{Lewis2016}.  The general case is NP-Complete, and thus no polynomial time solution has been found so far (finding one would prove that P = NP), though they have been found for specific forms of graph or particular numbers of colours.  For example, in the case of 3-colouring, the current best known solution takes \(\mathcal{O}(1.3289^n)\) time \cite{Beigel2005}.
+
+Gheorghe \textit{et al.} presented a \gls{ps} solution to the 3-colouring problem, using communicating \gls{skps} \cite{Gheorghe2013}.  Based on this work, we first discuss in \autoref{sec:cml} a \gls{cml} implementation of the \gls{skps} solution in \cite{Gheorghe2013}, briefly compare the two approaches and indicate some other \gls{ps} variants we think \gls{cml} might be a good fit with.  We then present in \autoref{sec:cpsys} a fairly concise single-cell solution to the problem using \gls{ps} with compound terms (\gls{cps} for short -- see \cite{Nicolescu2018} for a detailed background on \gls{cps}), and provide an informal analysis of it.  Lastly, in \autoref{sec:examples}, we provide examples of the operation of our cP~system on the 3-colour problem, both for a graph that is colourable and one that is not, before concluding in \autoref{sec:conc}.
+
+To the best of our knowledge, this is the first time \gls{cps} has been applied to graph colouring, and the first time that a \gls{cml} implementation has been used to simulate the operation of any P~system.
+
+We wish to emphasise that we do not consider our simulation or \gls{cps} solution to be `superior' to that of Gheorghe \textit{et al.} (though we do think it demonstrates the utility of \gls{cps}), but instead wish to complement theirs and others' work with another alternative.
+
+\input{chapters/gcol/tex/cml}
+\input{chapters/gcol/tex/cprules}
+\input{chapters/gcol/tex/examples}
+
+\section{\label{sec:conc}Conclusions}
+Firstly we implemented a version of Gheorghe \textit{et al.}'s \gls{skps} solution to the 3-colouring problem using \fsharp{} and a \gls{cml}-derived library, Hopac.   On the small sample of graphs tested this produces reasonable results for smaller graphs, at least as good as those achieved by the P-Lingua/MeCoSim simulation.  In both systems, the inclusion of a test for already-invalid compartments has the potential to improve the runtimes significantly, as it prunes the search space, sometimes quite dramatically.
+
+\gls{cml} appears to be a good fit in principle to \gls{ps} variants that use communication between cells/membranes, but this particular problem had fairly minimal communication and instead relied heavily upon cell division.  Further testing with other problems is required to determine the efficacy of \gls{cml} for sure.
+
+We secondly provided a single-top-level-cell \gls{cps} solution to the Graph Colouring Problem, which is capable of solving the problem for arbitrary graphs with an arbitrary number of potential colours in at most \(|V| + 1\) steps.  Its operation was demonstrated with two 3-colouring examples based on two different graphs, for which it was and was not possible, respectively, to find a valid 3-colouring.
+
+
+% \begin{acknowledgements}
+% We would like to thank Luis Valencia-Cabrera of Universidad de Sevilla (the University of Seville), Spain, for providing valuable assistance with regards to the use of MeCoSim.  We also would like to thank the anonymous reviewers for their detailed and considered reviews, which proved very helpful to us in improving the paper.
+% \end{acknowledgements}
+
+% % BibTeX users please use one of
+% \bibliographystyle{spmpsci}      % mathematics and physical sciences
+% \bibliography{biblio}   % name your BibTeX data base
+
+
+% \end{document}
+

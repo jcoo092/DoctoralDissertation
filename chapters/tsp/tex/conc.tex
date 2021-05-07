@@ -1,0 +1,21 @@
+\section{\label{sect:conc}Conclusion \& Future Work}
+We have defined here a succinct \gls{cps} algorithm for solving the Travelling Salesman Problem in \(\mathcal{O}(n)\) time, by using the capacity of \gls{cps} to create and manipulate complex subcells in only a few high-level steps.  This algorithm builds on a simpler version for finding Hamiltonian paths and cycles, requires only a fixed set of five rules, and takes \(n + 3\) steps to find a solution for any connected digraph of size \(n\), an improvement on the previous best known \gls{ps}-based solution to the \gls{tsp} (see \autoref{tab:algocomp} for a comparison).  Simple examples were provided to demonstrate the operation of the algorithm.  The \gls{tsp} algorithm can operate, without modification to the ruleset, on any arbitrary weighted graph for which there exists a Hamiltonian cycle.   It requires only a specification of the graph encoded as subcells, and could be extended to detect the absence of a Hamiltonian cycle.
+
+\begin{table}
+\centering
+\caption{Comparison of known exact \gls{ps} solutions to the \gls{tsp}}
+\label{tab:algocomp}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Algorithm}  & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}c@{}}Num. of\\  rules\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}c@{}}Run time\\  order\end{tabular}}} \\ \midrule
+Guo \& Dai \cite{Guo2017}          & $\sim$50                                   & \(\mathcal{O}(n^2)\)                                         \\
+Cooper \& Nicolescu & 5                                          & \(\mathcal{O}(n)\)                                          \\ \bottomrule
+\end{tabular}
+\end{table}
+
+Future developments for \gls{cps} could proceed along a number of lines.  As of yet, messaging between top-level cells has not been fully developed in \gls{cps}, either using an asynchronous \gls{actor}-model-style, or a synchronous \gls{csp} style.  Such techniques were not required here, but might prove very useful when creating any distributed algorithms.  
+
+One-way multiset unification occurs frequently in \gls{cps}, with unification being used in every rule presented above.  An efficient algorithm to perform this task would be highly beneficial for creating useful simulations of systems (we are not aware of an efficient algorithm in the case of multisets).  For example, our simulations of the \gls{tsp} algorithm written in functional programming languages (see \autoref{sect:simulation}) regularly simply iterate over all relevant objects in the system, even though frequently most will be of little use in a given function call, and so the simulations could benefit from improved unification in practice.
+
+We would like to further develop the capacity to simulate \gls{cps}, in particular developing more advanced techniques for translating \gls{cps} rules to efficient parallel code.  Work down this avenue has not begun as of yet however.

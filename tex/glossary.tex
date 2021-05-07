@@ -23,6 +23,7 @@
 \newacronym{nmp}{NMP}{neighbourhood message passing}
 \newacronym{prox}{proxel}{Processing Element}
 \newacronym{sad}{SAD}{Sum of Absolute Differences}
+\newacronym{skps}{SKP}{Simple Kernel P~systems}
 % \newacronym{sm}{SM}{Stereo~Matching}
 \newacronym{ssd}{SSD}{Sum of Squared Differences}
 
@@ -30,9 +31,12 @@
 
 % A-M
 \newdefacr{cml}{CML}{Concurrent~ML}{A programming style introduced by John Reppy.  Channels}
-\newdefacr{sgm}{SGM}{Semi-global~Matching}{A Stereo Matching algorithm introduced by Hirschmüller that, as the name suggests, sits somewhere between traditional global and local Stereo Matching Algorithms.  This provides advantages in that retains much of the speed advantage of local algorithms, while also receiving much of the benefit derived from taking into consideration a larger part of the total input images.}
+\newdefacr{hcp}{HCP}{Hamiltonian Cycle Problem}{Closely related to the \acrlong{hcp}.  In this problem, the Hamiltonian Path must also be a cycle, i.e. it ends back at the origin node.}
+\newdefacr{hpp}{HPP}{Hamiltonian Path Problem}{The problem of determining whether, for a given graph, there exists a traversal of the graph in which each node is visited exactly once.}
 
 % N - Z
+\newdefacr{sgm}{SGM}{Semi-global~Matching}{A Stereo Matching algorithm introduced by Hirschmüller that, as the name suggests, sits somewhere between traditional global and local Stereo Matching Algorithms.  This provides advantages in that retains much of the speed advantage of local algorithms, while also receiving much of the benefit derived from taking into consideration a larger part of the total input images.}
+\newdefacr{tsp}{TSP}{Travelling Salesman Problem}{An extension of the \acrfull{hcp}.  Here, the edges between nodes have weights, and the goal of the problem is to find a minimum weight Hamiltonian cycle on the graph.}
 
 % Glossary Entries
 % \newglossaryentry{}{name={},description={}}
@@ -46,9 +50,11 @@
 \newglossaryentry{disparitymap}{name={disparity map},description={An output array/image (often just using a single channel of 8- or 16-bit integers) which encodes the final estimated disparities for every pixel in the input images.  The range of values in a disparity map itself is restricted to range of possible disparities used in the \gls{sm} algorithm.  It is common, however, to adjust the disparity map in some fashion to make differences in disparity estimates more visible through techniques such as histogram equalisation.  Most published figures of disparity maps will have had such an adjustment applied to make them more useful.  Disparity maps are sometimes also referred to as `digital parallax maps.'}}
 \newglossaryentry{lapack}{name={LAPACK},description={Linear Algebra Package (???)}}
 \newglossaryentry{mc}{name={Membrane Computing},description={A computational model inspired by the functioning of biological systems, specifically the interactions of chemicals inside the membranes of a biological cell.  The terms Membrane Computing and P systems are frequently used interchangeably}}
+\newglossaryentry{mecosim}{name={MeCoSim}, description={Explain MeCoSim}}
 
 %% N-Z
 \newglossaryentry{ps}{name={P~systems},description={See \glsentrytext{mc}}}
+\newglossaryentry{plingua}{name={P-Lingua}, description={A plain-text markup language used to represent P~systems specifications in computer files readable by both humans and computers.}}
 \newglossaryentry{sm}{name={Stereo~Matching},description={A family of methods to match points from different images of the same scene to estimate the distance from the capturing cameras to objects in the scene.  See \autoref{subsec:smgeneral}}}
 \newglossaryentry{snps}{name={Spiking Neural P~systems},description={Based on the workings of the brain}}
 \newglossaryentry{tlps}{name={Tissue-like P~systems},description={Based on the transmission of chemicals between cells via channels in biological tissue}}

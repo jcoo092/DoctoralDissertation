@@ -15,7 +15,7 @@ The `canonical' stereo camera arrangement is two cameras arranged in parallel, w
 \begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{chapters/litreview/images/stereo_matching-eps-converted-to.pdf}
-    \caption{Diagram of the basic process of \gls{sm}. In this instance, for each pixel in the left image, a horizontal range of the pixels in the right image are searched, to find the one on the right that matches most closely to the one on the left. This has the effect that the \gls{disparitymap} is from the perspective of the left camera. The red dots represent the compared pixels. The brown dashed arrow and vertical bars represent the range of pixels in the right image to compute matching scores against. The length of the range is the lesser of the number of pixels before reaching the left border of the image, or the maximum \gls{disparity}, which is a parameter set by the user and represented here by \(\Lambda\).  Image from \cite{bsmpcvpic}.}
+    \caption[Diagram of the basic process of \gls{sm}]{Diagram of the basic process of \gls{sm}. In this instance, for each pixel in the left image, a horizontal range of the pixels in the right image are searched, to find the one on the right that matches most closely to the one on the left. This has the effect that the \gls{disparitymap} is from the perspective of the left camera. The red dots represent the compared pixels. The brown dashed arrow and vertical bars represent the range of pixels in the right image to compute matching scores against. The length of the range is the lesser of the number of pixels before reaching the left border of the image, or the maximum \gls{disparity}, which is a parameter set by the user and represented here by \(\Lambda\).  Image from \cite{bsmpcvpic}.}
     \label{fig:stereomatchingbasic}
 \end{figure}
 
@@ -88,7 +88,7 @@ Motivated by observations of the physical reality of the image capture process a
 \begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{chapters/litreview/images/bp_diagram_recoloured.pdf}
-    \caption{Pictorial representation of the concept behind Loopy Belief Propagation for Stereo Matching. The symbols in the central cell refer to sum-product Belief Propagation, one of the earliest and mostly widely discussed forms of Belief Propagation. Each cell sends a new message to its neighbouring cells at each iteration after in turn having received and processed new messages from the neighbours in the previous iteration. The outgoing message to a given neighbour is computed from the information received from the other neighbours previously, represented here by the three thin and one fat arrow.  Image from \cite{lbpmpsmpic}.}
+    \caption[Pictorial representation of the concept behind \acrlong{lbp} for \gls{sm}]{Pictorial representation of the concept behind Loopy Belief Propagation for Stereo Matching. The symbols in the central cell refer to sum-product Belief Propagation, one of the earliest and mostly widely discussed forms of Belief Propagation. Each cell sends a new message to its neighbouring cells at each iteration after in turn having received and processed new messages from the neighbours in the previous iteration. The outgoing message to a given neighbour is computed from the information received from the other neighbours previously, represented here by the three thin and one fat arrow.  Image from \cite{lbpmpsmpic}.}
     \label{fig:bpdiagram}
 \end{figure}
 
@@ -127,8 +127,8 @@ Xiang \textit{et al.} \cite{Xiang2012} also boasted of a new technique that enab
 
 Tan \textit{et al.} \cite{Tan2017} claim that their fully-connected \gls{bp} method is highly-amenable to parallelisation, suggesting it could be implemented to run in real-time, but they do not appear to have done so themselves.
 
-\subsection{\glsentrylong{sgm-glossary}}
-This won't really be touched upon in this work anymore, but it might be a good idea to mention/describe it (and perhaps \gls{cp} too), if just so I can mention it again as an obvious future work target.
+% \subsection{\glsentrylong{sgm-glossary}}
+% This won't really be touched upon in this work anymore, but it might be a good idea to mention/describe it (and perhaps \gls{cp} too), if just so I can mention it again as an obvious future work target.
 
 % \subsection{Noise-Driven Concurrent Stereo Matching}
 
