@@ -1,0 +1,128 @@
+\section{\label{sec:nmp:cpsreview}A Minimal Overview of \texorpdfstring{\gls{cps}}{cP~systems}}
+The following is a stripped-down synopsis of \gls{cps}, included in the interests of making this paper more self-contained.  For a comprehensive description and explanation of \gls{cps}, the reader is referred to \cite{Henderson2019,Henderson2020,Nicolescu2018}.
+
+\gls{cps} is another variant of P~systems \cite{Paun2001,Paun2002a,Paun2010b}, complementary to the classic trinity of Cell-like \cite{Paun2000}, Tissue-like \cite{Martin-Vide2003}, and Spiking Neural P~systems \cite{Ionescu2006}.  It has features reminiscent of both Cell-like and Tissue-like systems.  The core unit of \gls{cps} is the \emph{top-level cell}, which is arranged as a nested tree structure, but there can be an arbitrary number of these cells in the environment, communicating with each other through a form of \emph{message-passing over channels}.  The internal operation of \gls{cps}' top-level cells closely resembles Cell-like P~systems.  A key difference, however, is that \emph{only} the top-level cells have accompanying rules.  All sub-cells are merely inert symbolic objects operated upon by the top-level cell's rules.  These sub-cells are represented as labelled multisets within the top-level cells.
+
+Sub-cells can be either \emph{atoms} or \emph{compound terms}, multisets labelled by \emph{functors} (the name `functor' is commonly used as a shorthand for said compound terms).  Atoms, as the name suggests, are indivisible symbols.  They can be of any given type relevant to a system but are static objects with no other inherent properties.  Atoms are written simply as the name of the atom's type.  On the other hand, functors are objects that may hold both atoms and other functors, serve as the said labels for multisets, and are written with the functors' type, followed by opening and closing parentheses surrounding the functor's contents.
+
+Both functors and atoms are written using lower-case letters --- typically from the Latin alphabet, although others may be used.  E.g., an x atom may be written as \(x\), while a y functor might be written like \(\cpfunc{y}{a \, xx \, z}\).  Empty functors are written either with nothing between the parentheses, or with a lower-case lambda: \(\cpfunc{b}{}\) or \(\cpfunc{b}{\cpempty}\).  Furthermore, when there is more than one of a given atom present, the count is usually written as a superscript.  The earlier functor thus could look like \(\cpfunc{y}{a \, x^2 \, z}\).
+
+\emph{Rules} are arguably the most significant difference between \gls{cps} and other P~systems variants.  While \gls{cps} rules still work in a \emph{maximally parallel} \emph{top-down weak-priority order}, update the multisets inside the cells, and depend on the presence of given objects in the cell to make the rules applicable, they also include \emph{variables}.  These variables, written with upper-case letters, are matched with the actual contents of the cells through a one-way unification process \cite{Liu2021}, where the variables are conceptually substituted for contents within a given cell at `run-time'.
+
+Rules are written with exactly one each of a starting \emph{state};\footnote{The states themselves are technically atoms but are not normally used for anything other than specifying the requisite starting and ending states for the top-level cell.} left-hand-side (LHS); \emph{application mode}; ending state; right-hand-side (RHS); followed by zero or more \emph{promoters} and \emph{inhibitors}.  These rules take the form
+\begin{framed}
+\vspace{-1.0cm}
+\cpruleinline{\cprulenonum{s_i}{LHS}{+/1}{s_j}{RHS}}
+\vspace{-0.7cm}
+\end{framed} 
+\noindent
+where \(s_i\) is the starting state; \(LHS\) is the multiset of objects required to be present in the given top-level cell and which will be deleted by the rule; \(+/1\) is the application mode, one of either `maximally parallel' or `exactly once', respectively; \(s_j\) is the ending state; \(RHS\) is the multiset of objects that the rule will create.  Maximally parallel application means that the rule is applied as many times at the current step as there are available objects to allow it.  Exactly once mode means that the rule is applied at most one time during a given step.
+
+For example, if a top-level cell has two functors \(a(b^2)\) \& \(\cpfunc{a}{b^3}\), and an applicable rule's LHS is \(a(B)\), \(B\) in this instance will be unified \emph{non-deterministically} to \(b^2\) or \(b^3\).  Or, if the rule uses \(a(bB)\), \(B\) will be unified to \(b\) or \(bb\).  If the rule instead uses \(a(BC)\), then a \emph{non-deterministic} choice will be made to decide what atoms to assign to \(B\) and \(C\), which could be one of the following pairs:  \(B=0\), \(C=2\); \(B=0\), \(C=3\); \(B=1\), \(C=1\); \(B=1\), \(C=2\); \(B=2\), \(C=0\); \(B=2\), \(C=1\); \(B=3\), \(C=0\).
+
+Promoters are objects that \emph{must} be present within the cell for an associated rule to be applicable but are \emph{not} destroyed by the rule.  Conversely, inhibitors are objects that \emph{must not} be present for the rule to be applicable, although the rule may create them.  If promoters are present, they are denoted following a \(|\) per promoter, and inhibitors by \(\neg\), e.g., \(|\,a(A)\) or \(\neg\,b(B)\).  Inhibitors and promoters traditionally are written below the main rule body, but this is not strictly needed.
+
+\begin{framed}
+\vspace{-1.1cm}
+\begin{align*}
+    \text{Promoter:}&\, | ~ \cpfunc{a}{A} & \text{Inhibitor:}&\, \neg ~ \cpfunc{b}{B}
+\end{align*}
+\vspace{-0.8cm}
+\end{framed}
+
+Top-level cells may exchange messages over channels.  Each top-level cell may hold one or more appropriately labelled endpoints for any relevant channels, and may in its rules try both to send and receive messages via those endpoints.  A message is written inside braces and marked either on the RHS with an exclamation mark or on the LHS with a question mark to represent sending or receiving.  E.g., \(\cpsend{\cpfunc{a}{b}}{c}\) would represent a message \(\cpfunc{a}{b}\) to be sent via channel \(c\), and \(\cprecv{\cpfunc{d}{e}}{f}\) would represent a message to be received via channel \(f\).
+
+\begin{framed}
+\vspace{-1.1cm}
+\begin{align*}
+    \text{Send:}&\, \cpsend{\cpfunc{a}{b}}{c} & \text{Receive:}&\, \cprecv{\cpfunc{d}{e}}{f}
+\end{align*}
+\vspace{-0.8cm}
+\end{framed}
+
+Both sending and receiving use pattern matching.  For sending, any \gls{cps} term matching the pattern in the rule may be removed from the top-level cell and passed to a waiting recipient or placed into a buffer multiset in the channel.  Receiving works similarly in that any object matching the pattern of a receipt rule either offered by a top-level cell on the other side of the endpoint or stored in the channel's buffer multiset may be withdrawn.  If more than one object in the buffer matches the pattern, one is selected randomly.  Importantly, this means that ordinary \gls{cps} channels do \emph{not} behave as FIFO queues.
+
+Numerical operations are simulated with unary arithmetic (see, e.g., \cite{Aman2019,Bonchis2006}).  Natural numbers are represented by counting copies of the \emph{unary digit} atom, \(\cpundig\), inside a given functor.  E.g., the number three can be represented as \(\cpfunc{a}{\cpundig\cpundig\cpundig}\), \(\cpfunc{a}{\cpundig^3}\) or \(\cpfunc{a}{3}\).
+
+\begin{framed}
+\vspace{-1.1cm}
+    \begin{align*}
+        \text{Empty functor:}&\, \cpfunc{e}{\cpempty} & \text{The number three:}&\, \cpfunc{a}{\cpundig\cpundig\cpundig} \text{ or } \cpfunc{a}{\cpundig^3} \text{ or } \cpfunc{a}{3}
+    \end{align*}
+\vspace{-0.8cm}
+\end{framed}
+
+Like most other P~systems families, \gls{cps} typically evolve synchronously in a stepwise fashion following an implicit global clock.  Rules are applied based on whether the available multiset(s) within the system match the rules' LHS \& promoters and not the inhibitors.  The consumption of removed objects plus the creation of new objects happens instantaneously at the end of a step.
+
+\subsection{\label{sec:nmp:notation}\texorpdfstring{\gls{cps}}{cP systems} Notation}
+A specific cP~system can be described as a 6-tuple, as shown below.
+
+\begin{framed}
+\vspace{-1.0cm}
+\[
+\Pi_{cP}(T, A, O, R, S, \bar{s})
+\]
+\vspace{-0.7cm}
+\end{framed}
+
+\(T\) is the set of top-level cells at the start of the evolution of the system; \(A\) is the alphabet of the system; \(O\) is the set of multisets of initial objects in the top-level cells; \(R\) is the set of rulesets for each top-level cell; \(S\) is the set of possible states of the system; \(\bar{s} \in S\) is the starting state of the system.
+
+\subsection{\label{sec:nmp:compoundterms}Indexed notation for compound terms}
+
+Indexed compound terms appear commonly in \gls{cps} definitions.  These are terms that are tagged in some manner by one or more sub-terms used to distinguish different instances of the same functor type.  They are still classic \gls{cps} objects with nested terms, but some of the said sub-terms are used only to distinguish between instances of the encapsulating compound term.  This is roughly analogous to tagging a term with its index in a logical vector/array, or the key it would be stored under in a typical dictionary/associative array data structure.
+
+For example, later in this paper, compound \(v\) terms appear in multiple rules.  Ordinarily, these would be represented as nested terms like 
+\begin{framed}
+\vspace{-1.0cm}
+\[ \cpfunc{v}{\cpfunc{v'}{X} \; \cpfunc{v''}{G}\; D} \]
+\vspace{-0.7cm}
+\end{framed}\noindent
+and used inside a given \gls{pe} to represent a set of tagged data.  They are indexed by neighbour \(X\) and tagged with a `generation count' \(G\) (further explained in \autoref{sec:nmp:pespecific}).  Both values track metadata about a datum.  Lastly, the final datum \(D\) stored by the encapsulating term is given.  In many common programming languages, accessing each datum might be written like \texttt{v[X]}, where \texttt{v} is a dictionary indexed by neighbour.
+
+The \(v\) functors could instead be written as
+\begin{framed}
+\vspace{-1.0cm}
+\[ \cpvv{X}{G}{D} \]
+\vspace{-0.7cm}
+\end{framed}\noindent
+for a shorthand that can be expanded back out to a full form automatically.  The first pair of parentheses selects functors by neighbour, the second records the generation, while the final pair shows the actual contents.  This shorthand is \emph{purely} a notational convenience without effect on rule application and system evolution.  When a concrete instance of a \(v\) compound term is indexed by a ground term (i.e., not a variable) \(k\), e.g. \(\cpvv{k}{\_}{\_}\), we refer to it as \emph{k-tagged}.
+
+\begin{framed}
+\vspace{-1.1cm}
+    \begin{align*}
+        \text{Nested functor:}&\, \cpfunc{v}{\cpfunc{v'}{X} \; \cpfunc{v''}{G}\; D} & \text{Compound term:}&\, \cpvv{X}{G}{D}
+    \end{align*}
+\vspace{-0.8cm}
+\end{framed}
+
+\subsection{\label{sec:nmp:blocking}Blocking vs non-blocking message receipt in \texorpdfstring{\gls{cps}}{cP systems}}
+In \gls{cps} sending messages from one top-level cell to others is non-blocking by default because the channels connecting the cells buffer message objects if needed. Thus an outgoing message is always accepted by the mediating channel, even if the holder of the other channel endpoint is not ready to receive the message.  Receiving messages via channels is also ordinarily a non-blocking operation in \gls{cps}, albeit for a different reason.  If there are no eligible messages on the channel, either buffered by the channel itself or offered by the cell holding the other end of the channel, then the relevant rule to receive over that channel will not apply, regardless of whatever other rules may or may not be applied.
+
+It may be useful in some circumstances, however, to simulate the nature of a blocking receipt.  This can be achieved with the use of added dedicated states.  The beginning state for the intended blocking receipt should be unused as the beginning state for any other rule (except for another aspect of the same blocking receipt).  This state is the ending state for another rule, which enters the blocking receipt.  The ending state for the blocking receipt rule should return the cell to its standard process.
+
+The overall effect of using the dedicated state ensures that no other rules may be used inside a particular top-level cell at a given step.  Effectively, the top-level cell becomes quiescent until another top-level cell offers to send a message to the first cell.  At that point, one or more messages are exchanged as appropriate, and the receiving top-level cell returns to its standard processing otherwise.  We make use of this later in \autoref{sec:nmp:pespecific} (rules 7 \& 10 in \autoref{ruleset:nmp:proxspec}).
+
+As an example, consider the two \gls{cps} rules below:
+\begin{framed}
+\vspace{-0.3cm}
+\cpruleinline{\cprulenonum{s_2}{\cprecv{\cpfunc{x}{Y}}{z}}{+}{s_3}{\cpfunc{x}{Y}}}
+\cpruleinline{\cprulenonum{s_2}{}{1}{s_4}{}}
+\vspace{-0.7cm}
+\end{framed}\noindent
+Assume these two rules are the only ones in the ruleset that begin in state \(s_2\) and that the top-level cell this ruleset applies to is presently in state \(s_2\).  Therefore, the only rules which may be applied at the next step are one or the other of these --- the different ending states prevent the application of both.
+
+When applied in the typical top-down weak priority order, the first rule has priority.  If one or more messages available on channel \(z\) match the pattern -- here a functor \(x\) with any contents -- then the first rule applies, and the new \(x\) terms are created in the top-level cell at the end of the step.  Conversely, if no such message is on hand, the top-level cell will unconditionally transition to state \(s_4\).  Thus, receiving messages through the first rule while the second is available is a \emph{non-blocking} receipt.
+
+What if, however, the second rule was not there? If the only rule with the starting state \(s_2\) was the first of those rules?  In that case, the top-level cell will be unable to make progress until at least one matching message becomes available via channel \(z\).  Thus, receiving messages through the first rule \emph{without} the second rule being available is a \emph{blocking} receipt.  The top-level cell is blocked from evolving further and making any forward progress until a suitable message arrives.  It is quite possible for blocking receipt rules to lead to potential deadlocks in a communicating system, and care must be taken to avoid the possibility, akin to any other concurrency scenario.
+
+\subsection{\label{sec:nmp:antiport}Antiport communication rules in \texorpdfstring{\gls{cps}}{cP systems}}
+
+We propose and use an antiport rule \cite{Orellana-Martin2019,Paun2002} in \autoref{sec:nmp:systemwide}.  To the best of our knowledge, this is the first time an antiport rule has been used in \gls{cps}.  In brief, antiport rules allow for the bidirectional exchange of objects between membranes/cells/neurons during a single rule execution, with the restriction that objects \emph{must} travel in both directions.  Thus, if one side is only ready to send or receive, rather than both, the rule cannot run at the next step.  Instead, other rules down the priority order will be tested.  An important ramification of this is that it avoids deadlock by both sides of the exchange waiting on the other to send a message.
+
+In the context of \gls{cps}, this means that a given rule must involve a receipt over a channel on the LHS, and a send on the \emph{same} channel on the RHS.  For example,
+\begin{framed}
+\vspace{-1.0cm}
+\cpruleinline{ \cprulenonum{s_1}{\cpantirecv{\cpfunc{a}{B}}{c} \; \cpfunc{d}{E}}{1}{s_2}{\cpantisend{\cpfunc{d}{E}}{c} \; \cpfunc{a}{B}}}
+\vspace{-0.7cm}
+\end{framed}\noindent
+would be valid because the same channel is used on both sides of the rule.  To distinguish clearly between antiport rules and other messaging rules, we write two marks between the message and the channel label, instead of one.

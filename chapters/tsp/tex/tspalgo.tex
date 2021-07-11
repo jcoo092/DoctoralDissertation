@@ -1,11 +1,13 @@
-% \section{\label{sect:algotsp}Our \gls{cps} \gls{tsp} Algorithm}
-\section{\label{sect:algotsp}Our \texorpdfstring{\gls{cps}}{cP systems} \texorpdfstring{\glsentrylong{tsp-glossary}}{Travelling Salesman Problem} Algorithm}
+% \section{\label{sec:tsp:algotsp}Our \gls{cps} \gls{tsp} Algorithm}
+\section{\label{sec:tsp:algotsp}Our \texorpdfstring{\gls{cps}}{cP systems} \texorpdfstring{\glsentrylong{tsp-glossary}}{Travelling Salesman Problem} Algorithm}
 
 The expansion of the Hamiltonian Cycle algorithm to solve the \gls{tsp} is fairly straightforward.  The \gls{tsp} is merely the \gls{hcp} with weights upon the vertices of the digraph, and the imposition of the additional constraint that the chosen Hamiltonian cycle is one with minimum total weight.  
 
-In presenting their algorithm to solve the \gls{tsp}, some papers have assumed totally connected digraphs, and/or used an Euclidean distance metric to define the weight between two arcs.  We however assume a digraph with pre-specified arc weights, which could be derived as a pre-processing step (using Euclidean distances if appropriate), though we also assume that all weights are strictly positive integers.  Handling the case of negative weights is a remaining open problem.  Furthermore, our algorithm works with digraphs of any level of density so long as at least one Hamiltonian path exists (and could be extended to appropriately handle the case where none exists).
+In presenting their algorithm to solve the \gls{tsp}, some papers have assumed totally connected digraphs, and/or used an Euclidean distance metric to define the weight between two arcs.  Instead we assume a digraph with pre-specified arc weights, which could be derived as a pre-processing step (using Euclidean distances if appropriate), though we also assume that all weights \(w\) are strictly positive integers, i.e. \(\forall w, w \in \mathbb{N^+}\).  Handling the case of negative weights is a remaining open problem.  Furthermore, our algorithm works with digraphs of any level of density so long as at least one Hamiltonian path exists (and could be extended to appropriately handle the case where none exists).
 
-Again the algorithm requires five rules, presented in \autoref{rulestsp}.  The only differences between the rules in \autoref{rulestsp} and \autoref{ruleshcp} are the addition of a weight/cost component to the \(e\) and \(s\) subcells, the tracking of costs throughout the process, and the inhibitor added to rule (5), which ensures that the chosen path has minimum cost.
+\cptuple{TSP}{\cpset{1}}{\cpset{c, c', e, f, h, p, p', s, t, u, v, z}}{\\\newline\cpset{E \cup \cpset{v}}}{\text{\autoref{ruleset:tsp:tsp}}}{\cpset{s_1, s_2, s_3, s_4}}{s_1}
+
+Again the algorithm requires five rules, presented in \autoref{ruleset:tsp:tsp}.  The only differences between the rules in \autoref{ruleset:tsp:tsp} and \autoref{ruleset:tsp:hcp} are the addition of a weight/cost component to the \(e\) and \(s\) subcells, the tracking of costs throughout the process, and the inhibitor added to rule (5), which ensures that the chosen path has minimum cost.
 
 % \begin{figure}[htb]
 % \begin{framed}
@@ -38,35 +40,35 @@ Again the algorithm requires five rules, presented in \autoref{rulestsp}.  The o
 % \label{rulestsp}  
 % \end{figure}
 
-\resetrulenumber
+\cpresetrulenumber
 
 \begin{cprulesetfloat}
     \begin{cpruleset}
         
-        \cprule{s_1}{\cpfunc{v}{\cpfunc{v}{R} Y}}{1}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{Y} \; \cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpempty}} \; \cpfunc{c}{\cpempty}}}
+        \cprule{s_1}{\cpfunc{v}{\cpfunc{v}{R} Y}}{1}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{Y} \, \cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpempty}} \, \cpfunc{c}{\cpempty}}}
         
-        \cprule{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{\cpempty} \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}} \; \cpfunc{c}{C}}}{+}{s_3}{\cpfunc{z}{\cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} \; \cpfunc{c}{CW}}}
-        \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \; \cpfunc{t}{R} \; \cpfunc{c}{W}}}
+        \cprule{s_2}{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{\cpempty} \, \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}} \, \cpfunc{c}{C}}}{+}{s_3}{\cpfunc{z}{\cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} \, \cpfunc{c}{CW}}}
+        \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \, \cpfunc{t}{R} \, \cpfunc{c}{W}}}
         
-        \cprule{s_2}{}{+}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{Z} \; \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} \; \cpfunc{c}{CW}}}
-        \cppromoter{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{\cpfunc{v}{T} Z} \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}} \; \cpfunc{c}{C}}}
-        \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \; \cpfunc{t}{T} \; \cpfunc{c}{W}}}
+        \cprule{s_2}{}{+}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{Z} \, \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} \, \cpfunc{c}{CW}}}
+        \cppromoter{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{\cpfunc{v}{T} Z} \, \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}} \, \cpfunc{c}{C}}}
+        \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \, \cpfunc{t}{T} \, \cpfunc{c}{W}}}
         
         \cprule{s_2}{\cpfunc{s}{\_}}{+}{s_2}{}
         
-        \cprule{s_3}{}{1}{s_4}{\cpfunc{p'}{P} \; \cpfunc{c'}{C \cpundig W}}
-        \cppromoter{\cpfunc{z}{\cpfunc{p}{P} \; \cpfunc{c}{C \cpundig W}}}
+        \cprule{s_3}{}{1}{s_4}{\cpfunc{p'}{P} \, \cpfunc{c'}{C \cpundig W}}
+        \cppromoter{\cpfunc{z}{\cpfunc{p}{P} \, \cpfunc{c}{C \cpundig W}}}
         \cpinhibitor{\cpfunc{z}{\cpfunc{p}{\_} \, \cpfunc{c}{C}}}
         
     \end{cpruleset}
-    \caption[Ruleset for the \glsentrylong{tsp-glossary}]{\label{rulestsp}Ruleset for our \gls{tsp} \gls{cps} algorithm.}
+    \caption[Ruleset for the \glsentrylong{tsp-glossary}]{\label{ruleset:tsp:tsp}Ruleset for our \gls{tsp} \gls{cps} algorithm.}
 \end{cprulesetfloat}
 
-The \(e\) subcells store the cost of traversing an arc in the digraph with a new \(c\) subcell.  The costs are extracted from the \(e\) subcells via pattern-matching, and accumulated in the \(s\) subcells through addition, as described in \autoref{sect:cpsystems}. Otherwise the first four rules are substantively unchanged from those presented in \autoref{ruleshcp}.  Rule (5), however, has been more notably modified, in that it now includes an inhibitor as a condition, as well as the promoter.  The inhibitor acts to ensure that the path chosen is truly one of minimum cost, in accordance with the process described in \autoref{sec-min}.
+The \(e\) subcells store the cost of traversing an arc in the digraph with a new \(c\) subcell.  The costs are extracted from the \(e\) subcells via pattern-matching, and accumulated in the \(s\) subcells through addition, as described in \autoref{sec:lr:cpsystems}. Otherwise the first four rules are substantively unchanged from those presented in \autoref{ruleset:tsp:hcp}.  Rule (5), however, has been more notably modified, in that it now includes an inhibitor as a condition, as well as the promoter.  The inhibitor acts to ensure that the path chosen is truly one of minimum cost, in accordance with the process described in \autoref{sec-min}.
 
-The time complexity of this algorithm remains unchanged, as we merely expand the space complexity slightly.  Thus the time complexity can still be summarised as Proposition \ref{prop:tspruntime}:
+The time complexity of this algorithm remains unchanged, as we merely expand the space complexity slightly.  Thus the time complexity can still be summarised as Proposition \ref{prop:tsp:tspruntime}:
 
 \begin{proposition}
-In total, the \gls{tsp} algorithm takes \(n + 3\) operations, giving the algorithm a time complexity of \(\mathcal{O}(n)\).
-\label{prop:tspruntime}
+In total, the \gls{tsp} algorithm takes \(n + 3\) steps, giving the algorithm a time complexity of \(\mathcal{O}(n)\).
+\label{prop:tsp:tspruntime}
 \end{proposition}

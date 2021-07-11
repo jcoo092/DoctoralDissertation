@@ -1,0 +1,19 @@
+\section{Conclusion and Future Work}
+After briefly summarising core aspects of \gls{cps}, this paper has presented two variants of a generic grid-based \gls{nmp} computation system in \gls{cps}:  A synchronous one in which every top-level cell, representing a \glsentrylong{pe}, performs the same actions simultaneously;  and an asynchronous one where different top-level cells \emph{may} be in different states and perform different actions simultaneously, with synchronisation introduced by synchronous messaging.  A small example was then provided aiming to clarify the operation and overall procession of the rules.
+
+% \fxerror{Need to discuss the analysis bits}{Analysis.}
+
+Lastly, we analysed the asynchronous system.  We proved that, as with the synchronous version, in the asynchronous version every \gls{pe} sends exactly one message per neighbour per generation, and halts once it has reached its maximum number of generations.  The main difference between the two systems is that in preparing the outgoing message for neighbour \(k\) and generation \(g + 1\), some of the received input messages may already be at a generation greater than \(g\).  No message used will ever be from a generation less than \(g\), however.  We expect that this will enable more-efficient computer implementations of the system.  We also hypothesise that the later messages may lead to a small improvement in final results from computations.
+
+We found that the system has a relatively low level of rule and symbol complexity for a \gls{cps} implementation, but caution that the systems are only a partial view.  They are missing the rules for detailed internal computations, for which an oracle was substituted for the sake of (relative) brevity and simplicity.
+
+This work is, in our view, essentially a high-level abstraction of various \gls{nmp}-based algorithms employing communication.  While there can be significant differences in the nature of the computations performed within each \gls{pe}, ultimately they all have fundamentally the same structure:  Computing updates over some data within a given \gls{pe}, and then exchanging some or all of that data with other \glspl{pe}.
+
+\subsection{Future Work}
+The next step in this work is to adapt the system to the purpose of Belief Propagation Stereo Matching, using \gls{nmp} precepts.  This will be presented in Part Two.  Furthermore, work has begun on implementing a close approximation of the asynchronous system as a framework in a standard programming languages, to explore the effectiveness of this approach in modern computer systems.  We plan to implement Belief Propagation Stereo Matching (see e.g. \cite{Blake2011,Felzenszwalb2011,JianSun2003}) atop this as a proof-of-concept.
+
+One aspect the systems presented above lack is that both the size and shape of the grid involved, as well as the communication topology between neighbours, are permanently fixed at the time of system initialisation.  In most cases this is unneeded, but the greater flexibility could be of use when implementing certain algorithms.
+
+Furthermore, at present it is implicitly assumed that every \gls{pe} remains active throughout the entirety of the system's evolution until it has sent and received all of its scheduled messages.  Within the context of \gls{cps} this is largely irrelevant, but permitting \glspl{pe} to deactivate at appropriate points could save processing power in other circumstances with bounded parallelism.  Complicating this is ensuring that those \glspl{pe} which do remain active can continue messaging as needed despite one or more neighbours deactivating.
+
+We also have yet to examine the systems with respect to communication complexity measures such as those found in \cite{Juayong2020}.  The precise results presented there are not directly applicable to this work, given the use of different P~systems models, but the underlying concepts appear directly relevant.

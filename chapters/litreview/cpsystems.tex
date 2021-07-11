@@ -1,0 +1,761 @@
+% \subsection{\label{subsec:cpsys}\glsentrytext{cps}}
+\section{\label{sec:lr:cpsystems}\texorpdfstring{\gls{cps}}{cP systems} : \texorpdfstring{\gls{ps}}{P systems} with Complex Symbols}
+\fxerror*{Expand/explain}{\cite{Nicolescu2014b,Nicolescu2017}}
+
+% \gls{cps} is another variant of \gls{ps}, developed by Nicolescu and collaborators in the early 2010s \fxerror[inline]{[ref]}.  It is largely based on \gls{clps}, and can be seen, to some extent at least, as a higher-level abstraction over it \cite{Nicolescu2018}.  It can also incorporate elements of \gls{tlps}, however, in that it includes concepts of channels and message passing between cells \cite{Henderson2019}.  Nicolescu, Ipate \& Wu demonstrated that not only is \gls{cps} capable of performing the same tasks as other \gls{ps} variants, but also can be used fairly cleanly to model typical computer programs \cite{Nicolescu2014a}.
+
+% \gls{cps} is another variant of \gls{ps} \cite{Paun2001,Paun2002a,Paun2010b}, complementary to the classic trinity of \gls{clps} \cite{Paun2000}, \gls{tlps} \cite{Martin-Vide2003}, and Spiking Neural \gls{snps} \cite{Ionescu2006}.  It has features reminiscent of both Cell-like and Tissue-like systems, in that the core unit of it is the \emph{\gls{tlc}}, which is arranged as a nested tree structure, but there can be an arbitrary number of these cells in the environment, communicating with each other through a form of \emph{message-passing over channels}.  The internal operation of \gls{cps}' \glspl{tlc} closely resembles Cell-like \gls{ps} in particular.  A key difference, however, is that \emph{only} the \glspl{tlc} have accompanying rules.  All sub-cells are merely inert symbolic objects operated upon by the \gls{tlc}'s rules.  These sub-cells are represented as labelled multisets within the \glspl{tlc}.
+
+\gls{cps} is another variant of \gls{ps}, developed by Nicolescu and collaborators in the early 2010s \fxerror[inline]{[ref]} and complementary to the classic trinity of \gls{clps} \cite{Paun2000}, \gls{tlps} \cite{Martin-Vide2003}, and \gls{snps} \cite{Ionescu2006}.  It is largely based on \gls{clps} in that the core unit of it is the \emph{\gls{tlc}}, which is arranged as a nested tree structure and arguably can be seen, to some extent at least, as a higher-level abstraction over \gls{clps} \cite{Nicolescu2018}.  It can also incorporate elements of \gls{tlps}, in that \gls{cps} includes concepts of channels and message passing between \glspl{tlc} \cite{Henderson2019}, with an arbitrary number of these cells in the environment.  
+
+A key difference from \gls{clps} and \gls{tlps}, however, is that in \gls{cps} \emph{only} the \glspl{tlc} have accompanying rules.  All sub-cells are merely inert symbolic objects operated upon by the \gls{tlc}'s rules.  These sub-cells are represented as labelled multisets within the \glspl{tlc}.  Nicolescu, Ipate \& Wu demonstrated that not only is \gls{cps} capable of performing the same tasks as other \gls{ps} variants, but it also can be used to model standard computer programs \cite{Nicolescu2014a}.
+
+The principal advantage of \gls{cps} over traditional \gls{clps} is a simplification in the specification of complete systems to solve a given problem.  \Gls{clps} (as well as \gls{tlps} and \gls{snps}) typically require the definition of a family of rulesets customised to the specific instance of the problem at hand, whereas \gls{cps} typically requires only the definition of a fixed (usually much shorter) set of rules that cover all possible instances. As a result, only inputs to the system must vary to solve different instances of the problem, e.g. in \autoref{chap:tsp} just five fixed rules are needed to solve any instance of the Travelling Salesman Problem, requiring only customisation of the input objects (in that case, elements describing the nodes and edges of the graph).
+
+This section provides an overview of \gls{cps}.  Further presentation of \gls{cps} has appeared most recently in \cite{Nicolescu2018,Henderson2019,Henderson2020,Liu2020,Liu2020a}, and it is recommended that the interested reader peruse those too.  We wish to point out that, while \gls{cps} is transitively bio-inspired through its basis in \gls{ps}, it has not been developed to simulate or model real-world biology, and instead is intended as a useful theoretical model for computation.
+
+% \input{chapters/tsp/tex/cpsystems}
+% \input{chapters/nmp/tex/cpsystemsreview}
+
+% \subsection{\label{sec:tsp:cpsystems}\texorpdfstring{\gls{cps}}{cP systems} : \texorpdfstring{\gls{ps}}{P systems} with Complex Symbols}
+% --------------------------------------------------
+
+% In the interests of self-containment, we present here some material describing the background of \gls{cps}, for the benefit of readers as yet unfamiliar with the topic.  More extensive presentation of \gls{cps} has appeared most recently in \cite{Nicolescu2018}, and it is recommended that the interested reader peruse that paper as well.  There are two notable additions shown here that are not in \cite{Nicolescu2018}, however: the stronger semantics for inhibitors, to fully implement logical negation; and the minimum-finding algorithm explained in \autoref{sec-min}, used in solving the \gls{tsp}.  We wish to point out that, while \gls{cps} is transitively bio-inspired through its basis in \gls{ps}, it has not been developed with the aim of simulating or modelling real-world biology, and instead is intended as a useful theoretical model for computation.
+
+\subsection{Complex symbols as subcells}
+
+\emph{Complex symbols} or \emph{subcells}, 
+play the roles of cellular microcompartments or substructures,
+such as organelles, vesicles, or cytoophidium assemblies (``snakes''),
+which are embedded in cells or travel between cells, 
+but without having the full processing power of a complete cell.
+In our proposal, \emph{subcells} represent nested labelled data compartments
+with no processing power of their own;
+instead, they are acted upon by the rules of their enclosing cells.
+
+% Sub-cells can be either \emph{atoms} or \emph{compound terms}, which are multisets labelled by \emph{functors} (the name `functor' is also commonly used as a shorthand for said compound terms).  Atoms, as the name suggests, are indivisible symbols.  They can be of any given type relevant to a system, but are static objects with no other inherent special properties.  Atoms are written simply as the name of the atom's type.  Compound terms, on the other hand, are objects that may contain both atoms and other compound terms, and are written with the functor's type, followed by opening and closing parentheses, surrounding the content multiset.\footnote{For the sake of legibility, compound terms have mostly been written in this work with growing parentheses, dependent upon the level of nesting of terms involved.  This typesetting behaviour is not required or even specified as a part of \gls{cps}, and can be freely omitted.}
+
+% Functors and atoms are both written using lowercase letters, usually drawn from the Latin alphabet.  E.g. an x atom may be written as \(x\), while a y functor might be written as \(\cpfunc{y}{a \, xx \, z}\).  Empty functors are either written with nothing between the parentheses, or with a lower-case lambda, e.g. \(\cpfunc{b}{}\) or \(\cpfunc{b}{\cpempty}\).  Furthermore, when there is more-than-one of a given atom present, the count is usually written as a superscript, so the earlier functor would look like \(\cpfunc{y}{a \, x^2 \, z}\).
+
+% Our basic vocabulary consists of \emph{atoms} and \emph{variables}, 
+% collectively known as \emph{simple symbols}.
+% \emph{Complex symbols} are similar to Prolog-like \emph{first-order terms}, 
+% recursively built from \emph{multisets} of atoms and variables.
+% Together, complex symbols and simple symbols (atoms, variables) are called \emph{symbols}, and can be defined by the following formal grammar:
+
+Sub-cells can be either \emph{atoms} or \emph{compound terms}, multisets labelled by \emph{functors} (`functor' is also commonly used as a shorthand for said compound terms).  Atoms, as the name suggests, are indivisible symbols.  They can be of any given type relevant to a system but are static objects with no other inherent distinctive properties.  Atoms are written simply as the name of the atom's type.  Compound terms, on the other hand, are objects that may contain both atoms and other compound terms and are written with the functor's type, followed by opening and closing parentheses, surrounding the content multiset.\footnote{For the sake of legibility, compound terms have primarily been written in this work with growing parentheses, dependent upon the level of nesting of terms involved.  This typesetting behaviour is not required or even specified as a part of \gls{cps} and can be freely omitted.}
+
+Our basic vocabulary consists of atoms and \emph{variables}, collectively known as \emph{simple symbols}.  \emph{Complex symbols} are similar to Prolog-like \emph{first-order terms}, recursively built from \emph{multisets} of atoms and variables.  Together, complex symbols and simple symbols (atoms, variables) are called \emph{symbols} and can be defined by the following formal grammar:
+
+% \begin{framed}
+% \vspace{-0.5cm}
+% \begin{small}
+% \begin{alltt}
+%     <symbol> ::= <atom> | <variable> | <term> 
+%     <term> ::= <functor> '(' <argument> ')'
+%     <functor> ::= <atom>
+%     <argument> ::= \(\lambda\) | ( <symbol> )+
+% \end{alltt}
+% \end{small}
+% \vspace{-0.5cm}
+% \end{framed}
+
+\begin{framed}
+\vspace{-0.9cm}
+\begin{small}
+\begin{bnf*}
+    % <symbol> ::= <atom> | <variable> | <term> 
+    \bnfprod*{symbol}{\bnfpn{atom} \bnfor \bnfpn{variable} \bnfor \bnfpn{term}}\\
+    % <term> ::= <functor> '(' <argument> ')'
+    \bnfprod*{term}{\bnfpn{functor} \bnfsp \bnfts{`('} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`)'}}\\
+    % <functor> ::= <atom>
+    \bnfprod*{functor}{\bnfpn{atom}}\\
+    % <argument> ::= \(\lambda\) | ( <symbol> )+
+    \bnfprod*{argument}{\bnfes \bnfor \bnfts{(} \bnfsp \bnfpn{symbol} \bnfsp \bnfts{)} \bnfts{+}}
+\end{bnf*}
+\end{small}
+\vspace{-1.0cm}
+\end{framed}
+
+\emph{Atoms} are typically denoted by lower case letters (or, occasionally, digits), usually drawn from the Latin alphabet, 
+such as \(a\), \(b\), \(c\), \(\cpundig\). 
+\emph{Variables} are typically denoted by uppercase letters, 
+such as \(X\), \(Y\), \(Z\).
+\emph{Functors} are term (subcell) labels; here, functors can only be atoms, not variables.  
+% E.g. an x atom may be written as \(x\), while a compound term labelled by a y functor might be written as \(\cpfunc{y}{a \, xx \, z}\).  Empty functors are either written with nothing between the parentheses, or with a lower-case lambda, e.g. \(\cpfunc{b}{}\) or \(\cpfunc{b}{\cpempty}\).  Furthermore, when there is more than one of a given atom present, the count is usually written as a superscript, so the earlier compound term would look like \(\cpfunc{y}{a \, x^2 \, z}\).
+E.g., an x atom may be written as \(x\), while a compound term labelled by a y functor might be written as \(\cpfunc{y}{a \, xx \, z}\).  When there is more than one of a given atom present, the count is usually written as a superscript, so the earlier compound term would look like \(\cpfunc{y}{a \, x^2 \, z}\).
+
+We also consider \emph{anonymous variables} for improved readability, denoted by underscores (``\(\_\)'').
+Each underscore occurrence represents a \emph{new} unnamed variable
+and indicates that something we are not interested in must fill that slot.
+
+Symbols that do \emph{not} contain variables are called \emph{ground}, e.g.:
+\begin{itemize}
+\item Ground symbols:
+\(a\), \(\cpfunc{a}{\cpempty}\), \(\cpfunc{a}{b}\), \(\cpfunc{a}{b c}\), \(\cpfunc{a}{b^2 c}\), \(\cpfunc{a}{\cpfunc{b}{c}}\), \(\cpfunc{a}{b\cpfunc{c}{\cpempty}}\), \(\cpfunc{a}{\cpfunc{b}{c}\cpfunc{d}{e}}\), \(\cpfunc{a}{\cpfunc{b}{c}\cpfunc{d}{e}}\), \(\cpfunc{a}{\cpfunc{b}{c}\cpfunc{d}{\cpfunc{e}{\cpempty}}}\), \(\cpfunc{a}{bc^2 d}\).
+
+\smallskip
+\item Symbols which are not ground:
+\(X\), \(\cpfunc{a}{X}\), \(\cpfunc{a}{bX}\), \(\cpfunc{a}{\cpfunc{b}{X}}\), \(\cpfunc{a}{XY}\), \(\cpfunc{a}{X^2}\), \(\cpfunc{a}{XdY}\),  \(\cpfunc{a}{X\cpfunc{c}{}}\), \(\cpfunc{a}{\cpfunc{b}{X}\cpfunc{d}{e}}\), \(\cpfunc{a}{\cpfunc{b}{c}\cpfunc{d}{Y}}\), \(\cpfunc{a}{\cpfunc{b}{X^2}\cpfunc{d}{\cpfunc{e}{Xf^2}}}\);
+also, using anonymous variables: \(\_\), \(\cpfunc{a}{b\_}\), \(\cpfunc{a}{X\_}\), \(\cpfunc{a}{\cpfunc{b}{X}\cpfunc{d}{\cpfunc{e}{\_}}}\).
+
+\smallskip
+\item This term-like construct which starts with a variable is \emph{not} a symbol (the above grammar defines first-order terms only):
+\(\cpfunc{X}{a Y}\).
+\end{itemize}
+
+Note that we may abbreviate the expression of complex symbols 
+by removing inner \(\cpempty\)'s as explicit references to the empty multiset, 
+e.g.~\(\cpfunc{a}{\cpempty} = \cpfunc{a}{}\).
+
+In \emph{concrete} models, \emph{cells} contain \emph{ground} symbols only (no variables).
+Rules may, however, contain \emph{any} kind of symbols, atoms, variables, and terms (whether ground or not).
+
+\medskip
+\noindent
+% \textbf{Unification.} 
+\paragraph{Unification.} 
+All symbols which appear in rules (ground or not) can be (asymmetrically) \emph{matched} against \emph{ground} terms,
+using an ad-hoc version of \emph{pattern matching}, 
+more precisely, a \emph{one-way first-order syntactic unification} (one-way, because cells may not contain variables) \cite{Liu2020a}.
+An atom can only match another copy of itself, but
+a variable can match any multiset of ground terms (including \(\cpempty\)).
+This may create combinatorial \emph{non-determinism}, 
+when a combination of two or more variables are matched against the same multiset,
+in which case an arbitrary matching is chosen. 
+For example:
+\begin{itemize}
+\item Matching \(\cpfunc{a}{\cpfunc{b}{X}fY} = \cpfunc{a}{\cpfunc{b}{c\cpfunc{d}{e}}f^2g}\) deterministically creates a single set of unifiers:
+\(X, Y = c\cpfunc{d}{e}, fg\).
+
+\smallskip
+\item Matching \(\cpfunc{a}{XY^2} = \cpfunc{a}{de^2f}\) deterministically creates a single set of unifiers: 
+\(X, Y = df, e\).
+
+\smallskip
+\item Matching \(\cpfunc{a}{\cpfunc{b}{X}\cpfunc{c}{\cpundig X}} = \cpfunc{a}{\cpfunc{b}{\cpundig^2}\cpfunc{c}{\cpundig^3}}\) deterministically creates one single unifier: 
+\(X = \cpundig^2\).
+
+\smallskip
+\item Matching \(\cpfunc{a}{\cpfunc{b}{X}\cpfunc{c}{\cpundig X}} = \cpfunc{a}{\cpfunc{b}{\cpundig^2}\cpfunc{c}{\cpundig^2}}\) fails.
+
+\smallskip
+\item Matching \(\cpfunc{a}{XY} = \cpfunc{a}{df}\) non-deterministically creates one of the following four sets of unifiers: 
+\(X, Y = \cpempty, df\); \(X, Y = df, \cpempty\); \(X, Y = d, f\); \(X, Y = f, d\). 
+\end{itemize}
+
+\iffalse
+\noindent
+% \textbf{Performance note.}
+\paragraph{Performance note.}
+If the rules avoid any matching non-determinism, 
+this proposal should not affect the performance of P~simulators running on existing machines.
+Assuming that bags are already taken care of, e.g.~via hash-tables,
+our proposed unification probably adds an almost linear factor.
+Let us recall that, in similar contexts (no occurs check needed), 
+Prolog unification algorithms can run in \(O(n g(n))\) steps,
+where \(g\) is the inverse Ackermann function.
+Our conjecture must be proven, though, 
+as the novel presence of multisets may affect the performance.
+\fi
+
+% -------------------------------------------------
+
+\subsection{High-level or generic rules}
+
+% \emph{Rules} are arguably the largest difference between \gls{cps} and other \gls{ps} variants.  While cP systems rules still operate in a \emph{maximally-parallel} \emph{top-down weak-priority order}; update the multisets inside the cells; and depend on the presence of given objects in the cell to make the rules applicable; they also include \emph{variables}.  These variables, written with uppercase letters, are matched with the actual contents of the cells through a one-way unification process \cite{Liu2020a}, where the variables are conceptually substituted for contents within a given cell.
+
+% Rules are written with exactly one each of a starting \emph{state};\footnote{The states themselves are technically atoms but normally are not used for anything other than specifying the requisite starting and ending states for the \gls{tlc}.} \gls{lhs}; \emph{application mode}; ending state; \gls{rhs}; followed by zero or more \emph{promoters} and \emph{inhibitors}.  These rules take the form \cpruleinline{\cprulenonum{s_i}{\gls{lhs}}{\cpmaxpar/\cponce}{s_j}{\gls{rhs}}} where \(s_i\) is the starting state; \(\gls{lhs}\) is the multiset of objects required to be present in the given \gls{tlc} and which will be deleted by the rule; \(\cpmaxpar/\cponce\) is the application mode, one of either `maximally-parallel' or `exactly-once', respectively; \(s_j\) is the ending state; and \(\gls{rhs}\) is the multiset of objects that will be created by the rule.  Maximally-parallel application mode means that the rule is applied as many times at the current step as there are available objects to permit it.  Exactly-once mode means that it is applied zero or one time during a given step.
+
+% % For example, if a \gls{tlc} has two functors \(\cpfunc{a}{b^2}\) \& \(\cpfunc{a}{b^3}\), and an applicable rule's \gls{lhs} is \(\cpfunc{a}{B}\), \(B\) in this instance will be unified \emph{non-deterministically} to \(b^2\) or \(b^3\).  Or, if the rule uses \(\cpfunc{a}{bB}\), \(B\) will be unified to \(b\) or \(bb\).  If the rule instead uses \(\cpfunc{a}{BC}\), then a \emph{non-deterministic} choice will be made to decide what atoms to assign to \(B\) and \(C\), which could be one of any of the following pairs:  \(B=0\), \(C=2\); \(B=0\), \(C=3\); \(B=1\), \(C=1\); \(B=1\), \(C=2\); \(B=2\), \(C=0\); \(B=2\), \(C=1\); \(B=3\), \(C=0\).
+
+% Typically, our rules use \emph{states} and are applied top-down, in the so-called \emph{weak priority} order.
+
+\noindent
+% \textbf{Generic rules format.}
+\paragraph{Generic rules format.}
+We consider rules of the following \emph{generic} format 
+(we call this format generic because it defines templates involving variables):
+\begin{framed}
+\vspace{-0.6cm}
+\begin{align*}
+\emph{current-state} ~~ \emph{symbols} \dots ~ \rightarrow_\alpha ~ & \emph{target-state} ~~ (\emph{in-symbols}) \dots ~~ \\
+ & (\emph{out-symbols})_\delta \dots \\
+ & | ~  \emph{promoters} \dots ~~ \neg ~  \emph{inhibitors} \dots
+\end{align*}
+\vspace{-0.8cm}
+\end{framed}
+Where:
+\begin{itemize}
+\item \emph{current-state} and \emph{target-state} are atoms or terms;
+
+\smallskip
+\item \emph{symbols}, \emph{in-symbols}, \emph{promoters} and \emph{inhibitors} are symbols;
+
+\smallskip
+\item \emph{in-symbols} become available after the end of the current step only, as in traditional \gls{ps}  (we can imagine that these are sent via an ad-hoc fast \emph{loopback} channel); 
+
+\smallskip
+\item subscript \(\alpha\) \(\in\) \(\{\cponce\), \(\cpmaxpar\}\), 
+indicates the application mode, as further discussed in the below;
+
+\smallskip
+\item \emph{out-symbols} are sent to the cell's structural neighbours at the end of the step.
+These symbols are enclosed in round parentheses that indicate 
+their destinations, abbreviated above as \(\delta\). 
+The most usual scenarios include: 
+
+\begin{itemize}
+\item \((a)\downarrow_i\) indicates that \(a\) is sent over outgoing arc \(i\) (unicast); 
+
+\item \((a)\downarrow_{i,j}\) indicates that \(a\) is sent over outgoing arcs \(i\) and \(j\)(multicast); 
+
+\item \((a)\downarrow_\forall\) indicates that \(a\) is sent over all outgoing arcs (broadcast). 
+\end{itemize}
+
+% All symbols sent via one \emph{generic rule} to the same destination form one single \emph{message} and they travel together as one single block (even if the generic rule is applied in mode \(\scriptstyle + \displaystyle\)).
+
+All symbols sent via one \emph{generic rule} to the same destination form one single \emph{message}, and they travel together as one single block (even if the generic rule is applied in mode \(\cpmaxpar\)).
+\end{itemize}
+
+\smallskip
+\noindent
+% \textbf{Pattern matching.}
+\paragraph{Pattern matching.}
+Rules are matched against cell contents using the aforementioned \emph{pattern matching},
+which involves the rule's \gls{lhs}, promoters and inhibitors.% -- 
+%promoters and inhibitors are further discussed below, in a following paragraph.
+
+Generally, variables have \emph{global rule scope};
+these are assumed to be introduced by \emph{existential} quantifiers preceding the rule
+-- except for inhibitors, which may introduce \emph{local variables}, 
+as further discussed below. 
+
+The matching is \emph{valid} only if, after substituting variables by their values, 
+the rule's \gls{rhs} contains ground terms only
+(so \emph{no} free variables are injected in the cell or sent to its neighbours),
+as illustrated by the following sample scenario:
+\begin{itemize}
+\item The cell's \emph{current content} includes the \emph{ground term}:\\
+%\smallskip
+\(\cpfunc{n}{a \, \cpfunc{\phi}{b \, \cpfunc{\phi}{c} \, \cpfunc{\psi}{d}} \, \cpfunc{\psi}{e}}\)
+
+\smallskip
+\item The following (state-less) \emph{rewriting rule} is considered: \\ 
+%\smallskip
+\(\cpfunc{n}{X \, \cpfunc{\phi}{Y \, \cpfunc{\phi}{Y_1} \, \cpfunc{\psi}{Y_2}} \, \cpfunc{\psi}{Z}} ~ \rightarrow ~ \cpfunc{v}{X} \: \cpfunc{n}{Y \, \cpfunc{\phi}{Y_2} \, \cpfunc{\psi}{Y_1}} \: \cpfunc{v}{Z}\)
+
+\smallskip
+\item Our pattern matching determines the following \emph{unifiers}: \\
+%\smallskip
+\(X = a\), \(Y = b\), \(Y_1 = c\), \( Y_2 = d\), \(Z = e\).
+
+\smallskip
+\item This is a \emph{valid} matching and, after \emph{substitutions}, 
+the rule's \emph{right-hand} side gives the \emph{new content}: \\
+%\smallskip
+\(\cpfunc{v}{a} ~ \cpfunc{n}{b \, \cpfunc{\phi}{d} \, \cpfunc{\psi}{c}} ~ \cpfunc{v}{e}\)
+\end{itemize}
+
+\smallskip
+\noindent
+% \textbf{Promoters and inhibitors.}
+\paragraph{Promoters and inhibitors.}
+
+Promoters are objects that \emph{must} be present within the cell for the rule to be applicable but are \emph{not} destroyed by the rule.  Conversely, inhibitors are objects that \emph{must not} be present for the rule to be applicable, although the rule may create them.  If promoters are present, they are denoted following a \(|\) per promoter, and inhibitors by \(\neg\), e.g. \(|\,\cpfunc{a}{A}\) or \(\neg\,\cpfunc{b}{B}\).  Inhibitors and promoters are traditionally written below the main rule body, but this is not strictly required.
+
+% \begin{framed}
+% \vspace{-0.8cm}
+% \begin{align*}
+%     % \text{Send:}&\, \cpsend{\cpfunc{a}{b}}{c} & \text{Promoter:}&\, | ~ \cpfunc{a}{A}\\
+%     % \text{Receive:}&\, \cprecv{\cpfunc{d}{e}}{f} & \text{Inhibitor:}&\, \neg ~ \cpfunc{b}{B}\\
+%     % \text{The number three:}&\, \cpfunc{a}{\cpundig\cpundig\cpundig} \text{ or } \cpfunc{a}{\cpundig^3} \text{ or } \cpfunc{a}{3} & \text{Empty functor:}&\, \cpfunc{e}{\cpempty}
+%     \text{Promoter:}&\, | ~ \cpfunc{a}{A} & \text{Inhibitor:}&\, \neg ~ \cpfunc{b}{B}
+% \end{align*}
+% \vspace{-1.0cm}
+% \end{framed}
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $| ~ \cpfunc{a}{A}$ #\hfill\textsl{promoter}\enspace#
+  $\neg ~ \cpfunc{b}{B}$ #\hfill\textsl{inhibitor}\enspace#
+\end{lstlisting}
+
+To define additional useful matchings expressively, 
+our promoters and inhibitors may also use virtual ``equality'' terms, 
+written in infix format, with the \(=\) operator.
+For example, including the term \((ab = XY)\) indicates the following additional matching constraints on variables \(X\) and \(Y\): either \(X, Y = ab, \cpempty\); or \(X, Y = a, b\); or \(X, Y = b, a\); or \(X, Y = \cpempty, ab\).
+
+To define inhibitors as logical negations usefully,
+variables that only appear in the scope of an inhibitor are assumed to have \emph{local scope}. 
+Furthermore, these variables are assumed to be defined by \emph{existential} quantifiers, immediately after the negation. 
+Semantically, this is equivalent to introducing these variables at the global rule level, 
+but by \emph{universal} quantifiers, after all other global variables;
+introduced by \emph{existential} quantifiers.
+
+As an illustration, consider a cell containing \(\cpfunc{a}{c} ~ \cpfunc{a}{ccc}\) and contrast two rules, 
+containing the following two sample promoter/inhibitor pairs 
+(for brevity, other rule details are omitted here).
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+... $\mid$  $\cpfunc{a}{cXY}$     $\neg$  $\cpfunc{a}{X}$    #\hfill (1)\enspace#
+... $\mid$  $\cpfunc{a}{cZ}$     $\neg$  $(Z=XY)$  $\cpfunc{a}{X}$    #\hfill (2)\enspace#
+\end{lstlisting}
+
+These two rules appear very similar, and their inhibitor tests share the same expression: 
+NO \(\cpfunc{a}{X}\) may be present in the cell.
+
+% Rule (1) uses two global variables, \(X, Y\). 
+% According to its promoter, \(\cpfunc{a}{cXY}\), these variables can be matched in four different ways:
+% (1a) \(X, Y = \cpempty, \cpempty\); (1b) \(X, Y = cc, \cpempty\); (1c) \(X, Y = \cpempty, cc\); (1d) \(X, Y = c, c\).\footnote{Strictly speaking, this matching is possible in multiple ways, with different \(c\) atoms assigned to each variable.  For current purposes, though, they are equivalent and so are reduced to the one result.}
+% Three different unifications, (1a), (1b), (1c), pass the inhibitor test, 
+% as there are no cell terms \(\cpfunc{a}{}\), \(\cpfunc{a}{cc}\), \(\cpfunc{a}{}\), respectively. 
+% Unification (1d) fails the inhibitor test, because there IS one cell term \(\cpfunc{a}{c}\).
+
+Rule (1) uses two global variables, \(X, Y\). 
+According to its promoter, \(\cpfunc{a}{cXY}\), these variables can be matched in four different ways:
+(1a) \(X, Y = \cpempty, \cpempty\); (1b) \(X, Y = cc, \cpempty\); (1c) \(X, Y = \cpempty, cc\); (1d) \(X, Y = c, c\).\footnote{Strictly speaking, this matching is possible in multiple ways, with different \(c\) atoms assigned to each variable.  For current purposes, though, they are equivalent and so are reduced to the one result.}
+Three different unifications, (1a), (1b), (1c), pass the inhibitor test, 
+as there are no cell terms \(\cpfunc{a}{}\), \(\cpfunc{a}{cc}\), \(\cpfunc{a}{}\), respectively. 
+Unification (1d) fails the inhibitor test, because there \emph{is} one cell term \(\cpfunc{a}{c}\).
+
+% Rule (2) uses one global variable, \(Z\), and two local inhibitor variables, \(X, Y\).
+% According to its promoter, \(\cpfunc{a}{cZ}\), variable \(Z\) can be matched in two different ways: 
+% (2a) \(Z = \cpempty\); (2b) \(Z = cc\).
+% Unification (2a) passes the inhibitor test, because it only generates one local unification,
+% \(X, Y = \cpempty, \cpempty\), and there is NO cell term \(\cpfunc{a}{}\).
+% Unification (2b) fails the inhibitor test, because it generates all the following three local unifications:
+% (2b1) \(X, Y = cc, \cpempty\); (2b2) \(X, Y = \cpempty, cc\); (2b3) \(X, Y = c, c\); 
+% and there IS a cell term corresponding to (2b3), \(\cpfunc{a}{c}\).
+
+Rule (2) uses one global variable, \(Z\), and two local inhibitor variables, \(X, Y\).
+According to its promoter, \(\cpfunc{a}{cZ}\), variable \(Z\) can be matched in two different ways: 
+(2a) \(Z = \cpempty\); (2b) \(Z = cc\).
+Unification (2a) passes the inhibitor test, because it only generates one local unification,
+\(X, Y = \cpempty, \cpempty\), and there is NO cell term \(\cpfunc{a}{}\).
+Unification (2b) fails the inhibitor test, because it generates all three following local unifications:
+(2b1) \(X, Y = cc, \cpempty\); (2b2) \(X, Y = \cpempty, cc\); (2b3) \(X, Y = c, c\); 
+and there \emph{is} a cell term corresponding to (2b3), \(\cpfunc{a}{c}\).
+
+% The pattern of rule (2) will be used later, in \autoref{sec-min}, to define a single step minimum-finding ruleset.
+
+\paragraph{Inter-\gls{tlc} messaging}
+
+\Glspl{tlc} may exchange messages over channels.  Each \gls{tlc} may hold one or more appropriately labelled endpoints for any relevant channels and may attempt both to send and receive messages via those endpoints in its rules.  A message is written encapsulated inside curly braces and marked with either an exclamation mark on the \gls{rhs} or a question mark on the \gls{lhs} to represent sending or receiving, respectively.  E.g. \(\cpsend{\cpfunc{a}{b}}{c}\) would represent a message \(\cpfunc{a}{b}\) to be sent via channel \(c\), and \(\cprecv{\cpfunc{d}{e}}{f}\) would represent a message to be received via channel \(f\).
+
+Both sending and receiving use pattern matching.  For the sending case, any \gls{cps} term which matches the pattern in the rule may be removed from the \gls{tlc} and placed into a buffer multiset in the channel.  Receiving works similarly in that any object stored in the channel's buffer multiset, which matches the pattern of a receipt rule, may be withdrawn.  If more than one object in the buffer matches the pattern, one of them is selected non-deterministically.  Importantly, this means that ordinary \gls{cps} channels do \emph{not} operate as FIFO queues by default.
+
+% \begin{framed}
+% \vspace{-0.8cm}
+% \begin{align*}
+%     % \text{Send:}&\, \cpsend{\cpfunc{a}{b}}{c} & \text{Promoter:}&\, | ~ \cpfunc{a}{A}\\
+%     % \text{Receive:}&\, \cprecv{\cpfunc{d}{e}}{f} & \text{Inhibitor:}&\, \neg ~ \cpfunc{b}{B}\\
+%     % \text{The number three:}&\, \cpfunc{a}{\cpundig\cpundig\cpundig} \text{ or } \cpfunc{a}{\cpundig^3} \text{ or } \cpfunc{a}{3} & \text{Empty functor:}&\, \cpfunc{e}{\cpempty}
+%     \text{Send:}&\, \cpsend{\cpfunc{a}{b}}{c} & \text{Receive:}&\, \cprecv{\cpfunc{d}{e}}{f}
+% \end{align*}
+% \vspace{-1.0cm}
+% \end{framed}
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $\cpsend{\cpfunc{a}{b}}{c}$ #\hfill\textsl{send}\enspace#
+  $\cprecv{\cpfunc{d}{e}}{f}$ #\hfill\textsl{receive}\enspace#
+\end{lstlisting}
+
+% \smallskip
+% \noindent
+% % \textbf{Application modes -- \(\cponce\) and \(\cpmaxpar\).}
+% \paragraph{Application modes -- \(\cponce\) and \(\cpmaxpar\).}
+% To explain our two rule application modes, \(\cponce\) and \(\cpmaxpar\), referred to as `exactly-once' and `maximally-parallel' respectively,
+% let us consider a cell, \(\sigma\), containing three counter-like complex symbols,
+% \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^3}\),
+% and the two possible application modes of the following high-level ``decrementing'' rule:
+% \vspace{-0.2cm}
+% \begin{framed}
+% \vspace{-0.5cm}
+% \[(\rho_\alpha) ~s_1 ~\cpfunc{c}{\cpundig \, X} \rightarrow_{\alpha} s_2 ~\cpfunc{c}{X},\\
+% \mathrm{where} \; \alpha \in \{\scriptstyle 1 \displaystyle, \scriptstyle + \displaystyle\}.\]
+% \vspace{-0.8cm}
+% \end{framed}
+% %\vspace{-0.3cm}
+
+\smallskip
+\noindent
+% \textbf{Application modes -- \(\cponce\) and \(\cpmaxpar\).}
+\paragraph{Application modes -- \(\cponce\) and \(\cpmaxpar\).}
+To explain our two rule application modes, \(\cponce\) and \(\cpmaxpar\), referred to as `exactly-once' and `maximally-parallel' respectively,
+let us consider a cell, \(\sigma\), containing three counter-like complex symbols,
+\(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^3}\),
+and the two possible application modes of the following high-level ``decrementing'' rule:
+\vspace{-0.2cm}
+\begin{framed}
+\vspace{-0.5cm}
+\[(\rho_\alpha) ~s_1 ~\cpfunc{c}{\cpundig \, X} \rightarrow_{\alpha} s_2 ~\cpfunc{c}{X},\\
+\mathrm{where} \; \alpha \in \{\cponce, \cpmaxpar\}.\]
+\vspace{-0.8cm}
+\end{framed}
+%\vspace{-0.3cm}
+
+The \gls{lhs} of rule \(\rho_\alpha\), \(\cpfunc{c}{\cpundig \, X}\), can be unified in three different ways,
+to each one of the three \(c\) symbols extant in cell \(\sigma\).
+Conceptually, we instantiate this rule in three different ways,
+each one tied and applicable to a distinct symbol:
+\begin{eqnarray*}
+& (\rho_1)  & ~s_1 ~\cpfunc{c}{\cpundig^2} \rightarrow s_2 ~\cpfunc{c}{\cpundig},\\
+& (\rho_2)  & ~s_1 ~\cpfunc{c}{\cpundig^2} \rightarrow s_2 ~\cpfunc{c}{\cpundig},\\
+& (\rho_3) & ~s_1 ~\cpfunc{c}{\cpundig^3} \rightarrow s_2 ~\cpfunc{c}{\cpundig^2}.
+\end{eqnarray*}
+
+% \begin{enumerate}
+% \item If \(\alpha = \: \scriptstyle 1 \displaystyle\), rule~\(\rho_1\) 
+% non-deterministically selects and applies one of these virtual rules \(\rho_1\), \(\rho_2\), \(\rho_3\).
+% Using \(\rho_1\) or \(\rho_2\), 
+% cell \(\sigma\) ends with counters \(\cpfunc{c}{\cpundig}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^3}\).
+% Using \(\rho_3\),
+% cell \(\sigma\) ends with counters \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\).
+
+\begin{enumerate}
+\item If \(\alpha = \: \cponce\), rule~\(\rho_1\) 
+non-deterministically selects and applies one of these virtual rules \(\rho_1\), \(\rho_2\), \(\rho_3\).
+Using \(\rho_1\) or \(\rho_2\), 
+cell \(\sigma\) ends with counters \(\cpfunc{c}{\cpundig}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^3}\).
+Using \(\rho_3\),
+cell \(\sigma\) ends with counters \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\).
+
+% \smallskip
+% \item If \(\alpha = \: \scriptstyle + \displaystyle\), rule~\(\rho_+\) 
+% applies in parallel all these virtual rules \(\rho_1\), \(\rho_2\), \(\rho_3\).
+% Cell \(\sigma\) ends with counters \(\cpfunc{c}{\cpundig}\), \(\cpfunc{c}{\cpundig}\), \(\cpfunc{c}{\cpundig^2}\).
+% \end{enumerate}
+
+\smallskip
+\item If \(\alpha = \: \cpmaxpar\), rule~\(\rho_\cpmaxpar\) 
+applies in parallel all these virtual rules \(\rho_1\), \(\rho_2\), \(\rho_3\).
+Cell \(\sigma\) ends with counters \(\cpfunc{c}{\cpundig}\), \(\cpfunc{c}{\cpundig}\), \(\cpfunc{c}{\cpundig^2}\).
+\end{enumerate}
+
+% Semantically, the \(\cpmaxpar\) mode is equivalent to a virtual sequential while loop around the same rule in \(\cponce\) mode, which is repeated until it is no more applicable.  Note, however, that all such applications of the rule are carried out concurrently in a single step.
+
+Semantically, the \(\cpmaxpar\) mode is equivalent to a virtual sequential while loop around the same rule in \(\cponce\) mode, which is repeated until it is no more applicable.  Note, however, that all such applications of the rule are carried out concurrently in a single step.
+
+Like most other \gls{ps} variants, \gls{cps} \emph{usually} evolve synchronously in a stepwise fashion following an implicit global clock.  Rules are applied based on whether the available multiset(s) within the system match the rules' \gls{lhs} and promoters, and not the inhibitors.  The consumption of removed objects plus the creation of new objects happens instantaneously at the end of a step.
+
+\smallskip
+\noindent
+% \textbf{Special cases.}
+\paragraph{Special cases.}
+Simple scenarios involving generic rules are sometimes 
+semantically equivalent to sets of nongeneric rules defined via bounded loops.
+For example, consider the rule
+\[
+s_1 ~ \cpfunc{a}{\cpfunc{x}{I} \; \cpfunc{y}{J}} ~ \rightarrow_\cpmaxpar ~ s_2 ~ \cpfunc{b}{I} ~ \cpfunc{c}{J},
+\]
+where the cell's contents guarantee that \(I\) and \(J\) 
+only match integers in ranges \fxwarning{Shouldn't these be from zero to n/m?}{\([1,n]\) and \([1,m]\)}, respectively.
+Under these assumptions, 
+this rule is equivalent to the following set of nongeneric rules:
+\[
+s_1 ~ a_{i,j} ~ \rightarrow s_2 ~ b_i ~ c_j, ~ \forall i \in [1,n], j \in [1,m].
+\]
+
+However, unification is a much more powerful concept, 
+which cannot be reduced generally to simple bounded loops.
+
+\smallskip
+\noindent
+% \textbf{Benefits.}
+\paragraph{Benefits.}
+This type of generic rules allows (i) a reasonably fast parsing and processing of subcomponents, and
+(ii) algorithm descriptions with \emph{fixed-size alphabets} and \emph{fixed-sized rulesets}, 
+independent of the size of the problem and the number of cells in the system (often \emph{impossible} with only atomic symbols).
+
+\smallskip
+\noindent
+% \textbf{Synchronous vs asynchronous.}
+\paragraph{Synchronous vs asynchronous.}
+In our models, we do not make any \emph{syntactic} difference between the synchronous and asynchronous scenarios;
+this is strictly a \emph{runtime} assumption~\cite{Nicolescu2012}.
+Any model can run on both the synchronous and asynchronous runtime ``engines'',
+albeit the results may differ.
+Our asynchronous model matches closely the standard definition of asynchronicity used in distributed algorithms;
+however, we do not follow this topic here.
+
+% -------------------------------------------------
+
+% --------------------------------------------------
+\subsection{Data structures in \texorpdfstring{\gls{cps}}{cP systems}}\label{sec-data-structures}
+% --------------------------------------------------
+
+In this subsection, we sketch the design of some high-level data structures, 
+similar to the data structures used in high-level pseudocode or %high-level 
+programming languages:
+% natural numbers and lists, together with alternative more legible notations
+numbers, relations, functions, associative arrays, lists, trees, strings, 
+together with alternative, more readable notations.
+
+\medskip
+\noindent
+\paragraph{Natural numbers.}
+Natural numbers can be represented via \emph{multisets} containing repeated occurrences of the \emph{same} atom.
+For example, considering that \(\cpundig\) represents an ad hoc unary digit, 
+the following complex symbols can be used to describe 
+the contents of a virtual integer \emph{variable} \(a\): 
+\(a () = \cpfunc{a}{\cpempty}\) --- the value of \(a\) is 0;
+\(\cpfunc{a}{\cpundig^3}\) --- the value of \(a\) is 3.
+
+% \lstset{xleftmargin=.5in, xrightmargin=.5in} 
+% \begin{lstlisting}
+%   $\cpfunc{e}{\cpempty}$ #\hfill\textsl{empty functor}\enspace#
+%   $\cpfunc{a}{\cpundig\cpundig\cpundig} \text{ or } \cpfunc{a}{\cpundig^3} \text{ or } \cpfunc{a}{3}$ #\hfill\textsl{the number three}\enspace#
+% \end{lstlisting}
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $\cpfunc{e}{\cpempty} \equiv \cpfunc{e}{0} \equiv \cpfunc{e}{}$ #\hfill\textsl{empty functor}\enspace#
+  $\cpfunc{a}{\cpundig\cpundig\cpundig} \equiv \cpfunc{a}{\cpundig^3} \equiv \cpfunc{a}{3}$ #\hfill\textsl{the number three}\enspace#
+\end{lstlisting}
+
+For concise expressions, we may alias these number representations by their corresponding numbers, e.g.~\(\cpfunc{a}{} \equiv \cpfunc{a}{0}, \cpfunc{b}{\cpundig^3} \equiv \cpfunc{b}{3}\).  Numerical operations are simulated with unary arithmetic \cite{Aman2019,Bonchis2006}.
+Nicolescu \textit{et al.} \cite{Nicolescu2014,RN-HW-ROMJIST14} show how the basic arithmetic operations can be modelled efficiently by \gls{ps} with complex symbols.
+
+Here follows a list of simple arithmetic expressions, assignments, and comparisons:
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $x = 0$ $\equiv$ $\cpfunc{x}{\lambda}$
+  $x = 1$ $\equiv$ $\cpfunc{x}{\cpundig}$
+  $x = 2$ $\equiv$ $\cpfunc{x}{\cpundig \cpundig}$
+  $x = n$ $\equiv$ $\cpfunc{x}{\cpundig^n}$
+  
+  $x \leftarrow y \cpmaxpar z$ $\equiv$ $\cpfunc{y}{Y} ~ \cpfunc{z}{Z} ~ \rightarrow ~ \cpfunc{x}{YZ}$ #\hfill\textsl{destructive add}\enspace#
+  $x \leftarrow y + z$ $\equiv$ $ \rightarrow ~ \cpfunc{x}{YZ} ~ \mid ~ \cpfunc{y}{Y} ~ \cpfunc{z}{Z}$ #\hfill\textsl{preserving add}\enspace#
+  
+  $x = y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X}$ #\hfill\textsl{equality}\enspace#
+  $x \leq y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{XY}$ #\hfill\textsl{less than or equal to}\enspace#
+  $x <  y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X1Y}$ #\hfill\textsl{strictly less than}\enspace#
+\end{lstlisting}
+\noindent
+Note that strictly less than (\(<\)) requires the extra \(1\), because \(Y\) can match on \(\cpempty\).
+
+% Numerical operations are simulated with unary arithmetic (\cite{Aman2019,Bonchis2006}).%  Natural numbers are represented by counting copies of the \emph{unary digit} atom, \(\cpundig\), inside a given functor.  E.g. the number three can be represented as \(\cpfunc{a}{\cpundig\cpundig\cpundig}\), \(\cpfunc{a}{\cpundig^3}\) or \(\cpfunc{a}{3}\).
+
+% \lstset{xleftmargin=.5in, xrightmargin=.5in} 
+% \begin{lstlisting}
+%   $\cpfunc{e}{\cpempty}$ #\hfill\textsl{empty functor}\enspace#
+%   $\cpfunc{a}{\cpundig\cpundig\cpundig} \text{ or } \cpfunc{a}{\cpundig^3} \text{ or } \cpfunc{a}{3}$ #\hfill\textsl{the number three}\enspace#
+% \end{lstlisting}
+
+\medskip
+\noindent
+\paragraph{Relations and functions.}
+Consider the \emph{binary relation} \(r\), defined by: 
+% \(r = \{ (a, b)\), \((b, c)\), \((a, d)\), \((d, c) \}\) (which has a diamond-shaped graph). 
+\(r = \cpset{ (a, b),\, (b, c),\, (a, d),\, (d, c) }\) (which has a diamond-shaped graph). 
+Using complex symbols, relation \(r\) can be represented as a \emph{multiset} with four \(r\) items,
+% \(\{ \cpfunc{r}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{b}}\), \(\cpfunc{r}{\cpfunc{\kappa}{b} ~ \cpfunc{\upsilon}{c}}\), \(\cpfunc{r}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{d}}\), \(\cpfunc{r}{\cpfunc{\kappa}{d} ~ \cpfunc{\upsilon}{c}} \}\), 
+\(\cpset{ \cpfunc{r}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{b}},\, \cpfunc{r}{\cpfunc{\kappa}{b} ~ \cpfunc{\upsilon}{c}},\, \cpfunc{r}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{d}},\, \cpfunc{r}{\cpfunc{\kappa}{d} ~ \cpfunc{\upsilon}{c}} }\), 
+where ad-hoc atoms \(\kappa\) and \(\upsilon\) introduce \emph{domain} and \emph{codomain} values (respectively).
+We may also alias the items of this multiset by a more expressive notation such as: \(\{ (a \stackrel{r}\rightleftarrows b)\), \((b \stackrel{r}\rightleftarrows c)\), \((a \stackrel{r}\rightleftarrows d)\), \((d \stackrel{r}\rightleftarrows c) \}\).
+
+If the relation is a \emph{functional relation}, we can emphasise this using another operator, such as ``mapsto''. For example, the functional relation 
+% \(f = \{ (a, b)\), \((b, c)\), \((d, c) \}\) can be represented by multiset
+\(f = \cpset{ (a, b),\, (b, c),\, (d, c) }\) can be represented by the multiset
+% \(\{ \cpfunc{f}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{b}}\), \(\cpfunc{f}{\cpfunc{\kappa}{b} ~ \cpfunc{\upsilon}{c}}\), \(\cpfunc{f}{\cpfunc{\kappa}{d} ~ \cpfunc{\upsilon}{c}} \}\) or by the more suggestive notation: 
+\(\cpset{ \cpfunc{f}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{b}},\, \cpfunc{f}{\cpfunc{\kappa}{b} ~ \cpfunc{\upsilon}{c}},\, \cpfunc{f}{\cpfunc{\kappa}{d} ~ \cpfunc{\upsilon}{c}} }\) or by the more suggestive notation: 
+\(\{ (a \stackrel{f}\mapsto b)\), \((b \stackrel{f}\mapsto c)\), \((d \stackrel{f}\mapsto c) \}\).
+To highlight the actual mapping value, instead of \(a \stackrel{f}\mapsto b\),
+we may also use the succinct abbreviation \(f[a] = b\).
+
+In this context, the \(\rightleftarrows\) and \(\mapsto\) operators are considered to have a high associative priority, so the enclosing parentheses are primarily used to increase readability.
+
+\medskip
+\noindent
+\paragraph{Associative arrays.}
+Consider the \emph{associative array} \(x\), 
+with the following key-value mappings (i.e., functional relation): 
+\(\{ \cpundig \mapsto a; \cpundig^3 \mapsto c; \cpundig^7 \mapsto g \}\). 
+Using complex symbols, array \(x\) can be represented as a multiset with three items,
+% \(\{ \cpfunc{x}{\cpfunc{\kappa}{\cpundig}\,\cpfunc{\upsilon}{a}}\), \(\cpfunc{x}{\cpfunc{\kappa}{\cpundig^3}\,\cpfunc{\upsilon}{c}}\), \(\cpfunc{x}{\cpfunc{\kappa}{\cpundig^7}\,\cpfunc{\upsilon}{g}} \}\), 
+\(\cpset{ \cpfunc{x}{\cpfunc{\kappa}{\cpundig}\,\cpfunc{\upsilon}{a}},\, \cpfunc{x}{\cpfunc{\kappa}{\cpundig^3}\,\cpfunc{\upsilon}{c}},\, \cpfunc{x}{\cpfunc{\kappa}{\cpundig^7}\,\cpfunc{\upsilon}{g}} }\), 
+where ad-hoc atoms \(\kappa\) and \(\upsilon\) introduce keys and values (respectively).
+We may also alias the items of this multiset by the more expressive notation
+\(\{ \cpundig \stackrel{x}\mapsto a\), \(\cpundig^3 \stackrel{x}\mapsto c\), \(\cpundig^7 \stackrel{x}\mapsto g \}\).
+
+\medskip
+\noindent
+\paragraph{Lists.}
+Consider the \emph{list} \(y\), containing the following sequence of values: 
+\([u; v; w]\). 
+List \(y\) can be represented as the complex symbol
+\(\cpfunc{y}{\, \cpfunc{\gamma}{u~\cpfunc{\gamma}{v~\cpfunc{\gamma}{w~\cpfunc{\gamma}{}}}}}\), 
+where the ad-hoc atom \(\gamma\) represents the list constructor \emph{cons} and \(\cpfunc{\gamma}{}\) the empty list.
+We may also alias this list by the more expressive equivalent notation
+\(\cpfunc{y}{u\,|\,v\,|\,w}\)
+-- or by \(\cpfunc{y}{u\,|\,y'}\), \(y'(v\,|\,w)\) --
+where operator \(\mid\) separates the head and the tail of the list.
+The notation \(\cpfunc{z}{|}\) is shorthand for \(\cpfunc{z}{\cpfunc{\gamma}{}}\) and indicates an empty list, \(z\).
+
+\medskip
+\noindent
+\paragraph{Trees.}
+Consider the \emph{binary tree} \(z\), described by the structured expression \\
+\((a, (b), (c, (d), (e)))\), 
+i.e.~\(z\) points to a root node which has: 
+(i) the value \(a\); 
+(ii) a left node with value \(b\); and 
+(iii) a right node with value \(c\), left leaf \(d\), and right leaf \(e\). 
+Tree \(z\) can be represented by the complex symbol
+\(\cpfunc{z}{a ~ \cpfunc{\phi}{b} ~ \cpfunc{\psi}{c ~ \cpfunc{\phi}{d} ~ \cpfunc{\psi}{e}}}\), 
+where ad-hoc atoms \(\phi, \psi\) introduce left and right subtrees, respectively.
+
+\medskip
+\noindent
+\paragraph{Strings.}
+Consider the \emph{string} \(s = ``abc"\), 
+where \(a\), \(b\), and \(c\) are atoms. 
+Obviously, string \(s\) can be interpreted as the list \(s = [a; b; c]\), i.e.
+string \(s\) can be represented as the complex symbol
+\(\cpfunc{s}{\, \cpfunc{\gamma}{a~\cpfunc{\gamma}{b~\cpfunc{\gamma}{c~\cpfunc{\gamma}{}}}}}\), etc.
+
+% --------------------------------------------------
+\subsection{\label{sec-min}Efficient minimum-finding with cP~rules}
+% --------------------------------------------------
+
+Consider an unstructured multiset $A \subseteq \mathbb{N}$ of size \(n\). 
+It is well known that (1) any sequential algorithm that finds its minimum needs at least \(n\) steps, and 
+(2) any parallel algorithm that finds its minimum needs at least \(\log n\) parallel steps.
+
+Without loss of generality, consider a \gls{cps} cell, in state \(s_1\), where multiset \(A\) is given via functor \(a\); 
+e.g., multiset \(A = \{ 1, 2, 2, 5 \}\) is represented as \(\cpfunc{a}{1} \cpfunc{a}{2} \cpfunc{a}{2} \cpfunc{a}{5}\).
+The following rulesets implement various versions of a \gls{cps} minimum-finding algorithm.
+All these rulesets transit to state \(s_2\) and construct a term with functor \(b\), containing \(\min A\).
+Some of these are destructive processes; if otherwise desired, one could first make a copy of the initial multiset \(A\).
+
+The following destructive ruleset emulates the classical sequential minimum finding algorithm, which takes \(n\) steps:
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+$s_1$  $\cpfunc{a}{X}$  $\rightarrow_{1}$  $s_2$  $\cpfunc{b}{X}$ 
+$s_2$  $\cpfunc{a}{XY}$  $\cpfunc{b}{X}$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{X}$     #\hfill  $a \geq b  $ \enspace #
+$s_2$  $\cpfunc{a}{X}$  $\cpfunc{b}{X1Y}$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{X}$   #\hfill  $a < b  $ \enspace #
+\end{lstlisting}
+
+The following destructive ruleset emulates the classical parallel minimum finding algorithm, which takes \(\log n\) steps.
+As long as there is more than one term \(a\), the ruleset loops in state \(s_1\), keeping minima between pairs.
+When only one \(a\) remains (containing the minimum value), the ruleset transits to state \(s_2\) and tags the minimum. 
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+$s_1$  $\cpfunc{a}{XY}$  $\cpfunc{a}{X}$  $\rightarrow_{\cpmaxpar}$  $s_1$  $\cpfunc{a}{X}$     
+$s_1$  $\cpfunc{a}{X}$  $\cpfunc{a}{X1Y}$  $\rightarrow_{\cpmaxpar}$  $s_1$  $\cpfunc{a}{X}$    
+$s_1$  $\cpfunc{a}{X}$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{X}$  
+\end{lstlisting}
+
+However, using the full associative power of \gls{cps}, we can find a non-destructive version with two rules, 
+which works in \emph{just two steps} (regardless of the set cardinality). 
+This is a substantial improvement over existing classical algorithms (both sequential and parallel). 
+It starts by making a full copy of \(a\) as \(b\), in one \(\cpmaxpar\)-parallel step, 
+and then deletes all non-minimal \(b\) values in another \(\cpmaxpar\)-parallel step. 
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+$s_1$  $\rightarrow_{\cpmaxpar}$  $s_1'$  $\cpfunc{b}{X}$    $\mid$  $\cpfunc{a}{X}$  
+$s_1'$  $\cpfunc{b}{X1Y}$  $\rightarrow_{\cpmaxpar}$  $s_2$    $\mid$  $\cpfunc{a}{X}$  
+\end{lstlisting}
+
+Note that if the minimum value appears several times in multiset \(A\), 
+then we will end with the same multiplicity of \(b\)'s, each one containing the same value, \(\min A\).
+If required, there are several ways to select only one copy and delete the rest, but we do not deal with this issue further here.
+
+Moreover, using the full power of cP~inhibitors (as logical negations, with local variables), 
+we can even non-destructively solve the problem in just \emph{one single step},
+with one or two rules.
+This version is implemented by the following ruleset:
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+$s_1$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{}$    $\mid$  $\cpfunc{a}{}$
+$s_1$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{1Z}$     $\mid$  $\cpfunc{a}{1Z}$     $\neg$  $(Z=XY)$  $\cpfunc{a}{X}$
+\end{lstlisting}
+
+If \(A\) contains zero, then there is a term \(\cpfunc{a}{}\), and: (1) the first rule applies, constructing \(\cpfunc{b}{}\); (2) the second rule is not applicable.
+Otherwise (if there is no zero in \(A\)): (1) the first rule is not applicable; (2) the second rule constructs \(\cpfunc{b}{1Z}\), 
+a value which exists among \(a\)'s, as \(\cpfunc{a}{1Z}\), but there is NO other \(a\) containing a strictly lesser value, such as \(\cpfunc{a}{X}\),
+where \(X\) is a sub-multiset of \(Z\), \(X \subseteq Z\).
+Finally, the newly constructed \(b\) will contain one copy of the minimum value of multiset \(A\).
+
+If multiset \(A\) does not contain zero values, i.e. \(A \subseteq \mathbb{N}^+\), then the first rule can be safely omitted (as it will never be applicable). 
+A similar ruleset can be devised for finding the maximum of a given set of natural numbers.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{\label{sec:nmp:notation}System descriptions}
+A specific cP~system can be described by a 6-tuple, as shown below.
+
+\[
+\Pi_{cP}(T, A, O, R, S, \bar{s})
+\]
+
+\(T\) is the set of \glspl{tlc} at the start of the evolution of the system; \(A\) is the alphabet of the system; \(O\) is the set of multisets of initial objects in the \glspl{tlc}; \(R\) is the set of rulesets for each \gls{tlc}; \(S\) is the set of possible states of the \glspl{tlc}; and \(\bar{s} \in S\) is the starting state of the system.
+
+% \section{\label{sec:nmp:cpsreview}A Minimal Overview of \texorpdfstring{\gls{cps}}{c\gls{ps}}}
+% The following is a minimal synopsis of \gls{cps}, included in the interests of making this paper more self-contained.  For a comprehensive description and explanation of \gls{cps}, the reader is referred to \cite{Henderson2019,Henderson2020,Nicolescu2018}.
+
+\subsection{\label{sec:nmp:compoundterms}Indexed notation for compound terms}
+
+It is reasonably common to see indexed compound terms used in \gls{cps}.  That is, terms tagged with one or more sub-terms used to distinguish different instances of the same functor type.  They are still classic \gls{cps} objects with nested terms, but some of the subterms are used only to distinguish between instances of the encompassing compound term.  This is roughly analogous to tagging a term with its index in a logical vector/array or the key it would be stored under in a typical Computer Science \fxerror{Need to distinguish or this from, or integrate it with, the discussion about data structures above.}{dictionary/associative array data structure.}
+
+For example, later in this paper, compound \(v\) terms appear in multiple rules.  Ordinarily, these would be represented as nested terms along the lines of
+\[ \cpfunc{v}{\cpfunc{v'}{N} \; \cpfunc{v''}{G}\; D} \]
+These are used inside \glspl{tlc} to represent sets of tagged data.  They are indexed by neighbour \(N\) and tagged with a `generation count' \(G\) (further explained in \autoref{sec:nmp:pespecific}).  Both of these values track metadata about a datum.  Lastly, the final datum stored by the encompassing term is given.  In many common programming languages, accessing each datum might be written like \texttt{v[N]}, where \texttt{v} is a dictionary indexed by neighbour.  The \(v\) functors could be written as \[ \cpvv{N}{G}{D} \] for a shorthand that can be expanded back out to a complete form automatically.  The first pair of parentheses selects functors by neighbour, the second records the generation, while the final pair shows the actual contents.  This is \emph{purely} a notational convenience without impact upon the application of the rules and evolution of the system.  When a concrete instance of a \(v\) compound term is indexed by a ground term (i.e. not a variable) \(k\), e.g. \(\cpvv{k}{\_}{\_}\), we refer to it as \emph{k-tagged}.
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $\cpfunc{v}{\cpfunc{v'}{N} \; \cpfunc{v''}{G}\; D}$ #\hfill\textsl{nested functor}\enspace#
+  $\cpvv{N}{G}{D}$ #\hfill\textsl{compound term}\enspace#
+\end{lstlisting}
+
+% \begin{framed}
+%     \begin{align*}
+%         % \text{Send:}&\, \cpsend{\cpfunc{a}{b}}{c} & \text{Promoter:}&\, | ~ \cpfunc{a}{A}\\
+%         % \text{Receive:}&\, \cprecv{\cpfunc{d}{e}}{f} & \text{Inhibitor:}&\, \neg ~ \cpfunc{b}{B}\\
+%         \text{Nested functor:}&\, \cpfunc{v}{\cpfunc{v'}{N} \; \cpfunc{v''}{G}\; D} & \text{Compound term:}&\, \cpvv{N}{G}{D}
+%     \end{align*}
+% \end{framed}
+
+% \lstset{xleftmargin=.5in, xrightmargin=.5in} 
+% \begin{lstlisting}
+% Nested functor: $\cpfunc{v}{\cpfunc{v'}{N} \; \cpfunc{v''}{G}\; D}$ $\mid$  Compound term: $\cpvv{N}{G}{D}$
+% \end{lstlisting}
+
+% \lstset{xleftmargin=.5in, xrightmargin=.5in} 
+% \begin{lstlisting}
+%   $x = 0$ $\equiv$ $\cpfunc{x}{\lambda}$
+%   $x = 1$ $\equiv$ $\cpfunc{x}{\cpundig}$
+%   $x = 2$ $\equiv$ $\cpfunc{x}{\cpundig \cpundig}$
+%   $x = n$ $\equiv$ $\cpfunc{x}{\cpundig^n}$
+  
+%   $x \leftarrow y + z$ $\equiv$ $\cpfunc{y}{Y} ~ \cpfunc{z}{Z} ~ \rightarrow ~ \cpfunc{x}{YZ}$ #\hfill\textsl{destructive add}\enspace#
+%   $x \leftarrow y + z$ $\equiv$ $ \rightarrow ~ \cpfunc{x}{YZ} ~ \mid ~ \cpfunc{y}{Y} ~ \cpfunc{z}{Z}$ #\hfill\textsl{preserving add}\enspace#
+  
+%   $x = y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X}$ #\hfill\textsl{equality}\enspace#
+%   $x \leq y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{XY}$ #\hfill\textsl{less than or equal to}\enspace#
+%   $x <  y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X1Y}$ #\hfill\textsl{strictly less than}\enspace#
+% \end{lstlisting}
+
+\subsection{\label{sec:nmp:blocking}Blocking vs. non-blocking message receipt in \texorpdfstring{\gls{cps}}{cP systems}}
+In \gls{cps} all outgoing communications from a \gls{tlc} to others is non-blocking by default.  The channels connecting the cells buffer message objects if needed, and thus an outgoing message can always be accepted by the channel even if the holder of the other end of the channel is not yet ready to receive the message.  Receiving messages via channels is also ordinarily a non-blocking operation in \gls{cps}, albeit for a different reason.  If there are no eligible messages on the channel, either buffered by the channel itself or offered by the cell holding the other end of the channel, then the rules to receive over that channel will not apply at the next step regardless of whichever other rules may or may not be applied.
+
+It may be helpful in some circumstances, however, to simulate the nature of a blocking receipt.  This can be achieved with the use of additional dedicated states.  The beginning state for the intended blocking receipt should be unused as the beginning state for any other rule (except for another aspect of the same blocking receipt).  This state is also used as the ending state for another rule, which either is the end of another process in the computation or used as a test to determine whether to enter into a blocking receipt.  The ending state for the blocking receipt rule should return the cell to its standard process.
+
+The overall effect of using the unique state is that it ensures no other rule may be used inside a particular \gls{tlc} at a given step.  Effectively, the \gls{tlc} becomes quiescent until another \gls{tlc} makes an appropriate offer to send a message to the first cell.  At that point, one or more messages are exchanged as appropriate, and the receiving \gls{tlc} returns to its standard processing otherwise.  We make use of this later in \autoref{sec:nmp:pespecific} (rules 9 \& 10 in \autoref{ruleset:nmp:proxspec}).
+
+\subsection{\label{sec:nmp:antiport}Antiport communication rules in \texorpdfstring{\gls{cps}}{cP systems}}
+
+We use an antiport rule \cite{Orellana-Martin2019,Paun2002} in \autoref{sec:nmp:systemwide}.  In brief, antiport rules allow for the bidirectional exchange of objects between membranes/cells/neurons during a single rule execution, with the restriction that objects \emph{must} travel in both directions.  Thus, if one side is only ready to send or receive, rather than both, the rule cannot run at the next step.  An important ramification of this is that it prevents deadlock from both sides of the exchange waiting on the other to send a message.
+
+In the context of \gls{cps}, this means that a given rule must involve receipt over a channel on the left-hand-side, and a send on the \emph{same} channel on the right-hand-side.  For example, \cpruleinline{ \cprulenonum{s_1}{\cprecv{\cpfunc{a}{B}}{c} \; \cpfunc{d}{E}}{1}{s_2}{\cpsend{\cpfunc{d}{E}}{c} \; \cpfunc{a}{B}}} would be valid because the same channel is used on both sides of the rule.

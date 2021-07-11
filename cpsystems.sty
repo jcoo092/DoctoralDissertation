@@ -41,13 +41,16 @@ rulesets, following Nicolescu's standard style]
 \newenvironment{cpobjects}{\begin{framed}}{\end{framed}}
 \newcommand{\cprule}[5]{
     \refstepcounter{cpsystems@RuleNum}
-    \cpsystems@basecprule{#1}{#2}{#3}{#4}{#5}{(\arabic{cpsystems@RuleNum})}
+    \cpsystems@basecprule{#1}{#2}{#3}{#4}{#5}{\hspace{4.0em}(\arabic{cpsystems@RuleNum})}
 }
 \newcommand{\cpruleinline}[1]{
 \[\begin{array}{lllllr}#1\end{array}\]
 }
 \newcommand*{\cprulenonum}[5]{
 \cpsystems@basecprule{#1}{#2}{#3}{#4}{#5}{}
+}
+\newcommand*{\cprulecustnum}[6]{
+\cpsystems@basecprule{#1}{#2}{#3}{#4}{#5}{(#6)}
 }
 \newcommand*{\cppromoter}[1]{
 \cpsystems@cpprominhi{|}{#1}
@@ -61,11 +64,17 @@ rulesets, following Nicolescu's standard style]
 \newcommand*{\cprecv}[2]{
     \cpsystems@basecpsendrecv{#1}{#2}{?}
 }
-\newcommand*{\changerulenumber}[1]{
+\newcommand*{\cpantisend}[2]{
+    \cpsystems@basecpsendrecv{#1}{#2}{!!}
+}
+\newcommand*{\cpantirecv}[2]{
+    \cpsystems@basecpsendrecv{#1}{#2}{??}
+}
+\newcommand*{\cpchangerulenumber}[1]{
 \setcounter{cpsystems@RuleNum}{#1}
 }
-\newcommand*{\resetrulenumber}{
-    \changerulenumber{0}
+\newcommand*{\cpresetrulenumber}{
+    \cpchangerulenumber{0}
 }
 \newcommand{\cpobjectsline}[1]{
 \[#1\]
@@ -85,11 +94,27 @@ rulesets, following Nicolescu's standard style]
     \trim@spaces@noexp{#1 & #2 & \rightarrow_{#3} & #4 & #5  & #6\\}
 }
 \newcommand{\cpsystems@cpprominhi}[2]{
-    \trim@spaces@noexp{& & & & ~ \hspace{0.5cm} ~ #1 ~ #2 & \\}
+    \trim@spaces@noexp{& & & & ~ \hspace{1em} ~ #1 ~ #2 & \\}
 }
 \newcommand{\cpsystems@basecpsendrecv}[3]{
     \trim@spaces@noexp{\perfectunary{IncreaseHeight}{\{}{\}}{#1}{#3}_{#2}}
 }
+
+\newcommand*{\cptuple}[7]{
+    \[
+        \cpfunc{\Pi_{#1}}{#2, #3, #4, #5, #6, #7}
+    \]
+}
+
+\newcommand*{\cptupletemplate}{
+    \cptuple{cP}{T}{A}{O}{R}{S}{\Bar{s}}
+}
+
+\newcommand*{\cpset}[1]{\perfectunary{IncreaseHeight}{\{}{\}}{#1}}
+
+\newcommand*{\cponce}{{\scriptstyle 1}}
+\newcommand*{\cpmaxpar}{{\scriptstyle +}}
+
 \endinput
 %%
 %% End of file `cpsystems.sty'.

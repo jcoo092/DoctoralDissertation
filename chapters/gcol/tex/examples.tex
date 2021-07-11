@@ -1,23 +1,23 @@
-\section{\label{sec:examples}Examples}
+\section{\label{sec:gcol:examples}Examples}
 
-To demonstrate the operation of the \gls{cps} algorithm in a 3-colouring context, we provide a working example using the graph in \autoref{fig:examplegraph}, and a failing example where no successful 3-colouring is possible using the graph in \autoref{fig:examplegraphnosol}.
+To demonstrate the operation of the \gls{cps} algorithm in a 3-colouring context, we provide a working example using the graph in \autoref{fig:gcol:examplegraph}, and a failing example where no successful 3-colouring is possible using the graph in \autoref{fig:gcol:examplegraphnosol}.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.4\textwidth]{chapters/gcol/figs/examplegraph1-figure2.pdf}
     \caption{Example undirected graph with at least one possible three-colouring solution (in fact, this graph is also potentially 2-colourable, and our \gls{cps} solution might select such a solution).}
-    \label{fig:examplegraph}
+    \label{fig:gcol:examplegraph}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.2\textwidth]{chapters/gcol/figs/examplegraph1-figure3.pdf}
     \caption{Example undirected graph with no valid 3-colouring solutions.}
-    \label{fig:examplegraphnosol}
+    \label{fig:gcol:examplegraphnosol}
 \end{figure}
 
 \subsection{Successful example}
-For the graph in \autoref{fig:examplegraph}, we begin with a single top-level cell situated in the environment and in state \(s_0\).  From the hypothetical set of nodes \(V = \{1, 2, 3, 4, 5\}\) we derive the functor \(V' = \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}~\cpfunc{n}{5}}\), and the set of objects \[ 
+For the graph in \autoref{fig:gcol:examplegraph}, we begin with a single top-level cell situated in the environment and in state \(s_0\).  From the hypothetical set of nodes \(V = \{1, 2, 3, 4, 5\}\) we derive the functor \(V' = \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}~\cpfunc{n}{5}}\), and the set of objects \[ 
 E' = \{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}},~\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{5}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}},~\cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}}\}
 ,\] representing the edges of the graph, as well as the set of colour objects \(K' = \{\cpfunc{k}{r},~\cpfunc{k}{g},~\cpfunc{k}{b}\}\), in this case representing the colours red, green and blue.  These sets of objects are all immediately within the top-level cell, along with \(\cpfunc{s}{1}\) to select node 1 at the beginning of the process, as shown in \autoref{objs:gcol:obj1}.
 
@@ -35,7 +35,7 @@ This beginning state, with the exception of the choice of node label inside the 
 % \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}~\cpfunc{n}{5}}
 % \]
 % \end{framed}
-% \caption{\label{fig:gcol:obj1}Initial set of objects inside the top-level cell for \autoref{fig:examplegraph}.}
+% \caption{\label{fig:gcol:obj1}Initial set of objects inside the top-level cell for \autoref{fig:gcol:examplegraph}.}
 % \end{figure}
 
 \begin{cpobjectsfloat}
@@ -52,7 +52,7 @@ This beginning state, with the exception of the choice of node label inside the 
 % \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}~\cpfunc{n}{5}}
 % \]
 \end{cpobjects}
-\caption{\label{objs:gcol:obj1}Initial set of objects inside the top-level cell for \autoref{fig:examplegraph}.}
+\caption{\label{objs:gcol:obj1}Initial set of objects inside the top-level cell for \autoref{fig:gcol:examplegraph}.}
 \end{cpobjectsfloat}
 
 From this starting state, rule 1 is applied, choosing node 1 to start the process with, and selecting red as its colouring.  This creates the standard \(b\) and \(l\) objects.  No other rules are applicable at this point, as the top-level cell started in state \(s_0\).  The application of this rule leaves the top-level cell in state \(s_1\).  Rule 1 will henceforth be inapplicable, as the rules provide no way to revert to state \(s_0\).
@@ -84,7 +84,7 @@ Simultaneously, rule 4 is applied to sweep away the pre-existing initial \(b\) o
 % \cpfunc{b}{\cpfunc{l}{2}~\cpfunc{m}{\cpfunc{n}{1}\,\cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{5}\,\cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{2}~ \cpfunc{n}{3}~ \cpfunc{n}{4}}}
 % \]
 % \end{framed}
-% \caption{\label{fig:gcol:obj2}Set of objects inside the top-level cell after the second step (i.e. after one application of rules 3, 4 \& 6) for \autoref{fig:examplegraph}.}
+% \caption{\label{fig:gcol:obj2}Set of objects inside the top-level cell after the second step (i.e. after one application of rules 3, 4 \& 6) for \autoref{fig:gcol:examplegraph}.}
 % \end{figure}
 
 \begin{cpobjectsfloat}
@@ -108,7 +108,7 @@ Simultaneously, rule 4 is applied to sweep away the pre-existing initial \(b\) o
 \cpfunc{b}{\cpfunc{l}{2}~\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{2}~ \cpfunc{n}{3}~ \cpfunc{n}{4}}}
 }
 \end{cpobjects}
-\caption{\label{objs:gcol:obj2}Set of objects inside the top-level cell after the second step (i.e. after one application of rules 3, 4 \& 6) for \autoref{fig:examplegraph}.}
+\caption{\label{objs:gcol:obj2}Set of objects inside the top-level cell after the second step (i.e. after one application of rules 3, 4 \& 6) for \autoref{fig:gcol:examplegraph}.}
 \end{cpobjectsfloat}
 
 The next step proceeds almost identically to the previous one, except that there are a greater number of new objects created (see \autoref{objs:gcol:obj3}).  At the previous step, the edges both between node 1 and node 5, and node 1 and node 2, were explored.  In this next step, edges between node 1 and node 5, node 1 and node 2 (where these edges were not explored previously for a given \(b\) object), node 5 and node 4, and node 2 and node 3 are all explored, with all objects that will not have direct colour conflicts instantiated as per rule 3.
@@ -127,7 +127,7 @@ The next step proceeds almost identically to the previous one, except that there
 %     \cpfunc{b}{\cpfunc{l}{3}~\cpfunc{m}{\cpfunc{n}{1}\,\cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2}\,\cpfunc{c}{b}}~\cpfunc{m}{\cpfunc{n}{3}\,\cpfunc{c}{g}}~\cpfunc{v}{\cpfunc{n}{4}~ \cpfunc{n}{5}}}
 % \end{gather*}
 % \end{framed}
-% \caption{\label{fig:gcol:obj3}Set of objects inside the top-level cell after the third step for \autoref{fig:examplegraph}.  Note that there are some identical objects here which have been created independently.}
+% \caption{\label{fig:gcol:obj3}Set of objects inside the top-level cell after the third step for \autoref{fig:gcol:examplegraph}.  Note that there are some identical objects here which have been created independently.}
 % \end{figure}
 
 \begin{cpobjectsfloat}
@@ -144,7 +144,7 @@ The next step proceeds almost identically to the previous one, except that there
     \cpfunc{b}{\cpfunc{l}{3}~\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{b}}~\cpfunc{m}{\cpfunc{n}{3} \, \cpfunc{c}{g}}~\cpfunc{v}{\cpfunc{n}{4}~ \cpfunc{n}{5}}}
 \end{gather*}
 \end{cpobjects}
-\caption{\label{objs:gcol:obj3}Set of objects inside the top-level cell after the third step for \autoref{fig:examplegraph}.  Note that there are some identical objects here which have been created independently.}
+\caption{\label{objs:gcol:obj3}Set of objects inside the top-level cell after the third step for \autoref{fig:gcol:examplegraph}.  Note that there are some identical objects here which have been created independently.}
 \end{cpobjectsfloat}
 
 At the fourth step, a large number of further objects are created, some of which are listed in \autoref{objs:gcol:obj4}.  The key difference between this step and the previous one is that the final inhibitor on rule 3 plays a much greater part.  At this step, many of the potential instantiations of new node and colouration selections will include conflicts between the newly-selected node and colour, and one or more of the node and colour selections made earlier.  The final inhibitor prevents instantiation of these choices, avoiding threats to correctness.  An alternative solution to the problem would be to include another following step, where those invalid instatiations are detected and removed, but the inhibitor makes this unnecessary.  
@@ -164,7 +164,7 @@ At the fourth step, a large number of further objects are created, some of which
 %     \cpfunc{b}{\cpfunc{l}{4}~\cpfunc{m}{\cpfunc{n}{1}\,\cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2}\,\cpfunc{c}{b}}~\cpfunc{m}{\cpfunc{n}{3}\,\cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{5}\,\cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{4}}}
 % \end{gather*}
 % \end{framed}
-% \caption{\label{fig:gcol:obj4}Set of objects inside the top-level cell after the fourth step for \autoref{fig:examplegraph}.}
+% \caption{\label{fig:gcol:obj4}Set of objects inside the top-level cell after the fourth step for \autoref{fig:gcol:examplegraph}.}
 % \end{figure}  
 
 \begin{cpobjectsfloat}
@@ -183,7 +183,7 @@ At the fourth step, a large number of further objects are created, some of which
 \end{gather*}
 
 \end{cpobjects}
-\caption{\label{objs:gcol:obj4}Set of objects inside the top-level cell after the fourth step for \autoref{fig:examplegraph}.}
+\caption{\label{objs:gcol:obj4}Set of objects inside the top-level cell after the fourth step for \autoref{fig:gcol:examplegraph}.}
 \end{cpobjectsfloat}
 
 Step 5 proceeds analogously.  At the end of step 5 a number of \(b\) objects which contain valid colourings of the whole graph will be present inside the top-level cell.  At the sixth step, rule 2 will detect this by the fact that said objects will contain empty \(v\) functors.  For example, \autoref{objs:gcol:obj6} shows some of the potential solutions that could be generated, reflecting the state of the system at the end of the fifth step.  In fact, the first potential solution shows that in this case it is possible to completely and validly colour this graph using only two colours.  This solution may or may not be chosen when rule 2 is applied.  At the end of the sixth step, rule 2 will select one of the possible solutions and emit it to the environment.  The top-level cell will also transition to state \(s_2\), signalling that the process succeeded.
@@ -200,7 +200,7 @@ Step 5 proceeds analogously.  At the end of step 5 a number of \(b\) objects whi
 %     \cpfunc{b}{\cpfunc{l}{5}~\cpfunc{m}{\cpfunc{n}{1}\,\cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2}\,\cpfunc{c}{b}}~\cpfunc{m}{\cpfunc{n}{3}\,\cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{5}\,\cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{4}\,\cpfunc{c}{r}}~v()}
 % \end{gather*}
 % \end{framed}
-% \caption{\label{fig:obj6}Set of objects inside the top-level cell after the fifth step for \autoref{fig:examplegraph}.}
+% \caption{\label{fig:obj6}Set of objects inside the top-level cell after the fifth step for \autoref{fig:gcol:examplegraph}.}
 % \end{figure}
 
 \begin{cpobjectsfloat}
@@ -216,13 +216,13 @@ Step 5 proceeds analogously.  At the end of step 5 a number of \(b\) objects whi
     \cpfunc{b}{\cpfunc{l}{5}~\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{b}}~\cpfunc{m}{\cpfunc{n}{3} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{4} \, \cpfunc{c}{r}}~v()}
 \end{gather*}
 \end{cpobjects}
-\caption{\label{objs:gcol:obj6}Set of objects inside the top-level cell after the fifth step for \autoref{fig:examplegraph}.}
+\caption{\label{objs:gcol:obj6}Set of objects inside the top-level cell after the fifth step for \autoref{fig:gcol:examplegraph}.}
 \end{cpobjectsfloat}
 
 % ------------------------------------------------
 
 \subsection{Failure example}
-Here we step through the execution of the algorithm when there is no possible valid 3-colouring solution, using the graph depicted in \autoref{fig:examplegraphnosol}.  The system begins with the objects depicted in \autoref{objs:gcol:objn1}.
+Here we step through the execution of the algorithm when there is no possible valid 3-colouring solution, using the graph depicted in \autoref{fig:gcol:examplegraphnosol}.  The system begins with the objects depicted in \autoref{objs:gcol:objn1}.
 
 % \begin{figure}
 % \begin{framed}
@@ -232,7 +232,7 @@ Here we step through the execution of the algorithm when there is no possible va
 %     \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}}
 % \end{gather*}
 % \end{framed}
-% \caption{\label{fig:objn1}Initial set of objects inside the top-level cell for \autoref{fig:examplegraphnosol}.}
+% \caption{\label{fig:objn1}Initial set of objects inside the top-level cell for \autoref{fig:gcol:examplegraphnosol}.}
 % \end{figure}
 
 \begin{cpobjectsfloat}
@@ -244,7 +244,7 @@ Here we step through the execution of the algorithm when there is no possible va
     \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}}
 \end{gather*}
 \end{cpobjects}
-\caption{\label{objs:gcol:objn1}Initial set of objects inside the top-level cell for \autoref{fig:examplegraphnosol}.}
+\caption{\label{objs:gcol:objn1}Initial set of objects inside the top-level cell for \autoref{fig:gcol:examplegraphnosol}.}
 \end{cpobjectsfloat}
 
 After the first step, the application of rule 1, the objects shown in \autoref{objs:gcol:objn2} are inside the top-level cell.  This is not substantively different from the successful example above.  Likewise with the objects present in the cell at the end of the second step, shown in \autoref{objs:gcol:objn3}.
@@ -257,7 +257,7 @@ After the first step, the application of rule 1, the objects shown in \autoref{o
 %     \cpfunc{b}{\cpfunc{l}{1}~\cpfunc{m}{\cpfunc{n}{1}\,\cpfunc{c}{r}}~\cpfunc{v}{\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}}}
 % \end{gather*}
 % \end{framed}
-% \caption{\label{fig:objn2}Set of objects inside the top-level cell at the end of step 1, for \autoref{fig:examplegraphnosol}.}
+% \caption{\label{fig:objn2}Set of objects inside the top-level cell at the end of step 1, for \autoref{fig:gcol:examplegraphnosol}.}
 % \end{figure}
 
 \begin{cpobjectsfloat}
@@ -269,7 +269,7 @@ After the first step, the application of rule 1, the objects shown in \autoref{o
     \cpfunc{b}{\cpfunc{l}{1}~\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{v}{\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}}}
 \end{gather*}
 \end{cpobjects}
-\caption{\label{objs:gcol:objn2}Set of objects inside the top-level cell at the end of step 1, for \autoref{fig:examplegraphnosol}.}
+\caption{\label{objs:gcol:objn2}Set of objects inside the top-level cell at the end of step 1, for \autoref{fig:gcol:examplegraphnosol}.}
 \end{cpobjectsfloat}
 
 % \begin{figure}
@@ -285,7 +285,7 @@ After the first step, the application of rule 1, the objects shown in \autoref{o
 %     \cpfunc{b}{\cpfunc{l}{2}~\cpfunc{m}{\cpfunc{n}{1}\,\cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{4}\,\cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{2}~\cpfunc{n}{3}}}
 % \end{gather*}
 % \end{framed}
-% \caption{\label{fig:objn3}Set of objects inside the top-level cell at the end of step 2, for \autoref{fig:examplegraphnosol}.}
+% \caption{\label{fig:objn3}Set of objects inside the top-level cell at the end of step 2, for \autoref{fig:gcol:examplegraphnosol}.}
 % \end{figure}
 
 \begin{cpobjectsfloat}
@@ -302,7 +302,7 @@ After the first step, the application of rule 1, the objects shown in \autoref{o
 \end{gather*}
 
 \end{cpobjects}
-\caption{\label{objs:gcol:objn3}Set of objects inside the top-level cell at the end of step 2, for \autoref{fig:examplegraphnosol}.}
+\caption{\label{objs:gcol:objn3}Set of objects inside the top-level cell at the end of step 2, for \autoref{fig:gcol:examplegraphnosol}.}
 \end{cpobjectsfloat}
 
 \autoref{objs:gcol:objn4} shows the objects in the top-level cell at the end of step three.  This proceeds in much the same fashion as the previous step, but fully half of the potential instantiations from rule 3 are avoided by the rule's final inhibitor, due to inevitable colouration conflicts.
@@ -320,7 +320,7 @@ After the first step, the application of rule 1, the objects shown in \autoref{o
 %     \cpfunc{b}{\cpfunc{l}{3}~\cpfunc{m}{\cpfunc{n}{1}\,\cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2}\,\cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{4}\,\cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{3}}}
 % \end{gather*}
 % \end{framed}
-% \caption{\label{fig:objn4}Set of objects inside the top-level cell at the end of step 3, for \autoref{fig:examplegraphnosol}.}
+% \caption{\label{fig:objn4}Set of objects inside the top-level cell at the end of step 3, for \autoref{fig:gcol:examplegraphnosol}.}
 % \end{figure}
 
 \begin{cpobjectsfloat}
@@ -337,10 +337,10 @@ After the first step, the application of rule 1, the objects shown in \autoref{o
     \cpfunc{b}{\cpfunc{l}{3}~\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{4} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{3}}}
 \end{gather*}
 \end{cpobjects}
-\caption{\label{objs:gcol:objn4}Set of objects inside the top-level cell at the end of step 3, for \autoref{fig:examplegraphnosol}.}
+\caption{\label{objs:gcol:objn4}Set of objects inside the top-level cell at the end of step 3, for \autoref{fig:gcol:examplegraphnosol}.}
 \end{cpobjectsfloat}
 
-Finally, \autoref{objs:gcol:objn5} shows the objects in the top-level cell as at the end of step 4.  Due to the fully-connected nature of the graph in \autoref{fig:examplegraphnosol}, every possible solution will contain at least one instance of proposed contiguous colouration, thus making every possible solution invalid.  This means that rule 3 will not create any new \(b\) objects, while rule 4 will remove the pre-existing ones.
+Finally, \autoref{objs:gcol:objn5} shows the objects in the top-level cell as at the end of step 4.  Due to the fully-connected nature of the graph in \autoref{fig:gcol:examplegraphnosol}, every possible solution will contain at least one instance of proposed contiguous colouration, thus making every possible solution invalid.  This means that rule 3 will not create any new \(b\) objects, while rule 4 will remove the pre-existing ones.
 
 % \begin{figure}
 % \begin{framed}
@@ -349,7 +349,7 @@ Finally, \autoref{objs:gcol:objn5} shows the objects in the top-level cell as at
 %     \cpfunc{k}{r} \quad \cpfunc{k}{g} \quad \cpfunc{k}{b} \quad \cpfunc{l}{4}
 % \end{gather*}
 % \end{framed}
-% \caption{\label{fig:objn5}Set of objects inside the top-level cell at the end of step 4, for \autoref{fig:examplegraphnosol}.}
+% \caption{\label{fig:objn5}Set of objects inside the top-level cell at the end of step 4, for \autoref{fig:gcol:examplegraphnosol}.}
 % \end{figure}
 
 \begin{cpobjectsfloat}
@@ -360,7 +360,7 @@ Finally, \autoref{objs:gcol:objn5} shows the objects in the top-level cell as at
     \cpfunc{k}{r} \; \cpfunc{k}{g} \; \cpfunc{k}{b} \quad \cpfunc{l}{4}
 \end{gather*}
 \end{cpobjects}
-\caption{\label{objs:gcol:objn5}Set of objects inside the top-level cell at the end of step 4, for \autoref{fig:examplegraphnosol}.}
+\caption{\label{objs:gcol:objn5}Set of objects inside the top-level cell at the end of step 4, for \autoref{fig:gcol:examplegraphnosol}.}
 \end{cpobjectsfloat}
 
 With no \(b\) objects available in the system, at the next step none of rules 1-4 will be applicable.  Thus, the first rule selected is rule 5, which merely transitions the top-level cell to state \(s_3\), signalling to the environment that the evolution of the system has ceased after determining that there was no possible valid colouring for the graph using the colours provided.

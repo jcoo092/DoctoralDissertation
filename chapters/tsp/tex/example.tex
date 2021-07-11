@@ -1,19 +1,19 @@
-\section{\label{sect:example}Worked examples}
+\section{\label{sec:tsp:example}Worked examples}
 
 \subsection{Undirected Graph Example}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.4\textwidth]{chapters/tsp/figs/ugraph-figure0}
-\caption{\label{fig:ugraph}Sample weighted graph G with at least one Hamiltonian Cycle}
+\includegraphics[width=0.5\textwidth]{chapters/tsp/figs/ugraph-figure0}
+\caption{\label{fig:tsp:ugraph}Sample weighted graph G with at least one Hamiltonian Cycle}
 \end{figure}
 
-Consider a digraph G such as that in \autoref{fig:ugraph}.  Ordinarily this would be shown as an undirected graph because all arcs are two-way, but it is presented as an equivalent directed graph so that it more closely matches the input digraphs as described for the \gls{cps} rules described above, specifically with regards to the set \(E\) of arc subcells.  A quick examination will show that there is at least one Hamiltonian Cycle in this digraph, and thus there will be at least one cycle which has a minimum total weight.  \autoref{fig:utree} is a tree diagram showing the logical progression of the algorithm as applied to this digraph, assuming that vertex 1 is selected as the root of the Hamiltonian cycle.  Vertices in bold are the ends of the paths with a minimum cost, while vertices in italics are the ends of the paths where there is no arc in the digraph such that a Hamiltonian cycle can be completed, based on the digraph traversal up to that point.  The arcs are labelled with the cumulative weight of the path taken to reach the lower vertex.
+Consider a digraph G such as that in \autoref{fig:tsp:ugraph}.  Ordinarily this would be shown as an undirected graph because all arcs are two-way, but it is presented as an equivalent directed graph so that it more closely matches the input digraphs as described for the \gls{cps} rules described above, specifically with regards to the set \(E\) of arc subcells.  A quick examination will show that there is at least one Hamiltonian Cycle in this digraph, and thus there will be at least one cycle which has a minimum total weight.  \autoref{fig:tsp:utree} is a tree diagram showing the logical progression of the algorithm as applied to this digraph, assuming that vertex 1 is selected as the root of the Hamiltonian cycle.  Vertices in bold are the ends of the paths with a minimum cost, while vertices in italics are the ends of the paths where there is no arc in the digraph such that a Hamiltonian cycle can be completed, based on the digraph traversal up to that point.  The arcs are labelled with the cumulative weight of the path taken to reach the lower vertex.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.8\textwidth]{chapters/tsp/figs/ugraph-figure1}
-\caption{\label{fig:utree}Tree diagram of the algorithm in action}
+\includegraphics[width=1.0\textwidth]{chapters/tsp/figs/ugraph-figure1}
+\caption{\label{fig:tsp:utree}Tree diagram of the algorithm in action}
 \end{figure}
 
 % \begin{figure}
@@ -146,18 +146,18 @@ Similarly, a progression will occur from vertex 1 to vertex 3 with \(c(3)\), to 
 %-------------------------------------------
 
 \subsection{Directed Graph Example}
-While the above example is drawn as a directed graph, to better match with the specification of the edges in the set of subcells \(E\), it was effectively an undirected graph.  In order to demonstrate that our algorithm is at least as effective in the directed case, we have slightly modified the graph shown in \autoref{fig:ugraph}, with the modified digraph presented in \autoref{fig:digraph} and the accompanying exploration tree in \autoref{fig:dtree}.  The updated set of subcells that are inside the skin membrane at the start of the computation are shown in \autoref{fig:tsp:obj1d}.  The changes made are that the edges from 1 to 2 and from 5 to 3 have been removed, and the weights between 1 and 3 and 4 and 5 have been partially modified so that they are different in each direction.
+While the above example is drawn as a directed graph, to better match with the specification of the edges in the set of subcells \(E\), it was effectively an undirected graph.  In order to demonstrate that our algorithm is at least as effective in the directed case, we have slightly modified the graph shown in \autoref{fig:tsp:ugraph}, with the modified digraph presented in \autoref{fig:tsp:digraph} and the accompanying exploration tree in \autoref{fig:tsp:dtree}.  The updated set of subcells that are inside the skin membrane at the start of the computation are shown in \autoref{fig:tsp:obj1d}.  The changes made are that the edges from 1 to 2 and from 5 to 3 have been removed, and the weights between 1 and 3 and 4 and 5 have been partially modified so that they are different in each direction.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.5\textwidth]{chapters/tsp/figs/ugraph-figure2}
-\caption{\label{fig:digraph}Sample weighted digraph H with at least one Hamiltonian Cycle}
+\includegraphics[width=0.6\textwidth]{chapters/tsp/figs/ugraph-figure2}
+\caption{\label{fig:tsp:digraph}Sample weighted digraph H with at least one Hamiltonian Cycle}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=0.5\textwidth]{chapters/tsp/figs/ugraph-figure3}
-\caption{\label{fig:dtree}Tree diagram of the algorithm in action on the second, directed graph, H}
+\includegraphics[width=0.7\textwidth]{chapters/tsp/figs/ugraph-figure3}
+\caption{\label{fig:tsp:dtree}Tree diagram of the algorithm in action on the second, directed graph, H}
 \end{figure}
 
 % \begin{figure}

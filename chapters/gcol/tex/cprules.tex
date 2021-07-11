@@ -1,143 +1,292 @@
-\section{\label{sec:cpsys}\texorpdfstring{\gls{cps}}{cP systems} solution to the Graph colouring problem}
+\section{\label{sec:gcol:cpsys}\texorpdfstring{\gls{cps}}{cP systems} solution to the Graph colouring problem}
 In working to create the \gls{cml} simulation of the problem, we noticed that in fact most of the work is performed by the instantiation of new objects, rather than communication.  Thus, the problem appears to be an excellent fit to the pre-existing formulation of \gls{cps} \cite{Nicolescu2018}.
 
-This problem, rather unsurprisingly, has a lot in common with the Hamiltonian Path Problem, and in fact our \gls{cps} solution for the Graph Colouring problem is similar in some regards to our previous Hamiltonian Cycle Problem solution, as presented in \cite{Cooper2019}.  Unfortunately, and unlike in \cite{Cooper2019}, a lack of available time means that as of yet we have been unable to construct simulations of the \gls{cps} solution in software.
+% This problem, rather unsurprisingly, has a lot in common with the Hamiltonian Path Problem, and in fact our \gls{cps} solution for the Graph Colouring problem is similar in some regards to our previous Hamiltonian Cycle Problem solution, as presented in \cite{Cooper2019}.  Unfortunately, and unlike in \cite{Cooper2019}, a lack of available time means that as of yet we have been unable to construct simulations of the \gls{cps} solution in software.
 
 We assume a graph with at most one edge between nodes (i.e. there are not two or more edges between the same two nodes), and that there are no edges leading from a node back to itself.
 
 We take as given inputs to the process conceptual finite sets \(V \subset \mathbb{N}\) representing the nodes of the graph\footnote{In fact, any finite set of arbitrary symbols could be used, but we use the natural numbers here for ease of reading.}; \(E \subseteq \{(i,j)~|~i, j \in V, i \neq j \}\) representing the edges of the graph; and \(K\) representing the chosen colours, where \(K\) contains whatever representation of the desired colours is considered appropriate.
 
-Based on these definitions, for the purposes of the remainder of this paper, \(|K|\) is defined to be the number of colours used in the current problem, \(|V|\) the number of nodes in the graph under consideration for the current problem and \(|E|\) the number of edges in the graph.
+Based on these definitions, for the purposes of the remainder of this chapter, \(|K|\) is defined to be the number of colours used in the current problem, \(|V|\) the number of nodes in the graph under consideration for the current problem and \(|E|\) the number of edges in the graph.
 
 \subsection{Pseudocode for our parallel algorithm}
-The logical operation of the system, as carried out using the rules described in detail at \autoref{sec:rules} below, can be demonstrated with a pseudocode representation, as shown in \autoref{code:graphcol}.  The notation used is largely inspired by the ML family of programming languages.
+The logical operation of the system, as carried out using the rules described in detail at \autoref{sec:gcol:rules} below, can be demonstrated with a pseudocode representation, as shown in \autoref{code:gcol:graphcol}.  The notation used is largely inspired by the ML family of programming languages.
 
-\renewcommand{\isequal}{=}
-\renewcommand{\gets}{\leftarrow}
-\renewcommand{\Then}{\textbf{then}\addtocounter{indent}{1}}
+% % \renewcommand{\isequal}{=}
+% % \renewcommand{\gets}{\leftarrow}
+% \renewcommand{\Then}{\textbf{then}\addtocounter{indent}{1}}
 
-\begin{figure}
-\begin{framed}
-\begin{codebox}
-\Procname{\proc{Graph Colouring} (\(V\), \(E\), \(K\))}
-\li \func{\textbf{choose}} \(s \in V\), \(c \in K\)
-\li \func{\textbf{return}} \proc{Graph Colouring} (\(V\), \(E\), \(K\), \(1\), \(\{\{(s, c)\}\}\))   \label{li:endofsmaller}
-\end{codebox}
+% \begin{figure}
+% \begin{framed}
+% \begin{codebox}
+% \Procname{\proc{Graph Colouring} (\(V\), \(E\), \(K\))}
+% \li \func{\textbf{choose}} \(s \in V\), \(c \in K\)
+% \li \func{\textbf{return}} \proc{Graph Colouring} (\(V\), \(E\), \(K\), \(1\), \(\{\{(s, c)\}\}\))   \label{li:gcol:endofsmaller}
+% \end{codebox}
+% \hrulefill
+% \begin{codebox}
+% % \setlinenumberplus{li:gcol:endofsmaller}{1}
+% \Procname{\proc{Graph Colouring}(\(V\), \(E\), \(K\), \(l\), \(B\))}
+% \li \If \(l = |V|\) \Then  \label{li:gcol:iflgreaterthanv}
+% % \li \Then
+%     \li \func{\textbf{choose}} \(m \in B\)
+%     \li \func{\textbf{return}} \(m\)    \label{li:gcol:returnsuccess}
+% \End
+% \li \(B' \gets \emptyset\)
+% \li \Parfor \(m \in B,~x \in \proc{Dom}(m),~y \in V \setminus \proc{Dom}(m),~ d \in K \)    \label{li:gcol:makebstart}
+% \li \Do
+%     \If \((x,y) \in E ~ \land \not\exists(x',y) \in E,~(x',d) \in m\) \Then
+%     % \li \Then
+%         \li \(B' \gets B' \cup \{m \cup \{ (y,d) \} \}\)   \label{li:gcol:makebfinish}
+%     \End
+% \End
+% \li \If \(B' = \emptyset\) \Then \label{li:gcol:fail1}
+%     % \li \Then
+%         \li \func{\textbf{return}} \(\emptyset\)  \label{li:gcol:fail2}
+%     \li \Else
+%         \func{\textbf{return}} \proc{Graph Colouring} (\(V\), \(E\), \(K\), \(l + 1\), \(B'\))\label{li:gcol:recurse}
+% \End
+% \end{codebox}
+% \end{framed}
+% \caption{\label{code:gcol:graphcol}Pseudocode representation of the algorithm performed by the cP~system rules in \autoref{ruleset:gcol:rules}.  We use a doubly-defined tail-recursive function approach, where the algorithm begins with the upper function supplied only with the details of the graph and colours, but uses the lower function with further arguments to perform most of the processing.}
+% \end{figure}
+
+% \begin{algorithm}
+% \DontPrintSemicolon
+% % \KwIn{Labelled channels \(1, 2, 3, 4, e, o\); adjacency set \(a = \{1,2,3,4\}\)}
+% \KwIn{Labelled channels \(1, 2, 3, 4, e, o\)}
+% \KwOut{Final result, \(z\), sent to \(e\)}
+% \Begin{
+%     \tcc{\(a \Leftarrow b\) denotes receiving object \(a\) on channel \(b\);\newline\(c \Rightarrow d\) denotes sending object \(c\) on channel \(d\);\newline\(e \Leftrightarrow f\) denotes antiport exchange, sending \emph{and} receiving objects \(e\) on channel \(f\).}\;
+    
+%     \tcc{Initialisation}
+%     \(v_n \Leftarrow e: \forall n \in \{1, 2, 3, 4\}\)      \tcp*[r]{Rule (1)}
+%     \(i \Leftarrow e\)                              \tcp*[r]{Rule (2)}
+    
+%     \While(\tcp*[f]{Rule (3)}){i > 0 }{
+%         \tcc{\Glsentrylong{oq}}
+%         \(v_n \Rightarrow o: \forall n \in \{1, 2, 3, 4\}\) \tcp*[r]{Rule (4)}
+%         \(v_n \Leftarrow o: \forall n \in \{1, 2, 3, 4\}\)  \tcp*[r]{Rule (5)}
+%         \;\tcc{\Glsentrylong{nm}}
+%         \(v_n \Leftrightarrow n: \forall n \in \{1, 2, 3, 4\}\)  \tcp*[r]{Rule (6)}
+%         \(i \leftarrow i - 1\)           \tcp*[r]{Rule (7)}
+%     }
+%     \;\tcc{Finalisation}
+%     \(v'_n \gets v_n; v'_n \Rightarrow o: \forall n \in \{1, 2, 3, 4\}\)     \tcp*[r]{Rule (8)}
+%     \(z \Leftarrow o; z \Rightarrow e\)             \tcp*[r]{Rule (9)}
+% }
+% \caption{\label{alg:nmp:systemwide2}Pseudocode description of the process for an individual \gls{pe} in the synchronous system}
+% \end{algorithm}
+
+% \renewcommand{\isequal}{=}
+% \renewcommand{\gets}{\leftarrow}
+% \renewcommand{\Then}{\textbf{then}\addtocounter{indent}{1}}
+
+\begin{algorithm}
+\DontPrintSemicolon
+\SetKwFunction{Choose}{choose}
+\SetKwFunction{Dom}{Dom}
+\SetKwFunction{Graphcolouring}{Graph Colouring}
+% \Procname{\proc{Graph Colouring} (\(V\), \(E\), \(K\))}
+\KwIn{\(V\), \(E\), \(K\)}
+\KwOut{A valid colouring, or an indication no valid colouring is possible}
+\Begin{
+\Choose{\(s \in V\), \(c \in K\)}\;
+% \func{\textbf{return}} \proc{Graph Colouring} (\(V\), \(E\), \(K\), \(1\), \(\{\{(s, c)\}\}\))  
+% \KwRet{\proc{Graph Colouring} (\(V\), \(E\), \(K\), \(1\), \(\{\{(s, c)\}\}\)) }
+\KwRet{\Graphcolouring{\(V\), \(E\), \(K\), \(1\), \(\{\{(s, c)\}\}\)}} \label{li:gcol:endofsmaller}
+}
+
 \hrulefill
-\begin{codebox}
-% \setlinenumberplus{li:endofsmaller}{1}
-\Procname{\proc{Graph Colouring}(\(V\), \(E\), \(K\), \(l\), \(B\))}
-\li \If \(l \isequal |V|\) \Then  \label{li:iflgreaterthanv}
-% \li \Then
-    \li \func{\textbf{choose}} \(m \in B\)
-    \li \func{\textbf{return}} \(m\)    \label{li:returnsuccess}
-\End
-\li \(B' \gets \varnothing\)
-\li \Parfor \(m \in B,~x \in \proc{Dom}(m),~y \in V \setminus \proc{Dom}(m),~ d \in K \)    \label{li:makebstart}
-\li \Do
-    \If \((x,y) \in E ~ \land \not\exists(x',y) \in E,~(x',d) \in m\) \Then
-    % \li \Then
-        \li \(B' \gets B' \cup \{m \cup \{ (y,d) \} \}\)   \label{li:makebfinish}
-    \End
-\End
-\li \If \(B' \isequal \varnothing\) \Then \label{li:fail1}
-    % \li \Then
-        \li \func{\textbf{return}} \(\varnothing\)  \label{li:fail2}
-    \li \Else
-        \func{\textbf{return}} \proc{Graph Colouring} (\(V\), \(E\), \(K\), \(l + 1\), \(B'\))\label{li:recurse}
-\End
-\end{codebox}
-\end{framed}
-\caption{\label{code:graphcol}Pseudocode representation of the algorithm performed by the cP~system rules in \autoref{fig:rules}.  We use a doubly-defined tail-recursive function approach, where the algorithm begins with the upper function supplied only with the details of the graph and colours, but uses the lower function with further arguments to perform most of the processing.}
-\end{figure}
 
-In our notation \(m\) is a partial functional relation to \proc{Dom}(m); \proc{Dom}(m) is a partial spanning tree over the graph; \((x, c) \in m\) iff \(c\) is the colour of node \(x\);  \(B\) is the set of all partial functional relations built up so far; and \(l \in \mathbb{N}\).
+% \setlinenumberplus{li:gcol:endofsmaller}{1}
+% \Procname{\proc{Graph Colouring}(\(V\), \(E\), \(K\), \(l\), \(B\))}
+\KwIn{\(V\), \(E\), \(K\), \(l\), \(B\)}
+\KwOut{A valid colouring, or an indication no valid colouring is possible}
+\Begin{
+\If{\label{li:gcol:iflgreaterthanv} \(l = |V|\)} {
+% \li \Then
+    % \func{\textbf{choose}} \(m \in B\)\;
+    \Choose{\(m \in B\)}\;
+    % \func{\textbf{return}} \(m\)    \label{li:gcol:returnsuccess}
+    \KwRet{\(m\)}    \label{li:gcol:returnsuccess}
+}
+\(B' \gets \emptyset\)\;
+\For{ \(m \in B,~x \in \Dom{m},~y \in V \setminus \Dom{m},~ d \in K \)}{    \label{li:gcol:makebstart}
+    \If{\((x,y) \in E ~ \land \not\exists(x',y) \in E,~(x',d) \in m\)}{
+    % \li \Then
+        \(B' \gets B' \cup \{m \cup \{ (y,d) \} \}\)\;   \label{li:gcol:makebfinish}
+    }
+}
+\eIf{ \label{li:gcol:fail1} \(B' = \emptyset\) }
+   { % \li \Then
+        % \func{\textbf{return}} \(\emptyset\)  \label{li:gcol:fail2}}
+        \KwRet{\(\emptyset\)}  \label{li:gcol:fail2}}
+    {
+        % \func{\textbf{return}} \proc{Graph Colouring} (\(V\), \(E\), \(K\), \(l + 1\), \(B'\))\label{li:gcol:recurse}
+        % \KwRet{\proc{Graph Colouring} (\(V\), \(E\), \(K\), \(l + 1\), \(B'\))\label{li:gcol:recurse}}
+        \KwRet{\Graphcolouring{\(V\), \(E\), \(K\), \(l + 1\), \(B'\)}\label{li:gcol:recurse}}
+}
+}
+\caption{\label{code:gcol:graphcol}Pseudocode representation of the algorithm performed by the cP~system rules in \autoref{ruleset:gcol:rules}.  We use a doubly-defined tail-recursive function approach, where the algorithm begins with the upper function supplied only with the details of the graph and colours, but uses the lower function with further arguments to perform most of the processing.}
+\end{algorithm}
+
+% In our notation \(m\) is a partial functional relation to \proc{Dom}(m); \proc{Dom}(m) is a partial spanning tree over the graph; \((x, c) \in m\) iff \(c\) is the colour of node \(x\);  \(B\) is the set of all partial functional relations built up so far; and \(l \in \mathbb{N}\).
+
+In our notation \(m\) is a partial functional relation to \texttt{Dom}(m); \texttt{Dom}(m) is a partial spanning tree over the graph; \((x, c) \in m\) iff \(c\) is the colour of node \(x\);  \(B\) is the set of all partial functional relations built up so far; and \(l \in \mathbb{N}\).
 
 In brief, our system works by starting with the colours and graph under consideration then building up in a maximally-parallel fashion a collection of objects which represent all validly-coloured partial spanning trees of the graph.  Eventually, once full spanning trees have been constructed, one is chosen at random and its colouring output to the environment.  Or, if no valid colouring is possible, the system will detect that by the complete absence of any partial spanning tree, and signal to the environment that no appropriate colouring is possible.  The conceptual spanning trees are built following all possible tree edges, but checking that all new frond edges do not invalidate the colouring.
 
 Note that while this algorithm is guaranteed to return a valid colouring if one is possible, there is \emph{no} guarantee as to precisely which valid colouring will be selected.  We assume here that all potential colourings are equally desirable, and make no provision for specifying that certain nodes must be coloured from a subset of the available colours.
 
-\subsection{\label{sect:sysinit}cP~System Initialisation}
+\subsection{\label{sec:gcol:sysinit}cP~System Initialisation}
 We start construction of the system with a top-level cell containing functor \(V' = v(n(i)~|~i \in V)\) which contains the labels of the nodes in \(V\); a set \(E' \subseteq \{e(n(i)\,n(j))~|~(i,j) \in E\}\) representing the edges of the graph; a starting node \(s(h)\) where \(h \in V\) is an arbitrary node label; and a set \(K' = \{k(\kappa)~|~\kappa \in K\}\) of  the potential colours -- in the case of the three colour problem it might look like \(K' = \{k(r), k(g), k(b)\}\). Using separate colour symbols in this fashion means that the algorithm can operate as a \(|K|\)-colour problem, without any other modification.  %As currently constructed, however, our system makes no attempt to minimise the number of colours used.
 
-While we represent the colours here as separate symbols for legibility, they can in fact be represented equivalently by natural numbers, because each colour symbol is contained within a \(k\) functor -- one simply need fill each functor with the appropriate number of the counting symbol to represent the desired different colours.  E.g. \(r\) might be represented by one symbol, \(\alpha\), \(g\) by two and \(b\) by three, i.e. \(r = k(\alpha)\), \(g = k(\alpha^2)\) and \(b = k(\alpha^3)\).  Exactly the same is true of the edges.  This means that in fact we do not require any extra symbols in our alphabet in order to represent the colours and edges of a given problem -- we merely re-use atoms (see further in \autoref{sect:notation}).
+While we represent the colours here as separate symbols for legibility, they can in fact be represented equivalently by natural numbers, because each colour symbol is contained within a \(k\) functor -- one simply need fill each functor with the appropriate number of the counting symbol to represent the desired different colours.  E.g. \(r\) might be represented by one symbol, \(\alpha\), \(g\) by two and \(b\) by three, i.e. \(r = k(\alpha)\), \(g = k(\alpha^2)\) and \(b = k(\alpha^3)\).  Exactly the same is true of the edges.  This means that in fact we do not require any extra symbols in our alphabet in order to represent the colours and edges of a given problem -- we merely re-use atoms (see further in \autoref{sec:gcol:notation}).
 
-\subsection{\label{sect:notation}cP~System Notation}
+\subsection{\label{sec:gcol:notation}cP~System Notation}
 A cP~system can be described as a 6-tuple as shown below.
 
 \[
 cP\Pi(T, A, O, R, S, s_0)
 \]
 
-\(T\) is the set of top-level cells at the start of the evolution of the system, \(A\) is the alphabet of the system, \(O\) is the set of multisets of initial objects in the top-level cells, \(R\) is the set of rulesets for each top-level cell, \(S\) is the set of possible states of the system, and \(s_0 \in S\) is the starting state of the system.
+\(T\) is the set of top-level cells at the start of the evolution of the system; \(A\) is the alphabet of the system; \(O\) is the set of multisets of initial objects in the top-level cells; \(R\) is the set of rulesets for each top-level cell, \(S\) is the set of possible states of the system, and \(s_0 \in S\) is the starting state of the system. Further, \(|T| = |O| = |R|\).
 
 Our graph colouring system can be formalised as
 
 \[
 cP\Pi(\{\sigma_1\}, A, \{O_1\}, \{r_1\}, S, s_0)
-\] where the set \(T = \{\sigma_1\}\) is the single top-level cell of the system; \(A = \{b, c, e,\allowbreak l,\allowbreak m,\allowbreak n, s, v, k\} \allowbreak \cup \{\alpha\}\) is all potential atoms, functors and other symbols of the system (\(\alpha\) is used here as the counting symbol representing natural numbers); \(O_1 = \{s(h)\} \cup V' \allowbreak \cup E' \allowbreak \cup K'\) is the multiset of initial objects contained within \(\sigma_1\), where \(h\) is an arbitrarily chosen member of \(V\); \(R = \{r_1\}\) is the ruleset in \autoref{fig:rules}; \(S = \{s_0, s_1, s_2, s_3\}\) is the potential states of the system; and \(s_0\) is the initial state of the system.
+\] where the set \(T = \{\sigma_1\}\) is the single top-level cell of the system; \(A = \{b, c, e,\allowbreak l,\allowbreak m,\allowbreak n, s, v, k\} \allowbreak \cup \{\alpha\}\) is all potential atoms, functors and other symbols of the system (\(\alpha\) is used here as the counting symbol representing natural numbers); \(O_1 = \{s(h)\} \cup V' \allowbreak \cup E' \allowbreak \cup K'\) is the multiset of initial objects contained within \(\sigma_1\), where \(h\) is an arbitrarily chosen member of \(V\); \(R = \{r_1\}\) is the ruleset in \autoref{ruleset:gcol:rules}; \(S = \{s_0, s_1, s_2, s_3\}\) is the potential states of the system; and \(s_0\) is the initial state of the system.
 
 
 
-\subsection{\label{sec:rules}Rules}
+\subsection{\label{sec:gcol:rules}Rules}
 
-\begin{figure}
-\begin{framed}
-\[\begin{array}{lllr}
-s_0 ~ & ~ v(n(S)Z) ~ & ~ & (1) \\ & ~\rightarrow_1 ~ s_1 ~ b(l(1)~m(n(S)\,c(C))~v(Z)) ~ l(1)\\
-    ~ & \hspace{1.5cm} ~ | ~ k(C) ~ & ~ \\
-    ~ & \hspace{1.5cm} ~ | ~ s(S) ~ & ~ \\
-    \\
-s_1 ~ & ~ b(l(\_) ~ M ~ v(\lambda)) ~ & & ~ (2) \\ & ~ \rightarrow_1 ~ s_2 ~ M~!_{env} ~ &\\
-    \\
-s_1 ~ & ~  ~ & ~ & (3)  \\ & ~ \rightarrow_+ ~ s_1 ~ b(l(L1)~m(n(X)\,c(C))~m(n(Y)\,c(D))~M~v(Z))\\
-    ~ & \hspace{1.5cm} ~ | ~ b(l(L)~m(n(X)\,c(C)) ~ M ~ v(n(Y)Z)) ~ & ~ \\
-    ~ & \hspace{1.5cm} ~ | ~ e(n(X)\,n(Y)) ~ & ~ \\
-    ~ & \hspace{1.5cm} ~ | ~ k(D) ~ & ~ \\
-    %~ & \hspace{1.5cm} ~ \neg ~ k(C) = k(D) ~ & ~ \\
-    ~ & \hspace{1.5cm} ~ \neg ~ \{ e(n(X')\,n(Y)) \land m(n(X')\,c(D)) \} ~ & ~ \\
-    \\
-s_1 ~ & ~ b(l(L)~\_) ~ & ~   ~ & ~ (4) \\ & ~ \rightarrow_+ ~ s_1 ~ \lambda\\
-    ~ & \hspace{1.5cm} ~ | ~ l(L) ~ & ~ \\
-    \\
-s_1 ~ & ~  ~ & ~ & ~ (5)  \\ & ~ \rightarrow_1 ~ s_3 ~  ~ \\    
-    \\
-s_1 ~ & ~ l(L) ~ & ~  ~ & ~ (6)  \\ & ~ \rightarrow_1 ~ s_1 ~ l(L1)\\
-\end{array}
-\]
-\end{framed}
-\caption{Our completely generic \gls{cps} rules for solving the Graph Colouring Problem.}
-\label{fig:rules}
-\end{figure}
+% \begin{figure}
+% \begin{framed}
+% \[\begin{array}{lllr}
+% s_0 ~ & ~ v(n(S)Z) ~ & ~ & (1) \\ & ~\rightarrow_1 ~ s_1 ~ b(l(1)~m(n(S)\,c(C))~v(Z)) ~ l(1)\\
+%     ~ & \hspace{1.5cm} ~ | ~ k(C) ~ & ~ \\
+%     ~ & \hspace{1.5cm} ~ | ~ s(S) ~ & ~ \\
+%     \\
+% s_1 ~ & ~ b(l(\_) ~ M ~ v(\lambda)) ~ & & ~ (2) \\ & ~ \rightarrow_1 ~ s_2 ~ M~!_{env} ~ &\\
+%     \\
+% s_1 ~ & ~  ~ & ~ & (3)  \\ & ~ \rightarrow_+ ~ s_1 ~ b(l(L1)~m(n(X)\,c(C))~m(n(Y)\,c(D))~M~v(Z))\\
+%     ~ & \hspace{1.5cm} ~ | ~ b(l(L)~m(n(X)\,c(C)) ~ M ~ v(n(Y)Z)) ~ & ~ \\
+%     ~ & \hspace{1.5cm} ~ | ~ e(n(X)\,n(Y)) ~ & ~ \\
+%     ~ & \hspace{1.5cm} ~ | ~ k(D) ~ & ~ \\
+%     %~ & \hspace{1.5cm} ~ \neg ~ k(C) = k(D) ~ & ~ \\
+%     ~ & \hspace{1.5cm} ~ \neg ~ \{ e(n(X')\,n(Y)) \land m(n(X')\,c(D)) \} ~ & ~ \\
+%     \\
+% s_1 ~ & ~ b(l(L)~\_) ~ & ~   ~ & ~ (4) \\ & ~ \rightarrow_+ ~ s_1 ~ \lambda\\
+%     ~ & \hspace{1.5cm} ~ | ~ l(L) ~ & ~ \\
+%     \\
+% s_1 ~ & ~  ~ & ~ & ~ (5)  \\ & ~ \rightarrow_1 ~ s_3 ~  ~ \\    
+%     \\
+% s_1 ~ & ~ l(L) ~ & ~  ~ & ~ (6)  \\ & ~ \rightarrow_1 ~ s_1 ~ l(L1)\\
+% \end{array}
+% \]
+% \end{framed}
+% \caption{Our completely generic \gls{cps} rules for solving the Graph Colouring Problem.}
+% \label{fig:rules}
+% \end{figure}
 
-Our entire ruleset is presented in \autoref{fig:rules}.  It consists of six rules, which are invariant to the graph under consideration, and are listed in \emph{weak priority order}.  They are explained below:
+\begin{cprulesetfloat}
+\begin{cpruleset}
+
+    \cprule{s_0}{\cpfunc{v}{\cpfunc{n}{S}Z}}{1}{s_1}{\cpfunc{b}{\cpfunc{l}{1} \; \cpfunc{m}{\cpfunc{n}{S} \, \cpfunc{c}{C}} \; \cpfunc{v}{Z}} \; \cpfunc{l}{1}}
+    \cppromoter{\cpfunc{k}{C}}
+    \cppromoter{\cpfunc{s}{S}}
+    
+    \cprule{s_1}{\cpfunc{b}{\cpfunc{l}{\_} \; M \; \cpfunc{v}{\cpempty}}}{1}{s_2}{\cpsend{M}{env}}
+    
+    \cprule{s_1}{}{+}{s_1}{\cpfunc{b}{\cpfunc{l}{L\cpundig} \; \cpfunc{m}{\cpfunc{n}{X} \, \cpfunc{c}{C}} \; \cpfunc{m}{\cpfunc{n}{Y} \, \cpfunc{c}{D}} \; M \; \cpfunc{v}{Z}}}
+    \cppromoter{\cpfunc{b}{\cpfunc{l}{L} \; \cpfunc{m}{\cpfunc{n}{X} \, \cpfunc{c}{C}} \; M \; \cpfunc{v}{\cpfunc{n}{Y}Z}}}
+    \cppromoter{\cpfunc{e}{\cpfunc{n}{X} \, \cpfunc{n}{Y}}}
+    \cppromoter{\cpfunc{k}{D}}
+    \cpinhibitor{\{ \cpfunc{e}{\cpfunc{n}{X'} \, \cpfunc{n}{Y}} \land \cpfunc{m}{\cpfunc{n}{X'} \, \cpfunc{c}{D}} \}}
+    
+    \cprule{s_1}{\cpfunc{b}{\cpfunc{l}{L} \, \_}}{+}{s_1}{}
+    \cppromoter{\cpfunc{l}{L}}
+    
+    \cprule{s_1}{}{1}{s_3}{}
+    
+    \cprule{s_1}{\cpfunc{l}{L}}{1}{s_1}{\cpfunc{l}{L\cpundig}}
+
+\end{cpruleset}
+\caption{\label{ruleset:gcol:rules}Our completely generic \gls{cps} rules for solving the Graph Colouring Problem.}
+\end{cprulesetfloat}
+
+% \begin{figure}
+% \begin{framed}
+% \[\begin{array}{lllr}
+% s_0 ~ & ~ v(n(S)Z) ~ & ~ & (1) \\ & ~\rightarrow_1 ~ s_1 ~ b(l(1)~m(n(S)\,c(C))~v(Z)) ~ l(1)\\
+%     ~ & \hspace{1.5cm} ~ | ~ k(C) ~ & ~ \\
+%     ~ & \hspace{1.5cm} ~ | ~ s(S) ~ & ~ \\
+%     \\
+% s_1 ~ & ~ b(l(\_) ~ M ~ v(\lambda)) ~ & & ~ (2) \\ & ~ \rightarrow_1 ~ s_2 ~ M~!_{env} ~ &\\
+%     \\
+% s_1 ~ & ~  ~ & ~ & (3)  \\ & ~ \rightarrow_+ ~ s_1 ~ b(l(L1)~m(n(X)\,c(C))~m(n(Y)\,c(D))~M~v(Z))\\
+%     ~ & \hspace{1.5cm} ~ | ~ b(l(L)~m(n(X)\,c(C)) ~ M ~ v(n(Y)Z)) ~ & ~ \\
+%     ~ & \hspace{1.5cm} ~ | ~ e(n(X)\,n(Y)) ~ & ~ \\
+%     ~ & \hspace{1.5cm} ~ | ~ k(D) ~ & ~ \\
+%     %~ & \hspace{1.5cm} ~ \neg ~ k(C) = k(D) ~ & ~ \\
+%     ~ & \hspace{1.5cm} ~ \neg ~ \{ e(n(X')\,n(Y)) \land m(n(X')\,c(D)) \} ~ & ~ \\
+%     \\
+% s_1 ~ & ~ b(l(L)~\_) ~ & ~   ~ & ~ (4) \\ & ~ \rightarrow_+ ~ s_1 ~ \lambda\\
+%     ~ & \hspace{1.5cm} ~ | ~ l(L) ~ & ~ \\
+%     \\
+% s_1 ~ & ~  ~ & ~ & ~ (5)  \\ & ~ \rightarrow_1 ~ s_3 ~  ~ \\    
+%     \\
+% s_1 ~ & ~ l(L) ~ & ~  ~ & ~ (6)  \\ & ~ \rightarrow_1 ~ s_1 ~ l(L1)\\
+% \end{array}
+% \]
+% \end{framed}
+% \caption{Our completely generic \gls{cps} rules for solving the Graph Colouring Problem.}
+% \label{fig:rules}
+% \end{figure}
+
+Our entire ruleset is presented in \autoref{ruleset:gcol:rules}.  It consists of six rules, which are invariant to the graph under consideration, and are listed in \emph{weak priority order}.  They are explained below:
 
 \begin{enumerate}
 \item This rule begins the evolution of the system.  It converts the functor \(v\) into a functor \bo{}, which is used further to instantiate new objects with the possible colourings of the system.  It merely selects the node described by \(s(h)\), and assigns it a colour at random.
 
 The \bo{} object holds an \(l\) functor which keeps track of which iteration a given \bo{} belongs to; a multiset of \(m\) functors which track nodes and their assigned colours in a potential solution; and a \(v\) functor which continues to track the reducing unexplored nodes of the graph.
 
-A separate global \(l\) functor is also instantiated at this point, which tracks the current iteration number of the system and which is used in later rules.  This rule begins in state \(s_0\) and ends in state \(s_1\).  This rule corresponds to the upper \proc{Graph Colouring} function in \autoref{code:graphcol}.
+% A separate global \(l\) functor is also instantiated at this point, which tracks the current iteration number of the system and which is used in later rules.  This rule begins in state \(s_0\) and ends in state \(s_1\).  This rule corresponds to the upper \proc{Graph Colouring} function in \autoref{code:gcol:graphcol}.
 
-\item This rule is one of the potential end points of the evolution of the system.  If there are no further remaining nodes to explore, i.e. the \bo{} objects have empty \(v\) functors, then one of the \bo{}s is selected at random and the set \(M\) of \(m\) functors within said \bo{} which contain a solution to the colouring problem is output to the environment.  This rule begins in state \(s_1\) and ends in state \(s_2\).  State \(s_2\) is used to indicate to the environment that a solution has been found and the evolution of the system has terminated.  The change in state means that no other rule can be applied if this rule is applied.  This rule corresponds to lines \ref{li:iflgreaterthanv}-\ref{li:returnsuccess} of the lower \proc{Graph Colouring} function in \autoref{code:graphcol}.
+A separate global \(l\) functor is also instantiated at this point, which tracks the current iteration number of the system and which is used in later rules.  This rule begins in state \(s_0\) and ends in state \(s_1\).  This rule corresponds to the upper \texttt{Graph Colouring} function in \autoref{code:gcol:graphcol}.
 
-\item This rule is arguably the heart of the process and runs in a maximally parallel fashion (as indicated by \(\rightarrow_+\)) -- meaning that every possible exploration from the currently extant \bo{} objects is performed simultaneously.  In each application, for every pre-existing \bo{} object, new ones are generated with a random colouration assigned to an unexplored node, so long as there exists an edge between those nodes in the graph \emph{and} the selected colours are not the same \emph{and} there does not already exist another \(m\) object within the current \bo{} object that represents another node connected to the newly-chosen node with the same colour.  It also increments the iteration counter within the \bo{} object.  This rule begins in state \(s_1\) and ends in state \(s_1\).  This rule corresponds to lines \ref{li:makebstart}-\ref{li:makebfinish} of the lower \proc{Graph Colouring} function in \autoref{code:graphcol}.
+% \item This rule is one of the potential end points of the evolution of the system.  If there are no further remaining nodes to explore, i.e. the \bo{} objects have empty \(v\) functors, then one of the \bo{}s is selected at random and the set \(M\) of \(m\) functors within said \bo{} which contain a solution to the colouring problem is output to the environment.  This rule begins in state \(s_1\) and ends in state \(s_2\).  State \(s_2\) is used to indicate to the environment that a solution has been found and the evolution of the system has terminated.  The change in state means that no other rule can be applied if this rule is applied.  This rule corresponds to lines \ref{li:gcol:iflgreaterthanv}-\ref{li:gcol:returnsuccess} of the lower \proc{Graph Colouring} function in \autoref{code:gcol:graphcol}.
 
-The interaction of the \(v\) objects in the output and the first promoter work in the same fashion as \(y \in V \setminus \proc{Dom}(M)\) in the pseudocode of \autoref{code:graphcol}.  That is, this rule selects an \(n\) inside the given \bo{}'s \(v\), but naturally avoids selecting an \(n\) that is already used in one of the \bo{}'s \(m\)s because they have already been removed from \(v\).
+\item This rule is one of the potential end points of the evolution of the system.  If there are no further remaining nodes to explore, i.e. the \bo{} objects have empty \(v\) functors, then one of the \bo{}s is selected at random and the set \(M\) of \(m\) functors within said \bo{} which contain a solution to the colouring problem is output to the environment.  This rule begins in state \(s_1\) and ends in state \(s_2\).  State \(s_2\) is used to indicate to the environment that a solution has been found and the evolution of the system has terminated.  The change in state means that no other rule can be applied if this rule is applied.  This rule corresponds to lines \ref{li:gcol:iflgreaterthanv}-\ref{li:gcol:returnsuccess} of the lower \texttt{Graph Colouring} function in \autoref{code:gcol:graphcol}.
+
+% \item This rule is arguably the heart of the process and runs in a maximally parallel fashion (as indicated by \(\rightarrow_+\)) -- meaning that every possible exploration from the currently extant \bo{} objects is performed simultaneously.  In each application, for every pre-existing \bo{} object, new ones are generated with a random colouration assigned to an unexplored node, so long as there exists an edge between those nodes in the graph \emph{and} the selected colours are not the same \emph{and} there does not already exist another \(m\) object within the current \bo{} object that represents another node connected to the newly-chosen node with the same colour.  It also increments the iteration counter within the \bo{} object.  This rule begins in state \(s_1\) and ends in state \(s_1\).  This rule corresponds to lines \ref{li:gcol:makebstart}-\ref{li:gcol:makebfinish} of the lower \proc{Graph Colouring} function in \autoref{code:gcol:graphcol}.
+
+\item This rule is arguably the heart of the process and runs in a maximally parallel fashion (as indicated by \(\rightarrow_+\)) -- meaning that every possible exploration from the currently extant \bo{} objects is performed simultaneously.  In each application, for every pre-existing \bo{} object, new ones are generated with a random colouration assigned to an unexplored node, so long as there exists an edge between those nodes in the graph \emph{and} the selected colours are not the same \emph{and} there does not already exist another \(m\) object within the current \bo{} object that represents another node connected to the newly-chosen node with the same colour.  It also increments the iteration counter within the \bo{} object.  This rule begins in state \(s_1\) and ends in state \(s_1\).  This rule corresponds to lines \ref{li:gcol:makebstart}-\ref{li:gcol:makebfinish} of the lower \texttt{Graph Colouring} function in \autoref{code:gcol:graphcol}.
+
+% The interaction of the \(v\) objects in the output and the first promoter work in the same fashion as \(y \in V \setminus \proc{Dom}(M)\) in the pseudocode of \autoref{code:gcol:graphcol}.  That is, this rule selects an \(n\) inside the given \bo{}'s \(v\), but naturally avoids selecting an \(n\) that is already used in one of the \bo{}'s \(m\)s because they have already been removed from \(v\).
+
+The interaction of the \(v\) objects in the output and the first promoter work in the same fashion as \(y \in V \setminus \texttt{Dom}(M)\) in the pseudocode of \autoref{code:gcol:graphcol}.  That is, this rule selects an \(n\) inside the given \bo{}'s \(v\), but naturally avoids selecting an \(n\) that is already used in one of the \bo{}'s \(m\)s because they have already been removed from \(v\).
 
 \item This rule is a `cleaning' rule, which removes all extant \bo{} objects with the current iteration count, thus keeping the working space relatively clean.  Recall that in P~systems, rules are applied top-to-bottom in a  weak priority order.  This means that, while this rule will eliminate the \bo{} objects used by rule 3 to instantiate the next generation, said objects will not be eliminated until immediately after the application of rule 3 and thus the two rules do not cause conflicts.  This rule begins in state \(s_1\) and ends in state \(s_1\).
 
 The operation of this rule occurs implicitly in the pseudocode, and does not have corresponding lines.  There is no reference to the current set of \bo{}s, \(B\), carried forward into the next call of the pseudocode function.  Instead, \(B\) is replaced with \(B'\) for the next execution of the function, and \(B\) will be cleaned up by the system in whichever way it clears away objects once all references to them have been dropped.
 
-\item This rule is the other possible termination rule.  It merely transitions to state \(s_3\), which is used to signal to the environment that no solution is possible.  The key to this rule is that, because it transitions to state \(s_3\), it is only applicable if none of the prior rules are.  This effectively means that it can only apply if all \bo{} objects have been removed from the system (because the presence of at least one \bo{} would mean that one of the prior rules will apply), indicating that every possible combination explored so far has already found a colouring conflict and thus there is no possible valid solution.  This rule begins in state \(s_1\) and ends in state \(s_3\).  This rule corresponds to lines \ref{li:fail1}-\ref{li:fail2} of the lower \proc{Graph Colouring} function in \autoref{code:graphcol}.
+% \item This rule is the other possible termination rule.  It merely transitions to state \(s_3\), which is used to signal to the environment that no solution is possible.  The key to this rule is that, because it transitions to state \(s_3\), it is only applicable if none of the prior rules are.  This effectively means that it can only apply if all \bo{} objects have been removed from the system (because the presence of at least one \bo{} would mean that one of the prior rules will apply), indicating that every possible combination explored so far has already found a colouring conflict and thus there is no possible valid solution.  This rule begins in state \(s_1\) and ends in state \(s_3\).  This rule corresponds to lines \ref{li:gcol:fail1}-\ref{li:gcol:fail2} of the lower \proc{Graph Colouring} function in \autoref{code:gcol:graphcol}.
 
-\item This rule merely increments the global iteration counter.  It is placed last so that the termination rules can trigger before it, as otherwise it will always be applicable while the system is in state \(s_1\).  This rule begins in state \(s_1\) and ends in state \(s_1\), and thus is applied simultaneously with rules 3 and 4.  This rule is implemented in the successive recursive calls of the lower \proc{Graph Colouring} function in \autoref{code:graphcol} at line \ref{li:recurse}.  As part of the recursive call the value for \(l\) in the next call is given as the current value of \(l\) plus one i.e. \(l\) is incremented as part of the function call.
+\item This rule is the other possible termination rule.  It merely transitions to state \(s_3\), which is used to signal to the environment that no solution is possible.  The key to this rule is that, because it transitions to state \(s_3\), it is only applicable if none of the prior rules are.  This effectively means that it can only apply if all \bo{} objects have been removed from the system (because the presence of at least one \bo{} would mean that one of the prior rules will apply), indicating that every possible combination explored so far has already found a colouring conflict and thus there is no possible valid solution.  This rule begins in state \(s_1\) and ends in state \(s_3\).  This rule corresponds to lines \ref{li:gcol:fail1}-\ref{li:gcol:fail2} of the lower \texttt{Graph Colouring} function in \autoref{code:gcol:graphcol}.
+
+% \item This rule merely increments the global iteration counter.  It is placed last so that the termination rules can trigger before it, as otherwise it will always be applicable while the system is in state \(s_1\).  This rule begins in state \(s_1\) and ends in state \(s_1\), and thus is applied simultaneously with rules 3 and 4.  This rule is implemented in the successive recursive calls of the lower \proc{Graph Colouring} function in \autoref{code:gcol:graphcol} at line \ref{li:gcol:recurse}.  As part of the recursive call the value for \(l\) in the next call is given as the current value of \(l\) plus one i.e. \(l\) is incremented as part of the function call.
+
+\item This rule merely increments the global iteration counter.  It is placed last so that the termination rules can trigger before it, as otherwise it will always be applicable while the system is in state \(s_1\).  This rule begins in state \(s_1\) and ends in state \(s_1\), and thus is applied simultaneously with rules 3 and 4.  This rule is implemented in the successive recursive calls of the lower \texttt{Graph Colouring} function in \autoref{code:gcol:graphcol} at line \ref{li:gcol:recurse}.  As part of the recursive call the value for \(l\) in the next call is given as the current value of \(l\) plus one i.e. \(l\) is incremented as part of the function call.
 \end{enumerate}
 
 \subsection{Termination and Correctness}
 The behaviour of the system with regards to termination and correctness is stated and explained below.  This discussion does not use a formal mathematical proof, but explains the reasoning used to justify the assertion that the system always terminates with a correct answer.
 
-\begin{proposition}\label{prop:grow}
+\begin{proposition}\label{prop:gcol:grow}
 All \bo{} objects present in the top-level cell hold a monotonically growing set \(M\) of \(m\) functors, which represent validly coloured partial spanning trees of the whole graph, and at step \(l \leq |V|\) in the evolution of the system, each partial spanning tree will have a length equal to \(l\).
 \end{proposition}
 
@@ -153,7 +302,7 @@ At that point, rule 3 can no longer be applied (because there will no longer be 
 If a colouring is not possible, then eventually every possible application of rule 3 will be confounded by the inhibitor, leading to rule 4 removing all \bo{} objects without any more replacing them.  At this point (which can itself potentially occur at step \(l = |V| + 1\), such as in the case of a 4-node complete graph with 3 colours), rule 5 will terminate evolution of the system.
 \end{proof}
 
-\begin{proposition}\label{prop:determin}
+\begin{proposition}\label{prop:gcol:determin}
 In all cases, evolution of the system proceeds wholly deterministically between the first and final steps, exclusively.
 \end{proposition}
 
@@ -165,12 +314,12 @@ Rule 5 is also deterministic.  It can only be applied when there are no \bo{} ob
 Likewise, rule 6 is deterministic, because there will only be one \(l\) functor contained within the top-level cell.
 \end{proof}
 
-\begin{proposition}\label{prop:nondet}
+\begin{proposition}\label{prop:gcol:nondet}
 The system is only non-deterministic with regards to the choice of the colour of the starting node, and the final selection of which valid colouring to send out to the environment, assuming that the evolution of the system finishes with an application of rule 2.
 \end{proposition}
 
 \begin{proof}
-The system is deterministic for all rule applications except the first, and potentially the last, by \autoref{prop:determin}.  Application of rule 1 to start the system is partially non-deterministic, with regards to the choice of the initial colour only.  Application of rule 2 to end the evolution of the system is likewise non-deterministic only in the choice of the set of colourings to send out.
+The system is deterministic for all rule applications except the first, and potentially the last, by \autoref{prop:gcol:determin}.  Application of rule 1 to start the system is partially non-deterministic, with regards to the choice of the initial colour only.  Application of rule 2 to end the evolution of the system is likewise non-deterministic only in the choice of the set of colourings to send out.
 
 Rule 1 uses the pre-selected starting node, encoded in the \(s\) functor, to create the first \bo{} object with which to evolve the system.  While that functor will be unique by the creation conditions described above,\footnote{We note that, should it be desired, it would be possible to have the system make a random selection between possible starting nodes, simply by starting the system with more than one \(s\) functor.  The correctness and termination of the system will be unaffected, however.} it has a free choice between the available colours.  As the rule is applied exactly once due to its application mode, only one colour is selected, but the specification of the colour promoter for rule 1 simply states that one of the supplied \(k\) colour objects is used.
 
@@ -179,7 +328,7 @@ While this selection is non-deterministic, it has no impact upon the termination
 Finally, as with the selection of a colour in rule 1, the selection of which extant \bo{} object to take the colouring set \(M\) out of and send out to the environment by rule 2 is non-deterministic, as rule 2 has a free choice in which one it selects.  From its perspective, any \bo{} object with an empty \(v\) functor is acceptable.
 \end{proof}
 
-\begin{proposition}\label{prop:ending}
+\begin{proposition}\label{prop:gcol:ending}
 The termination of the evolution of the system by application of rule 2 or rule 5 is also deterministic.
 \end{proposition}
 
@@ -188,11 +337,11 @@ Both rule 2 and rule 5 can only be applied in specific, mutually-exclusive circu
 \end{proof}
 
 \begin{theorem}
-The evolution of every valid instance of this system (where the system is created in accordance with \autoref{sect:notation}, and \(|V|, |E|, |K| > 0\)) will terminate, either sending a valid colouring out to the environment where a valid colouring is possible, or signalling to the environment that no valid colouring is possible.
+The evolution of every valid instance of this system (where the system is created in accordance with \autoref{sec:gcol:notation}, and \(|V|, |E|, |K| > 0\)) will terminate, either sending a valid colouring out to the environment where a valid colouring is possible, or signalling to the environment that no valid colouring is possible.
 \end{theorem}
 
 \begin{proof}
-By \autoref{prop:determin} and \autoref{prop:nondet} the applications of the rules are deterministic in all ways, except the choice of the colour of the starting node, and the choice of the final selected colouring.  Thus, the progression of the system is always deterministic.  By \autoref{prop:ending}, the evolution of the system is \emph{always} terminated by rule 2 when there exist any \bo{} objects with a full set of colourings, or by rule 5 \emph{only} when no colouring is possible.  A full set of colourings inside a \bo{} is ensured under \autoref{prop:grow}.
+By \autoref{prop:gcol:determin} and \autoref{prop:gcol:nondet} the applications of the rules are deterministic in all ways, except the choice of the colour of the starting node, and the choice of the final selected colouring.  Thus, the progression of the system is always deterministic.  By \autoref{prop:gcol:ending}, the evolution of the system is \emph{always} terminated by rule 2 when there exist any \bo{} objects with a full set of colourings, or by rule 5 \emph{only} when no colouring is possible.  A full set of colourings inside a \bo{} is ensured under \autoref{prop:gcol:grow}.
 \end{proof}
 
 \subsection{Complexity}
@@ -214,12 +363,12 @@ This is consistent with the upper bound, when \(|V|\) is strictly larger than \(
     \implies |K| + 2 &\leq |V| + 1
 \end{align*}
 
-Thus, the time complexity has an upper bound of \(\mathcal{O}(|V|)\), and a lower bound of \(\Omega(\func{min}(|K|, |V|))\).
+Thus, the time complexity has an upper bound of \(\mathcal{O}(|V|)\), and a lower bound of \(\Omega(min(|K|, |V|))\).
 
 \subsubsection{Space Complexity}
-The \emph{theoretical} maximum number of objects that can be present in the system at the end of each step from step 1 onwards is given by \eqref{eq:spacemax} below and provides an upper bound.
+The \emph{theoretical} maximum number of objects that can be present in the system at the end of each step from step 1 onwards is given by \eqref{eq:gcol:spacemax} below and provides an upper bound.
 
-\begin{equation}\label{eq:spacemax}
+\begin{equation}\label{eq:gcol:spacemax}
     Space_{max}(l) = \underbrace{\bigg(\frac{(|V| - 1)!}{(|V| - l)!} \times |K|^{l-1}\bigg)}_{b} + \underbrace{|K|}_{k} + \underbrace{|E|}_{e} + \underbrace{1}_{l}
 \end{equation}
 
@@ -229,39 +378,39 @@ After the first step, there will always be precisely one \bo{} object in the top
 
 A complete graph gives the upper limit to the number of objects that can exist, because (ignoring the operation of the inhibitor in rule 3) every node can be reached from any other given node, and thus it provides the widest possible search -- any non-complete graph will contain an incomplete set of edges between nodes, disallowing some potential explorations from taking place.  This gives an upper bound on space complexity proportional to the number of nodes and colours in the system under consideration, i.e. \(\mathcal{O}(|V||K|)\).  Of course, due to the operation of the inhibitor in rule 3, no more \bo{} objects will be created for a complete graph once \(l > |K|\).
 
-Equations \eqref{eq:wb} and \eqref{eq:w} provide formulae to calculate the total space requirements of an individual \bo{} and the overall system. These equations assume that the size of a functor that contains only atoms, such as the colour functors \(k\) which contain only a given number of the counting atom, is constant regardless of how many atoms it contains.  This is perhaps unrealistic in a real biological system, but is appropriate for computer simulations, where fixed-bit-length representations are likely used to represent the various elements of the system.
+Equations \eqref{eq:gcol:wb} and \eqref{eq:gcol:w} provide formulae to calculate the total space requirements of an individual \bo{} and the overall system. These equations assume that the size of a functor that contains only atoms, such as the colour functors \(k\) which contain only a given number of the counting atom, is constant regardless of how many atoms it contains.  This is perhaps unrealistic in a real biological system, but is appropriate for computer simulations, where fixed-bit-length representations are likely used to represent the various elements of the system.
 
-The size of each \bo{} can be described by \eqref{eq:wb}
-\begin{equation}\label{eq:wb}
+The size of each \bo{} can be described by \eqref{eq:gcol:wb}
+\begin{equation}\label{eq:gcol:wb}
     s_b(b) = c_l + c_m |M| + (c_v + c_n |v|)
 \end{equation} where the various \(c_x\) terms are coefficients specifying the size of each type of object.  \(c_l\) represents the size of an \(l\) functors, \(c_n\) represents the size of \(n\) functors, \(c_k\) represents the size of \(k\) functors, \(c_m = c_n + c_k\), and \(|v|\) represents the number of nodes remaining in the \(v\) functor inside each \bo{}, while \(|M|\) similarly represents the number of \(m\) functors in each \bo{}.
 
-This in turn leads to \eqref{eq:w}, describing the size of the entire system.
+This in turn leads to \eqref{eq:gcol:w}, describing the size of the entire system.
 
-\begin{equation}\label{eq:w}
+\begin{equation}\label{eq:gcol:w}
     S = c_k |K| + c_e |E| + c_t + c_l + \sum_{b \in B}s_b(b)
 \end{equation} where \(c_e\) is the size of each edge object and \(c_t\) is the size of the top-level cell itself.
 
-If all the coefficients are assumed to be equal to 1, then \eqref{eq:wb} simplifies to 
+If all the coefficients are assumed to be equal to 1, then \eqref{eq:gcol:wb} simplifies to 
 
 \begin{equation}
     s_b(b) = |M| + 2 |v| + 1
 \end{equation}
 
-and \eqref{eq:w} to
+and \eqref{eq:gcol:w} to
 
 \begin{equation}
     S = |K| + |E| + \sum_{b \in B}s_b(b) + 2
 \end{equation}
 
 \subsection{Comparison with the \texorpdfstring{\acrlong{skps}}{Simple Kernel P systems} solution}
-Our \gls{cps} solution requires only a handful of rules, which are \textit{invariant} to the problem graph under study, as opposed to defining a family of rules that are customised to the graph at hand.  Likewise for our alphabet.  Our alphabet consists of only 9 atoms and functors plus the unique counting symbol, but with the nesting of atoms and functors these combine into further forms.  As the semantic meaning of each never changes, we do not consider this to add a great deal of complexity.  We require roughly equivalent starting objects to the SKP solution.
+Our \gls{cps} solution requires only a handful of rules, which are \emph{invariant} to the problem graph under study, as opposed to defining a family of rules that are customised to the graph at hand.  Likewise for our alphabet.  Our alphabet consists of only 9 atoms and functors plus the unique counting symbol, but with the nesting of atoms and functors these combine into further forms.  As the semantic meaning of each never changes, we do not consider this to add a great deal of complexity.  We require roughly equivalent starting objects to the SKP solution.
 
 \begin{table}
 \begin{threeparttable}
 \centering
 \caption{\acrlong{skps} vs. \gls{cps}}
-\label{tab:skpcomp}
+\label{tab:gcol:skpcomp}
 \begin{tabular}{@{}lcc@{}}
 \toprule
 Type/specification                & SKP systems        & cP systems \\ \midrule
@@ -271,15 +420,15 @@ Max. \# of subcompartments & \(3^|V| + 1\)             & N/A\tnote{a}          \
 Number of steps                   & \(2|V| + 3\)             & \(\leq |V| + 1\)         \\ \bottomrule
 \end{tabular}%
 \begin{tablenotes}
-\item[a] \gls{cps} do not have a concept of subcompartments in the same way as \gls{skps}.  This distinction is described in \autoref{sec:diffsubcomp}.
+\item[a] \gls{cps} do not have a concept of subcompartments in the same way as \gls{skps}.  This distinction is discussed in \autoref{sec:gcol:diffsubcomp}.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
 
 
-\autoref{tab:skpcomp} provides a comparison of the Simple Kernel P~systems solution presented in \cite{Gheorghe2013} compared with our solution presented above, and is based upon Table 1 in \cite{Gheorghe2013}.  
+\autoref{tab:gcol:skpcomp} provides a comparison of the Simple Kernel P~systems solution presented in \cite{Gheorghe2013} compared with our solution presented above, and is based upon Table 1 in \cite{Gheorghe2013}.  
 
-\subsubsection{\label{sec:diffsubcomp}Differing concepts of subcompartments}
+\subsubsection{\label{sec:gcol:diffsubcomp}Differing concepts of subcompartments}
 Atoms are simple objects, but one could perhaps argue that functors should be regarded as somewhere between full subcompartments and simple objects, because they are non-atomic and can potentially hold objects (including other functors) within themselves.  The key difference between subcompartments and functors is that the former have rules of their own and typically evolve separately to their containing compartment, whereas the latter have \emph{no} computing/evolutionary power of their own, and are simply more complex objects operated upon by their top-level cell's rules.  A subcompartment could potentially have all its parent compartments removed and still function as though it now has the skin membrane, but not so functors.  This means that \gls{cps} does not have a concept of subcompartments completely comparable to SKP's, with instead the functors in use being closer to normal inanimate objects.
 
 \subsubsection{Rules length}

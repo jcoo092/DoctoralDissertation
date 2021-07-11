@@ -1,5 +1,7 @@
 % \documentclass[11pt,partial,draft,doublespace]{aucklandthesis}
-\documentclass[11pt,partial]{aucklandthesis}
+% \documentclass[11pt,partial,doublespace]{aucklandthesis}
+\documentclass[11pt,partial,singlespace]{aucklandthesis}
+% \documentclass[11pt,partial]{aucklandthesis}
 %
 % This is a template for University of Auckland theses.
 %
@@ -17,22 +19,40 @@
 
 %%%% Packages introduced by me, not included with the template
 \usepackage[normalem]{ulem}
-\usepackage{amsmath,amssymb,cpsystems}
+\usepackage{amsmath,amssymb,cpsystems,url,xcolor}
+\usepackage{subcaption}
 \usepackage{listings,minted,alltt}
+
+\lstset{frame=single}
+\lstset{mathescape=true,escapechar=\#}
+\lstset{showstringspaces=false}
+\lstset{basicstyle=\small}
+
 \usepackage[binary-units]{siunitx}
-\usepackage{url,subcaption,clrscode3e,backnaur,threeparttable} % look at removing all of these --- they were only introduced to make the G Col Rep stuff build
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.14}
+\usepackage{threeparttable} % look at removing all of these --- they were only introduced to make the G Col Rep stuff build
 \usepackage{fixme}
 \fxusetheme{color}
+
+\usepackage[altpo]{backnaur}
+
+% Introduced to make the NMP paper stuff build
+\usepackage[ruled,vlined,linesnumbered,nofillcomment]{algorithm2e}
 
 \usepackage{morewrites}
 \usepackage{amsthm}
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[chapter]
-\newcommand{\theoremautorefname}{Proposition}
-\newtheorem{proposition}{Proposition}[chapter]
+\newcommand{\theoremautorefname}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
 \newcommand{\propositionautorefname}{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newcommand{\lemmaautorefname}{Lemma}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newcommand{\conjectureautorefname}{Conjecture}
+
+% Need to remember to come back to this one and set it appropriately - I don't think it should be following the standard newtheorem style
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\remarkautorefname}{Remark}
 
 \newcommand{\listingautorefname}{Listing}
 %
@@ -49,6 +69,15 @@
 
 \usepackage{graphicx} % for inserting graphics files
 \usepackage{appendix} % for appendices
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepgfplotslibrary{external,groupplots}
+
+% The below was taken from https://tex.stackexchange.com/a/82224 to get rid of some warnings with pgfplots when running in draft mode
+\pgfkeys{/pgf/images/include external/.code=\includegraphics{#1}}
+
+\tikzexternalize
 
 % Typeface options — choose one if desired
 % or choose a different typeface to accommmodate character sets
@@ -102,7 +131,7 @@
 	backend=biber,
 	sorting=nyt,
 	sortcites,
-	backref,
+% 	backref,
 	dashed=false,
 	urldate=long,
 	]
@@ -114,6 +143,7 @@
 	\addbibresource{bib/medianfilter.bib}
 	\addbibresource{bib/tsp.bib}
 	\addbibresource{bib/g-col.bib}
+	\addbibresource{bib/nmp.bib}
 
     % \addbibresource{chapters/tsp/biblio.bib}
     % \addbibresource{chapters/gcol/biblio.bib}
@@ -126,7 +156,7 @@
     \map{
       \step[fieldsource=doi,final]
       \step[fieldset=url,null]
-    }  
+    } 
   }
 }
 
@@ -139,40 +169,15 @@
 \setacronymstyle{long-short}
 \makeglossaries
 
-% The below was taken from https://tex.stackexchange.com/a/562932.  It is used in the glossary.tex file, but placed here because I'm not sure putting it in the glossary file won't b0rk things.  It was originally called 'newdefineabbreviation', but I changed it because that was irritatingly long.
-% #1 - reference e.g. api
-% #2 - Short e.g. API
-% #3 - Full name e.g. Application Programming Interface
-% #4 - Description
-\newcommand{\newdefacr}[4]
-{
-    % Glossary entry
-    \newglossaryentry{#1-glossary}
-    {
-        text={#2},
-        long={#3},
-        name={\glsentrylong{#1-glossary} (\glsentrytext{#1-glossary})},
-        description={#4},
-        sort={#3}
-    }
+\input{tex/newcommands}
 
-    % Acronym
-    \newglossaryentry{#1}
-    {
-        type=\acronymtype,
-        name={\glsentrytext{#1-glossary}}, % Short
-        description={\glsentrylong{#1-glossary}}, % Full name
-        first={\glsentryname{#1-glossary}\glsadd{#1-glossary}},
-        see=[Glossary:]{#1-glossary}, % Reference to corresponding glossary entry
-        sort={#2}
-    }
-}
-
-\newcommand{\fsharp}{F\nolinebreak\hspace{-.05em}\raisebox{.3ex}{\tiny{\textbf{\#}}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \loadglsentries{tex/glossary}
 
 \begin{document}
+
+% \frontmatter
 
 % ====================================================
 %
@@ -186,9 +191,9 @@
 % Specify the title page content
 % \title{Neighbourhood Message Passing Computation on a Grid}
 % \subtitle{Modelled with cP systems and applied to Stereo Matching}
-\title{Highly-Concurrent Solutions to Graph and Image Processing Problems}
+\title{Highly Concurrent Solutions to Graph and Image Processing Problems}
 % \title{Bio-inspired Solutions to Selected Graph and Image Problems}
-\subtitle{Modelled for shared-memory scenarios in cP systems and various programming languages \\ {\small v0.0.5.8 compiled on \today}}
+\subtitle{Modelled for shared-memory scenarios in cP systems and various programming languages \\ {\small v0.1.3 compiled on \today}}
 \author{James Cooper}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
@@ -205,7 +210,7 @@
 % \thesisdedication{This work is dedicated to the interested reader and all those who make use of material presented within.}
 
 % Preface and/or acknowledgements (optional)
-\input{tex/acknowledgements.tex} % it's in a separate file
+% \input{tex/acknowledgements.tex} % it's in a separate file
 
 % Contents, lists of tables and figures
 \settocdepth{subsection} % choose chapter, section, subsection 
@@ -229,35 +234,35 @@
 %
 % ====================================================
 
+\mainmatter
+
 \input{chapters/intro.tex}
 \glsresetall
+\cpresetrulenumber
 \input{chapters/litreview/litreview}
 \glsresetall
-% \input{chapters/background/background}
-% \glsresetall
+\cpresetrulenumber
 \input{chapters/tsp/tsp}
 \glsresetall
+\cpresetrulenumber
 \input{chapters/gcol/g-col-rep}
 \glsresetall
+\cpresetrulenumber
 \input{chapters/nmp/nmp}
+% \glsresetall
+% \cpresetrulenumber
+% \chapter{\texorpdfstring{\acrlong{bp}}{Belief Propagation} for \texorpdfstring{\gls{sm}}{Stereo Matching}}
+% The \gls{bp}-specific stuff that builds on the \gls{nmp} work goes here.
+% \input{chapters/litreview/sm}
 \glsresetall
-\chapter{Belief Propagation in cP~systems}
-The \gls{bp}-specific stuff that builds on the \gls{nmp} work goes here.
-\glsresetall
+\cpresetrulenumber
 \input{chapters/medianfilter/cml}
 \glsresetall
-% \input{chapters/experiments/experiments}
-% \glsresetall
-% \input{chapters/choiceoflang/choiceoflang}
-% \glsresetall
-% \input{chapters/concprop/concprop}
-% \glsresetall
+\cpresetrulenumber
 \input{chapters/discussion.tex}
 \glsresetall
+\cpresetrulenumber
 \input{tex/conclusion.tex}
-%\input{tex/chapter1} % I hope that you have better titles than this
-%\input{chapter2} 
-%\input{chapter3} 
 
 % ====================================================
 %
@@ -268,14 +273,17 @@ The \gls{bp}-specific stuff that builds on the \gls{nmp} work goes here.
 %
 % ====================================================
 
+\cleardoublepage % start afresh on a new page
+\setcounter{page}{1} % re-sets the page counter
+
 \printbibliography[title={Works Cited}, heading=bibintoc]
 
 \printglossary
  
 \printglossary[type=\acronymtype]
 
-\cleardoublepage
-Put an index here?
+% \cleardoublepage
+% Put an index here?
 
 % \cleardoublepage % start afresh on a new page
 % \setcounter{page}{1} % re-sets the page counter

@@ -1,91 +1,3 @@
-%% bare_jrnl.tex
-%% V1.4b
-%% 2015/08/26
-%% by Michael Shell
-%% see http://www.michaelshell.org/
-%% for current contact information.
-%%
-%% This is a skeleton file demonstrating the use of IEEEtran.cls
-%% (requires IEEEtran.cls version 1.8b or later) with an IEEE
-%% journal paper.
-%%
-%% Support sites:
-%% http://www.michaelshell.org/tex/ieeetran/
-%% http://www.ctan.org/pkg/ieeetran
-%% and
-%% http://www.ieee.org/
-
-%%*************************************************************************
-%% Legal Notice:
-%% This code is offered as-is without any warranty either expressed or
-%% implied; without even the implied warranty of MERCHANTABILITY or
-%% FITNESS FOR A PARTICULAR PURPOSE! 
-%% User assumes all risk.
-%% In no event shall the IEEE or any contributor to this code be liable for
-%% any damages or losses, including, but not limited to, incidental,
-%% consequential, or any other damages, resulting from the use or misuse
-%% of any information contained here.
-%%
-%% All comments are the opinions of their respective authors and are not
-%% necessarily endorsed by the IEEE.
-%%
-%% This work is distributed under the LaTeX Project Public License (LPPL)
-%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
-%% distributed and modified. A copy of the LPPL, version 1.3, is included
-%% in the base LaTeX documentation of all distributions of LaTeX released
-%% 2003/12/01 or later.
-%% Retain all contribution notices and credits.
-%% ** Modified files should be clearly indicated as such, including  **
-%% ** renaming them and changing author support contact information. **
-%%*************************************************************************
-
-
-% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
-% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
-% *** with production work. The IEEE's font choices and paper sizes can   ***
-% *** trigger bugs that do not appear when using other class files.       ***                          ***
-% The testflow support page is at:
-% http://www.michaelshell.org/tex/testflow/
-
-
-
-% \documentclass[conference,final]{IEEEtran}
-%
-% If IEEEtran.cls has not been installed into the LaTeX system files,
-% manually specify the path to it like:
-% \documentclass[journal]{../sty/IEEEtran}
-
-% \usepackage[utf8]{inputenc}
-
-
-
-% Some very useful LaTeX packages include:
-% (uncomment the ones you want to load)
-
-
-% *** MISC UTILITY PACKAGES ***
-%
-%\usepackage{ifpdf}
-% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
-% compilation based on whether the output is pdf or dvi.
-% usage:
-% \ifpdf
-%   % pdf code
-% \else
-%   % dvi code
-% \fi
-% The latest version of ifpdf.sty can be obtained from:
-% http://www.ctan.org/pkg/ifpdf
-% Also, note that IEEEtran.cls V1.7 and later provides a builtin
-% \ifCLASSINFOpdf conditional that works the same way.
-% When switching from latex to pdflatex and vice-versa, the compiler may
-% have to be run twice to clear warning/error messages.
-
-
-
-
-
-
 % *** CITATION PACKAGES ***
 %
 % \usepackage{cite}
@@ -236,26 +148,6 @@
 % % http://www.ctan.org/pkg/subfig
 
 
-
-
-% % *** FLOAT PACKAGES ***
-% %
-% %\usepackage{fixltx2e}
-% % fixltx2e, the successor to the earlier fix2col.sty, was written by
-% % Frank Mittelbach and David Carlisle. This package corrects a few problems
-% % in the LaTeX2e kernel, the most notable of which is that in current
-% % LaTeX2e releases, the ordering of single and double column floats is not
-% % guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
-% % single column figure to be placed prior to an earlier double column
-% % figure.
-% % Be aware that LaTeX2e kernels dated 2015 and later have fixltx2e.sty's
-% % corrections already built into the system in which case a warning will
-% % be issued if an attempt is made to load fixltx2e.sty as it is no longer
-% % needed.
-% % The latest version and documentation can be found at:
-% % http://www.ctan.org/pkg/fixltx2e
-
-
 % %\usepackage{stfloats}
 % % stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
 % % the ability to do double column floats at the bottom of the page as well
@@ -341,150 +233,17 @@
 % \pgfplotsset{compat=1.14}
 
 \newcommand{\hopac}{Hopac}
+\chapter{\label{chap:median}Median Filtering on a Lattice}
 
-% *** Do not adjust lengths that control margins, column widths, etc. ***
-% *** Do not use packages that alter fonts (such as pslatex).         ***
-% There should be no need to do such things with IEEEtran.cls V1.6 and later.
-% (Unless specifically asked to do so by the journal or conference you plan
-% to submit to, of course. )
-
-
-% correct bad hyphenation here
-% \hyphenation{op-tical net-works semi-conduc-tor}
-
-
-% \begin{document}
-% \bstctlcite{IEEEexample:BSTcontrol}
-%
-% paper title
-% Titles are generally capitalized except for words such as a, an, and, as,
-% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
-% not capitalized unless they are the first or last word of the title.
-% Linebreaks \\ can be used within to get better formatting as desired.
-% Do not put math or special symbols in the title.
-\chapter{Concurrent ML as an alternative parallel programming style for image processing}
-%
-%
-% author names and IEEE memberships
-% note positions of commas and nonbreaking spaces ( ~ ) LaTeX will not break
-% a structure at a ~ so this keeps an author's name from being broken across
-% two lines.
-% use \thanks{} to gain access to the first footnote area
-% a separate \thanks must be used for each paragraph as LaTeX2e's \thanks
-% was not built to handle multiple paragraphs
-%
-
-%\author{\IEEEauthorblockN{James~Cooper~\IEEEmembership{Student Member,~IEEE,}}
-% \author{\IEEEauthorblockN{James Cooper\\ \tt\footnotesize jcoo092@aucklanduni.ac.nz}
-% <-this % stops a space
-% \IEEEauthorblockA{Department of Computer Science\\University of Auckland\\}
-%\thanks{J. Cooper is with the Department of Computer Science, University of Auckland, Auckland,
-%NZ, e-mail: jcoo092@aucklanduni.ac.nz.}% <-this % stops a space
-%\thanks{Manuscript received April 19, 2005; revised August 26, 2015.}}
-% }
-
-% note the % following the last \IEEEmembership and also \thanks - 
-% these prevent an unwanted space from occurring between the last author name
-% and the end of the author line. i.e., if you had this:
-% 
-% \author{....lastname \thanks{...} \thanks{...} }
-%                     ^------------^------------^----Do not want these spaces!
-%
-% a space would be appended to the last name and could cause every name on that
-% line to be shifted left slightly. This is one of those "LaTeX things". For
-% instance, "\textbf{A} \textbf{B}" will typeset as "A B" not "AB". To get
-% "AB" then you have to do: "\textbf{A}\textbf{B}"
-% \thanks is no different in this regard, so shield the last } of each \thanks
-% that ends a line with a % and do not let a space in before the next \thanks.
-% Spaces after \IEEEmembership other than the last one are OK (and needed) as
-% you are supposed to have spaces between the names. For what it is worth,
-% this is a minor point as most people would not even notice if the said evil
-% space somehow managed to creep in.
-
-
-
-% The paper headers
-% \markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2015}%
-% {Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for IEEE Journals}
-% The only time the second header will appear is for the odd numbered pages
-% after the title page when using the twoside option.
-% 
-% *** Note that you probably will NOT want to include the author's ***
-% *** name in the headers of peer review papers.                   ***
-% You can use \ifCLASSOPTIONpeerreview for conditional compilation here if
-% you desire.
-
-
-
-
-% If you want to put a publisher's ID mark on the page you can do it like
-% this:
-%\IEEEpubid{0000--0000/00\$00.00~\copyright~2015 IEEE}
-% Remember, if you use this you must call \IEEEpubidadjcol in the second
-% column for its text to clear the IEEEpubid mark.
-
-% \IEEEoverridecommandlockouts
-% \IEEEpubid{\makebox[\columnwidth]{978-1-7281-0125-5/18/\$31.00 \textcopyright{}2018 IEEE \hfill}
-% \hspace{\columnsep}\makebox[\columnwidth]{ }}
-
-
-% use for special paper notices
-%\IEEEspecialpapernotice{(Invited Paper)}
-
-
-
-
-
-% make the title area
-% \maketitle
-
-% \IEEEpubidadjcol
-
-% % As a general rule, do not put math, special symbols or citations
-% % in the abstract or keywords.
 % \begin{abstract}
 % Many approaches to simplifying/enabling the use of parallelism in programming tasks exist.  A substantial number of those concentrate solely either on data-parallelism or fork-join-based task-parallelism.  Concurrent ML is an alternative approach based around the concept of lightweight individual sub-processes synchronously exchanging messages.  This work explores the usefulness of the CML approach in image processing, by applying it to the basic median filter operation and contrasting it with other simple implementations.  The results strongly suggest that it is a comparatively poor fit to such an operation, with the one slight advantage of apparently having better peak memory requirements.  It is not clear, however, how efficient are either the algorithm implementation or the library it is based on.
 % \end{abstract}
 
-% % Note that keywords are not normally used for peerreview papers.
 % \begin{IEEEkeywords}
-% %IEEE, IEEEtran, journal, \LaTeX, paper, template.
 % Concurrent ML, Image processing, Median filter, F\#, \hopac{}
 % \end{IEEEkeywords}
 
-
-
-
-
-
-% % For peer review papers, you can put extra information on the cover
-% % page as needed:
-% % \ifCLASSOPTIONpeerreview
-% % \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
-% % \fi
-% %
-% % For peerreview papers, this IEEEtran command inserts a page break and
-% % creates the second title. It will be ignored for other modes.
-% \IEEEpeerreviewmaketitle
-
-
-
 \section{Introduction}
-% The very first letter is a 2 line initial drop letter followed
-% by the rest of the first word in caps.
-% 
-% form to use if the first word consists of a single letter:
-% \IEEEPARstart{A}{demo} file is ....
-% 
-% form to use if you need the single drop letter followed by
-% normal text (unknown if ever used by the IEEE):
-% \IEEEPARstart{A}{}demo file is ....
-% 
-% Some journals put the first two words in caps:
-% \IEEEPARstart{T}{his demo} file is ....
-% 
-% Here we have the typical use of a "T" for an initial drop letter
-% and "HIS" in caps to complete the first word.
 While parallelism is generally the best (perhaps only) way to achieve improvements in execution time for different algorithms once a reasonably efficient sequential implementation has been created, it is a notoriously challenging affair \cite{Shun2017}.  When working at the level of directly manipulating threads, such as using the pthreads found in POSIX-compliant operating systems, programmers are exposed to a high level of risk of inadvertently introducing concurrency bugs, such as data races, deadlocks and livelocks.  A wide panoply of different approaches to overcoming this challenge, both theoretical and practical, have been proposed and developed over the years, with varying degrees of success, e.g. \cite{Boyapati2002,Bocq2012,Seinstra2004}.  Almost all large scale programming languages that use a runtime include some form of parallelism simplification within their standard libraries, e.g. the Executor system in Java and Swift \& Objective-C's Grand Central Dispatch.
 
 Most simplifications fairly directly target either data-parallelism by simultaneously applying the same operation over multiple elements in arrays, e.g. classic SIMD vector instructions in CPUs, or task-parallelism by making provisions for the fork-join model.  These simplifications can be very useful, but not all instances of parallelism fit neatly under their models.  Algorithms that are well-modelled by the Communicating Sequential Processes \cite{Hoare1985} and Actor \cite{Agha1997} models, such as those explicitly centred around concepts of message passing, are not necessarily easy to express using either SIMD or fork-join instructions.
@@ -494,109 +253,6 @@ Concurrent ML (CML), introduced by Reppy \cite{Reppy1991}, was created to provid
 Many computer vision and especially image processing operations have some potential for parallelism, and indeed a number of them can be regarded as `embarrassingly parallel', that is to say that the process involves a considerable number of sub-process steps that do not depend on each other, and so those steps may be performed concurrently in high numbers if the appropriate hardware is available.  Some of those algorithms either are explicitly characterised in terms of message passing, such as stereo matching with Belief Propagation \cite{Liang2011} or Semi-global Matching \cite{Drory2014}, or could be viewed as such, e.g. moving window transforms (MWTs) applied to images.
 
 This paper seeks to explore whether using CML, as a method of structuring computations around message passing, could be beneficial when applied to a MWT, using the median filter as its particular example.  The focus is on examining the potential benefit of using a different principle to structure the processing, as much as it is on the achieved results.  It is hypothesised that the same results in terms of processing the image can be achieved, but at slightly slower rates of processing due to overheads from the message passing which, strictly speaking, are unnecessary in the case of a MWT. To the best of the author's knowledge, no exploration of Concurrent ML applied to computer vision or image processing has been performed in the past.  The results presented here are preliminary and a first step in investigating the topic.
-
-%  Certainly searches for such have returned no relevant results.
-
-% needed in second column of first page if using \IEEEpubid
-%\IEEEpubidadjcol
-
-%\subsubsection{Subsubsection Heading Here}
-%Subsubsection text here.
-
-
-% An example of a floating figure using the graphicx package.
-% Note that \label must occur AFTER (or within) \caption.
-% For figures, \caption should occur after the \includegraphics.
-% Note that IEEEtran v1.7 and later has special internal code that
-% is designed to preserve the operation of \label within \caption
-% even when the captionsoff option is in effect. However, because
-% of issues like this, it may be the safest practice to put all your
-% \label just after \caption rather than within \caption{}.
-%
-% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
-% option should be used if it is desired that the figures are to be
-% displayed while in draft mode.
-%
-%\begin{figure}[!t]
-%\centering
-%\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex, 
-% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-% via \DeclareGraphicsExtensions.
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure}
-
-% Note that the IEEE typically puts floats only at the top, even when this
-% results in a large percentage of a column being occupied by floats.
-
-
-% An example of a double column floating figure using two subfigures.
-% (The subfig.sty package must be loaded for this to work.)
-% The subfigure \label commands are set within each subfloat command,
-% and the \label for the overall figure must come after \caption.
-% \hfil is used as a separator to get equal spacing.
-% Watch out that the combined width of all the subfigures on a 
-% line do not exceed the text width or a line break will occur.
-%
-%\begin{figure*}[!t]
-%\centering
-%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
-%\label{fig_first_case}}
-%\hfil
-%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
-%\label{fig_second_case}}
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure*}
-%
-% Note that often IEEE papers with subfigures do not employ subfigure
-% captions (using the optional argument to \subfloat[]), but instead will
-% reference/describe all of them (a), (b), etc., within the main caption.
-% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
-% labels, the optional argument to \subfloat must be present. If a
-% subcaption is not desired, just leave its contents blank,
-% e.g., \subfloat[].
-
-
-% An example of a floating table. Note that, for IEEE style tables, the
-% \caption command should come BEFORE the table and, given that table
-% captions serve much like titles, are usually capitalized except for words
-% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
-% and up, which are usually not capitalized unless they are the first or
-% last word of the caption. Table text will default to \footnotesize as
-% the IEEE normally uses this smaller font for tables.
-% The \label must come after \caption as always.
-%
-%\begin{table}[!t]
-%% increase table row spacing, adjust to taste
-%\renewcommand{\arraystretch}{1.3}
-% if using array.sty, it might be a good idea to tweak the value of
-% \extrarowheight as needed to properly center the text within the cells
-%\caption{An Example of a Table}
-%\label{table_example}
-%\centering
-%% Some packages, such as MDW tools, offer better commands for making tables
-%% than the plain LaTeX2e tabular which is used here.
-%\begin{tabular}{|c||c|}
-%\hline
-%One & Two\\
-%\hline
-%Three & Four\\
-%\hline
-%\end{tabular}
-%\end{table}
-
-
-% Note that the IEEE does not put floats in the very first column
-% - or typically anywhere on the first page for that matter. Also,
-% in-text middle ("here") positioning is typically not used, but it
-% is allowed and encouraged for Computer Society conferences (but
-% not Computer Society journals). Most IEEE journals/conferences use
-% top floats exclusively. 
-% Note that, LaTeX2e, unlike IEEE journals/conferences, places
-% footnotes above bottom floats. This can be corrected via the
-% \fnbelowfloat command of the stfloats package.
 
 %\section{Related Work}
 
@@ -609,14 +265,12 @@ An implementation of the basic median filter was created in F\#, using the \hopa
 
 F\# was chosen because of the easy availability of a ready-to-use CML library, as well as its relative similarity to the original Standard ML host language.  Of particular note is that the original Concurrent ML implementation assumed the presence of garbage collection, which Hopac also follows.  Faster versions of the other algorithm variants likely could have been implemented in other languages such as C, C++ (perhaps using Halide \cite{Ragan-Kelley2017}) or Rust, but F\# was used for all three to retain consistency and comparability.  
 
-All three algorithms were benchmarked using a variety of image and window sizes.  Window sizes of 3x3, 5x5, 7x7, 9x9 and 11x11 were measured.  The images used ranged in size from 15 kilopixels to 1.09 megapixels, as detailed in \Cref{tab:pixelcounts}.  Larger image sizes were initially attempted but some runs of the algorithms proved to be prohibitively slow, and so they were abandoned.  Time spent on loading the images from disk and converting them to grayscale was excluded from the benchmarking, so that only the time spent processing them with each algorithm was measured.  The benchmarks were all run using .NET Core 2.1.4 with the 64-bit RyuJit compiler, on a desktop computer with a quad-core Intel i7-7700 processor running at 3.6GHz and 16GB of RAM.
+All three algorithms were benchmarked using a variety of image and window sizes.  Window sizes of 3x3, 5x5, 7x7, 9x9 and 11x11 were measured.  The images used ranged in size from 15 kilopixels to 1.09 megapixels, as detailed in \Cref{tab:median:pixelcounts}.  Larger image sizes were initially attempted but some runs of the algorithms proved to be prohibitively slow, and so they were abandoned.  Time spent on loading the images from disk and converting them to grayscale was excluded from the benchmarking, so that only the time spent processing them with each algorithm was measured.  The benchmarks were all run using .NET Core 2.1.4 with the 64-bit RyuJit compiler, on a desktop computer with a quad-core Intel i7-7700 processor running at 3.6GHz and 16GB of RAM.
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
 \begin{table}
 \centering
 \caption{List of pixel counts for each image used}
-\label{tab:pixelcounts}
+\label{tab:median:pixelcounts}
 \begin{tabular}{@{}lccc@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Image}} & \multicolumn{1}{c}{\textbf{Width (px)}} & \multicolumn{1}{c}{\textbf{Height (px)}} & \multicolumn{1}{c}{\textbf{Total pixels (px)}} \\ \midrule
@@ -639,30 +293,18 @@ Boundary conditions in all three cases were handled by utilising the \texttt{Opt
 It should be noted that in all three instances the exact nature of parallelising the execution of the tasks is left up to the .NET or \hopac{} runtimes.  No explicit creation, management or scheduling of threads is performed in the written programs.  Instead, the programs explore different approaches to structuring the computation in code.
 
 \section{Results}
-% \Cref{tab:medium,tab:peppers,tab:small,tab:verysmall} show the mean of the benchmarking results of running each algorithm on each of the different images, across the window sizes.  \Cref{graph:medium,graph:peppers,graph:small,graph:verysmall} are plotted graphs of the results in the tables.  \Cref{graph:cmls} plots the mean runtimes for the CML algorithm at each window size for each image.  
-
-% \autoref{tab:medium,tab:peppers,tab:small,tab:verysmall} show the mean of the benchmarking results of running each algorithm on each of the different images, across the window sizes.  \autoref{graph:medium,graph:peppers,graph:small,graph:verysmall} are plotted graphs of the results in the tables.  \autoref{graph:cmls} plots the mean runtimes for the CML algorithm at each window size for each image.  
-
-Tables \ref{tab:verysmall}-\ref{tab:medium} show the mean of the benchmarking results of running each algorithm on each of the different images, across the window sizes.  Figures \ref{graph:verysmall}-\ref{graph:medium} are charts of the results in the tables.  \autoref{graph:cmls} plots the mean runtimes for the CML algorithm at each window size for each image. 
+Tables \ref{tab:median:verysmall}-\ref{tab:median:medium} show the mean of the benchmarking results of running each algorithm on each of the different images, across the window sizes.  Figures \ref{graph:median:verysmall}-\ref{graph:median:medium} are charts of the results in the tables.  \autoref{graph:median:cmls} plots the mean runtimes for the CML algorithm at each window size for each image. 
 
 The na\"{i}ve algorithm performs the best for every image and window size, while the Bräunl algorithm matches it reasonably closely, though always running a bit more slowly.  Both appear to scale moderately well, roughly doubling in runtime for every increase by 2 of the size of a side of the window, whereas the CML algorithm appears to follow an exponential increase in runtime.  The reason for this is not certain, but it appears that the CML approach creates considerable pressure on the heap, causing numerous expensive garbage collections.  These collections do have the benefit of keeping the peak memory consumption relatively low, however.  %This is further exacerbated by an increase in the number of pixels in the image, with the ratio of runtimes between the naïve and CML algorithms roughly trending worse as the task complexity increases.
 
-% The ratios of the runtimes of the Bräunl and CML algorithms compared to the runtime for the naïve algorithm for each image and window size are presented in \Cref{tab:ratbraun,tab:ratcml}.  While the ratios for the Bräunl algorithm worsen for increasing image sizes, they in fact improve for larger window sizes on the same image, suggesting that it scales better than the naïve in this regard.  Why that should be is unclear though.  No pattern can be discerned for the CML algorithm, however, beyond that the ratio for the same window size typically grows worse as image size increases.  
+The ratios of the runtimes of the Bräunl and CML algorithms compared to the runtime for the naïve algorithm for each image and window size are presented in Tables \ref{tab:median:ratbraun} and \ref{tab:median:ratcml}.  While the ratios for the Bräunl algorithm worsen for increasing image sizes, they in fact improve for larger window sizes on the same image, suggesting that it scales better than the naïve in this regard.  Why that should be is unclear though.  No pattern can be discerned for the CML algorithm, however, beyond that the ratio for the same window size typically grows worse as image size increases.
 
-% The ratios of the runtimes of the Bräunl and CML algorithms compared to the runtime for the naïve algorithm for each image and window size are presented in \autoref{tab:ratbraun,tab:ratcml}.  While the ratios for the Bräunl algorithm worsen for increasing image sizes, they in fact improve for larger window sizes on the same image, suggesting that it scales better than the naïve in this regard.  Why that should be is unclear though.  No pattern can be discerned for the CML algorithm, however, beyond that the ratio for the same window size typically grows worse as image size increases. 
+To provide a rough estimate of the effects of the median filtering, a copy of each base image was created with randomly introduced salt \& pepper noise.  \autoref{fig:median:peppers} shows the outputs for the peppers image using a window size of 3, along with the base and noisy images.  None of the algorithms perfectly restored the original image, but all have largely eliminated the noise, at the cost of a slight blurring.  The results for each were measured using the classic peak signal-to-noise ratio formula \cite{Boncelet2005}, and are presented in Tables \ref{tab:median:psnrvsmall}-\ref{tab:median:psnrmedium}.  The naïve and CML algorithms return near-identical results, while Bräunl always falls somewhat short.  %The naïve and CML algorithms returned exactly the same images, while Bräunl returned very similar images.  All three appear to be appropriate for the purpose of removing salt \& pepper noise.
 
-The ratios of the runtimes of the Bräunl and CML algorithms compared to the runtime for the naïve algorithm for each image and window size are presented in Tables \ref{tab:ratbraun} and \ref{tab:ratcml}.  While the ratios for the Bräunl algorithm worsen for increasing image sizes, they in fact improve for larger window sizes on the same image, suggesting that it scales better than the naïve in this regard.  Why that should be is unclear though.  No pattern can be discerned for the CML algorithm, however, beyond that the ratio for the same window size typically grows worse as image size increases. 
-
-% To provide a rough estimate of the effects of the median filtering, a copy of each base image was created with randomly introduced salt \& pepper noise.  \Cref{fig:peppers} shows the outputs for the peppers image using a window size of 3, along with the base and noisy images.  None of the algorithms perfectly restored the original image, but all have largely eliminated the noise, at the cost of a slight blurring.  The results for each were measured using the classic peak signal-to-noise ratio formula \cite{Boncelet2005}, and are presented in \Cref{tab:psnrvsmall,tab:psnrsmall,tab:psnrpeppers,tab:psnrmedium}.  The naïve and CML algorithms return near-identical results, while Bräunl always falls somewhat short.  %The naïve and CML algorithms returned exactly the same images, while Bräunl returned very similar images.  All three appear to be appropriate for the purpose of removing salt \& pepper noise.
-
-To provide a rough estimate of the effects of the median filtering, a copy of each base image was created with randomly introduced salt \& pepper noise.  \autoref{fig:peppers} shows the outputs for the peppers image using a window size of 3, along with the base and noisy images.  None of the algorithms perfectly restored the original image, but all have largely eliminated the noise, at the cost of a slight blurring.  The results for each were measured using the classic peak signal-to-noise ratio formula \cite{Boncelet2005}, and are presented in Tables \ref{tab:psnrvsmall}-\ref{tab:psnrmedium}.  The naïve and CML algorithms return near-identical results, while Bräunl always falls somewhat short.  %The naïve and CML algorithms returned exactly the same images, while Bräunl returned very similar images.  All three appear to be appropriate for the purpose of removing salt \& pepper noise.
-
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
 \begin{table}
 \centering
 \caption{Mean runtimes for each algorithm by window size for the `very small' image}
-\label{tab:verysmall}
+\label{tab:median:verysmall}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Mean time for each window size (ms)}} \\
@@ -673,12 +315,10 @@ CML                           & 50.588   & 118.463   & 212.817   & 299.339   & 5
 \end{tabular}
 \end{table}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
 \begin{table}
 \centering
 \caption{
-\label{tab:peppers}Mean runtimes for each algorithm by window size for the `peppers' image}
+\label{tab:median:peppers}Mean runtimes for each algorithm by window size for the `peppers' image}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Mean time for each window size (ms)}}  \\
@@ -689,12 +329,10 @@ CML                           & 791.285 & 2,333.317 & 4,452.903 & 7,533.048 & 11
 \end{tabular}
 \end{table}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
 \begin{table}
 \centering
 \caption{Mean runtimes for each algorithm by window size for the `small' image}
-\label{tab:small}
+\label{tab:median:small}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Mean time for each window size (ms)}}  \\
@@ -705,12 +343,10 @@ CML                           & 849.482 & 2,362.643 & 4,830.294 & 7,910.925 & 12
 \end{tabular}
 \end{table}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
 \begin{table}
 \centering
 \caption{Mean runtimes for each algorithm by window size for the `medium' image}
-\label{tab:medium}
+\label{tab:median:medium}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Mean time for each window size (ms)}}      \\
@@ -723,12 +359,10 @@ CML                                    & 4527.962
 \end{tabular}
 \end{table}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
 \begin{table}
 \centering
 \caption{Ratios of length of runtime for the Bräunl algorithm compared to the naïve algorithm for the same image and window sizes}
-\label{tab:ratbraun}
+\label{tab:median:ratbraun}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
 \textbf{Image} & \multicolumn{5}{c}{\textbf{Window Size}} \\
@@ -740,12 +374,10 @@ medium         & 4.51   & 3.12   & 2.61   & 2.15  & 1.8   \\ \bottomrule
 \end{tabular}
 \end{table}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
 \begin{table}
 \centering
 \caption{Ratios of length of runtime for the CML algorithm compared to the naïve algorithm for the same image and window sizes}
-\label{tab:ratcml}
+\label{tab:median:ratcml}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
 \textbf{Image} & \multicolumn{5}{c}{\textbf{Window Size}} \\
@@ -760,7 +392,7 @@ medium         & 34.65  & 38.19  & 38.61  & 38.45 & 41.29 \\ \bottomrule
 % \begin{figure}
 % \centering
 % \includegraphics[width=0.5\textwidth]{images/charts/medium_chart}
-% \caption{\label{graph:medium}Comparative graph of runtimes for medium image across window sizes}
+% \caption{\label{graph:median:medium}Comparative graph of runtimes for medium image across window sizes}
 % \end{figure}
 
 %very small
@@ -807,7 +439,7 @@ Naïve	11	very-small	18.933	0.123	0.115	18.896	18.823	1	0	1718.75	187.5	-	23.9
     \legend{Bräunl,CML,Naïve}
 \end{axis}
 \end{tikzpicture}
-\caption{\label{graph:verysmall}Plot of mean runtimes for the very small size image}
+\caption{\label{graph:median:verysmall}Plot of mean runtimes for the very small size image}
 \end{figure}
 
 %peppers
@@ -852,7 +484,7 @@ Naïve	11	peppers_gray	371.789	17.122	50.485	345.788	313.159	1	0	32000	1000	1000
     \legend{Bräunl,CML,Naïve}
 \end{axis}
 \end{tikzpicture}
-\caption{\label{graph:peppers}Plot of mean runtimes for the peppers image}
+\caption{\label{graph:median:peppers}Plot of mean runtimes for the peppers image}
 \end{figure}
 
 %small
@@ -898,8 +530,12 @@ Naïve	11	small	343.286	1.710	1.600	342.643	341.541	1	0	33000	1000	1000	261.29
     \legend{Bräunl,CML,Naïve}
 \end{axis}
 \end{tikzpicture}
-\caption{\label{graph:small}Plot of mean runtimes for the small size image}
+\caption{\label{graph:median:small}Plot of mean runtimes for the small size image}
 \end{figure}
+
+\begin{anfxerror}
+Really need to change these charts to use a log scale on the y axis.  It'll make it much easier to see the relative changes.
+\end{anfxerror}
 
 %medium
 \begin{figure}
@@ -943,7 +579,7 @@ Naïve	11	medium	1361.629	27.108	31.217	1350.193	1344.088	1	0	131000	4000	1000	1
     \legend{Bräunl,CML,Naïve}
 \end{axis}
 \end{tikzpicture}
-\caption{\label{graph:medium}Plot of mean runtimes for the medium size image}
+\caption{\label{graph:median:medium}Plot of mean runtimes for the medium size image}
 \end{figure}
 
 %CML
@@ -998,29 +634,22 @@ CML	11	medium	56196.611	1118.853	2548.193	55158.372	52956.449	41.29	2.05	230000	
     \legend{very small,small,peppers,medium}
 \end{axis}
 \end{tikzpicture}
-\caption{\label{graph:cmls}Plot of mean runtimes for the CML algorithm on different images sizes}
+\caption{\label{graph:median:cmls}Plot of mean runtimes for the CML algorithm on different images sizes}
 \end{figure}
 
 \begin{figure*}
-% \subfloat[]{\includegraphics[width=0.2\textwidth]{chatpers/medianfilter/images/peppers/peppers_gray.png}}
-% \subfloat[]{\includegraphics[width=0.2\textwidth]{chatpers/medianfilter/images/peppers/peppers_gray_noisy.png}}
-% \subfloat[]{\includegraphics[width=0.2\textwidth]{chatpers/medianfilter/images/peppers/naive_peppers_gray_noisy_3.png}}
-% \subfloat[]{\includegraphics[width=0.2\textwidth]{chatpers/medianfilter/images/peppers/braunl_peppers_gray_noisy_3.png}}
-% \subfloat[]{\includegraphics[width=0.2\textwidth]{chatpers/medianfilter/images/peppers/cml_peppers_gray_noisy_3.png}}
 \subfloat[]{\includegraphics[width=0.2\textwidth]{chapters/medianfilter/images/peppers/peppers_gray.png}}
 \subfloat[]{\includegraphics[width=0.2\textwidth]{chapters/medianfilter/images/peppers/peppers_gray_noisy.png}}
 \subfloat[]{\includegraphics[width=0.2\textwidth]{chapters/medianfilter/images/peppers/naive_peppers_gray_noisy_3.png}}
 \subfloat[]{\includegraphics[width=0.2\textwidth]{chapters/medianfilter/images/peppers/braunl_peppers_gray_noisy_3.png}}
 \subfloat[]{\includegraphics[width=0.2\textwidth]{chapters/medianfilter/images/peppers/cml_peppers_gray_noisy_3.png}}
-\caption{\label{fig:peppers}The classic grayscale `peppers' image, before and after processing.  (a) is the original image; (b) is the image with random salt \& pepper noise introduced; (c) is the result of processing the image using the na\"{i}ve algorithm; (d) is the result of processing the image using the Br\"{a}unl-inspired algorithm; (e) is the result of processing the image using the CML algorithm}
+\caption{\label{fig:median:peppers}The classic grayscale `peppers' image, before and after processing.  (a) is the original image; (b) is the image with random salt \& pepper noise introduced; (c) is the result of processing the image using the na\"{i}ve algorithm; (d) is the result of processing the image using the Br\"{a}unl-inspired algorithm; (e) is the result of processing the image using the CML algorithm}
 \end{figure*}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
 \begin{table}
 \centering
 \caption{Peak signal-to-noise ratio measurement for the very small image (measured in dB)}
-\label{tab:psnrvsmall}
+\label{tab:median:psnrvsmall}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Window size}}                                          \\
@@ -1031,8 +660,6 @@ Naïve                                  & \textbf{27.03} & 21.74          & 18.5
 \end{tabular}
 \end{table}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
 \begin{table}
 \centering
 \caption{Peak signal-to-noise ratio measurement for the peppers image (measured in dB)}
@@ -1044,15 +671,13 @@ Bräunl                                 & 28.76          & 27.35          & 25.2
 CML                                    & 31.85          & 31.07          & 29.8           & 28.56          & 27.42         \\
 Naïve                                  & \textbf{32.79} & \textbf{31.25} & \textbf{29.87} & \textbf{28.63} & \textbf{27.50} \\ \bottomrule
 \end{tabular}
-\label{tab:psnrpeppers}
+\label{tab:median:psnrpeppers}
 \end{table}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
 \begin{table}
 \centering
 \caption{Peak signal-to-noise ratio measurement for the small image (measured in dB)}
-\label{tab:psnrsmall}
+\label{tab:median:psnrsmall}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Window size}}                                          \\
@@ -1063,8 +688,6 @@ Naïve                                  & \textbf{37.83} & \textbf{34.31} & \tex
 \end{tabular}
 \end{table}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
 \begin{table}
 \centering
 \caption{Peak signal-to-noise ratio measurement for the medium image (measured in dB)}
@@ -1076,7 +699,7 @@ Bräunl                                 & 32.98          & 32.65          & 31.5
 CML                                    & 36.72          & \textbf{34.15} & \textbf{32.98} & \textbf{32.26} & \textbf{31.73} \\
 Naïve                                  & \textbf{37.16} & 34.07          & 32.96          & \textbf{32.26} & \textbf{31.73} \\ \bottomrule
 \end{tabular}
-\label{tab:psnrmedium}
+\label{tab:median:psnrmedium}
 \end{table}
 
 Examination of the reported memory statistics (please see the GitHub repository for details) appears to show that the maximum amount of memory allocated during processing for the CML algorithm stays roughly constant across window sizes for each image size, and in fact on larger window sizes it is the most memory efficient.  The naïve algorithm quickly grows to consume the most memory at larger window sizes for each image size, suggesting that it likely derives some of its comparative speed at the cost of greater space complexity, while Bräunl sits in the middle.  Conversely, CML generates by far the most garbage collection events, which may well go some way to explaining its relative lack of pace.
@@ -1111,123 +734,3 @@ The use of a Concurrent ML approach to image processing was explored in this wor
 A CML approach where a separate logical processing element is used to represent each pixel largely eliminates the possibility of taking advantage of data-parallel hardware, such as vector instructions of CPUs or GPUs.  For situations where vector instructions are applicable, the CML approach seems likely to be a poor choice.  It is not clear, however, how well this approach may or may not work for instances where the data types involved are more complex, or where there is a significant level of control flow involved.
 
 Future work should explore CML as applied to other computer vision algorithms, especially those which can naturally be characterised in terms of message passing, or which use more complex data types.  Other CML implementations beyond the one used here should be tested too, as it is not clear how much the problems experienced by this CML program may stem from the implementation of the CML library used.
-
-
-
-% if have a single appendix:
-%\appendix[Proof of the Zonklar Equations]
-% or
-%\appendix  % for no appendix heading
-% do not use \section anymore after \appendix, only \section*
-% is possibly needed
-
-% use appendices with more than one appendix
-% then use \section to start each appendix
-% you must declare a \section before using any
-% \subsection or using \label (\appendices by itself
-% starts a section numbered zero.)
-%
-
-
-% \appendices
-% \section{Proof of the First Zonklar Equation}
-% Appendix one text goes here.
-
-% % you can choose not to have a title for an appendix
-% % if you want by leaving the argument blank
-% \section{}
-% Appendix two text goes here.
-
-
-% % use section* for acknowledgment
-% \section*{Acknowledgments}
-% The author would like to thank the creators and maintainers of the open source .NET libraries \hopac{}, ImageSharp and BenchmarkDotNet, all three of which were used in the preparation of this paper, for their time and efforts.  Particular thanks is given to Anton Firsov of the ImageSharp team, for assistance with correct use of the API.  The author would also like to thank Pexels.com and its contributing photographers, for making the images used in this paper freely available.
-
-% Thanks must also go to the anonymous reviewers, who's feedback and suggestions did much to improve this paper.
-
-
-% % Can use something like this to put references on a page
-% % by themselves when using endfloat and the captionsoff option.
-% \ifCLASSOPTIONcaptionsoff
-%   \newpage
-% \fi
-
-
-
-% trigger a \newpage just before the given reference
-% number - used to balance the columns on the last page
-% adjust value as needed - may need to be readjusted if
-% the document is modified later
-%\IEEEtriggeratref{8}
-% The "triggered" command can be changed if desired:
-%\IEEEtriggercmd{\enlargethispage{-5in}}
-
-% references section
-
-% can use a bibliography generated by BibTeX as a .bbl file
-% BibTeX documentation can be easily obtained at:
-% % http://mirror.ctan.org/biblio/bibtex/contrib/doc/
-% % The IEEEtran BibTeX style support page is at:
-% % http://www.michaelshell.org/tex/ieeetran/bibtex/
-% \bibliographystyle{IEEEtran}
-% % argument is your BibTeX string definitions and bibliography database(s)
-% %\bibliography{IEEEabrv,../bib/biblio}
-% \bibliography{bibtex/bib/biblio.bib}
-%
-% <OR> manually copy in the resultant .bbl file
-% set second argument of \begin to the number of references
-% (used to reserve space for the reference number labels box)
-% \begin{thebibliography}{1}
-
-% \bibitem{IEEEhowto:kopka}
-% H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-%   0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-
-% \end{thebibliography}
-
-% % biography section
-% % 
-% % If you have an EPS/PDF photo (graphicx package needed) extra braces are
-% % needed around the contents of the optional argument to biography to prevent
-% % the LaTeX parser from getting confused when it sees the complicated
-% % \includegraphics command within an optional argument. (You could create
-% % your own custom macro containing the \includegraphics command to make things
-% % simpler here.)
-% %\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
-% % or if you just want to reserve a space for a photo:
-
-% \begin{IEEEbiography}{Michael Shell}
-% Biography text here.
-% \end{IEEEbiography}
-
-% % if you will not have a photo at all:
-% \begin{IEEEbiographynophoto}{John Doe}
-% Biography text here.
-% \end{IEEEbiographynophoto}
-
-% % insert where needed to balance the two columns on the last page with
-% % biographies
-% %\newpage
-
-% \begin{IEEEbiographynophoto}{Jane Doe}
-% Biography text here.
-% \end{IEEEbiographynophoto}
-
-% You can push biographies down or up by placing
-% a \vfill before or after them. The appropriate
-% use of \vfill depends on what kind of text is
-% on the last page and whether or not the columns
-% are being equalized.
-
-%\vfill
-
-% Can be used to pull up biographies so that the bottom of the last one
-% is flush with the other column.
-%\enlargethispage{-5in}
-
-
-
-% that's all folks
-% \end{document}
-
-

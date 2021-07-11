@@ -1,4 +1,4 @@
-\section{\label{sect:variations}Variations on the Algorithms}
+\section{\label{sec:tsp:variations}Variations on the Algorithms}
 We have presented above algorithms to find a single Hamiltonian path or cycle, with minimum cost in the case of a weighted digraph (i.e., the \gls{tsp}).  With minimal modifications however, other results may be obtained from the algorithm, such as using a specific starting vertex or generating all possible paths/cycles.
 
 To use a specific vertex as the starting point of the algorithm, rule (1) may be skipped by starting the system in state 2, with an \(s\) subcell containing the chosen vertex as the head of the \(p\) subcell supplied to the top-level cell.
@@ -41,7 +41,7 @@ For the \gls{hcp} and \gls{tsp}, rule (5) could be applied in \(\mathtt{max}\) m
 
 %Furthermore, if all possible Hamiltonian cycles from \textbf{every} node of the graph are desired, the only change required to achieve this is to modify rule (1) so that it operates in \(\mathtt{max}\) mode, rather than \(\mathtt{min}\) mode.  This would generate a starting \(s\) subcell carrying an \(r\) root subcell for every node in the graph, because the unification of \(R\) described in the rule will match upon every node contained in the initial \(v\) subcell.  Neither this change nor the alternative \(\mathtt{max}\)-mode rule (5) described above impact the running time of the algorithm -- though they will increase the space requirements to a greater or lesser degree, which has no effect in P~systems with their infinite available space, but may impact computerised simulations of them.
 
-In \autoref{sect:algotsp} we assumed that all arc weights are strictly positive integers.  Weights of zero can be accommodated relatively easily.  Should every possible cycle have a minimum weight of at least 1, then no changes are needed.  If it is possible for there to be a cycle with a total weight of zero, then a sixth rule must be introduced, prior to the current rule (5), which in turn becomes rule (6).  This rule simply detects a minimum of zero, as set out in \autoref{sec-min}.  These new rules are shown in \autoref{minzerorules} (recall that \(\lambda\) inside a subcell denotes the subcell as empty).
+In \autoref{sec:tsp:algotsp} we assumed that all arc weights are strictly positive integers.  Weights of zero can be accommodated relatively easily.  Should every possible cycle have a minimum weight of at least 1, then no changes are needed.  If it is possible for there to be a cycle with a total weight of zero, then a sixth rule must be introduced, prior to the current rule (5), which in turn becomes rule (6).  This rule simply detects a minimum of zero, as set out in \autoref{sec-min}.  These new rules are shown in \autoref{minzerorules}.% (recall that \(\lambda\) inside a subcell denotes the subcell as empty).
 
 % \begin{figure}[htbp]
 % \begin{framed}
@@ -65,7 +65,7 @@ In \autoref{sect:algotsp} we assumed that all arc weights are strictly positive 
 % \label{minzerorules}  
 % \end{figure}
 
-\changerulenumber{4}
+\cpchangerulenumber{4}
 
 \begin{cprulesetfloat}
 \begin{cpruleset}
