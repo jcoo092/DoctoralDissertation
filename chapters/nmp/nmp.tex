@@ -1,31 +1,9 @@
 \newcounter{rulesnumber}
 
-% % We present here two generic representations of \gls{cps} implementations for message passing between neighbouring logical processing elements on a grid (``\gls{nmp}''), focusing on the external inter-element messaging.  We first present a simple synchronous version, before moving to an asynchronous version where each grid point operates to its own schedule, coordinating with its neighbours only through the message passing process.  We provide a brief worked example for the latter system, before analysing it.  We prove that the asynchronous version sends the same number of messages as the synchronous version, each of which is based appropriately on prior messages received, but that the ordering of outgoing messages will differ based on when incoming messages are received.
-
-% % We first abstract the \gls{nmp} part of the loopy \gls{bp}, as used in \gls{sm}, and model it with \gls{cps}, a bio-inspired computing model.
-% % To model such a synchronous communication, we here extend the extant \gls{cps} messaging rules with antiport features, as also used in other variants of P~systems.
-% % Next, we propose a novel non-trivial version of the \gls{bp}~messaging, by extending it to work in a fully asynchronous case, and also model it in \gls{cps}.
-% % We prove that our asynchronous proposal uses exactly the same number of messages as the classical synchronous version.
-% % Further, we investigate its accuracy and run-time characteristics. Empirical studies show that, for the same number of iterations:
-% % (i) by removing potential synchronisation bottlenecks, our asynchronous version is likely to complete faster than the synchronous version;
-% % and (ii) by accepting and using any available fresh data, our asynchronous version is likely to return more accurate results than the synchronous version.
-% % The second part of this paper reviews these hypotheses in the specific context of \glsentrylong{bp} for \glsentrylong{sm} (BPSM).
-
-% We present here two of \gls{cps} implementations for message passing between neighbouring logical processing elements on a lattice (``\gls{nmp}''), focusing on generic external inter-element messaging.
-% We first abstract the \gls{nmp} part of loopy \gls{bp}, as used in \gls{sm} on images (i.e. two-dimensional square grids), and model it with \gls{cps}, a bio-inspired computing model.
-% To model such a synchronous communication, we extend the extant \gls{cps} messaging rules with antiport features, as also used in other variants of P~systems.
-% Next, we propose a novel non-trivial version of \gls{bp}'s \gls{nmp}, by extending it to work in a fully asynchronous case, and model it in \gls{cps} too.
-% We prove that our asynchronous proposal uses exactly the same number of messages as the classical synchronous version.
-% Further, we investigate its accuracy and run-time characteristics. Empirical studies show that, for the same number of iterations:
-% (i) by removing potential synchronisation bottlenecks, our asynchronous version is likely to complete faster than the synchronous version;
-% and (ii) by accepting and using any available fresh data, our asynchronous version is likely to return more accurate results than the synchronous version.
-% A forthcoming Part Two of this paper investigates these hypotheses in the specific context of \gls{bp} for \gls{sm} (BPSM).
-
 % --------------------------------------------------------------
 \chapter{\label{chap:nmp}Neighbourhood Message Passing}
 
 \input{chapters/nmp/tex/introduction}
-% \input{chapters/nmp/tex/cpsystemsreview}
 \input{chapters/nmp/tex/systemwide}
 \input{chapters/nmp/tex/proxelspecific}
 \input{chapters/nmp/tex/localsync}

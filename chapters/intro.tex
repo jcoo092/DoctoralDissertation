@@ -4,21 +4,7 @@ Some wordiness will go here.
 \section{My first section}
 Post-introductory wordiness
 
-\begin{anfxerror}{Describe development?}
-    There have been a few twists \& turns before settling on the final dissertation topic, but some of the earlier work very much has had a significant impact on the getting to the final topic.  How much of that should be discussed in the intro, even though it isn't actually directly relevant to the current topic?
-\end{anfxerror}
-
-% Main goal:  To achieve at least one of the below
-% \begin{itemize}
-% \item run more efficiently (faster and/or use less memory)
-% \item Scalability.  If one only scales well up to, say 4-8 cores, but the other works up to a much larger number of cores, then that would suggest that the latter approach is much more future-proof, since best guesses still suggest that manycore systems are the way of the future.
-% \item `cleaner'/nicer code (by some reasonably objective, quantifiable measure)
-% \item `easier to program/easier to read' -- lower complexity (how does one measure that though?)
-% \end{itemize}
-
-% Why is message passing better than using an algorithmic skeleton?  Or how much can the two ideas be unified?  (e.g. a \gls{cml} inspired skeleton for operations on regular grids -- perhaps using specific neighbourhoods).
-
-\Gls{bp} can be described in terms of message passing, but also can be given fairly efficient \gls{gpu} implementations.  How do the two connect?
+% \Gls{bp} can be described in terms of message passing, but also can be given fairly efficient \gls{gpu} implementations.  How do the two connect?
 
 \begin{anfxwarning}{What goes in the intro?}
 From \url{https://abacus.bates.edu/~ganderso/biology/resources/writing/HTWsections.html}:  ``the Introduction must answer the questions, "What was I studying? Why was it an important question? What did we know about it before I did this study? How will this study advance our knowledge?"''
@@ -26,29 +12,22 @@ From \url{https://abacus.bates.edu/~ganderso/biology/resources/writing/HTWsectio
 
 \section{Research Questions}
 \begin{enumerate}
-    % \item Can real-time message passing-based stereo matching be implemented using a message passing programming approach?
-    % \item How do the results compare with more traditional implementations?
-    % \item 
     \item Does modelling \gls{nmp} in a theoretical setting like \gls{cps} help in some way?
     \item Does an asynchronous model of \gls{nmp} reveal any benefit over the traditional synchronous versions?
     \item Does the practical implementation of \gls{nmp}, applied to \gls{bp} for \gls{sm} show any improvement over other techniques?
 \end{enumerate}
 
 \subsection{Research Question One}
-% Here real-time means achieving a speed of at least 1 frame per second, i.e. at least 1 Hz.
 
 \subsection{Research Question Two}
-% Comparisons can be (will be?) made based on runtime efficiency, both with `wall time' taken and peak memory use, as well as based on code-quality measures in some fashion.  Also, if possible, check how well each approach scales.
 
 \subsection{Research Question Three}
 
 \section{Hypotheses}
 
 \subsection{Hypothesis One}
-% On larger/more powerful systems, yes.  On smaller systems (e.g. Nvidia Jetson Nano) no.
 
 \subsection{Hypothesis Two}
-% \gls{mpbsm} will be \emph{slower} than traditional methods, and use more memory.  The program will be longer, but it will be more clearly logically structured.  It will scale better than traditional approaches though, when there is shared memory but distinct processors.
 
 \subsection{Hypothesis Three}
 

@@ -1,0 +1,1224 @@
+\chapter{\label{sec:lr:cpsystems}\texorpdfstring{\gls{cps}}{cP systems}: \texorpdfstring{\gls{ps}}{P systems} with Complex Symbols}
+\fxerror*{Expand/explain}{\cite{Nicolescu2014b,Nicolescu2017}}
+
+\gls{cps} is another variant of \gls{ps}, developed by Nicolescu and collaborators in the early 2010s \fxerror[inline]{[ref]} and complementary to the classic trinity of \gls{clps} \cite{Paun2000}, \gls{tlps} \cite{Martin-Vide2003}, and \gls{snps} \cite{Ionescu2006}.  It is largely based on \gls{clps} in that the core unit of it is the \emph{\gls{tlc}}, which is arranged as a nested tree structure and arguably can be seen, to some extent at least, as a higher-level abstraction over \gls{clps} \cite{Nicolescu2018}.  It can also incorporate elements of \gls{tlps}, in that \gls{cps} includes concepts of channels and message passing between \glspl{tlc} \cite{Henderson2019}, with an arbitrary number of these cells in the environment.  
+
+A key difference from \gls{clps} and \gls{tlps}, however, is that in \gls{cps} \emph{only} the \glspl{tlc} have accompanying rules.  All sub-cells are merely inert symbolic objects operated upon by the \gls{tlc}'s rules.  These sub-cells are represented as labelled multisets within the \glspl{tlc}.  \citeauthor{Nicolescu2014a} demonstrated that not only is \gls{cps} capable of performing the same tasks as other \gls{ps} variants, but it also can be used to model standard computer programs \cite{Nicolescu2014a}.
+
+The principal advantage of \gls{cps} over traditional \gls{clps} is a simplification in the specification of complete systems to solve a given problem.  \Gls{clps} (as well as \gls{tlps} and \gls{snps}) typically require the definition of a family of rulesets customised to the specific instance of the problem at hand, whereas \gls{cps} typically requires only the definition of a fixed (usually much shorter) set of rules that cover all possible instances. As a result, only inputs to the system must vary to solve different instances of the problem, e.g., in \autoref{chap:tsp} just five fixed rules are needed to solve any instance of the Travelling Salesman Problem, requiring only customisation of the input objects (in that case, elements describing the nodes and edges of the graph).
+
+This section provides an overview of \gls{cps}.  Further presentation of \gls{cps} has appeared most recently in \cite{Nicolescu2018,Henderson2019,Henderson2020,Liu2020,Liu2021}, and it is recommended that the interested reader peruse those too.  While \gls{cps} is transitively bio-inspired through its basis in \gls{ps}, it has not been developed to simulate or model real-world biology.  Instead, it is intended as a useful theoretical model for computation.
+
+% --------------------------------------------------
+
+%---------------------------------------------------
+\section{Complex symbols as subcells}
+%---------------------------------------------------
+
+\emph{Complex symbols} or \emph{subcells}, 
+play the roles of cellular microcompartments or substructures,
+such as organelles, vesicles, or cytoophidium assemblies (``snakes''),
+which are embedded in cells or travel between cells, 
+but without having the full processing power of a complete cell.
+In our proposal, \emph{subcells} represent nested labelled data compartments
+with no processing power of their own;
+instead, they are acted upon by the rules of their enclosing cells.
+
+Sub-cells can be either \emph{atoms} or \emph{compound terms}, multisets labelled by \emph{functors} (`functor' is also commonly used as a shorthand for said compound terms).  Atoms, as the name suggests, are indivisible symbols.  They can be of any given type relevant to a system, but are static objects with no other inherent distinctive properties.  Atoms are written simply as the name of the atom's type.  Compound terms, on the other hand, are objects that may contain both atoms and other compound terms and are written with the functor's type, followed by opening and closing parentheses, surrounding the encapsulated multiset.\footnote{For the sake of legibility, compound terms have primarily been written in this work with growing parentheses, dependent upon the level of nesting of terms involved.  This typesetting behaviour is not required or even specified as a part of \gls{cps} and can be freely omitted.}
+
+Our basic vocabulary consists of atoms and \emph{variables}, collectively known as \emph{simple symbols}.  \emph{Complex symbols} are similar to Prolog-like \emph{first-order terms}, recursively built from \emph{multisets} of atoms and variables.  Together, complex symbols and simple symbols (atoms, variables) are called \emph{symbols} and can be defined by the following formal grammar:
+
+\begin{framed}
+\vspace{-0.6cm}
+\begin{small}
+\begin{bnf*}
+    \bnfprod*{symbol}{\bnfpn{atom} \bnfor \bnfpn{variable} \bnfor \bnfpn{term}}\\
+    \bnfprod*{term}{\bnfpn{functor} \bnfsp \bnfts{`('} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`)'}}\\
+    \bnfprod*{functor}{\bnfpn{atom}}\\
+    \bnfprod*{argument}{\bnfes \bnfor \bnfts{(} \bnfsp \bnfpn{symbol} \bnfsp \bnfts{)} \bnfts{+}}
+\end{bnf*}
+\end{small}
+\vspace{-0.8cm}
+\end{framed}
+
+\emph{Atoms} are typically denoted by lower case letters (or, occasionally, digits), usually drawn from the Latin alphabet, 
+such as \(a\), \(b\), \(c\), \(\cpundig\). 
+\emph{Variables} are typically denoted by uppercase letters, 
+such as \(X\), \(Y\), \(Z\).
+\emph{Functors} are term (subcell) labels; here, functors can only be atoms, not variables.  
+E.g., an x atom may be written as \(x\), while a compound term labelled by a y functor might be written as \(\cpfunc{y}{a \, xx \, z}\).  When there is more than one of a given atom present, the count is usually written as a superscript, so the earlier compound term would look like \(\cpfunc{y}{a \, x^2 \, z}\).
+
+We also consider \emph{anonymous variables} for improved readability, denoted by underscores (``\(\_\)'').
+Each underscore occurrence represents a \emph{new} unnamed variable
+and indicates that something we are not interested in must fill that slot.
+
+Symbols that do \emph{not} contain variables are called \emph{ground}, e.g.:
+\begin{itemize}
+\item Ground symbols:
+\(a\), \(\cpfunc{a}{\cpempty}\), \(\cpfunc{a}{b}\), \(\cpfunc{a}{b c}\), \(\cpfunc{a}{b^2 c}\), \(\cpfunc{a}{\cpfunc{b}{c}}\), \(\cpfunc{a}{b\cpfunc{c}{\cpempty}}\), \(\cpfunc{a}{\cpfunc{b}{c}\cpfunc{d}{e}}\), \(\cpfunc{a}{\cpfunc{b}{c}\cpfunc{d}{e}}\), \(\cpfunc{a}{\cpfunc{b}{c}\cpfunc{d}{\cpfunc{e}{\cpempty}}}\), \(\cpfunc{a}{bc^2 d}\).
+
+\smallskip
+\item Symbols which are not ground:
+\(X\), \(\cpfunc{a}{X}\), \(\cpfunc{a}{bX}\), \(\cpfunc{a}{\cpfunc{b}{X}}\), \(\cpfunc{a}{XY}\), \(\cpfunc{a}{X^2}\), \(\cpfunc{a}{XdY}\),  \(\cpfunc{a}{X\cpfunc{c}{}}\), \(\cpfunc{a}{\cpfunc{b}{X}\cpfunc{d}{e}}\), \(\cpfunc{a}{\cpfunc{b}{c}\cpfunc{d}{Y}}\), \(\cpfunc{a}{\cpfunc{b}{X^2}\cpfunc{d}{\cpfunc{e}{Xf^2}}}\);
+also, using anonymous variables: \(\_\), \(\cpfunc{a}{b\_}\), \(\cpfunc{a}{X\_}\), \(\cpfunc{a}{\cpfunc{b}{X}\cpfunc{d}{\cpfunc{e}{\_}}}\).
+
+\smallskip
+\item This term-like construct which starts with a variable is \emph{not} a symbol (the above grammar defines first-order terms only):
+\(\cpfunc{X}{a Y}\).
+\end{itemize}
+
+Note that we may abbreviate the expression of complex symbols 
+by removing inner \(\cpempty\)'s as explicit references to the empty multiset, 
+e.g.~\(\cpfunc{a}{\cpempty} = \cpfunc{a}{}\).
+
+In \emph{concrete} models, \emph{cells} contain \emph{ground} symbols only (no variables).
+Rules may, however, contain \emph{any} kind of symbols, atoms, variables, and terms (whether ground or not).
+
+\medskip
+\noindent
+\subsubsection{Unification.} 
+All symbols which appear in rules (ground or not) can be (asymmetrically) \emph{matched} against \emph{ground} terms,
+using an ad-hoc version of \emph{pattern matching}, 
+more precisely, a \emph{one-way first-order syntactic unification} (one-way, because cells may not contain variables) \cite{Liu2020a}.
+An atom can only match another copy of itself, but
+a variable can match any multiset of ground terms (including \(\cpempty\)).
+This may create combinatorial \emph{non-determinism}, 
+when a combination of two or more variables are matched against the same multiset,
+in which case an arbitrary matching is chosen. 
+For example:
+\begin{itemize}
+\item Matching \(\cpfunc{a}{\cpfunc{b}{X}fY} = \cpfunc{a}{\cpfunc{b}{c\cpfunc{d}{e}}f^2g}\) deterministically creates a single set of unifiers:
+\(X, Y = c\cpfunc{d}{e}, fg\).
+
+\smallskip
+\item Matching \(\cpfunc{a}{XY^2} = \cpfunc{a}{de^2f}\) deterministically creates a single set of unifiers: 
+\(X, Y = df, e\).
+
+\smallskip
+\item Matching \(\cpfunc{a}{\cpfunc{b}{X}\cpfunc{c}{\cpundig X}} = \cpfunc{a}{\cpfunc{b}{\cpundig^2}\cpfunc{c}{\cpundig^3}}\) deterministically creates one single unifier: 
+\(X = \cpundig^2\).
+
+\smallskip
+\item Matching \(\cpfunc{a}{\cpfunc{b}{X}\cpfunc{c}{\cpundig X}} = \cpfunc{a}{\cpfunc{b}{\cpundig^2}\cpfunc{c}{\cpundig^2}}\) fails.
+
+\smallskip
+\item Matching \(\cpfunc{a}{XY} = \cpfunc{a}{df}\) non-deterministically creates one of the following four sets of unifiers: 
+\(X, Y = \cpempty, df\); \(X, Y = df, \cpempty\); \(X, Y = d, f\); \(X, Y = f, d\). 
+\end{itemize}
+
+\iffalse
+\noindent
+\subsubsection{Performance note.}
+If the rules avoid any matching non-determinism, 
+this proposal should not affect the performance of P~simulators running on existing machines.
+Assuming that bags are already taken care of, e.g.~via hash-tables,
+our proposed unification probably adds an almost linear factor.
+Let us recall that, in similar contexts (no occurs check needed), 
+Prolog unification algorithms can run in \(O(n g(n))\) steps,
+where \(g\) is the inverse Ackermann function.
+Our conjecture must be proven, though, 
+as the novel presence of multisets may affect the performance.
+\fi
+
+% -------------------------------------------------
+
+%---------------------------------------------------
+\section{High-level or generic rules}
+%---------------------------------------------------
+
+\noindent
+\subsubsection{Generic rules format.}
+We consider rules of the following \emph{generic} format 
+(we call this format generic because it defines templates involving variables):
+\begin{framed}
+\vspace{-0.6cm}
+\begin{align*}
+\emph{current-state} ~~ \emph{symbols} \dots ~ \rightarrow_\alpha ~ & \emph{target-state} ~~ (\emph{in-symbols}) \dots ~~ \\
+ & (\emph{out-symbols})_\delta \dots \\
+ & | ~  \emph{promoters} \dots ~~ \neg ~  \emph{inhibitors} \dots
+\end{align*}
+\vspace{-0.8cm}
+\end{framed}
+Where:
+\begin{itemize}
+\item \emph{current-state} and \emph{target-state} are atoms or terms;
+
+\smallskip
+\item \emph{symbols}, \emph{in-symbols}, \emph{promoters} and \emph{inhibitors} are symbols;
+
+\smallskip
+\item \emph{in-symbols} become available after the end of the current step only, as in traditional \gls{ps}  (we can imagine that these are sent via an ad-hoc fast \emph{loopback} channel); 
+
+\smallskip
+\item subscript \(\alpha\) \(\in\) \(\{\cponce\), \(\cpmaxpar\}\), 
+indicates the application mode, as further discussed in the below;
+
+\smallskip
+\item \emph{out-symbols} are sent to the cell's structural neighbours at the end of the step.
+These symbols are enclosed in round parentheses that indicate 
+their destinations, abbreviated above as \(\delta\). 
+The most usual scenarios include: 
+
+\begin{itemize}
+\item \((a)\downarrow_i\) indicates that \(a\) is sent over outgoing arc \(i\) (unicast); 
+
+\item \((a)\downarrow_{i,j}\) indicates that \(a\) is sent over outgoing arcs \(i\) and \(j\)(multicast); 
+
+\item \((a)\downarrow_\forall\) indicates that \(a\) is sent over all outgoing arcs (broadcast). 
+\end{itemize}
+
+All symbols sent via one \emph{generic rule} to the same destination form one single \emph{message}, and they travel together as one single block (even if the generic rule is applied in mode \(\cpmaxpar\)).
+\end{itemize}
+
+\smallskip
+\noindent
+\subsubsection{Pattern matching.}
+Rules are matched against cell contents using the aforementioned \emph{pattern matching},
+which involves the rule's \gls{lhs}, promoters and inhibitors.% -- 
+
+Generally, variables have \emph{global rule scope};
+these are assumed to be introduced by \emph{existential} quantifiers preceding the rule
+-- except for inhibitors, which may introduce \emph{local variables}, 
+as further discussed below. 
+
+The matching is \emph{valid} only if, after substituting variables by their values, 
+the rule's \gls{rhs} contains ground terms only
+(so \emph{no} free variables are injected in the cell or sent to its neighbours),
+as illustrated by the following sample scenario:
+\begin{itemize}
+\item The cell's \emph{current content} includes the \emph{ground term}:\\
+\(\cpfunc{n}{a \, \cpfunc{\phi}{b \, \cpfunc{\phi}{c} \, \cpfunc{\psi}{d}} \, \cpfunc{\psi}{e}}\)
+
+\smallskip
+\item The following (state-less) \emph{rewriting rule} is considered: \\ 
+\(\cpfunc{n}{X \, \cpfunc{\phi}{Y \, \cpfunc{\phi}{Y_1} \, \cpfunc{\psi}{Y_2}} \, \cpfunc{\psi}{Z}} ~ \rightarrow ~ \cpfunc{v}{X} \: \cpfunc{n}{Y \, \cpfunc{\phi}{Y_2} \, \cpfunc{\psi}{Y_1}} \: \cpfunc{v}{Z}\)
+
+\smallskip
+\item Our pattern matching determines the following \emph{unifiers}: \\
+\(X = a\), \(Y = b\), \(Y_1 = c\), \( Y_2 = d\), \(Z = e\).
+
+\smallskip
+\item This is a \emph{valid} matching and, after \emph{substitutions}, 
+the rule's \emph{right-hand} side gives the \emph{new content}: \\
+\(\cpfunc{v}{a} ~ \cpfunc{n}{b \, \cpfunc{\phi}{d} \, \cpfunc{\psi}{c}} ~ \cpfunc{v}{e}\)
+\end{itemize}
+
+\smallskip
+\noindent
+\subsubsection{Promoters and inhibitors.}
+
+Promoters are objects that \emph{must} be present within the cell for the rule to be applicable but are \emph{not} destroyed by the rule.  Conversely, inhibitors are objects that \emph{must not} be present for the rule to be applicable, although the rule may create them.  If promoters are present, they are denoted following a \(|\) per promoter, and inhibitors by \(\neg\), e.g. \(|\,\cpfunc{a}{A}\) or \(\neg\,\cpfunc{b}{B}\).  Inhibitors and promoters are traditionally written below the main rule body, but this is not strictly required.
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $| ~ \cpfunc{a}{A}$ #\hfill\textsl{promoter}\enspace#
+  $\neg ~ \cpfunc{b}{B}$ #\hfill\textsl{inhibitor}\enspace#
+\end{lstlisting}
+
+To define additional useful matchings expressively, 
+our promoters and inhibitors may also use virtual ``equality'' terms, 
+written in infix format, with the \(=\) operator.
+For example, including the term \((ab = XY)\) indicates the following additional matching constraints on variables \(X\) and \(Y\): either \(X, Y = ab, \cpempty\); or \(X, Y = a, b\); or \(X, Y = b, a\); or \(X, Y = \cpempty, ab\).
+
+To define inhibitors as logical negations usefully,
+variables that only appear in the scope of an inhibitor are assumed to have \emph{local scope}. 
+Furthermore, these variables are assumed to be defined by \emph{existential} quantifiers, immediately after the negation. 
+Semantically, this is equivalent to introducing these variables at the global rule level, 
+but by \emph{universal} quantifiers, after all other global variables;
+introduced by \emph{existential} quantifiers.
+
+As an illustration, consider a cell containing \(\cpfunc{a}{c} ~ \cpfunc{a}{ccc}\) and contrast two rules, 
+containing the following two sample promoter/inhibitor pairs 
+(for brevity, other rule details are omitted here).
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+... $\mid$  $\cpfunc{a}{cXY}$     $\neg$  $\cpfunc{a}{X}$    #\hfill (1)\enspace#
+... $\mid$  $\cpfunc{a}{cZ}$     $\neg$  $(Z=XY)$  $\cpfunc{a}{X}$    #\hfill (2)\enspace#
+\end{lstlisting}
+
+These two rules appear very similar, and their inhibitor tests share the same expression: 
+NO \(\cpfunc{a}{X}\) may be present in the cell.
+
+Rule (1) uses two global variables, \(X, Y\). 
+According to its promoter, \(\cpfunc{a}{cXY}\), these variables can be matched in four different ways:
+(1a) \(X, Y = \cpempty, \cpempty\); (1b) \(X, Y = cc, \cpempty\); (1c) \(X, Y = \cpempty, cc\); (1d) \(X, Y = c, c\).\footnote{Strictly speaking, this matching is possible in multiple ways, with different \(c\) atoms assigned to each variable.  For current purposes, though, they are equivalent and so are reduced to the one result.}
+Three different unifications, (1a), (1b), (1c), pass the inhibitor test, 
+as there are no cell terms \(\cpfunc{a}{}\), \(\cpfunc{a}{cc}\), \(\cpfunc{a}{}\), respectively. 
+Unification (1d) fails the inhibitor test, because there \emph{is} one cell term \(\cpfunc{a}{c}\).
+
+Rule (2) uses one global variable, \(Z\), and two local inhibitor variables, \(X, Y\).
+According to its promoter, \(\cpfunc{a}{cZ}\), variable \(Z\) can be matched in two different ways: 
+(2a) \(Z = \cpempty\); (2b) \(Z = cc\).
+Unification (2a) passes the inhibitor test, because it only generates one local unification,
+\(X, Y = \cpempty, \cpempty\), and there is NO cell term \(\cpfunc{a}{}\).
+Unification (2b) fails the inhibitor test, because it generates all three following local unifications:
+(2b1) \(X, Y = cc, \cpempty\); (2b2) \(X, Y = \cpempty, cc\); (2b3) \(X, Y = c, c\); 
+and there \emph{is} a cell term corresponding to (2b3), \(\cpfunc{a}{c}\).
+
+\subsubsection{Inter-\gls{tlc} messaging}
+
+\Glspl{tlc} may exchange messages over channels.  Each \gls{tlc} may hold one or more appropriately labelled endpoints for any relevant channels and may attempt both to send and receive messages via those endpoints in its rules.  A message is written encapsulated inside curly braces and marked with either an exclamation mark on the \gls{rhs} or a question mark on the \gls{lhs} to represent sending or receiving, respectively.  E.g. \(\cpsend{\cpfunc{a}{b}}{c}\) would represent a message \(\cpfunc{a}{b}\) to be sent via channel \(c\), and \(\cprecv{\cpfunc{d}{e}}{f}\) would represent a message to be received via channel \(f\).
+
+Both sending and receiving use pattern matching.  For the sending case, any \gls{cps} term which matches the pattern in the rule may be removed from the \gls{tlc} and placed into a buffer multiset in the channel.  Receiving works similarly in that any object stored in the channel's buffer multiset, which matches the pattern of a receipt rule, may be withdrawn.  If more than one object in the buffer matches the pattern, one of them is selected non-deterministically.  Importantly, this means that ordinary \gls{cps} channels do \emph{not} operate as FIFO queues by default.
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $\cpsend{\cpfunc{a}{b}}{c}$ #\hfill\textsl{send}\enspace#
+  $\cprecv{\cpfunc{d}{e}}{f}$ #\hfill\textsl{receive}\enspace#
+\end{lstlisting}
+
+\smallskip
+\noindent
+\subsubsection{Application modes -- \(\cponce\) and \(\cpmaxpar\).}
+To explain our two rule application modes, \(\cponce\) and \(\cpmaxpar\), referred to as \emph{exactly-once} and \emph{maximally-parallel} respectively,
+let us consider a cell, \(\sigma\), containing three counter-like complex symbols,
+\(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^3}\),
+and the two possible application modes of the following high-level ``decrementing'' rule:
+\vspace{-0.2cm}
+\begin{framed}
+\vspace{-0.5cm}
+\[(\rho_\alpha) ~s_1 ~\cpfunc{c}{\cpundig \, X} \rightarrow_{\alpha} s_2 ~\cpfunc{c}{X},\\
+\mathrm{where} \; \alpha \in \{\cponce, \cpmaxpar\}.\]
+\vspace{-0.8cm}
+\end{framed}
+
+The \gls{lhs} of rule \(\rho_\alpha\), \(\cpfunc{c}{\cpundig \, X}\), can be unified in three different ways,
+to each one of the three \(c\) symbols extant in cell \(\sigma\).
+Conceptually, we instantiate this rule in three different ways,
+each one tied and applicable to a distinct symbol:
+\begin{eqnarray*}
+& (\rho_1)  & ~s_1 ~\cpfunc{c}{\cpundig^2} \rightarrow s_2 ~\cpfunc{c}{\cpundig},\\
+& (\rho_2)  & ~s_1 ~\cpfunc{c}{\cpundig^2} \rightarrow s_2 ~\cpfunc{c}{\cpundig},\\
+& (\rho_3) & ~s_1 ~\cpfunc{c}{\cpundig^3} \rightarrow s_2 ~\cpfunc{c}{\cpundig^2}.
+\end{eqnarray*}
+
+\begin{enumerate}
+\item If \(\alpha = \: \cponce\), rule~\(\rho_1\) 
+non-deterministically selects and applies one of these virtual rules \(\rho_1\), \(\rho_2\), \(\rho_3\).
+Using \(\rho_1\) or \(\rho_2\), 
+cell \(\sigma\) ends with counters \(\cpfunc{c}{\cpundig}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^3}\).
+Using \(\rho_3\),
+cell \(\sigma\) ends with counters \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\).
+
+\smallskip
+\item If \(\alpha = \: \cpmaxpar\), rule~\(\rho_\cpmaxpar\) 
+applies in parallel all these virtual rules \(\rho_1\), \(\rho_2\), \(\rho_3\).
+Cell \(\sigma\) ends with counters \(\cpfunc{c}{\cpundig}\), \(\cpfunc{c}{\cpundig}\), \(\cpfunc{c}{\cpundig^2}\).
+\end{enumerate}
+
+Semantically, the \(\cpmaxpar\) mode is equivalent to a virtual sequential while loop around the same rule in \(\cponce\) mode, which is repeated until it is no more applicable.  Note, however, that all such applications of the rule are carried out concurrently in a single step.
+
+Like most other \gls{ps} variants, \gls{cps} \emph{usually} evolve synchronously in a stepwise fashion following an implicit global clock.  Rules are applied based on whether the available multiset(s) within the system match the rules' \gls{lhs} and promoters, and not the inhibitors.  The consumption of removed objects plus the creation of new objects happens instantaneously at the end of a step.
+
+\smallskip
+\noindent
+\subsubsection{Special cases.}
+Simple scenarios involving generic rules are sometimes 
+semantically equivalent to sets of nongeneric rules defined via bounded loops.
+For example, consider the rule
+\[
+s_1 ~ \cpfunc{a}{\cpfunc{x}{I} \; \cpfunc{y}{J}} ~ \rightarrow_\cpmaxpar ~ s_2 ~ \cpfunc{b}{I} ~ \cpfunc{c}{J},
+\]
+where the cell's contents guarantee that \(I\) and \(J\) 
+only match integers in ranges \fxwarning{Shouldn't these be from zero to n/m?}{\([1,n]\) and \([1,m]\)}, respectively.
+Under these assumptions, 
+this rule is equivalent to the following set of nongeneric rules:
+\[
+s_1 ~ a_{i,j} ~ \rightarrow s_2 ~ b_i ~ c_j, ~ \forall i \in [1,n], j \in [1,m].
+\]
+
+However, unification is a much more powerful concept, 
+which cannot be reduced generally to simple bounded loops.
+
+\smallskip
+\noindent
+\subsubsection{Benefits.}
+This type of generic rules allows (i) a reasonably fast parsing and processing of subcomponents, and
+(ii) algorithm descriptions with \emph{fixed-size alphabets} and \emph{fixed-sized rulesets}, 
+independent of the size of the problem and the number of cells in the system (often \emph{impossible} with only atomic symbols).
+
+\smallskip
+\noindent
+\subsubsection{Synchronous vs asynchronous.}
+In our models, we do not make any \emph{syntactic} difference between the synchronous and asynchronous scenarios;
+this is strictly a \emph{runtime} assumption~\cite{Nicolescu2012}.
+Any model can run on both the synchronous and asynchronous runtime ``engines'',
+albeit the results may differ.
+Our asynchronous model matches closely the standard definition of asynchronicity used in distributed algorithms;
+however, we do not follow this topic here.
+
+% -------------------------------------------------
+
+% --------------------------------------------------
+\section{Data structures in \texorpdfstring{\gls{cps}}{cP systems}}\label{sec-data-structures}
+% --------------------------------------------------
+
+In this subsection, we sketch the design of some high-level data structures, 
+similar to the data structures used in high-level pseudocode or %high-level 
+programming languages:
+numbers, relations, functions, associative arrays, lists, trees, strings, 
+together with alternative, more readable notations.
+
+\medskip
+\noindent
+\subsubsection{Natural numbers.}
+Natural numbers can be represented via \emph{multisets} containing repeated occurrences of the \emph{same} atom.
+For example, considering that \(\cpundig\) represents an ad hoc unary digit, 
+the following complex symbols can be used to describe 
+the contents of a virtual integer \emph{variable} \(a\): 
+\(a () = \cpfunc{a}{\cpempty}\) --- the value of \(a\) is 0;
+\(\cpfunc{a}{\cpundig^3}\) --- the value of \(a\) is 3.
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $\cpfunc{e}{\cpempty} \equiv \cpfunc{e}{0} \equiv \cpfunc{e}{}$ #\hfill\textsl{empty functor}\enspace#
+  $\cpfunc{a}{\cpundig\cpundig\cpundig} \equiv \cpfunc{a}{\cpundig^3} \equiv \cpfunc{a}{3}$ #\hfill\textsl{the number three}\enspace#
+\end{lstlisting}
+
+For concise expressions, we may alias these number representations by their corresponding numbers, e.g.~\(\cpfunc{a}{} \equiv \cpfunc{a}{0}, \cpfunc{b}{\cpundig^3} \equiv \cpfunc{b}{3}\).  Numerical operations are simulated with unary arithmetic \cite{Aman2019,Bonchis2006}.
+Nicolescu \textit{et al.} \cite{Nicolescu2014,RN-HW-ROMJIST14} show how the basic arithmetic operations can be modelled efficiently by \gls{ps} with complex symbols.
+
+Here follows a list of simple arithmetic expressions, assignments, and comparisons:
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $x = 0$ $\equiv$ $\cpfunc{x}{\lambda}$
+  $x = 1$ $\equiv$ $\cpfunc{x}{\cpundig}$
+  $x = 2$ $\equiv$ $\cpfunc{x}{\cpundig \cpundig}$
+  $x = n$ $\equiv$ $\cpfunc{x}{\cpundig^n}$
+  
+  $x \leftarrow y \cpmaxpar z$ $\equiv$ $\cpfunc{y}{Y} ~ \cpfunc{z}{Z} ~ \rightarrow ~ \cpfunc{x}{YZ}$ #\hfill\textsl{destructive add}\enspace#
+  $x \leftarrow y + z$ $\equiv$ $ \rightarrow ~ \cpfunc{x}{YZ} ~ \mid ~ \cpfunc{y}{Y} ~ \cpfunc{z}{Z}$ #\hfill\textsl{preserving add}\enspace#
+  
+  $x = y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X}$ #\hfill\textsl{equality}\enspace#
+  $x \leq y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{XY}$ #\hfill\textsl{less than or equal to}\enspace#
+  $x <  y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X1Y}$ #\hfill\textsl{strictly less than}\enspace#
+\end{lstlisting}
+\noindent
+Note that strictly less than (\(<\)) requires the extra \(1\), because \(Y\) can match on \(\cpempty\).
+
+\medskip
+\noindent
+\subsubsection{Relations and functions.}
+Consider the \emph{binary relation} \(r\), as defined by: 
+\(r = \cpset{ (a, b),\, (b, c),\, (a, d),\, (d, c) }\) (which has a diamond-shaped graph). 
+Using complex symbols, relation \(r\) can be represented as a \emph{multiset} with four \(r\) items,
+\(\cpset{ \cpfunc{r}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{b}},\, \cpfunc{r}{\cpfunc{\kappa}{b} ~ \cpfunc{\upsilon}{c}},\, \cpfunc{r}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{d}},\, \cpfunc{r}{\cpfunc{\kappa}{d} ~ \cpfunc{\upsilon}{c}} }\), 
+where ad-hoc atoms \(\kappa\) and \(\upsilon\) introduce \emph{domain} and \emph{codomain} values (respectively).
+We may also alias the items of this multiset by a more expressive notation such as: \(\{ (a \stackrel{r}\rightleftarrows b)\), \((b \stackrel{r}\rightleftarrows c)\), \((a \stackrel{r}\rightleftarrows d)\), \((d \stackrel{r}\rightleftarrows c) \}\).
+
+If the relation is a \emph{functional relation}, we can emphasise this using another operator, such as ``mapsto''. For example, the functional relation 
+\(f = \cpset{ (a, b),\, (b, c),\, (d, c) }\) can be represented by the multiset
+\(\cpset{ \cpfunc{f}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{b}},\, \cpfunc{f}{\cpfunc{\kappa}{b} ~ \cpfunc{\upsilon}{c}},\, \cpfunc{f}{\cpfunc{\kappa}{d} ~ \cpfunc{\upsilon}{c}} }\) or by the more suggestive notation: 
+\(\{ (a \stackrel{f}\mapsto b)\), \((b \stackrel{f}\mapsto c)\), \((d \stackrel{f}\mapsto c) \}\).
+To highlight the actual mapping value, instead of \(a \stackrel{f}\mapsto b\),
+we may also use the succinct abbreviation \(f[a] = b\).
+
+In this context, the \(\rightleftarrows\) and \(\mapsto\) operators are considered to have a high associative priority, so the enclosing parentheses are primarily used to increase readability.
+
+\medskip
+\noindent
+\subsubsection{Associative arrays.}
+Consider the \emph{associative array} \(x\), 
+with the following key-value mappings (i.e., functional relation): 
+\(\{ \cpundig \mapsto a; \cpundig^3 \mapsto c; \cpundig^7 \mapsto g \}\). 
+Using complex symbols, array \(x\) can be represented as a multiset with three items,
+\(\cpset{ \cpfunc{x}{\cpfunc{\kappa}{\cpundig}\,\cpfunc{\upsilon}{a}},\, \cpfunc{x}{\cpfunc{\kappa}{\cpundig^3}\,\cpfunc{\upsilon}{c}},\, \cpfunc{x}{\cpfunc{\kappa}{\cpundig^7}\,\cpfunc{\upsilon}{g}} }\), 
+where ad-hoc atoms \(\kappa\) and \(\upsilon\) introduce keys and values (respectively).
+We may also alias the items of this multiset by the more expressive notation
+\(\{ \cpundig \stackrel{x}\mapsto a\), \(\cpundig^3 \stackrel{x}\mapsto c\), \(\cpundig^7 \stackrel{x}\mapsto g \}\).
+
+\medskip
+\noindent
+\subsubsection{Lists.}
+Consider the \emph{list} \(y\), containing the following sequence of values: 
+\([u; v; w]\). 
+List \(y\) can be represented as the complex symbol
+\(\cpfunc{y}{\, \cpfunc{\gamma}{u~\cpfunc{\gamma}{v~\cpfunc{\gamma}{w~\cpfunc{\gamma}{}}}}}\), 
+where the ad-hoc atom \(\gamma\) represents the list constructor \emph{cons} and \(\cpfunc{\gamma}{}\) the empty list.
+We may also alias this list by the more expressive equivalent notation
+\(\cpfunc{y}{u\,|\,v\,|\,w}\)
+-- or by \(\cpfunc{y}{u\,|\,y'}\), \(y'(v\,|\,w)\) --
+where operator \(\mid\) separates the head and the tail of the list.
+The notation \(\cpfunc{z}{|}\) is shorthand for \(\cpfunc{z}{\cpfunc{\gamma}{}}\) and indicates an empty list, \(z\).
+
+\medskip
+\noindent
+\subsubsection{Trees.}
+Consider the \emph{binary tree} \(z\), described by the structured expression \\
+\((a, (b), (c, (d), (e)))\), 
+i.e.~\(z\) points to a root node which has: 
+(i) the value \(a\); 
+(ii) a left node with value \(b\); and 
+(iii) a right node with value \(c\), left leaf \(d\), and right leaf \(e\). 
+Tree \(z\) can be represented by the complex symbol
+\(\cpfunc{z}{a ~ \cpfunc{\phi}{b} ~ \cpfunc{\psi}{c ~ \cpfunc{\phi}{d} ~ \cpfunc{\psi}{e}}}\), 
+where ad-hoc atoms \(\phi, \psi\) introduce left and right subtrees, respectively.
+
+\medskip
+\noindent
+\subsubsection{Strings.}
+Consider the \emph{string} \(s = ``abc"\), 
+where \(a\), \(b\), and \(c\) are atoms. 
+Obviously, string \(s\) can be interpreted as the list \(s = [a; b; c]\), i.e.
+string \(s\) can be represented as the complex symbol
+\(\cpfunc{s}{\, \cpfunc{\gamma}{a~\cpfunc{\gamma}{b~\cpfunc{\gamma}{c~\cpfunc{\gamma}{}}}}}\), etc.
+
+% --------------------------------------------------
+\section{\label{sec-min}Efficient minimum-finding with cP~rules}
+% --------------------------------------------------
+
+Consider an unstructured multiset $A \subseteq \mathbb{N}$ of size \(n\). 
+It is well known that (1) any sequential algorithm that finds its minimum needs at least \(n\) steps, and 
+(2) any parallel algorithm that finds its minimum needs at least \(\log n\) parallel steps.
+
+Without loss of generality, consider a \gls{cps} cell, in state \(s_1\), where multiset \(A\) is given via functor \(a\); 
+e.g., multiset \(A = \{ 1, 2, 2, 5 \}\) is represented as \(\cpfunc{a}{1} \cpfunc{a}{2} \cpfunc{a}{2} \cpfunc{a}{5}\).
+The following rulesets implement various versions of a \gls{cps} minimum-finding algorithm.
+All these rulesets transit to state \(s_2\) and construct a term with functor \(b\), containing \(\min A\).
+Some of these are destructive processes; if otherwise desired, one could first make a copy of the initial multiset \(A\).
+
+The following destructive ruleset emulates the classical sequential minimum finding algorithm, which takes \(n\) steps:
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+$s_1$  $\cpfunc{a}{X}$  $\rightarrow_{1}$  $s_2$  $\cpfunc{b}{X}$ 
+$s_2$  $\cpfunc{a}{XY}$  $\cpfunc{b}{X}$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{X}$     #\hfill  $a \geq b  $ \enspace #
+$s_2$  $\cpfunc{a}{X}$  $\cpfunc{b}{X1Y}$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{X}$   #\hfill  $a < b  $ \enspace #
+\end{lstlisting}
+
+The following destructive ruleset emulates the classical parallel minimum finding algorithm, which takes \(\log n\) steps.
+As long as there is more than one term \(a\), the ruleset loops in state \(s_1\), keeping minima between pairs.
+When only one \(a\) remains (containing the minimum value), the ruleset transits to state \(s_2\) and tags the minimum. 
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+$s_1$  $\cpfunc{a}{XY}$  $\cpfunc{a}{X}$  $\rightarrow_{\cpmaxpar}$  $s_1$  $\cpfunc{a}{X}$     
+$s_1$  $\cpfunc{a}{X}$  $\cpfunc{a}{X1Y}$  $\rightarrow_{\cpmaxpar}$  $s_1$  $\cpfunc{a}{X}$    
+$s_1$  $\cpfunc{a}{X}$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{X}$  
+\end{lstlisting}
+
+However, using the full associative power of \gls{cps}, we can find a non-destructive version with two rules, 
+which works in \emph{just two steps} (regardless of the set cardinality). 
+This is a substantial improvement over existing classical algorithms (both sequential and parallel). 
+It starts by making a full copy of \(a\) as \(b\), in one \(\cpmaxpar\)-parallel step, 
+and then deletes all non-minimal \(b\) values in another \(\cpmaxpar\)-parallel step. 
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+$s_1$  $\rightarrow_{\cpmaxpar}$  $s_1'$  $\cpfunc{b}{X}$    $\mid$  $\cpfunc{a}{X}$  
+$s_1'$  $\cpfunc{b}{X1Y}$  $\rightarrow_{\cpmaxpar}$  $s_2$    $\mid$  $\cpfunc{a}{X}$  
+\end{lstlisting}
+
+Note that if the minimum value appears several times in multiset \(A\), 
+then we will end with the same multiplicity of \(b\)'s, each one containing the same value, \(\min A\).
+If required, there are several ways to select only one copy and delete the rest, but we do not deal with this issue further here.
+
+Moreover, using the full power of cP~inhibitors (as logical negations, with local variables), 
+we can even non-destructively solve the problem in just \emph{one single step},
+with one or two rules.
+This version is implemented by the following ruleset:
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+$s_1$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{}$    $\mid$  $\cpfunc{a}{}$
+$s_1$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{1Z}$     $\mid$  $\cpfunc{a}{1Z}$     $\neg$  $(Z=XY)$  $\cpfunc{a}{X}$
+\end{lstlisting}
+
+If \(A\) contains zero, then there is a term \(\cpfunc{a}{}\), and: (1) the first rule applies, constructing \(\cpfunc{b}{}\); (2) the second rule is not applicable.
+Otherwise (if there is no zero in \(A\)): (1) the first rule is not applicable; (2) the second rule constructs \(\cpfunc{b}{1Z}\), 
+a value which exists among \(a\)'s, as \(\cpfunc{a}{1Z}\), but there is NO other \(a\) containing a strictly lesser value, such as \(\cpfunc{a}{X}\),
+where \(X\) is a sub-multiset of \(Z\), \(X \subseteq Z\).
+Finally, the newly constructed \(b\) will contain one copy of the minimum value of multiset \(A\).
+
+If multiset \(A\) does not contain zero values, i.e. \(A \subseteq \mathbb{N}^+\), then the first rule can be safely omitted (as it will never be applicable). 
+A similar ruleset can be devised for finding the maximum of a given set of natural numbers.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%---------------------------------------------------
+\section{\label{sec:nmp:notation}System descriptions}
+%---------------------------------------------------
+
+A specific cP~system can be described by a 6-tuple, as shown below.
+
+\[
+\Pi_{cP}(T, A, O, R, S, \bar{s})
+\]
+
+\(T\) is the set of \glspl{tlc} at the start of the evolution of the system; \(A\) is the alphabet of the system; \(O\) is the set of multisets of initial objects in the \glspl{tlc}; \(R\) is the set of rulesets for each \gls{tlc}; \(S\) is the set of possible states of the \glspl{tlc}; and \(\bar{s} \in S\) is the starting state of the system.
+
+%---------------------------------------------------
+\section{\label{sec:nmp:compoundterms}Indexed notation for compound terms}
+%---------------------------------------------------
+
+It is reasonably common to see indexed compound terms used in \gls{cps}.  That is, terms tagged with one or more sub-terms used to distinguish different instances of the same functor type.  They are still classic \gls{cps} objects with nested terms, but some of the subterms are used only to distinguish between instances of the encompassing compound term.  This is roughly analogous to tagging a term with its index in a logical vector/array or the key it would be stored under in a typical Computer Science \fxerror{Need to distinguish or this from, or integrate it with, the discussion about data structures above.}{dictionary/associative array data structure.}
+
+For example, later in this paper, compound \(v\) terms appear in multiple rules.  Ordinarily, these would be represented as nested terms along the lines of
+\[ \cpfunc{v}{\cpfunc{v'}{N} \; \cpfunc{v''}{G}\; D} \]
+These are used inside \glspl{tlc} to represent sets of tagged data.  They are indexed by neighbour \(N\) and tagged with a `generation count' \(G\) (further explained in \autoref{sec:nmp:pespecific}).  Both of these values track metadata about a datum.  Lastly, the final datum stored by the encompassing term is given.  In many common programming languages, accessing each datum might be written like \texttt{v[N]}, where \texttt{v} is a dictionary indexed by neighbour.  The \(v\) functors could be written as \[ \cpvv{N}{G}{D} \] for a shorthand that can be expanded back out to a complete form automatically.  The first pair of parentheses selects functors by neighbour, the second records the generation, while the final pair shows the actual contents.  This is \emph{purely} a notational convenience without impact upon the application of the rules and evolution of the system.  When a concrete instance of a \(v\) compound term is indexed by a ground term (i.e. not a variable) \(k\), e.g. \(\cpvv{k}{\_}{\_}\), we refer to it as \emph{k-tagged}.
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $\cpfunc{v}{\cpfunc{v'}{N} \; \cpfunc{v''}{G}\; D}$ #\hfill\textsl{nested functor}\enspace#
+  $\cpvv{N}{G}{D}$ #\hfill\textsl{compound term}\enspace#
+\end{lstlisting}
+
+%---------------------------------------------------
+\section{\label{sec:nmp:blocking}Blocking vs. non-blocking message receipt in \texorpdfstring{\gls{cps}}{cP systems}}
+%---------------------------------------------------
+
+In \gls{cps} all outgoing communications from a \gls{tlc} to others is non-blocking by default.  The channels connecting the cells buffer message objects if needed, and thus an outgoing message can always be accepted by the channel even if the holder of the other end of the channel is not yet ready to receive the message.  Receiving messages via channels is also ordinarily a non-blocking operation in \gls{cps}, albeit for a different reason.  If there are no eligible messages on the channel, either buffered by the channel itself or offered by the cell holding the other end of the channel, then the rules to receive over that channel will not apply at the next step regardless of whichever other rules may or may not be applied.
+
+It may be helpful in some circumstances, however, to simulate the nature of a blocking receipt.  This can be achieved with the use of additional dedicated states.  The beginning state for the intended blocking receipt should be unused as the beginning state for any other rule (except for another aspect of the same blocking receipt).  This state is also used as the ending state for another rule, which either is the end of another process in the computation or used as a test to determine whether to enter into a blocking receipt.  The ending state for the blocking receipt rule should return the cell to its standard process.
+
+The overall effect of using the unique state is that it ensures no other rule may be used inside a particular \gls{tlc} at a given step.  Effectively, the \gls{tlc} becomes quiescent until another \gls{tlc} makes an appropriate offer to send a message to the first cell.  At that point, one or more messages are exchanged as appropriate, and the receiving \gls{tlc} returns to its standard processing otherwise.  We make use of this later in \autoref{sec:nmp:pespecific} (rules 9 \& 10 in \autoref{ruleset:nmp:proxspec}).
+
+%---------------------------------------------------
+\section{\label{sec:nmp:antiport}Antiport communication rules in \texorpdfstring{\gls{cps}}{cP systems}}
+%---------------------------------------------------
+
+We use an antiport rule \cite{Orellana-Martin2019,Paun2002} in \autoref{sec:nmp:systemwide}.  In brief, antiport rules allow for the bidirectional exchange of objects between membranes/cells/neurons during a single rule execution, with the restriction that objects \emph{must} travel in both directions.  Thus, if one side is only ready to send or receive, rather than both, the rule cannot run at the next step.  An important ramification of this is that it prevents deadlock from both sides of the exchange waiting on the other to send a message.
+
+In the context of \gls{cps}, this means that a given rule must involve receipt over a channel on the left-hand-side, and sending on the \emph{same} channel on the right-hand-side.  For example, \cpruleinline{ \cprulenonum{s_1}{\cpantirecv{\cpfunc{a}{B}}{c} \; \cpfunc{d}{E}}{1}{s_2}{\cpantisend{\cpfunc{d}{E}}{c} \; \cpfunc{a}{B}}} would be valid because the same channel is used on both sides of the rule.
+
+%---------------------------------------------------
+\section{Statistical Operations}\label{sec:stats}
+%---------------------------------------------------
+
+This section presents and discusses procedures in \gls{cps} for the following fundamental statistical operations on numerical sets and multisets:
+\begin{itemize}
+    \item Finding the minimum and maximum elements.
+    \item Determining the overall number and counting the frequency of elements.
+    \item Computing the sum, mean, and mode over all elements.
+    \item Sorting elements.
+    \item Selecting the \(n^{\text{th}}\) (and thus median) element.
+\end{itemize}
+
+Leveraging the power of \gls{cps} -- logical pattern matching on associative data objects -- \emph{all} of the presented procedures run in constant time O\((1)\) and require small, fixed rulesets for all cases.  For brevity, these rules consider only the case of non-empty (multi)sets of natural numbers greater than zero (\(\mathbb{N}^+\)), and their total order (\(\leq\)).  Extensions to handle zero values and empty sets are not complicated, but would inflate rulesets by a few additional rules without adding significant value (although they would not alter the time complexity).
+
+At the start (``step 0'') of each presented operation, assume an arbitrary nonempty set or multiset of \(s\) objects, which each hold an arbitrary number.  For each example with a set, the starting \(s\) terms assumed present are:  \[S_1 = \cpset{\cpfunc{s}{2}, \cpfunc{s}{3}, \cpfunc{s}{5}, \cpfunc{s}{6}, \cpfunc{s}{7}}\]  Likewise, the assumed multiset is \[S_2 = \cpset{\cpfunc{s}{2}, \cpfunc{s}{2}, \cpfunc{s}{3}, \cpfunc{s}{5}, \cpfunc{s}{5}, \cpfunc{s}{6}, \cpfunc{s}{6}, \cpfunc{s}{6}, \cpfunc{s}{7}}\]  In almost all cases, the operations apply equally to sets and multisets, so the examples assume the presence of \(S_2\) inside the top-level cell.  The exceptions to that are in \autoref{sec:sortsets} and \autoref{sec:selectsets}, where \(S_1\) is assumed instead, and \autoref{sec:sortmultisetid} and \autoref{sec:sortmultisetid}, which use \(S_2\) with an additional datum for each element.  The rules provided are all non-destructive with respect to the (multi)set \(S\).  Destructive versions are simple to derive from the non-destructive ones, so are omitted.
+
+In all cases, the rules are written so that the final result is found in one or more \(r\) functor objects, as appropriate.  Examples of the evolution are given in tabular form immediately after the rules for each operation.  Each table lists \emph{only} the newly created, modified, and deleted objects in the top-level cell at the end of that step.  Modified objects are presented with their outermost functor in boldface, e.g., \(\cpfunc{r}{0}\) to \(\mathbf{\cpfunc{r}{4}}\).  Deleted objects are struck out, e.g., \(\cpfunc{r'}{2}\) to \sout{\(\cpfunc{r'}{2}\)}.
+
+%%%%%%%%%%%%%%%%%%
+
+%---------------------------------------------------
+\subsection{Minimum and Maximum}\label{sec:minmax}
+%---------------------------------------------------
+
+The rules in this subsubsection are reproduced from \cite{Nicolescu2018}.  The rules of this subsubsection apply equally to sets and multisets.  The rulesets of this subsubsection are notable as being two of only three in this work to use inhibitors, while the third, \autoref{rules:mode}, essentially performs maximum selection as part of its process.  Furthermore, an alternative approach forgoing inhibitors is described in \cite{Nicolescu2018} if needed.
+
+\subsubsection{Minimum --- O\((1)\)}\label{sec:min}
+
+\begin{proposition}\label{prop:min}
+Finding the minimum takes one step.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:min} and the example in \autoref{tab:min}.  The rule to find the minimum selects an \(s\) term's value, such that there is no other \(s\) with a strictly lower value.
+\end{proof}
+
+\begin{cprulesetfloat} \begin{cpruleset}
+\cprulenonum{s_1}{}{\cponce}{s_2}{\cpfunc{r}{R\cpundig T}}
+\cppromoter{\cpfunc{s}{R\cpundig T}}
+\cpinhibitor{\cpfunc{s}{R}}
+\end{cpruleset}
+\caption{\label{rules:min}Ruleset to find the minimum element in a (multi)set}
+\end{cprulesetfloat}
+
+\begin{table}
+\centering
+\begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    1 & \(\cpfunc{r}{2}\)\\ \hline
+\end{tabular}
+\caption[Example evolution of \autoref{rules:min}]{\label{tab:min}Example evolution of \autoref{rules:min} starting on multiset \(S_2\)}
+\end{table}
+
+\subsubsection{Maximum --- O\((1)\)}
+\label{sec:max}
+
+\begin{proposition}\label{prop:max}
+Finding the maximum takes one step.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:max} and the example in \autoref{tab:max}.  The rule to find the maximum selects an \(s\) term's value, such that there is no other \(s\) with a strictly higher value.
+\end{proof}
+
+\begin{cprulesetfloat}
+\begin{cpruleset}
+
+\cprulenonum{s_1}{}{\cponce}{s_2}{\cpfunc{r}{R}}
+\cppromoter{\cpfunc{s}{R}}
+\cpinhibitor{\cpfunc{s}{R\cpundig \_}}
+
+\end{cpruleset}
+\caption{\label{rules:max}Ruleset to find the maximum element in a (multi)set}
+\end{cprulesetfloat}
+
+\begin{table} \centering
+\begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    1 & \(\cpfunc{r}{7}\)\\ \hline
+\end{tabular} 
+\caption[Example evolution of \autoref{rules:max}]{\label{tab:max}Example evolution of \autoref{rules:max} starting on multiset \(S_2\)}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%
+
+%---------------------------------------------------
+\subsection{Counting}\label{sec:counting}
+%---------------------------------------------------
+
+\subsubsection{Counting Elements --- O\((1)\)}\label{sec:countelems}
+
+\begin{proposition}\label{prop:countelems}
+Determining the magnitude of a (multi)set takes two steps.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:countelems} and the example in \autoref{tab:countelems}.  The first rule creates an empty term to store the result, and then the second rule tallies the elements present.
+\end{proof}
+
+\begin{cprulesetfloat} \begin{cpruleset}
+
+\cprule{s_1}{}{\cponce}{s_2}{\cpfunc{r}{\cpempty}}
+
+\cprule{s_2}{\cpfuncms{r}{\,}}{\cpmaxpar}{s_3}{\cpfuncms{r}{\cpundig}}
+\cppromoter{\cpfunc{s}{\_}}
+
+\end{cpruleset}
+\caption{\label{rules:countelems}Ruleset to find the magnitude of a (multi)set}
+\end{cprulesetfloat}
+
+\begin{table} \centering
+   \begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    1 & \(\cpfunc{r}{0}\)\\ \hline
+    
+    2 & \(\mathbf{\cpfunc{r}{9}}\)\\ \hline
+\end{tabular}
+\caption[Example evolution of \autoref{rules:countelems}]{\label{tab:countelems}Example evolution of \autoref{rules:countelems} starting on multiset \(S_2\)}
+\end{table}
+
+\subsubsection{Counting Frequency of Elements --- O\((1)\)}\label{sec:countfreq}
+
+\begin{proposition}\label{prop:countfreq}
+Counting the occurrence -- essentially creating a histogram -- of the values in a multiset takes three steps.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:countfreq} and the example in \autoref{tab:countfreq}.  The first rule creates a tally \(r\) term for every \(s\) term, while the second rule eliminates any ensuing duplicates, leaving only one \(r\) per unique value stored in any \(s\).  Lastly, rule 3 performs a similar operation to \autoref{sec:countelems}, incrementing each \(r\) term's tally by one for each \(s\) term containing the corresponding value.
+\end{proof}
+
+\cpresetrulenumber
+\begin{cprulesetfloat}
+\begin{cpruleset}
+\cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncn{r}{R}{\cpempty}}
+\cppromoter{\cpfunc{s}{R}}
+
+\cprule{s_2}{\cpfuncn{r}{R}{\_}}{\cpmaxpar}{s_3}{}
+\cppromoter{\cpfuncn{r}{R}{\_}}
+
+\cprule{s_3}{\cpfuncnms{r}{R}{\,}}{\cpmaxpar}{s_4}{\cpfuncnms{r}{R}{\cpundig}}
+\cppromoter{\cpfunc{s}{R}}
+\end{cpruleset}
+\caption{\label{rules:countfreq}Ruleset to count the occurrence frequency of elements in a multiset}
+\end{cprulesetfloat}
+
+\begin{table} \centering
+   \begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    1 & \(\cpfuncn{r}{2}{0}\), \(\cpfuncn{r}{2}{0}\), \(\cpfuncn{r}{3}{0}\), \(\cpfuncn{r}{5}{0}\), \(\cpfuncn{r}{5}{0}\), \(\cpfuncn{r}{6}{0}\), \(\cpfuncn{r}{6}{0}\),\\& \(\cpfuncn{r}{6}{0}\), \(\cpfuncn{r}{7}{0}\)\\ \hline
+    
+    2 & \sout{\(\cpfuncn{r}{2}{0}\)}, \sout{\(\cpfuncn{r}{5}{0}\)}, \sout{\(\cpfuncn{r}{6}{0}\)}, \sout{\(\cpfuncn{r}{6}{0}\)}\\ \hline
+    
+    3 & \(\mathbf{\cpfuncn{r}{2}{2}}\), \(\mathbf{\cpfuncn{r}{3}{1}}\), \(\mathbf{\cpfuncn{r}{5}{2}}\), \(\mathbf{\cpfuncn{r}{6}{3}}\), \(\mathbf{\cpfuncn{r}{7}{1}}\)\\ \hline
+\end{tabular}
+\caption[Example evolution of \autoref{rules:countfreq}]{\label{tab:countfreq}Example evolution of \autoref{rules:countfreq} starting on multiset \(S_2\)}
+\end{table}
+
+\autoref{rules:countfreq} works equally well for sets, but the frequency of each element will be one due to the nature of a set.
+
+%---------------------------------------------------
+\subsection{Sum, Mean and Mode}\label{sec:sumeanmode}
+%---------------------------------------------------
+
+\subsubsection{Sum --- O\((1)\)}\label{sec:sum}
+
+\begin{proposition}\label{prop:sum}
+Computing the sum of the elements in a (multi)set requires two steps.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:sum} and the example in \autoref{tab:sum}.  These rules act very similarly to \autoref{sec:countelems}, but add the total stored value in every \(s\) term to the \(r\) term, rather than simply one \(\cpundig\) per \(s\) term.
+\end{proof}
+
+\cpresetrulenumber
+\begin{cprulesetfloat} \begin{cpruleset}
+\cprule{s_1}{}{\cponce}{s_2}{\cpfunc{r}{\cpempty}}
+\cprule{s_2}{\cpfuncms{r}{\,}}{\cpmaxpar}{s_3}{\cpfuncms{r}{R}}
+\cppromoter{\cpfunc{s}{R}}
+\end{cpruleset}
+\caption{\label{rules:sum}Ruleset to find the sum of numeric elements in a (multi)set}
+\end{cprulesetfloat}
+
+\begin{table} \centering
+   \begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    1 & \(\cpfunc{r}{0}\)\\ \hline
+    2 & \(\cpfunc{r}{42}\)\\ \hline
+
+\end{tabular}
+\caption[Example evolution of \autoref{rules:sum}]{\label{tab:sum}Example evolution of \autoref{rules:sum} starting on multiset \(S_2\)}
+\end{table}
+
+\subsubsection{Mean --- O\((1)\)}\label{sec:mean}
+
+\begin{proposition}\label{prop:mean}
+Finding the (whole number) mean of a (multi)set requires four steps.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:mean} and the example in \autoref{tab:mean}.  Computing the mean is mostly a combination of two previous operations:  Sum the elements (\autoref{sec:sum}), and divide by the count of elements (\autoref{sec:countelems}).  The summing and counting may be performed simultaneously in two steps, with two extra steps for the division.
+\end{proof}
+
+\cpresetrulenumber
+\begin{cprulesetfloat}
+\begin{cpruleset}
+\cprule{s_1}{}{\cponce}{s_2}{\cpfunc{c}{\cpempty} \; \cpfunc{r}{\cpempty} \; \cpfunc{r'}{\cpempty}}
+
+\cprule{s_2}{\cpfuncms{c}{\,}}{\cpmaxpar}{s_3}{\cpfuncms{c}{\cpundig}}
+\cppromoter{\cpfunc{s}{\_}}
+
+\cprule{s_2}{\cpfuncms{r}{\,} \; \cpfuncms{r'}{\,}}{\cpmaxpar}{s_3}{\cpfuncms{r}{R} \; \cpfuncms{r'}{R}}
+\cppromoter{\cpfunc{s}{R}}
+
+\cprule{s_3}{\cpfuncms{r}{C} \; \cpfuncms{r'}{C}}{\cpmaxpar}{s_4}{\cpfuncms{r}{\cpundig} \; \cpfuncms{r'}{\,}}
+\cppromoter{\cpfunc{c}{C}}
+
+\cprule{s_4}{\cpfunc{r}{RQ} \; \cpfunc{r'}{R}}{\cponce}{s_5}{\cpfunc{r}{Q}}
+\end{cpruleset}
+\caption{\label{rules:mean}Ruleset to find the mean of elements in a (multi)set}
+\end{cprulesetfloat}
+
+\begin{table} \centering
+   \begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    1 & \(\cpfunc{c}{0}\), \(\cpfunc{r}{0}\), \(\cpfunc{r'}{0}\)\\ \hline
+    2 & \(\mathbf{\cpfunc{c}{9}}\), \(\mathbf{\cpfunc{r}{42}}\), \(\mathbf{\cpfunc{r'}{42}}\)\\ \hline
+    3 & \(\mathbf{\cpfunc{r}{11}}\), \(\mathbf{\cpfunc{r'}{6}}\)\\ \hline
+    4 & \(\mathbf{\cpfunc{r}{5}}\), \sout{\(\cpfunc{r'}{6}\)}\\ \hline
+
+\end{tabular}
+\caption[Example evolution of \autoref{rules:mean}]{\label{tab:mean}Example evolution of \autoref{rules:mean} starting on multiset \(S_2\)}
+\end{table}
+
+Rules 4 and 5 perform ceiling integer division.  Rule 4 removes \(C\) copies of the unary digit from \(r\) and adds one copy back to it.  This is repeated as many times as possible, given the number of digits available.  What is left in \(r\) at the end of the step is, in effect, the quotient plus the remainder.  In this example, with a count of nine and a sum of forty-two, the removal can be applied four times, for a total of thirty-six unary digits removed.  Five more are added at the end of the step, meaning a total of eleven remains.  This is not the correct result of ceiling integer division but is the correct quotient (5) plus the remainder (6).  Thus, another copy of the total is kept and divided, without the quotient added back in.  This leaves rule 5 to compute the correct final result by deducting the remainder from the combined quotient and remainder.
+
+\subsubsection{Mode --- O\((1)\)}  \label{sec:mode}
+
+\begin{proposition}\label{prop:mode}
+Finding the mode of the elements in a multiset requires four steps.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:mode} and the example in \autoref{tab:mode}.  As with the mean, this process combines other operations:  Counting the frequency of elements (\autoref{sec:countfreq}) takes three steps, then selecting the maximum (\autoref{sec:max}) uses one extra step.  Unlike in \autoref{sec:mean}, the base rulesets cannot be used concurrently to reduce the number of steps required because the maximum-finding rule should only fire once the frequency counting process has concluded.
+\end{proof}
+
+\cpresetrulenumber
+\begin{cprulesetfloat} \begin{cpruleset}
+\cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncn{c}{C}{\cpempty}}
+\cppromoter{\cpfunc{s}{C}}
+
+\cprule{s_2}{\cpfuncn{c}{C}{\_}}{\cpmaxpar}{s_3}{}
+\cppromoter{\cpfuncn{c}{C}{\_}}
+
+\cprule{s_3}{\cpfuncnms{c}{C}{\,}}{\cpmaxpar}{s_4}{\cpfuncnms{c}{C}{\cpundig}}
+\cppromoter{\cpfunc{s}{C}}
+
+\cprule{s_4}{}{\cponce}{s_5}{\cpfunc{r}{C}}
+\cppromoter{\cpfuncn{c}{C}{R}}
+\cpinhibitor{\cpfuncn{c}{\_}{R\cpundig \_}}
+
+\end{cpruleset}
+\caption{\label{rules:mode}Ruleset to find the mode of the elements in a multiset}
+\end{cprulesetfloat}
+
+\begin{table} \centering
+   \begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    1 & \(\cpfuncn{c}{2}{0}\), \(\cpfuncn{c}{2}{0}\), \(\cpfuncn{c}{3}{0}\), \(\cpfuncn{c}{5}{0}\), \(\cpfuncn{c}{5}{0}\), \(\cpfuncn{c}{6}{0}\), \(\cpfuncn{c}{6}{0}\), \(\cpfuncn{c}{6}{0}\),\\& \(\cpfuncn{c}{7}{0}\)\\ \hline
+    
+    2 & \sout{\(\cpfuncn{c}{2}{0}\)}, \sout{\(\cpfuncn{c}{5}{0}\)}, \sout{\(\cpfuncn{c}{6}{0}\)}, \sout{\(\cpfuncn{c}{6}{0}\)}\\ \hline
+    
+    3 & \(\mathbf{\cpfuncn{c}{2}{2}}\), \(\mathbf{\cpfuncn{c}{3}{3}}\), \(\mathbf{\cpfuncn{c}{5}{2}}\), \(\mathbf{\cpfuncn{c}{6}{3}}\), \(\mathbf{\cpfuncn{c}{7}{1}}\)\\ \hline
+    
+    4 & \(\cpfunc{r}{5}\)\\ \hline
+\end{tabular}
+\caption[Example evolution of \autoref{rules:mode}]{\label{tab:mode}Example evolution of \autoref{rules:mode} starting on multiset \(S_2\)}
+\end{table}
+
+%---------------------------------------------------
+\subsection{Sorting}\label{sec:sorting}
+%---------------------------------------------------
+
+In the current context, sorting is defined as appropriately associating each datum/element in a (multi)set with an ordered index in the range \([1,n]\), where \(n\) is equal to the magnitude (count of elements) of the (multi)set.\footnote{This can easily be switched to \([0,n)\) if desired.}  At the end of the process, the values in the (multi)set shall be sorted in typical ascending numerical order by associating indices with them.
+
+For example, in the context of \(S_2\), this will be 
+\begin{align*}
+    \text{Element:}& &2 &&2 &&3 &&5 &&5 &&6 &&6 &&6 &&7\\
+    \text{Index:}&   &1 &&2 &&3 &&4 &&5 &&6 &&7 &&8 &&9\\
+\end{align*}
+
+Section~\ref{sec:sortsets} \& \autoref{sec:sortmultisetid} associate each element with the index individually, while \autoref{sec:sortmultisetrange} groups identical multiset elements into ranges spanning the correct indices.
+
+\subsubsection{Sorting Sets --- O\((1)\)}  \label{sec:sortsets}
+
+\begin{proposition}\label{prop:sortsets}
+Sorting sets requires two steps.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:sortsets} and the example in \autoref{tab:sortsets}.  The rules for sorting a set work similarly to those for counting the frequency of elements (\autoref{sec:countfreq}).  Instead of counting the occurrence of a particular value, however, these rules count the occurrence of values strictly less than the current value.  In each instance, this number plus one is equal to the value's correct index in the total ordering, thus sorting the values.
+\end{proof}
+
+\cpresetrulenumber
+\begin{cprulesetfloat} \begin{cpruleset}
+\cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncn{r}{R}{\cpundig}}
+\cppromoter{\cpfunc{s}{R}}
+
+\cprule{s_2}{\cpfuncnms{r}{Y}{\,}}{\cpmaxpar}{s_3}{\cpfuncnms{r}{Y}{\cpundig}}
+\cppromoter{\cpfunc{s}{X}}
+\cppromoter{X \subsetneq Y}
+\end{cpruleset}
+\caption{\label{rules:sortsets}Ruleset to sort the elements in a set}
+\end{cprulesetfloat}
+
+\begin{table} \centering
+   \begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    1 & \(\cpfuncn{r}{2}{1}\), \(\cpfuncn{r}{3}{1}\), \(\cpfuncn{r}{5}{1}\), \(\cpfuncn{r}{6}{1}\), \(\cpfuncn{r}{7}{1}\)\\ \hline
+    2 & \(\mathbf{\cpfuncn{r}{3}{2}}\), \(\mathbf{\cpfuncn{r}{5}{3}}\), \(\mathbf{\cpfuncn{r}{6}{4}}\), \(\mathbf{\cpfuncn{r}{7}{5}}\)\\ \hline
+
+\end{tabular}
+\caption[Example evolution of \autoref{rules:sortsets}]{\label{tab:sortsets}Example evolution of \autoref{rules:sortsets} starting on set \(S_1\)}
+\end{table}
+
+\subsubsection{Sorting Multisets into Ranges --- O\((1)\)}\label{sec:sortmultisetrange}
+
+\begin{proposition}\label{prop:sortmultisetrange}
+Sorting a multiset into ordered, indexed ranges requires four steps.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:sortmultisetrange} and the example in \autoref{tab:sortmultisetrange}.  In these rules, the last two numbers for each ending \(t\) object give a range of indices -- with inclusive lower bounds and exclusive upper bounds -- in which the \(s\) numbers of the multiset may be found once ordered.  It requires four steps and relies on the fact that elements of the same value in a multiset are ordinarily indistinguishable, and thus they can be ordered among themselves arbitrarily.
+\end{proof}
+
+\cpresetrulenumber
+\begin{cprulesetfloat} \begin{cpruleset}
+\cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncnn{r}{R}{\cpundig}{\cpundig}}
+\cppromoter{\cpfunc{s}{R}}
+
+\cprule{s_2}{\cpfuncnn{r}{R}{\_}{\_}}{\cpmaxpar}{s_3}{}
+\cppromoter{\cpfuncnn{r}{R}{\_}{\_}}
+
+% \cprule{s_3}{\cpfunc{r}{R}}{\cpmaxpar}{s_4}{\cpfuncnn{r}{R}{\cpundig}{\cpundig}}
+
+\cprule{s_3}{\cpfunc{r}{Y}\{\,\}\{\,\}}{\cpmaxpar}{s_4}{\cpfunc{r}{Y}\{\cpundig\}\{\cpundig\}}
+\cppromoter{\cpfunc{s}{X}}
+\cppromoter{X \subsetneq Y}
+
+\cprule{s_4}{\cpfuncnnms{r}{R}{X}{\,}}{\cpmaxpar}{s_5}{\cpfuncnnms{r}{R}{X}{\cpundig}}
+\cppromoter{\cpfunc{s}{R}}
+
+\end{cpruleset}
+\caption{\label{rules:sortmultisetrange}Ruleset to sort the elements of a multiset into indexed ranges}
+\end{cprulesetfloat}
+
+\begin{table} \centering
+   \begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    1 & \(\cpfuncnn{r}{2}{1}{1}\), \(\cpfuncnn{r}{2}{1}{1}\), \(\cpfuncnn{r}{3}{1}{1}\), \(\cpfuncnn{r}{5}{1}{1}\), \(\cpfuncnn{r}{5}{1}{1}\),\\& \(\cpfuncnn{r}{6}{1}{1}\), \(\cpfuncnn{r}{6}{1}{1}\), \(\cpfuncnn{r}{6}{1}{1}\), \(\cpfuncnn{r}{7}{1}{1}\)\\ \hline
+    
+    2 & \sout{\(\cpfuncnn{r}{2}{1}{1}\)}, \sout{\(\cpfuncnn{r}{5}{1}{1}\)}, \sout{\(\cpfuncnn{r}{6}{1}{1}\)}, \sout{\(\cpfuncnn{r}{6}{1}{1}\)}\\ \hline
+    
+    3 & \(\mathbf{\cpfuncnn{r}{3}{3}{3}}\), \(\mathbf{\cpfuncnn{r}{5}{4}{4}}\), \(\mathbf{\cpfuncnn{r}{6}{6}{6}}\), \(\mathbf{\cpfuncnn{r}{7}{9}{9}}\)\\ \hline
+    
+    4 & \(\mathbf{\cpfuncnn{r}{2}{1}{3}}\), \(\mathbf{\cpfuncnn{r}{3}{3}{4}}\), \(\mathbf{\cpfuncnn{r}{5}{4}{6}}\), \(\mathbf{\cpfuncnn{r}{6}{6}{9}}\), \(\mathbf{\cpfuncnn{r}{7}{9}{10}}\)\\ \hline
+\end{tabular} 
+\caption[Example evolution of \autoref{rules:sortmultisetrange}]{\label{tab:sortmultisetrange}Example evolution of \autoref{rules:sortmultisetrange} starting on multiset \(S_2\)}
+\end{table}
+
+In this example, 2s are in the index range \([1,3)\), 3s are in \([3,4)\), 5s are in \([4,6)\), 6s are in \([6,9)\) and 7s are in \([9,10)\).  This process can also sort all sets that \autoref{sec:sortsets} can sort (rules 1 and 3 here are closely equivalent to those rules), but the current approach includes unnecessary extra information -- every listed range would be only one step wide, so on set \(S_1\) the final result would be \(\cpfuncnn{r}{2}{1}{1}, \cpfuncnn{r}{3}{2}{2},\dots\), i.e. 2: \([1,2)\), 3: \([2,3) \dots\) -- and requires two unnecessary extra steps.
+
+\subsubsection{Sorting Multisets with Unique Identifiers --- O\((1)\)}\label{sec:sortmultisetid}
+
+\begin{proposition}\label{prop:sortmultisetid}
+Sorting a multiset, when accompanied by unique identifiers for every element, requires three steps.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:sortmultisetid} and the example in \autoref{tab:sortmultisetid}.  This ruleset is an extension of the rules found in \autoref{sec:sortsets}.  Those rules work only for sets and fail in the presence of more than one of a given number.  In effect, the rules seek to impose a \emph{strict} total ordering and contemplate only the situation where each element in the set is strictly greater than or less than another element.  Suppose there \emph{is} some additional information on each element available, such as a unique, comparable identifier for each element in the multiset. In that case, this can be used to `break ties' between elements of equal value.  In this case, the use of one extra rule suffices to impose a strict total ordering on every element and sort the multiset consistently.  These additional identifiers, included as the first value in \(s\) objects, must themselves be comparable, however.
+\end{proof}
+
+An example of the described unique identifiers can be found in \autoref{sec:medianfilter}, where additional information is available based on the origin of each element in the multiset.
+
+It is as yet unclear how to introduce a strict total ordering, as required to sort elements into specific indices, with \gls{cps} rules when some elements are effectively indistinguishable.  The ranges approach of \autoref{sec:sortmultisetrange} sidesteps this issue by collapsing elements of equal value into one ordered term.
+
+
+\cpresetrulenumber
+\begin{cprulesetfloat} \begin{cpruleset}
+\cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncnn{r}{I}{U}{\cpundig}}
+\cppromoter{\cpfuncn{s}{I}{U}}
+
+\cprule{s_2}{\cpfuncnnms{r}{I}{Y}{\,}}{\cpmaxpar}{s_3}{\cpfuncnnms{r}{I}{Y}{\cpundig}}
+\cppromoter{\cpfuncn{s}{\_}{X}}
+\cppromoter{X \subsetneq Y}
+
+\cprule{s_3}{\cpfuncnnms{r}{J}{X}{\,}}{\cpmaxpar}{s_4}{\cpfuncnnms{r}{J}{X}{\cpundig}}
+\cppromoter{\cpfuncn{s}{I}{X}}
+\cppromoter{I \subsetneq J}
+\end{cpruleset}
+\caption{\label{rules:sortmultisetid}Ruleset to sort the elements of a multiset, when each element has an accompanying unique comparable identifier}
+\end{cprulesetfloat}
+
+\begin{table} \centering
+   \begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    0 & \(\cpfuncn{s}{8}{2}\), \(\cpfuncn{s}{3}{2}\), \(\cpfuncn{s}{7}{3}\), \(\cpfuncn{s}{5}{5}\), \(\cpfuncn{s}{1}{5}\), \(\cpfuncn{s}{6}{6}\), \(\cpfuncn{s}{2}{6}\),\\& \(\cpfuncn{s}{9}{6}\), \(\cpfuncn{s}{4}{7}\)\\ \hline
+    1 & \(\cpfuncnn{r}{8}{2}{1}\), \(\cpfuncnn{r}{3}{2}{1}\), \(\cpfuncnn{r}{7}{3}{1}\), \(\cpfuncnn{r}{5}{5}{1}\), \(\cpfuncnn{r}{1}{5}{1}\), \(\cpfuncnn{r}{6}{6}{1}\),\\& \(\cpfuncnn{r}{2}{6}{1}\), \(\cpfuncnn{r}{9}{6}{1}\), \(\cpfuncnn{r}{4}{7}{1}\)\\ \hline
+    2 & \(\mathbf{\cpfuncnn{r}{7}{3}{3}}\), \(\mathbf{\cpfuncnn{r}{5}{5}{4}}\), \(\mathbf{\cpfuncnn{r}{1}{5}{4}}\), \(\mathbf{\cpfuncnn{r}{6}{6}{6}}\), \(\mathbf{\cpfuncnn{r}{2}{6}{6}}\), \(\mathbf{\cpfuncnn{r}{9}{6}{6}}\),\\& \(\mathbf{\cpfuncnn{r}{4}{7}{9}}\)\\ \hline
+    3 & \(\mathbf{\cpfuncnn{r}{8}{2}{2}}\), \(\mathbf{\cpfuncnn{r}{5}{5}{5}}\), \(\mathbf{\cpfuncnn{r}{6}{6}{7}}\), \(\mathbf{\cpfuncnn{r}{9}{6}{8}}\)\\ \hline
+
+\end{tabular} 
+\caption[Example evolution of \autoref{rules:sortmultisetid}]{\label{tab:sortmultisetid}Example evolution of \autoref{rules:sortmultisetid} starting on a modified version of multiset \(S_2\), where each element has been assigned a random unique identifier}
+\end{table}
+
+%---------------------------------------------------
+\subsection{Selection}\label{sec:selection}
+%---------------------------------------------------
+
+In this subsubsection, assume that there is already a term \(\cpfunc{n}{N}\), where \(N\) is the position in the ordered list desired, i.e., it denotes the \(n^{\text{th}}\) element.  For the examples, it is assumed to be \(\cpfunc{n}{3}\).  Each of these rulesets uses the corresponding sorting procedure of \autoref{sec:sorting} and then applies a final selection rule to pick the desired element.  Thus, each ruleset requires \(\textsc{sort} + 1\) steps.
+
+For simplicity, none of the below systems consider the case when the requested index is outside the range of possible indices for the elements, i.e. when the requested \(N\) is less than one or greater than the magnitude of the (multi)set.
+
+\subsubsection{Selection from Sets --- O\((1)\)}\label{sec:selectsets}
+
+\begin{proposition}\label{prop:selectsets}
+Selecting the \(n^{\text{th}}\) element from a set in terms of numerical ordering requires three steps.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:selectsets} and the example in \autoref{tab:selectsets}.  Selection from sets is straightforward after sorting per \autoref{sec:sortsets}.  The final entry of each resultant object from that process is its index in the properly sorted ordering.  Thus, it is trivial to select the corresponding set entry if the desired index is already known.
+\end{proof}
+
+\cpresetrulenumber
+\begin{cprulesetfloat}
+\begin{cpruleset}
+\cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncn{t}{T}{\cpundig}}
+\cppromoter{\cpfunc{s}{T}}
+
+\cprule{s_2}{\cpfuncnms{t}{Y}{\,}}{\cpmaxpar}{s_3}{\cpfuncnms{t}{Y}{\cpundig}}
+\cppromoter{\cpfunc{s}{X}}
+\cppromoter{X \subsetneq Y}
+
+\cprule{s_3}{}{\cponce}{s_4}{\cpfunc{r}{T}}
+\cppromoter{\cpfuncn{t}{T}{N}}
+\cppromoter{\cpfunc{n}{N}}
+\end{cpruleset}
+\caption{\label{rules:selectsets}Ruleset to select the \(n^{\text{th}}\) element in a set}
+\end{cprulesetfloat}
+
+\begin{table} \centering
+   \begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    1 & \(\cpfuncn{t}{2}{1}\), \(\cpfuncn{t}{3}{1}\), \(\cpfuncn{t}{5}{1}\), \(\cpfuncn{t}{6}{1}\), \(\cpfuncn{t}{7}{1}\)\\ \hline
+    2 & \(\mathbf{\cpfuncn{t}{3}{2}}\), \(\mathbf{\cpfuncn{t}{5}{3}}\), \(\mathbf{\cpfuncn{t}{6}{4}}\), \(\mathbf{\cpfuncn{t}{7}{5}}\)\\ \hline
+    3 & \(\cpfunc{r}{5}\)\\ \hline
+
+\end{tabular} 
+\caption[Example evolution of \autoref{rules:selectsets}]{\label{tab:selectsets}Example evolution of \autoref{rules:selectsets} starting on set \(S_1\)}
+\end{table}
+
+\subsubsection{Selection from Multisets, After Sorting into Ranges --- O\((1)\)}\label{sec:selectmultisetrange}
+
+\begin{proposition}\label{prop:selectmultisetrange}
+Selecting the \(n^{\text{th}}\) element from a multiset in terms of numerical ordering requires five steps.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:selectmultisetrange} and the example in \autoref{tab:selectmultisetrange}.  Selection from a multiset after sorting it into ranges is also a straightforward process, requiring just one extra step and rule.  The rule itself is less clear than the equivalent for \autoref{rules:selectsets}, however.  In particular, comparing \(n\) to the stored ranges requires more variables to make the proper comparison.  The key to rule 5 is that while each of the variables \(L\) and \(M\) may potentially be unified in multiple ways, only one unification will match an actual range term \(t\).  
+\end{proof}
+
+\cpresetrulenumber
+\begin{cprulesetfloat}
+\begin{cpruleset}
+\cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncnn{t}{T}{\cpundig}{\cpundig}}
+\cppromoter{\cpfunc{s}{T}}
+
+\cprule{s_2}{\cpfuncnn{t}{T}{\_}{\_}}{\cpmaxpar}{s_3}{}
+\cppromoter{\cpfuncnn{t}{T}{\_}{\_}}
+
+\cprule{s_3}{\cpfunc{t}{Y}\{\,\}\{\,\}}{\cpmaxpar}{s_4}{\cpfunc{t}{Y}[\cpundig][\cpundig]}
+\cppromoter{\cpfunc{s}{X}}
+\cppromoter{X \subsetneq Y}
+
+\cprule{s_4}{\cpfuncnnms{t}{T}{X}{\,}}{\cpmaxpar}{s_5}{\cpfuncnnms{t}{T}{X}{\cpundig}}
+\cppromoter{\cpfunc{s}{T}}
+
+\cprule{s_5}{}{\cponce}{s_6}{\cpfunc{r}{T}}
+\cppromoter{\cpfuncnn{t}{T}{L}{L\cpundig M\_}}
+\cppromoter{\cpfunc{n}{LM}}
+
+\end{cpruleset}
+\caption{\label{rules:selectmultisetrange}Ruleset to sort a multiset into indexed ranges, then select the \(n^{\text{th}}\) element}
+\end{cprulesetfloat}
+
+\begin{table} \centering
+   \begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    1 & \(\cpfuncnn{t}{2}{1}{1}\), \(\cpfuncnn{t}{2}{1}{1}\), \(\cpfuncnn{t}{3}{1}{1}\), \(\cpfuncnn{t}{5}{1}{1}\), \(\cpfuncnn{t}{5}{1}{1}\), \(\cpfuncnn{t}{6}{1}{1}\),\\& \(\cpfuncnn{t}{6}{1}{1}\), \(\cpfuncnn{t}{6}{1}{1}\), \(\cpfuncnn{t}{7}{1}{1}\)\\ \hline
+    
+    2 & \sout{\(\cpfuncnn{t}{2}{1}{1}\)}, \sout{\(\cpfuncnn{t}{5}{1}{1}\)}, \sout{\(\cpfuncnn{t}{6}{1}{1}\)}, \sout{\(\cpfuncnn{t}{6}{1}{1}\)}\\ \hline
+    
+    3 & \(\mathbf{\cpfuncnn{t}{3}{3}{3}}\), \(\mathbf{\cpfuncnn{t}{5}{4}{4}}\), \(\mathbf{\cpfuncnn{t}{6}{6}{6}}\), \(\mathbf{\cpfuncnn{t}{7}{9}{9}}\)\\ \hline
+    
+    4 & \(\mathbf{\cpfuncnn{t}{2}{1}{3}}\), \(\mathbf{\cpfuncnn{t}{3}{3}{4}}\), \(\mathbf{\cpfuncnn{t}{5}{4}{6}}\), \(\mathbf{\cpfuncnn{t}{6}{6}{9}}\), \(\mathbf{\cpfuncnn{t}{7}{9}{10}}\)\\ \hline
+    
+    5 & \(\cpfunc{r}{3}\)\\ \hline
+\end{tabular} 
+\caption[Example evolution of \autoref{rules:selectmultisetrange}]{\label{tab:selectmultisetrange}Example evolution of \autoref{rules:selectmultisetrange} starting on multiset \(S_2\)}
+\end{table}
+
+To complement \autoref{tab:selectmultisetrange}'s example, consider the application of rule 5 in the case of multiset \(S_2\) when \(N = 1\), \(N = 3\) and \(N = 7\), alternately.  Recall that the correct ranges for \(S_2\) are:  2, [1,3); 3, [3,4); 5, [4,6); 6, [6,9); and 7 [9,10).
+
+\subsubsection{\(\mathbf{N = 1}\):}  Here, either \(L = 1, M = 0\) or \(L = 0, M = 1\).  There will never be a term \(t\) which holds 0 for the lower index, so the latter unification can be ruled out at once.  Thus, the lower index \emph{must} be 1.  This, of course, matches with the term \(\cpfuncnn{t}{2}{1}{3}\), and \(L + M + 1 = 1 + 0 + 1 \geq 2\), which fits with the three stored in the upper index.  Thus, the valid result is \(\cpfunc{r}{2}\).
+
+\subsubsection{\(\mathbf{N = 3}\):}  The possible unifications here are \(L = 3, M = 0\), \(L = 2, M = 1\), \(L = 1, M = 2\) and \(L = 0, M = 3\).  There are no \(t\) terms with a lower index of 2 or 0, so the unifications where \(L = 2\) or \(L = 0\) cannot apply.  In all cases, the upper index must be \emph{at least} one greater than the \(N\), so here it must be greater than or equal to four.  If \(L = 1\), there is no term \(t\) with those lower and upper indices, so only \(L = 3\) is still a valid unification here.
+
+When \(L = 3\), and thus the lower index is three, there is indeed a range with the upper index of four.   Thus it is a valid unification in the context of multiset \(S_2\).  Therefore, the result will be \(\cpfunc{r}{3}\).
+
+\subsubsection{\(\mathbf{N = 7}\):}  Much like the other two cases, while there are a multitude of possible unifications, the upper index must be at least eight, so the lower three ranges are ineligible.  Conversely, the uppermost range does not start until index nine.  \(L = 6\) fits with the correct range of [6,9), however.  Therefore, the correct answer of \(\cpfunc{r}{6}\) is returned.
+
+\subsubsection{Selection from Multisets with Unique Identifiers for each Element --- O\((1)\)}\label{sec:selectmultisetid}
+
+\begin{proposition}\label{prop:selectmultisetid}
+Selecting the \(n^{\text{th}}\) element from a multiset in terms of numerical ordering requires four steps.
+\end{proposition}
+
+\begin{proof}
+Consider \autoref{rules:selectmultisetid} and the example in \autoref{tab:selectmultisetid}.  When the extra unique identifiers are available, indexed selection from a multiset is also straightforward. As with \autoref{sec:selectsets}, almost all the work is performed by the sorting rules of \autoref{sec:sortmultisetid}, and a trivial extra selection step is all that is needed.
+\end{proof}
+
+\cpresetrulenumber
+\begin{cprulesetfloat} \begin{cpruleset}
+\cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncnn{t}{I}{U}{\cpundig}}
+\cppromoter{\cpfuncn{s}{I}{U}}
+
+\cprule{s_2}{\cpfuncnnms{t}{I}{Y}{\,}}{\cpmaxpar}{s_3}{\cpfuncnnms{t}{I}{Y}{\cpundig}}
+\cppromoter{\cpfuncn{s}{\_}{X}}
+\cppromoter{X \subsetneq Y}
+
+\cprule{s_3}{\cpfuncnnms{t}{J}{X}{\,}}{\cpmaxpar}{s_4}{\cpfuncnnms{t}{J}{X}{\cpundig}}
+\cppromoter{\cpfuncn{s}{I}{X}}
+\cppromoter{I \subsetneq J}
+
+\cprule{s_4}{}{\cponce}{s_5}{\cpfunc{r}{T}}
+\cppromoter{\cpfuncnn{t}{\_}{T}{N}}
+\cppromoter{\cpfunc{n}{N}}
+\end{cpruleset}
+\caption{\label{rules:selectmultisetid}Ruleset to select the \(n^{\text{th}}\) element in a multiset when each element has an accompanying unique, comparable identifier}
+\end{cprulesetfloat}
+
+\begin{table} \centering
+   \begin{tabular}{|r|l|}
+    \hline
+    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    0 & \(\cpfunc{n}{3}\), \(\cpfuncn{s}{8}{2}\), \(\cpfuncn{s}{3}{2}\), \(\cpfuncn{s}{7}{3}\), \(\cpfuncn{s}{5}{5}\), \(\cpfuncn{s}{1}{5}\), \(\cpfuncn{s}{6}{6}\), \(\cpfuncn{s}{2}{6}\),\\& \(\cpfuncn{s}{9}{6}\), \(\cpfuncn{s}{4}{7}\)\\ \hline
+    1 & \(\cpfuncnn{t}{8}{2}{1}\), \(\cpfuncnn{t}{3}{2}{1}\), \(\cpfuncnn{t}{7}{3}{1}\), \(\cpfuncnn{t}{5}{5}{1}\), \(\cpfuncnn{t}{1}{5}{1}\), \(\cpfuncnn{t}{6}{6}{1}\),\\& \(\cpfuncnn{t}{2}{6}{1}\), \(\cpfuncnn{t}{9}{6}{1}\), \(\cpfuncnn{t}{4}{7}{1}\)\\ \hline
+    2 & \(\mathbf{\cpfuncnn{t}{7}{3}{3}}\), \(\mathbf{\cpfuncnn{t}{5}{5}{4}}\), \(\mathbf{\cpfuncnn{t}{1}{5}{4}}\), \(\mathbf{\cpfuncnn{t}{6}{6}{6}}\), \(\mathbf{\cpfuncnn{t}{2}{6}{6}}\), \(\mathbf{\cpfuncnn{t}{9}{6}{6}}\),\\& \(\mathbf{\cpfuncnn{t}{4}{7}{9}}\)\\ \hline
+    3 & \(\mathbf{\cpfuncnn{t}{8}{2}{2}}\), \(\mathbf{\cpfuncnn{t}{5}{5}{5}}\), \(\mathbf{\cpfuncnn{t}{6}{6}{7}}\), \(\mathbf{\cpfuncnn{t}{9}{6}{8}}\)\\ \hline
+    4 & \(\cpfunc{r}{3}\)\\ \hline
+
+\end{tabular} 
+\caption[Example evolution of \autoref{rules:selectmultisetid}]{\label{tab:selectmultisetid}Example evolution of \autoref{rules:selectmultisetid} starting on a modified version of multiset \(S_2\), where each element has been assigned a random unique identifier}
+\end{table}
+
+%---------------------------------------------------
+\subsection{Summary}
+%---------------------------------------------------
+
+\begin{theorem}
+The following fundamental statistical operations on numerical sets and multisets each need a constant number of steps and so have a time complexity O\((1)\) in \gls{cps}:
+\begin{itemize}
+    \item Finding the minimum and maximum elements.
+    \item Determining the overall number and counting the frequency of elements.
+    \item Computing the sum, mean, and mode over all elements.
+    \item Sorting elements.
+    \item Selecting the \(n^{\text{th}}\) (and thus median) element.
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+Direct consequence of Propositions~\ref{prop:min}-\ref{prop:selectmultisetid}.
+\end{proof}
+
+\autoref{tab:summary} further summarises the tabulated measurements of the different statistical operations, listing the name of each, its containing section, and the number of rules and steps it requires.
+
+\begin{table} \centering
+   \begin{tabular}{|l|l|l|l|}
+    \hline
+    \textbf{Problem} & \textbf{Section} & \textbf{\# of rules} & \textbf{\# of steps} \\ \hline
+    Minimum & \ref{sec:min} & 1 & 1 \\ %\hline
+    Maximum & \ref{sec:max} & 1 & 1 \\ \hline
+    Counting elements & \ref{sec:countelems} & 2 & 2 \\ %\hline
+    Counting frequency of elements & \ref{sec:countfreq} & 3 & 3 \\ \hline
+    Sum & \ref{sec:sum} & 2 & 2 \\ %\hline
+    Mean & \ref{sec:mean} & 5 & 4 \\ %\hline
+    Mode & \ref{sec:mode} & 4 & 4 \\ \hline
+    Sorting Sets & \ref{sec:sortsets} & 2 & 2 \\ %\hline
+    Sorting Multisets into ranges & \ref{sec:sortmultisetrange} & 4 & 4 \\ %\hline
+    Sorting Multisets with &&&\\ unique identifiers & \ref{sec:sortmultisetid} & 3 & 3 \\ \hline
+    Selection over Sets & \ref{sec:selectsets} & 3 & 3 \\ %\hline
+    Selection over Multisets & \ref{sec:selectmultisetrange} & 5 & 5 \\ %\hline
+    Selection over Multisets &&&\\ with unique identifiers & \ref{sec:selectmultisetid} & 4 & 4 \\ \hline
+\end{tabular} 
+\caption[Listing of various statistical operations in \gls{cps}]{\label{tab:summary}Tabular listing of the various statistical operations in \gls{cps} presented here, the subsubsection in which they are described, and the (fixed) number of rules and steps each one requires.}
+\end{table}
+
+Importantly, \emph{none} of these rulesets are uniform or semi-uniform families.  That is, they do not need any form of customisation to a particular problem, nor do they rely on any form of precomputation whatsoever.  All these rulesets can be re-used and combined as is (modulo the appropriate renaming of functor labels) --- as shown in, e.g., \autoref{rules:mode} and \autoref{rules:selectmultisetrange}.  Their only dependence is on matching the rules with the types of containers used to store the numbers to use.
+
+\subsection{Comparing the \texorpdfstring{\gls{cps}}{cP systems} Rulesets to Other P systems Rules for Sorting}
+
+\citeauthor{Ceterchi2010} gave an overview of approaches to sorting in P~systems at the time of their writing \cite{Ceterchi2010}.  They discussed approaches such as Bead Sorting \cite{Arulanandham2002}, which uses a tissue-based P~system and is founded on imitating the concept of an abacus which has been turned on its side, with beads falling towards the bottom due to gravity; Communicative Sorting \cite[Sec. 5.2]{Alhazov2007} which moves numbers between membranes in a cell-like P~system, such that at the end of the system's evolution, the numbers are sorted in ascending order from the outermost to innermost membranes; and sorting by ``carving'' \cite{Alhazov2007}, where objects in a system are iteratively removed or replaced and using the point where a particular object type is exhausted as a signal that a number has been sorted.
+
+In all these instances, the best results had a linear time complexity in either the number of elements in the multiset to sort, or the size of the largest element.  More recent work on sorting in P~systems has included \cite{Gheorghe2017,Metta2015,Yan2019}.  The best time complexity among the procedures described there comes from \cite[Sec. 3.3]{Gheorghe2017}, which describes a method to sort in constant time (three steps).  \citeauthor{Yan2019} \cite{Yan2019} implemented a parallel quicksort which has a O\((\log_2 n)\) complexity, where \(n\) is the number of elements to sort.  \citeauthor{Metta2015} \cite{Metta2015} do not appear to analyse the time complexity of their systems, but as one of them implements bitonic sort, the best result is likely again O\((\log_2 n)\).
+
+On only the measure of time complexity, Section~\ref{sec:sorting} improves on all but \cite{Gheorghe2017}.  \citeauthor{Gheorghe2017} comment, however, that their fastest sorting method relies on ``some precomputed resources of size O\((n^2)\).''  Furthermore, \cite{Gheorghe2017}'s other system with lesser dependencies still needs to customise its ruleset for the numbers to be sorted.  None of the systems presented in Section~\ref{sec:stats} rely on any precomputation; every one works for all well-specified problems of any size without alterations or customisations.  By using the benefits of \gls{cps}, all the systems in Section~\ref{sec:sorting} avoid this and use fixed-size rulesets for all multisets.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Comparing the \texorpdfstring{\gls{cps}}{cP systems} Rulesets with Traditional Parallel Implementations of Sorting Algorithms}
+
+Of course, the field of Membrane Computing is not the only one to have investigated methods to improve the time complexity of sorting.  Knuth dedicated much of a volume of \textit{The Art of Computer Programming} to sorting \cite{Knuth1998} and is said to have estimated that 25\% of the world's computing resources at one point were dedicated to sorting (quoted in \cite{Powers1991}).  Both \citeauthor{Powers1991} \cite{Powers1991} and \citeauthor{Chlebus1991} \cite{Chlebus1991} presented highly parallel theoretical implementations of quicksort based on concurrent-read concurrent-write parallel random access machines \cite{JaJa2011}.  Meanwhile, Batcher introduced bitonic sort and sorting networks \cite{Akl2011}, useful for implementing a parallel mergesort \cite{Lee1995}.
+
+These works concluded that their time complexity is on the order O\((\log_2 n)\), when \(n\) is the number of elements to be sorted.  It appears that the main limitation of those methods compared to Section~\ref{sec:sorting} is that the comparison operation is only performed between pairs of elements in a single step, while \gls{cps} permits (effectively) an unbounded number of comparisons.  Furthermore, common to all P~systems variants is the specification of computations through rulesets.  Perhaps this property makes finding and expressing the inherent parallelism of a problem easier --- the more declarative/less imperative style may allow the exclusion from consideration of irrelevant details and a focus on important ones.

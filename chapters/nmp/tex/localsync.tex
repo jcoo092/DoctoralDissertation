@@ -16,7 +16,7 @@ Similarly, the pseudocode from \autoref{alg:nmp:pespecific} requires only two ch
         \cpinhibitor{\cpfunc{r}{X}}
         
     \end{cpruleset}
-    \caption{\label{ruleset:nmp:localsync}Alternative forms of \autoref{ruleset:nmp:proxspec}'s rule 10 for a \gls{pe} operates in a \gls{ls}, rather than asynchronous, fashion.}
+    \caption[Alternative forms of \autoref{ruleset:nmp:proxspec}'s rule 10]{\label{ruleset:nmp:localsync}Alternative forms of \autoref{ruleset:nmp:proxspec}'s rule 10 for a \gls{pe} operates in a \gls{ls}, rather than asynchronous, fashion.}
 \end{cprulesetfloat}
 
 In the context of \gls{cps}, there is no meaningful difference in the end result of the \gls{gs} ruleset of \autoref{sec:nmp:systemwide} and the \gls{ls} rules.  In practice with implementations on standard electronic computers, however, there likely is a difference in total running times due to eliminating the need to synchronise across the entire lattice.  Each \gls{pe} now needs to wait only for its slowest neighbour during a given round, rather than the entire lattice waiting for the overall slowest \gls{pe}.  The comparative performance of all three of the `globally' synchronous, \gls{ls}, and asynchronous rules, is investigated further in \autoref{sec:nmp:timingexp}.

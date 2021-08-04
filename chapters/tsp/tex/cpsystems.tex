@@ -1,4 +1,4 @@
-\subsection{\label{sec:tsp:cpsystems}\texorpdfstring{\gls{cps}}{cP systems} : \texorpdfstring{\gls{ps}}{P systems} with Complex Symbols}
+\subsection{\label{sec:tsp:cpsystems}\texorpdfstring{\gls{cps}}{cP systems}: \texorpdfstring{\gls{ps}}{P systems} with Complex Symbols}
 % --------------------------------------------------
 
 In the interests of self-containment, we present here some material describing the background of \gls{cps}, for the benefit of readers as yet unfamiliar with the topic.  More extensive presentation of \gls{cps} has appeared most recently in \cite{Nicolescu2018}, and it is recommended that the interested reader peruse that paper as well.  There are two notable additions shown here that are not in \cite{Nicolescu2018}, however: the stronger semantics for inhibitors, to fully implement logical negation; and the minimum-finding algorithm explained in \autoref{sec-min}, used in solving the \gls{tsp}.  We wish to point out that, while \gls{cps} is transitively bio-inspired through its basis in \gls{ps}, it has not been developed with the aim of simulating or modelling real-world biology, and instead is intended as a useful theoretical model for computation.
@@ -19,7 +19,6 @@ collectively known as \emph{simple symbols}.
 \emph{Complex symbols} are similar to Prolog-like \emph{first-order terms}, 
 recursively built from \emph{multisets} of atoms and variables.
 Together, complex symbols and simple symbols (atoms, variables) are called \emph{symbols},
-%We omit a formal grammar for them here.
 and can be defined by the following formal grammar:
 
 \begin{framed}
@@ -137,23 +136,19 @@ the rule's right-hand side contains ground terms only
 as illustrated by the following sample scenario:
 \begin{itemize}
 \item The cell's \emph{current content} includes the \emph{ground term}:\\
-%\smallskip
 $n(a \, \phi(b \, \phi(c) \, \psi(d)) \, \psi(e))$
 
 \smallskip
 \item The following (state-less) \emph{rewriting rule} is considered: \\ 
-%\smallskip
 $n(X \, \phi(Y \, \phi(Y_1) \, \psi(Y_2)) \, \psi(Z)) ~ \rightarrow ~ v(X) \: n(Y \, \phi(Y_2) \, \psi(Y_1)) \: v(Z)$
 
 \smallskip
 \item Our pattern matching determines the following \emph{unifiers}: \\
-%\smallskip
 $X = a$, $Y = b$, $Y_1 = c$, $ Y_2 = d$, $Z = e$.
 
 \smallskip
 \item This is a \emph{valid} matching and, after \emph{substitutions}, 
 the rule's \emph{right-hand} side gives the \emph{new content}: \\
-%\smallskip
 $v(a) ~ n(b \, \phi(d) \, \psi(c)) ~ v(e)$
 \end{itemize}
 
@@ -317,16 +312,6 @@ which cannot be generally reduced to simple bounded loops.
 This type of generic rules allows (i) a reasonably fast parsing and processing of subcomponents, and
 (ii) algorithm descriptions with \emph{fixed-size alphabets} and \emph{fixed-sized rulesets}, 
 independent of the size of the problem and number of cells in the system (often \emph{impossible} with only atomic symbols).
-
-% \smallskip
-% \noindent
-% \textbf{Synchronous vs asynchronous.}
-% In our models, we do not make any \emph{syntactic} difference between the synchronous and asynchronous scenarios;
-% this is strictly a \emph{runtime} assumption~\cite{N-CMC-LNCS-2012}.
-% Any model is able to run on both the synchronous and asynchronous runtime ``engines'',
-% albeit the results may differ.
-% Our asynchronous model matches closely the standard definition for asynchonicity used in distributed algorithms;
-% however, this is not needed in this paper so we don't follow this topic here.
 
 % -------------------------------------------------
 

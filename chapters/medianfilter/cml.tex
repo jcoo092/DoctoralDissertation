@@ -1,269 +1,107 @@
-% *** CITATION PACKAGES ***
-%
-% \usepackage{cite}
-% cite.sty was written by Donald Arseneau
-% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
-% \cite{} output to follow that of the IEEE. Loading the cite package will
-% result in citation numbers being automatically sorted and properly
-% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
-% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
-% \cite will automatically add leading space, if needed. Use cite.sty's
-% noadjust option (cite.sty V3.8 and later) if you want to turn this off
-% such as if a citation ever needs to be enclosed in parenthesis.
-% cite.sty is already installed on most LaTeX systems. Be sure and use
-% version 5.0 (2009-03-20) and later if using hyperref.sty.
-% The latest version can be obtained at:
-% http://www.ctan.org/pkg/cite
-% The documentation is contained in the cite.sty file itself.
-
-
-
-
-
-
-% % *** GRAPHICS RELATED PACKAGES ***
-% %
-% \ifCLASSINFOpdf
-%   \usepackage[pdftex]{graphicx}
-%   % declare the path(s) where your graphic files are
-%   % \graphicspath{{../pdf/}{../jpeg/}}
-%   % and their extensions so you won't have to specify these with
-%   % every instance of \includegraphics
-%   \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
-% \else
-%   % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
-%   % will default to the driver specified in the system graphics.cfg if no
-%   % driver is specified.
-%   % \usepackage[dvips]{graphicx}
-%   % declare the path(s) where your graphic files are
-%   % \graphicspath{{../eps/}}
-%   % and their extensions so you won't have to specify these with
-%   % every instance of \includegraphics
-%   % \DeclareGraphicsExtensions{.eps}
-% \fi
-% % graphicx was written by David Carlisle and Sebastian Rahtz. It is
-% % required if you want graphics, photos, etc. graphicx.sty is already
-% % installed on most LaTeX systems. The latest version and documentation
-% % can be obtained at: 
-% % http://www.ctan.org/pkg/graphicx
-% % Another good source of documentation is "Using Imported Graphics in
-% % LaTeX2e" by Keith Reckdahl which can be found at:
-% % http://www.ctan.org/pkg/epslatex
-% %
-% % latex, and pdflatex in dvi mode, support graphics in encapsulated
-% % postscript (.eps) format. pdflatex in pdf mode supports graphics
-% % in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
-% % that all non-photo figures use a vector format (.eps, .pdf, .mps) and
-% % not a bitmapped formats (.jpeg, .png). The IEEE frowns on bitmapped formats
-% % which can result in "jaggedy"/blurry rendering of lines and letters as
-% % well as large increases in file sizes.
-% %
-% % You can find documentation about the pdfTeX application at:
-% % http://www.tug.org/applications/pdftex
-
-
-
-
-
-% % *** MATH PACKAGES ***
-% %
-% %\usepackage{amsmath}
-% % A popular package from the American Mathematical Society that provides
-% % many useful and powerful commands for dealing with mathematics.
-% %
-% % Note that the amsmath package sets \interdisplaylinepenalty to 10000
-% % thus preventing page breaks from occurring within multiline equations. Use:
-% %\interdisplaylinepenalty=2500
-% % after loading amsmath to restore such page breaks as IEEEtran.cls normally
-% % does. amsmath.sty is already installed on most LaTeX systems. The latest
-% % version and documentation can be obtained at:
-% % http://www.ctan.org/pkg/amsmath
-
-
-
-
-
-% % *** SPECIALIZED LIST PACKAGES ***
-% %
-% %\usepackage{algorithmic}
-% % algorithmic.sty was written by Peter Williams and Rogerio Brito.
-% % This package provides an algorithmic environment fo describing algorithms.
-% % You can use the algorithmic environment in-text or within a figure
-% % environment to provide for a floating algorithm. Do NOT use the algorithm
-% % floating environment provided by algorithm.sty (by the same authors) or
-% % algorithm2e.sty (by Christophe Fiorio) as the IEEE does not use dedicated
-% % algorithm float types and packages that provide these will not provide
-% % correct IEEE style captions. The latest version and documentation of
-% % algorithmic.sty can be obtained at:
-% % http://www.ctan.org/pkg/algorithms
-% % Also of interest may be the (relatively newer and more customizable)
-% % algorithmicx.sty package by Szasz Janos:
-% % http://www.ctan.org/pkg/algorithmicx
-
-
-
-
-% % *** ALIGNMENT PACKAGES ***
-% %
-% %\usepackage{array}
-% % Frank Mittelbach's and David Carlisle's array.sty patches and improves
-% % the standard LaTeX2e array and tabular environments to provide better
-% % appearance and additional user controls. As the default LaTeX2e table
-% % generation code is lacking to the point of almost being broken with
-% % respect to the quality of the end results, all users are strongly
-% % advised to use an enhanced (at the very least that provided by array.sty)
-% % set of table tools. array.sty is already installed on most systems. The
-% % latest version and documentation can be obtained at:
-% % http://www.ctan.org/pkg/array
-
-
-% % IEEEtran contains the IEEEeqnarray family of commands that can be used to
-% % generate multiline equations as well as matrices, tables, etc., of high
-% % quality.
-
-
-
-
-% % *** SUBFIGURE PACKAGES ***
-% \ifCLASSOPTIONcompsoc
-%  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
-% \else
-%  \usepackage[caption=false,font=footnotesize]{subfig}
-% \fi
-% % subfig.sty, written by Steven Douglas Cochran, is the modern replacement
-% % for subfigure.sty, the latter of which is no longer maintained and is
-% % incompatible with some LaTeX packages including fixltx2e. However,
-% % subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
-% % which will override IEEEtran.cls' handling of captions and this will result
-% % in non-IEEE style figure/table captions. To prevent this problem, be sure
-% % and invoke subfig.sty's "caption=false" package option (available since
-% % subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
-% % handling of captions.
-% % Note that the Computer Society format requires a larger sans serif font
-% % than the serif footnote size font used in traditional IEEE formatting
-% % and thus the need to invoke different subfig.sty package options depending
-% % on whether compsoc mode has been enabled.
-% %
-% % The latest version and documentation of subfig.sty can be obtained at:
-% % http://www.ctan.org/pkg/subfig
-
-
-% %\usepackage{stfloats}
-% % stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
-% % the ability to do double column floats at the bottom of the page as well
-% % as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
-% % LaTeX2e). It also provides a command:
-% %\fnbelowfloat
-% % to enable the placement of footnotes below bottom floats (the standard
-% % LaTeX2e kernel puts them above bottom floats). This is an invasive package
-% % which rewrites many portions of the LaTeX2e float routines. It may not work
-% % with other packages that modify the LaTeX2e float routines. The latest
-% % version and documentation can be obtained at:
-% % http://www.ctan.org/pkg/stfloats
-% % Do not use the stfloats baselinefloat ability as the IEEE does not allow
-% % \baselineskip to stretch. Authors submitting work to the IEEE should note
-% % that the IEEE rarely uses double column equations and that authors should try
-% % to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
-% % packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
-% % such ways.
-% % Do not attempt to use stfloats with fixltx2e as they are incompatible.
-% % Instead, use Morten Hogholm'a dblfloatfix which combines the features
-% % of both fixltx2e and stfloats:
-% %
-% % \usepackage{dblfloatfix}
-% % The latest version can be found at:
-% % http://www.ctan.org/pkg/dblfloatfix
-
-
-
-
-% %\ifCLASSOPTIONcaptionsoff
-% %  \usepackage[nomarkers]{endfloat}
-% % \let\MYoriglatexcaption\caption
-% % \renewcommand{\caption}[2][\relax]{\MYoriglatexcaption[#2]{#2}}
-% %\fi
-% % endfloat.sty was written by James Darrell McCauley, Jeff Goldberg and 
-% % Axel Sommerfeldt. This package may be useful when used in conjunction with 
-% % IEEEtran.cls'  captionsoff option. Some IEEE journals/societies require that
-% % submissions have lists of figures/tables at the end of the paper and that
-% % figures/tables without any captions are placed on a page by themselves at
-% % the end of the document. If needed, the draftcls IEEEtran class option or
-% % \CLASSINPUTbaselinestretch interface can be used to increase the line
-% % spacing as well. Be sure and use the nomarkers option of endfloat to
-% % prevent endfloat from "marking" where the figures would have been placed
-% % in the text. The two hack lines of code above are a slight modification of
-% % that suggested by in the endfloat docs (section 8.4.1) to ensure that
-% % the full captions always appear in the list of figures/tables - even if
-% % the user used the short optional argument of \caption[]{}.
-% % IEEE papers do not typically make use of \caption[]'s optional argument,
-% % so this should not be an issue. A similar trick can be used to disable
-% % captions of packages such as subfig.sty that lack options to turn off
-% % the subcaptions:
-% % For subfig.sty:
-% % \let\MYorigsubfloat\subfloat
-% % \renewcommand{\subfloat}[2][\relax]{\MYorigsubfloat[]{#2}}
-% % However, the above trick will not work if both optional arguments of
-% % the \subfloat command are used. Furthermore, there needs to be a
-% % description of each subfigure *somewhere* and endfloat does not add
-% % subfigure captions to its list of figures. Thus, the best approach is to
-% % avoid the use of subfigure captions (many IEEE journals avoid them anyway)
-% % and instead reference/explain all the subfigures within the main caption.
-% % The latest version of endfloat.sty and its documentation can obtained at:
-% % http://www.ctan.org/pkg/endfloat
-% %
-% % The IEEEtran \ifCLASSOPTIONcaptionsoff conditional can also be used
-% % later in the document, say, to conditionally put the References on a 
-% % page by themselves.
-
-
-
-
-% % *** PDF, URL AND HYPERLINK PACKAGES ***
-% %
-% \usepackage{url}
-% % url.sty was written by Donald Arseneau. It provides better support for
-% % handling and breaking URLs. url.sty is already installed on most LaTeX
-% % systems. The latest version and documentation can be obtained at:
-% % http://www.ctan.org/pkg/url
-% % Basically, \url{my_url_here}.
-
-% \usepackage{booktabs}
-% \usepackage{cleveref}
-% \usepackage{pgfplots}
-% \pgfplotsset{compat=1.14}
-
 \newcommand{\hopac}{Hopac}
 \chapter{\label{chap:median}Median Filtering on a Lattice}
 
-% \begin{abstract}
-% Many approaches to simplifying/enabling the use of parallelism in programming tasks exist.  A substantial number of those concentrate solely either on data-parallelism or fork-join-based task-parallelism.  Concurrent ML is an alternative approach based around the concept of lightweight individual sub-processes synchronously exchanging messages.  This work explores the usefulness of the CML approach in image processing, by applying it to the basic median filter operation and contrasting it with other simple implementations.  The results strongly suggest that it is a comparatively poor fit to such an operation, with the one slight advantage of apparently having better peak memory requirements.  It is not clear, however, how efficient are either the algorithm implementation or the library it is based on.
-% \end{abstract}
+\section{Median Filtering with \texorpdfstring{\gls{cps}}{cP systems}}\label{sec:medianfilter}
+\cpresetrulenumber
 
-% \begin{IEEEkeywords}
-% Concurrent ML, Image processing, Median filter, F\#, \hopac{}
-% \end{IEEEkeywords}
+Median filtering \cite[Chap. 3.4.1]{Gimelfarb2018}, \cite{Fisher2016} is an operation in image processing used to remove random `salt \& pepper' noise from images.  Such noise is characterised by pixel colouration values at the extreme high and low ends of the range of possible values.  At its simplest, median filtering recovers an approximation of the non-noisy image by taking the median of all pixel values in a window around each pixel and creating a new image using said median values for the pixels.
+
+Each pixel in the image is assigned a corresponding \gls{cps}{} top-level cell, akin to the proxels of \cite{Cooper2021}.  Each cell communicates with its neighbours over channels using antiport rules to build a list of all the pixel values in the immediate vicinity, then performs median selection to find the median value and communicates that to the environment.  The windows used to define the neighbourhoods are assumed to be square and centred around the filtered pixel. The rules assume destructive filtering, i.e., the operation is performed only once, and nothing besides the final result needs to be kept.
+
+Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}{2} \, \cpfunc{n}{3} \ldots}\) listing the pixel's neighbours; the pixel's own value \(\cpfunc{b}{B}\); and an empty \(\cpfunc{c}{0}\) which will count how many messages have been received from neighbours and processed.   \(s\) terms are used to hold the messages received from neighbours, which firstly hold a number denoting the neighbour, then the value received. At the same time, similar \(t\) terms replicate the information in the \(s\) terms, but with an extra term on the end to store their indices when sorting.
+
+\begin{cprulesetfloat}[t]
+\begin{cpruleset}
+%
+\cprule{s_1}{\cpfuncms{a}{\cpfunc{n}{N} \, A} \; \cpfuncms{c}{} &&&\\&
+	\cpantirecv{\cpfunc{e}{E}}{N}
+}{\cpmaxpar}{s_1}{\cpfuncms{a}{A} \; \cpfuncms{c}{\cpundig} \; \cpantisend{\cpfunc{e}{B}}{N}  &\\&&&& \cpfuncn{s}{N\cpundig}{E}  \; \cpfuncnn{t}{N\cpundig}{E}{\cpundig}}
+\cppromoter{\cpfunc{b}{B}}
+%
+\cprule{s_1}{\cpfunc{a}{\cpempty} \; \cpfunc{b}{B} \; \cpfunc{c}{C}}{\cponce}{s_2}{\cpfuncn{s}{\cpundig}{B} \; \cpfuncnn{t}{\cpundig}{B}{\cpundig} \; \cpfunc{c}{C\cpundig}}
+%
+\cprule{s_2}{\cpfuncms{c}{2}}{\cpmaxpar}{s_3}{\cpfuncms{c}{1}}
+%
+\cprule{s_2}{{\cpfuncnnms{t}{B}{Y}{}}}{\cpmaxpar}{s_3}{\cpfuncnnms{t}{B}{Y}{\cpundig}}
+\cppromoter{\cpfuncn{s}{\_}{X}}
+\cppromoter{X \subsetneq Y}
+
+\cprule{s_3}{\cpfuncnnms{t}{B}{X}{}}{\cpmaxpar}{s_4}{\cpfuncnnms{t}{B}{X}{\cpundig}}
+\cppromoter{\cpfuncn{s}{A}{X}}
+\cppromoter{A \subsetneq B}
+%
+\cprule{s_4}{}{\cponce}{s_5}{\cpfunc{r}{E}}
+\cppromoter{\cpfuncnn{t}{\_}{E}{C}}
+\cppromoter{\cpfunc{c}{C}}
+\end{cpruleset}
+\caption{\label{ruleset:medianfilter}Rules for the median filter problem}
+\end{cprulesetfloat}
+
+The rules are set out in Ruleset~\ref{ruleset:medianfilter} and build on Ruleset~\ref{rules:selectmultisetid} in Section~\ref{sec:selectmultisetid}.  They are integrated with the counting rules to find the median index.   Rule 1 receives, through antiport exchange, messages from every connected neighbour and stores the values received while sending the current pixel's value back.  Rule 2 stores the pixel's own value in the \(s\) functor alongside the messages received from neighbours since it is one of the values to consider here.  It runs once messages have been received from all neighbours.
+
+Rule 3 performs ceiling division by two on the total count of messages received.  The number computed is the midpoint of the count of stored values.  Division by two does not require an additional rule, unlike for the general case as seen when computing the mean in Section~\ref{sec:mean}.  When the dividend is an even number, there is no remainder.  When the dividend is an odd number, the single \(\cpundig\) remainder works appropriately to round the result to ceiling division.
+
+Rules 4 and 5 carry out the central part of the median filtering process.  All \(t\) terms are compared against all \(s\) terms, and a copy of the unary digit is added to one or the other of them in the index (final) value.
+Rule 4 works for when the stored values from each neighbour are different, and thus for each pair, one is strictly greater than the other.   There is no guarantee in general, however, that there will not be more than one instance of the same value.
+
+For current purposes, a strict total ordering can be imposed by using the label of the neighbour which sent the value.  Every stored value has a unique label (from a given pixel's perspective) for its originating pixel.  In the case of equal values, the value received from the neighbour with the greater ID gains the unary digit.  This effectively reimposes a strict total ordering on the values and means that one can be selected correctly as the median.
+
+Rule 6 takes the accumulations from rules 4 and 5 and selects one of them with an `index' matching half the number of messages received.  The value stored in that term is the median.  This value is copied to an \(r\) object to supply the final result, ending the cell's evolution.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Example}
+
+\begin{table}[t]
+\setlength\extrarowheight{1ex}
+\centering
+\begin{tabular}{|r|l|}
+\hline
+\textbf{Step} & \textbf{Objects in the pixel cell} \\ \hline
+0 & \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4}}\) \(\cpfunc{b}{6}\) \(\cpfunc{c}{0}\)\\ \hline
+
+1 & \(\mathbf{\cpfunc{a}{\cpempty}}\) \(\mathbf{\cpfunc{c}{4}}\) \(\cpfuncn{s}{2}{8}\) \(\cpfuncn{s}{3}{3}\) \(\cpfuncn{s}{4}{6}\) \(\cpfuncn{s}{5}{3}\)  \(\cpfuncnn{t}{2}{8}{1}\) \(\cpfuncnn{t}{3}{3}{1}\)\\& \(\cpfuncnn{t}{4}{6}{1}\) \(\cpfuncnn{t}{5}{3}{1}\)\\ \hline
+
+2 & \sout{\(\cpfunc{a}{\cpempty}\)} \sout{\(\cpfunc{b}{6}\)} \(\mathbf{\cpfunc{c}{5}}\) \(\cpfuncn{s}{1}{6}\) \(\cpfuncnn{t}{1}{6}{1}\)\\ \hline
+
+3 & \(\mathbf{\cpfunc{c}{3}}\) \(\mathbf{\cpfuncnn{t}{1}{6}{3}}\)  \(\mathbf{\cpfuncnn{t}{2}{8}{5}}\) \(\mathbf{\cpfuncnn{t}{4}{6}{3}}\)\\ \hline
+
+4 & \(\mathbf{\cpfuncnn{t}{4}{6}{4}}\) \(\mathbf{\cpfuncnn{t}{5}{3}{2}}\)\\ \hline
+
+5 & \(\cpfunc{r}{6}\)\\ \hline
+
+\end{tabular}
+\caption[Objects present inside the cell at the end of each step of median filtering]{Objects present inside the cell at the end of each step}
+\label{tab:exampleobjects}
+\end{table}
+
+Assume that an arbitrary exemplar pixel has four neighbours, represented in \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4}}\), and its value is 6, \(\cpfunc{b}{6}\).  The objects present in the cell at the end of every step are listed in Table~\ref{tab:exampleobjects}, following the format of the examples in Section~\ref{sec:stats}.  When rule 1 is applied, the pixel gains four new \(s\) and four new \(t\) functors, \(\cpfuncn{s}{2}{8}\) \& \(\cpfuncnn{t}{2}{8}{1}\), \(\cpfuncn{s}{3}{3}\) \& \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncn{s}{4}{6}\) \& \(\cpfuncnn{t}{4}{6}{1}\), \(\cpfuncn{s}{5}{3}\) \& \(\cpfuncnn{t}{5}{3}{1}\).  \(\cpfunc{c}{0}\) becomes \(\cpfunc{c}{4}\).  Rule 2 adds \(\cpfuncn{s}{1}{6}\) \& \(\cpfuncnn{t}{1}{6}{1}\), and \(\cpfunc{c}{4}\) becomes \(\cpfunc{c}{5}\).
+
+Rules 3, 4, and 5 all now execute at the same step.  Rule 3 divides \(c\) by 2, creating \(\cpfunc{c}{3}\).  Rule 4 compares the \(s\) and \(t\) terms where the pixel (central) value is different, while rule 5 compares the \(s\) and \(t\) terms where the pixel value is the same.  The operation of rule 4 alone would produce \(\cpfuncnn{t}{1}{6}{3}\), \(\cpfuncnn{t}{2}{8}{5}\), \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncnn{t}{4}{6}{3}\) and \(\cpfuncnn{t}{5}{3}{1}\).  This is insufficient to choose the median.
+
+Rule 5 resolves the ties in index counts between \(t\) terms.  The two \(s\) and \(t\) terms with pixel values of 3 are compared to each other, and the two \(s\) and \(t\) terms with pixel values of 6 are compared to each other.  In each case, the \(t\) term with the larger identifier receives another unit in its index term.  Thus, the final result is \(\cpfuncnn{t}{1}{6}{3}\), \(\cpfuncnn{t}{2}{8}{5}\), \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncnn{t}{4}{6}{4}\) and \(\cpfuncnn{t}{5}{3}{2}\).  Putting the pixel values in ascending order of the associated number in the index term gives the expected sorting of 3, 3, 6, 6, 8.
+
+Rule 6 selects the associated pixel value from the \(t\) term with an index value matching that in \(c\).  In this instance, which is \(\cpfunc{e}{6}\), the correct median for the five values received.  This is then stored in an \(r\) term to represent the final result.  The execution of this rule also terminates the evolution of the system.
 
 \section{Introduction}
 While parallelism is generally the best (perhaps only) way to achieve improvements in execution time for different algorithms once a reasonably efficient sequential implementation has been created, it is a notoriously challenging affair \cite{Shun2017}.  When working at the level of directly manipulating threads, such as using the pthreads found in POSIX-compliant operating systems, programmers are exposed to a high level of risk of inadvertently introducing concurrency bugs, such as data races, deadlocks and livelocks.  A wide panoply of different approaches to overcoming this challenge, both theoretical and practical, have been proposed and developed over the years, with varying degrees of success, e.g. \cite{Boyapati2002,Bocq2012,Seinstra2004}.  Almost all large scale programming languages that use a runtime include some form of parallelism simplification within their standard libraries, e.g. the Executor system in Java and Swift \& Objective-C's Grand Central Dispatch.
 
 Most simplifications fairly directly target either data-parallelism by simultaneously applying the same operation over multiple elements in arrays, e.g. classic SIMD vector instructions in CPUs, or task-parallelism by making provisions for the fork-join model.  These simplifications can be very useful, but not all instances of parallelism fit neatly under their models.  Algorithms that are well-modelled by the Communicating Sequential Processes \cite{Hoare1985} and Actor \cite{Agha1997} models, such as those explicitly centred around concepts of message passing, are not necessarily easy to express using either SIMD or fork-join instructions.
 
-Concurrent ML (CML), introduced by Reppy \cite{Reppy1991}, was created to provide a framework for creating concurrent programs with synchronous communications, and was later extended to permit parallelism \cite{Reppy2009a}.  The conceptual framework is built around the idea of lightweight independent sub-processes communicating over channels when they synchronously rendezvous.  Essentially, one process offers on a channel to give or take a value, and another then offers to take or give.  When two processes are offering appropriately on either side of an exchange, it takes place.  The basic concept of communicating via channels has experienced a renaissance in recent years, likely due at least in part to their inclusion as a core feature of Go, but CML has a more advanced system that Go (at the time of writing) arguably is not capable of supporting.  It was originally implemented for Standard ML of New Jersey (where ML refers to the earlier programming language \textit{Meta Language}), whence the ML part of the name, but has been implemented in some form for other languages as well -- it is not necessarily connected with machine learning.
+\Gls{cml}, introduced by Reppy \cite{Reppy1991}, was created to provide a framework for creating concurrent programs with synchronous communications, and was later extended to permit parallelism \cite{Reppy2009a}.  The conceptual framework is built around the idea of lightweight independent sub-processes communicating over channels when they synchronously rendezvous.  Essentially, one process offers on a channel to give or take a value, and another then offers to take or give.  When two processes are offering appropriately on either side of an exchange, it takes place.  The basic concept of communicating via channels has experienced a renaissance in recent years, likely due at least in part to their inclusion as a core feature of Go, but \gls{cml} has a more advanced system that Go (at the time of writing) arguably is not capable of supporting.  It was originally implemented for Standard ML of New Jersey (where ML refers to the earlier programming language \textit{Meta Language}), whence the ML part of the name, but has been implemented in some form for other languages as well -- it is not necessarily connected with machine learning.
 
 Many computer vision and especially image processing operations have some potential for parallelism, and indeed a number of them can be regarded as `embarrassingly parallel', that is to say that the process involves a considerable number of sub-process steps that do not depend on each other, and so those steps may be performed concurrently in high numbers if the appropriate hardware is available.  Some of those algorithms either are explicitly characterised in terms of message passing, such as stereo matching with Belief Propagation \cite{Liang2011} or Semi-global Matching \cite{Drory2014}, or could be viewed as such, e.g. moving window transforms (MWTs) applied to images.
 
-This paper seeks to explore whether using CML, as a method of structuring computations around message passing, could be beneficial when applied to a MWT, using the median filter as its particular example.  The focus is on examining the potential benefit of using a different principle to structure the processing, as much as it is on the achieved results.  It is hypothesised that the same results in terms of processing the image can be achieved, but at slightly slower rates of processing due to overheads from the message passing which, strictly speaking, are unnecessary in the case of a MWT. To the best of the author's knowledge, no exploration of Concurrent ML applied to computer vision or image processing has been performed in the past.  The results presented here are preliminary and a first step in investigating the topic.
-
-%\section{Related Work}
+This paper seeks to explore whether using \gls{cml}, as a method of structuring computations around message passing, could be beneficial when applied to a MWT, using the median filter as its particular example.  The focus is on examining the potential benefit of using a different principle to structure the processing, as much as it is on the achieved results.  It is hypothesised that the same results in terms of processing the image can be achieved, but at slightly slower rates of processing due to overheads from the message passing which, strictly speaking, are unnecessary in the case of a MWT. To the best of the author's knowledge, no exploration of Concurrent ML applied to computer vision or image processing has been performed in the past.  The results presented here are preliminary and a first step in investigating the topic.
 
 \section{Methodology}
 %Discuss some background on the median filter here?  E.g. point out that much more advanced versions exist, and basic ones were chosen here for ease of implementation?
 
 The current state of the art for median filtering is quite sophisticated, and algorithms have been developed that are very fast \cite{Sanchez2012,Perrot2014} and/or can significantly restore an image even at a noise level of over 90\% \cite{Gao2015,Wu2011}.  Such algorithms were not used here because the focus was on comparing the performance of some relatively straightforward implementations.  These advanced algorithms are left to future work.
 
-An implementation of the basic median filter was created in F\#, using the \hopac{}\footnote{\url{https://github.com/hopac/hopac}} CML library.  For comparison, two other parallel implementations were created in F\#, one a na\"{i}ve implementation that simply uses nested for loops to operate over the relevant window, and another loosely based on the median filter algorithm described in Br\"{a}unl \textit{et al.} \cite{Braunl2001}.\footnote{All three implementations, as well as other relevant files and benchmarking results are available at \url{https://github.com/jcoo092/ivcnz2018}}
+An implementation of the basic median filter was created in F\#, using the \hopac{}\footnote{\url{https://github.com/hopac/hopac}} \gls{cml} library.  For comparison, two other parallel implementations were created in F\#, one a na\"{i}ve implementation that simply uses nested for loops to operate over the relevant window, and another loosely based on the median filter algorithm described in Br\"{a}unl \textit{et al.} \cite{Braunl2001}.\footnote{All three implementations, as well as other relevant files and benchmarking results are available at \url{https://github.com/jcoo092/ivcnz2018}}
 
-F\# was chosen because of the easy availability of a ready-to-use CML library, as well as its relative similarity to the original Standard ML host language.  Of particular note is that the original Concurrent ML implementation assumed the presence of garbage collection, which Hopac also follows.  Faster versions of the other algorithm variants likely could have been implemented in other languages such as C, C++ (perhaps using Halide \cite{Ragan-Kelley2017}) or Rust, but F\# was used for all three to retain consistency and comparability.  
+F\# was chosen because of the easy availability of a ready-to-use \gls{cml} library, as well as its relative similarity to the original Standard ML host language.  Of particular note is that the original Concurrent ML implementation assumed the presence of garbage collection, which Hopac also follows.  Faster versions of the other algorithm variants likely could have been implemented in other languages such as C/C++ (perhaps using Halide \cite{Ragan-Kelley2017}), Fortran or Rust, but F\# was used for all three to retain consistency and comparability.  
 
 All three algorithms were benchmarked using a variety of image and window sizes.  Window sizes of 3x3, 5x5, 7x7, 9x9 and 11x11 were measured.  The images used ranged in size from 15 kilopixels to 1.09 megapixels, as detailed in \Cref{tab:median:pixelcounts}.  Larger image sizes were initially attempted but some runs of the algorithms proved to be prohibitively slow, and so they were abandoned.  Time spent on loading the images from disk and converting them to grayscale was excluded from the benchmarking, so that only the time spent processing them with each algorithm was measured.  The benchmarks were all run using .NET Core 2.1.4 with the 64-bit RyuJit compiler, on a desktop computer with a quad-core Intel i7-7700 processor running at 3.6GHz and 16GB of RAM.
 
@@ -286,24 +124,24 @@ The na\"{i}ve algorithm used a simple nested for loop approach.  For every pixel
 
 The Bräunl-inspired algorithm used here does not precisely match that of \cite{Braunl2001}, primarily because it was unclear how boundary conditions were handled there, but also because the book's algorithm assumed a 3x3 window.  It sits roughly between the other two approaches, in that it simply reads the value of neighbouring horizontal pixels from an array then sends that list to its vertical neighbours to combine and find the median.  This functionality was replicated in the implementation insofar as possible, but the book's algorithm assumes the use of the Parallax language, which automatically operates on whole images.
 
-The CML algorithm transforms each pixel into a logical processing element with a channel, on which it always offers to give its intensity value, and a reducing list of its neighbours, to which it offers to take their intensity value.  Once all neighbouring values have been taken, they are combined and the median found and stored in the output array.  The pixel then enters a loop (implemented as a tail-recursive function, in traditional CML style) whereby it always offers to give its intensity value via its channel.  This is required to ensure that any subsequent requests from other pixels to take the intensity from that pixel can be fulfilled.
+The \gls{cml} algorithm transforms each pixel into a logical processing element with a channel, on which it always offers to give its intensity value, and a reducing list of its neighbours, to which it offers to take their intensity value.  Once all neighbouring values have been taken, they are combined and the median found and stored in the output array.  The pixel then enters a loop (implemented as a tail-recursive function, in traditional \gls{cml} style) whereby it always offers to give its intensity value via its channel.  This is required to ensure that any subsequent requests from other pixels to take the intensity from that pixel can be fulfilled.
 
 Boundary conditions in all three cases were handled by utilising the \texttt{Option}\footnote{See \url{https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/options} for more on \texttt{Option} types.} type in F\#, where \texttt{Nones} were returned for pixels outside the images, which were filtered out after the complete window had been collected, and the median selected from those remaining.  The same process was used for determining the median in the returned array across the algorithms.  An in-place sort function was called on the array, and then the element at the position $length \div 2$ was returned.
 
 It should be noted that in all three instances the exact nature of parallelising the execution of the tasks is left up to the .NET or \hopac{} runtimes.  No explicit creation, management or scheduling of threads is performed in the written programs.  Instead, the programs explore different approaches to structuring the computation in code.
 
 \section{Results}
-Tables \ref{tab:median:verysmall}-\ref{tab:median:medium} show the mean of the benchmarking results of running each algorithm on each of the different images, across the window sizes.  Figures \ref{graph:median:verysmall}-\ref{graph:median:medium} are charts of the results in the tables.  \autoref{graph:median:cmls} plots the mean runtimes for the CML algorithm at each window size for each image. 
+Tables \ref{tab:median:verysmall}-\ref{tab:median:medium} show the mean of the benchmarking results of running each algorithm on each of the different images, across the window sizes.  Figures \ref{graph:median:verysmall}-\ref{graph:median:medium} are charts of the results in the tables.  \autoref{graph:median:cmls} plots the mean runtimes for the \gls{cml} algorithm at each window size for each image. 
 
-The na\"{i}ve algorithm performs the best for every image and window size, while the Bräunl algorithm matches it reasonably closely, though always running a bit more slowly.  Both appear to scale moderately well, roughly doubling in runtime for every increase by 2 of the size of a side of the window, whereas the CML algorithm appears to follow an exponential increase in runtime.  The reason for this is not certain, but it appears that the CML approach creates considerable pressure on the heap, causing numerous expensive garbage collections.  These collections do have the benefit of keeping the peak memory consumption relatively low, however.  %This is further exacerbated by an increase in the number of pixels in the image, with the ratio of runtimes between the naïve and CML algorithms roughly trending worse as the task complexity increases.
+The na\"{i}ve algorithm performs the best for every image and window size, while the Bräunl algorithm matches it reasonably closely, though always running a bit more slowly.  Both appear to scale moderately well, roughly doubling in runtime for every increase by 2 of the size of a side of the window, whereas the \gls{cml} algorithm appears to follow an exponential increase in runtime.  The reason for this is not certain, but it appears that the \gls{cml} approach creates considerable pressure on the heap, causing numerous expensive garbage collections.  These collections do have the benefit of keeping the peak memory consumption relatively low, however.
 
-The ratios of the runtimes of the Bräunl and CML algorithms compared to the runtime for the naïve algorithm for each image and window size are presented in Tables \ref{tab:median:ratbraun} and \ref{tab:median:ratcml}.  While the ratios for the Bräunl algorithm worsen for increasing image sizes, they in fact improve for larger window sizes on the same image, suggesting that it scales better than the naïve in this regard.  Why that should be is unclear though.  No pattern can be discerned for the CML algorithm, however, beyond that the ratio for the same window size typically grows worse as image size increases.
+The ratios of the runtimes of the Bräunl and \gls{cml} algorithms compared to the runtime for the naïve algorithm for each image and window size are presented in Tables \ref{tab:median:ratbraun} and \ref{tab:median:ratcml}.  While the ratios for the Bräunl algorithm worsen for increasing image sizes, they in fact improve for larger window sizes on the same image, suggesting that it scales better than the naïve in this regard.  Why that should be is unclear though.  No pattern can be discerned for the \gls{cml} algorithm, however, beyond that the ratio for the same window size typically grows worse as image size increases.
 
-To provide a rough estimate of the effects of the median filtering, a copy of each base image was created with randomly introduced salt \& pepper noise.  \autoref{fig:median:peppers} shows the outputs for the peppers image using a window size of 3, along with the base and noisy images.  None of the algorithms perfectly restored the original image, but all have largely eliminated the noise, at the cost of a slight blurring.  The results for each were measured using the classic peak signal-to-noise ratio formula \cite{Boncelet2005}, and are presented in Tables \ref{tab:median:psnrvsmall}-\ref{tab:median:psnrmedium}.  The naïve and CML algorithms return near-identical results, while Bräunl always falls somewhat short.  %The naïve and CML algorithms returned exactly the same images, while Bräunl returned very similar images.  All three appear to be appropriate for the purpose of removing salt \& pepper noise.
+To provide a rough estimate of the effects of the median filtering, a copy of each base image was created with randomly introduced salt \& pepper noise.  \autoref{fig:median:peppers} shows the outputs for the peppers image using a window size of 3, along with the base and noisy images.  None of the algorithms perfectly restored the original image, but all have largely eliminated the noise, at the cost of a slight blurring.  The results for each were measured using the classic peak signal-to-noise ratio formula \cite{Boncelet2005}, and are presented in Tables \ref{tab:median:psnrvsmall}-\ref{tab:median:psnrmedium}.  The naïve and \gls{cml} algorithms return near-identical results, while Bräunl always falls somewhat short.
 
 \begin{table}
 \centering
-\caption{Mean runtimes for each algorithm by window size for the `very small' image}
+\caption[Mean runtimes for each algorithm for the `very small' image]{Mean runtimes for each algorithm by window size for the `very small' image}
 \label{tab:median:verysmall}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
@@ -317,7 +155,7 @@ CML                           & 50.588   & 118.463   & 212.817   & 299.339   & 5
 
 \begin{table}
 \centering
-\caption{
+\caption[Mean runtimes for each algorithm for the `peppers' image]{
 \label{tab:median:peppers}Mean runtimes for each algorithm by window size for the `peppers' image}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
@@ -331,7 +169,7 @@ CML                           & 791.285 & 2,333.317 & 4,452.903 & 7,533.048 & 11
 
 \begin{table}
 \centering
-\caption{Mean runtimes for each algorithm by window size for the `small' image}
+\caption[Mean runtimes for each algorithm for the `small' image]{Mean runtimes for each algorithm by window size for the `small' image}
 \label{tab:median:small}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
@@ -345,7 +183,7 @@ CML                           & 849.482 & 2,362.643 & 4,830.294 & 7,910.925 & 12
 
 \begin{table}
 \centering
-\caption{Mean runtimes for each algorithm by window size for the `medium' image}
+\caption[Mean runtimes for each algorithm for the `medium' image]{Mean runtimes for each algorithm by window size for the `medium' image}
 \label{tab:median:medium}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
@@ -361,7 +199,7 @@ CML                                    & 4527.962
 
 \begin{table}
 \centering
-\caption{Ratios of length of runtime for the Bräunl algorithm compared to the naïve algorithm for the same image and window sizes}
+\caption[Ratios runtime for the Bräunl algorithm vs the naïve algorithm]{Ratios of length of runtime for the Bräunl algorithm compared to the naïve algorithm for the same image and window sizes}
 \label{tab:median:ratbraun}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
@@ -376,7 +214,7 @@ medium         & 4.51   & 3.12   & 2.61   & 2.15  & 1.8   \\ \bottomrule
 
 \begin{table}
 \centering
-\caption{Ratios of length of runtime for the CML algorithm compared to the naïve algorithm for the same image and window sizes}
+\caption[Ratios of runtime for the \glsentrylong{cml-glossary} algorithm compared to the naïve algorithm]{Ratios of length of runtime for the \gls{cml} algorithm compared to the naïve algorithm for the same image and window sizes}
 \label{tab:median:ratcml}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
@@ -388,12 +226,6 @@ small          & 24.12  & 31.39  & 34.15  & 34.15 & 35.17 \\
 medium         & 34.65  & 38.19  & 38.61  & 38.45 & 41.29 \\ \bottomrule
 \end{tabular}
 \end{table}
-
-% \begin{figure}
-% \centering
-% \includegraphics[width=0.5\textwidth]{images/charts/medium_chart}
-% \caption{\label{graph:median:medium}Comparative graph of runtimes for medium image across window sizes}
-% \end{figure}
 
 %very small
 \begin{figure}
@@ -634,7 +466,7 @@ CML	11	medium	56196.611	1118.853	2548.193	55158.372	52956.449	41.29	2.05	230000	
     \legend{very small,small,peppers,medium}
 \end{axis}
 \end{tikzpicture}
-\caption{\label{graph:median:cmls}Plot of mean runtimes for the CML algorithm on different images sizes}
+\caption[Plot of mean runtimes for the \glsentrylong{cml-glossary} algorithm on different image sizes]{\label{graph:median:cmls}Plot of mean runtimes for the \gls{cml} algorithm on different image sizes}
 \end{figure}
 
 \begin{figure*}
@@ -643,12 +475,12 @@ CML	11	medium	56196.611	1118.853	2548.193	55158.372	52956.449	41.29	2.05	230000	
 \subfloat[]{\includegraphics[width=0.2\textwidth]{chapters/medianfilter/images/peppers/naive_peppers_gray_noisy_3.png}}
 \subfloat[]{\includegraphics[width=0.2\textwidth]{chapters/medianfilter/images/peppers/braunl_peppers_gray_noisy_3.png}}
 \subfloat[]{\includegraphics[width=0.2\textwidth]{chapters/medianfilter/images/peppers/cml_peppers_gray_noisy_3.png}}
-\caption{\label{fig:median:peppers}The classic grayscale `peppers' image, before and after processing.  (a) is the original image; (b) is the image with random salt \& pepper noise introduced; (c) is the result of processing the image using the na\"{i}ve algorithm; (d) is the result of processing the image using the Br\"{a}unl-inspired algorithm; (e) is the result of processing the image using the CML algorithm}
+\caption[The classic grayscale `peppers' image, before and after processing]{\label{fig:median:peppers}The classic grayscale `peppers' image, before and after processing.  (a) is the original image; (b) is the image with random salt \& pepper noise introduced; (c) is the result of processing the image using the na\"{i}ve algorithm; (d) is the result of processing the image using the Br\"{a}unl-inspired algorithm; (e) is the result of processing the image using the \gls{cml} algorithm}
 \end{figure*}
 
 \begin{table}
 \centering
-\caption{Peak signal-to-noise ratio measurement for the very small image (measured in dB)}
+\caption[Peak signal-to-noise for the very small image]{Peak signal-to-noise ratio measurement for the very small image (measured in dB)}
 \label{tab:median:psnrvsmall}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
@@ -662,7 +494,7 @@ Naïve                                  & \textbf{27.03} & 21.74          & 18.5
 
 \begin{table}
 \centering
-\caption{Peak signal-to-noise ratio measurement for the peppers image (measured in dB)}
+\caption[Peak signal-to-noise for the peppers image]{Peak signal-to-noise ratio measurement for the peppers image (measured in dB)}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Window size}}                                          \\
@@ -676,7 +508,7 @@ Naïve                                  & \textbf{32.79} & \textbf{31.25} & \tex
 
 \begin{table}
 \centering
-\caption{Peak signal-to-noise ratio measurement for the small image (measured in dB)}
+\caption[Peak signal-to-noise for the small image]{Peak signal-to-noise ratio measurement for the small image (measured in dB)}
 \label{tab:median:psnrsmall}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
@@ -690,7 +522,7 @@ Naïve                                  & \textbf{37.83} & \textbf{34.31} & \tex
 
 \begin{table}
 \centering
-\caption{Peak signal-to-noise ratio measurement for the medium image (measured in dB)}
+\caption[Peak signal-to-noise for the medium image]{Peak signal-to-noise ratio measurement for the medium image (measured in dB)}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Window size}}                                           \\
@@ -702,35 +534,33 @@ Naïve                                  & \textbf{37.16} & 34.07          & 32.9
 \label{tab:median:psnrmedium}
 \end{table}
 
-Examination of the reported memory statistics (please see the GitHub repository for details) appears to show that the maximum amount of memory allocated during processing for the CML algorithm stays roughly constant across window sizes for each image size, and in fact on larger window sizes it is the most memory efficient.  The naïve algorithm quickly grows to consume the most memory at larger window sizes for each image size, suggesting that it likely derives some of its comparative speed at the cost of greater space complexity, while Bräunl sits in the middle.  Conversely, CML generates by far the most garbage collection events, which may well go some way to explaining its relative lack of pace.
+Examination of the reported memory statistics (please see the GitHub repository for details) appears to show that the maximum amount of memory allocated during processing for the \gls{cml} algorithm stays roughly constant across window sizes for each image size, and in fact on larger window sizes it is the most memory efficient.  The naïve algorithm quickly grows to consume the most memory at larger window sizes for each image size, suggesting that it likely derives some of its comparative speed at the cost of greater space complexity, while Bräunl sits in the middle.  Conversely, \gls{cml} generates by far the most garbage collection events, which may well go some way to explaining its relative lack of pace.
 
 \section{Discussion}
 %These algorithms are not necessarily the best for performing this operation, as they ignore the potential for taking advantage of data-parallelism.
 
-The algorithms developed and presented here are not necessarily optimal for the purpose.  They largely handle each pixel separately, or combine them into arrays on-the-fly.  This ignores the possibility of exploiting data-parallelism to improve throughput, and instead relies only on the separate CPU cores to provide the parallelism.  %Unfortunately, a lack of time prevented further exploration of this.  .NET Core provides relatively little support for CPU vector instructions anyway.
-
-%It is unclear how much any of the given approaches attempts to exploit the processor cache.
+The algorithms developed and presented here are not necessarily optimal for the purpose.  They largely handle each pixel separately, or combine them into arrays on-the-fly.  This ignores the possibility of exploiting data-parallelism to improve throughput, and instead relies only on the separate CPU cores to provide the parallelism.
 
 It is unclear how much the mechanics underlying these implementations (i.e. the .NET Core and \hopac{} systems) attempt to maximise use of the processor cache.  Efficient use of the cache can contribute significantly to an optimised version of an algorithm outperforming a simplistic version by an order of magnitude or more \cite{Ragan-Kelley2017}.  No attempt was made manually to ensure good practices such as tiling or striping.  %Differences in cache exploitation may also go some way to explaining differences in execution time.
 
-The CML approach used essentially instantiates a separate logical processing element for each pixel, each of which must be scheduled to run at some point -- concurrent with another one in the case of synchronous message passing.  It is possible that this surfeit of separate logical threads may induce excessive switching costs, and perhaps promote wasted time with threads spending time polling their channel and their neighbours'.  Careful improvements to this and the use of the cache could perhaps lead to significant gains in speed.
+The \gls{cml} approach used essentially instantiates a separate logical processing element for each pixel, each of which must be scheduled to run at some point -- concurrent with another one in the case of synchronous message passing.  It is possible that this surfeit of separate logical threads may induce excessive switching costs, and perhaps promote wasted time with threads spending time polling their channel and their neighbours'.  Careful improvements to this and the use of the cache could perhaps lead to significant gains in speed.
 
-In terms of the code itself also, CML appears to be the worst.  The program requires roughly double the number of lines of the naïve program, and is arguably much less `clean' or `readable'.  Reinterpreting the median filter in terms of synchronously communicating processes has not yielded a structural improvement nor simplified the programming task.  Combined with the running time results above, this suggests that the CML approach is actively unhelpful for implementing MWTs, at least when using \hopac{}.  %While potentially not as important as execution speed or peak memory use, code that is difficult to comprehend is difficult to maintain and more prone to non-obvious bugs.  This seems to be a further weakness of the CML style as applied to MWTs.
+In terms of the code itself also, \gls{cml} appears to be the worst.  The program requires roughly double the number of lines of the naïve program, and is arguably much less `clean' or `readable'.  Reinterpreting the median filter in terms of synchronously communicating processes has not yielded a structural improvement nor simplified the programming task.  Combined with the running time results above, this suggests that the \gls{cml} approach is actively unhelpful for implementing MWTs, at least when using \hopac{}.
 
-Basic profiling of the CML-based implementation appears to indicate that more than half of the runtime of the program was spent inside the function for giving a value over a channel, and functions called by it.  Furthermore, according to this profiling, almost 40\% of the total running time of the algorithm is taken up specifically by low-level memory management functions inside the depths of the .NET Core system.  Considering that some of these functions are written in hand-optimised assembly, the fact they account for so much of the running time appears to suggest that memory use is poorly handled in the tested implementation.
+Basic profiling of the \gls{cml}-based implementation appears to indicate that more than half of the runtime of the program was spent inside the function for giving a value over a channel, and functions called by it.  Furthermore, according to this profiling, almost 40\% of the total running time of the algorithm is taken up specifically by low-level memory management functions inside the depths of the .NET Core system.  Considering that some of these functions are written in hand-optimised assembly, the fact they account for so much of the running time appears to suggest that memory use is poorly handled in the tested implementation.
 
-MWTs are generally relatively simplistic processes, which typically consist simply of combining values from the pixel array, which can be programmed in a straightforward fashion.  More sophisticated programming techniques may simply `get in the way' and introduce unnecessary overheads, which appears to have happened here.  Furthermore, the median filter can largely be broken down into arithmetic and logical operations amenable to vectorisation (e.g. \cite{Sanchez2012,Perreault2007}), which the CML approach (currently, at least) ignores entirely.
+MWTs are generally relatively simplistic processes, which typically consist simply of combining values from the pixel array, which can be programmed in a straightforward fashion.  More sophisticated programming techniques may simply `get in the way' and introduce unnecessary overheads, which appears to have happened here.  Furthermore, the median filter can largely be broken down into arithmetic and logical operations amenable to vectorisation (e.g. \cite{Sanchez2012,Perreault2007}), which the \gls{cml} approach (currently, at least) ignores entirely.
 
 \subsection{Threats to validity}
 There are two identifiable threats to validity, both regarding the `quality' of the programming involved.  .NET Core, as a widely used open source compiler and runtime system which has likely had millions of man-hours invested in it, is presumably of high quality and fast in most cases.  That is not necessarily the case with \hopac{}.  While it is open source, and moderately well-known in the F\# community, the amount of time spent on optimising it is likely nowhere close to that spent on .NET Core.  This means that \hopac{} itself may present significant bottlenecks in the course of performing the MWT.  While it is reasonable to expect that `give' operations would be a large part of the total running time, as a central part of the operation of the algorithm, it is surprising to see it take more than 50\% of the time.
 
-The other threat to validity is the skill of the end programmer.  The author was new to the \hopac{} library at the start of this work, and inferior design choices have may been made unwittingly.  It was, however, suggested in the course of personal communication with one of the maintainers and fellow users of the \hopac{} library that the CML approach may simply be a poor fit to pixel-wise image processing tasks.
+The other threat to validity is the skill of the end programmer.  The author was new to the \hopac{} library at the start of this work, and inferior design choices have may been made unwittingly.  It was, however, suggested in the course of personal communication with one of the maintainers and fellow users of the \hopac{} library that the \gls{cml} approach may simply be a poor fit to pixel-wise image processing tasks.
 
-Fundamentally, the results achieved here, as with most implementation exercises, succeed or fail in large part on the skill, knowledge and effort of the programmers involved.  The use of other libraries may lead to better results.  Other relatively recent implementations of CML exist, such as Concurrent Haskell \cite{Chaudhuri2009} and Fibers\footnote{\url{https://github.com/wingo/fibers}} for Guile Scheme, but a lack of time meant that they could not yet be assessed further.
+Fundamentally, the results achieved here, as with most implementation exercises, succeed or fail in large part on the skill, knowledge and effort of the programmers involved.  The use of other libraries may lead to better results.  Other relatively recent implementations of \gls{cml} exist, such as Concurrent Haskell \cite{Chaudhuri2009} and Fibers\footnote{\url{https://github.com/wingo/fibers}} for Guile Scheme, but a lack of time meant that they could not yet be assessed further.
 
 \section{Conclusion}
-The use of a Concurrent ML approach to image processing was explored in this work, in particular as applied to the median filter MWT operation.  The measured results suggest that it is much worse than using a simple naïve nested for-loop approach.  The reason for this appears to be primarily related to overhead from the synchronous communications, especially with regards to memory allocations and garbage collections.  This may be an issue with the CML style in general, or it may be an issue related to the CML library used or the programming of the algorithms tested here.  More work is required to determine this for certain.  CML does appear to provide one advantage, however, in that for larger window sizes it seemingly has the lowest peak space requirement.
+The use of a Concurrent ML approach to image processing was explored in this work, in particular as applied to the median filter MWT operation.  The measured results suggest that it is much worse than using a simple naïve nested for-loop approach.  The reason for this appears to be primarily related to overhead from the synchronous communications, especially with regards to memory allocations and garbage collections.  This may be an issue with the \gls{cml} style in general, or it may be an issue related to the \gls{cml} library used or the programming of the algorithms tested here.  More work is required to determine this for certain.  \gls{cml} does appear to provide one advantage, however, in that for larger window sizes it seemingly has the lowest peak space requirement.
 
-A CML approach where a separate logical processing element is used to represent each pixel largely eliminates the possibility of taking advantage of data-parallel hardware, such as vector instructions of CPUs or GPUs.  For situations where vector instructions are applicable, the CML approach seems likely to be a poor choice.  It is not clear, however, how well this approach may or may not work for instances where the data types involved are more complex, or where there is a significant level of control flow involved.
+A \gls{cml} approach where a separate logical processing element is used to represent each pixel largely eliminates the possibility of taking advantage of data-parallel hardware, such as vector instructions of CPUs or GPUs.  For situations where vector instructions are applicable, the \gls{cml} approach seems likely to be a poor choice.  It is not clear, however, how well this approach may or may not work for instances where the data types involved are more complex, or where there is a significant level of control flow involved.
 
-Future work should explore CML as applied to other computer vision algorithms, especially those which can naturally be characterised in terms of message passing, or which use more complex data types.  Other CML implementations beyond the one used here should be tested too, as it is not clear how much the problems experienced by this CML program may stem from the implementation of the CML library used.
+Future work should explore \gls{cml} as applied to other computer vision algorithms, especially those which can naturally be characterised in terms of message passing, or which use more complex data types.  Other \gls{cml} implementations beyond the one used here should be tested too, as it is not clear how much the problems experienced by this \gls{cml} program may stem from the implementation of the \gls{cml} library used.

@@ -1,7 +1,12 @@
 % \documentclass[11pt,partial,draft,doublespace]{aucklandthesis}
 % \documentclass[11pt,partial,doublespace]{aucklandthesis}
-\documentclass[11pt,partial,singlespace]{aucklandthesis}
+% \documentclass[11pt,partial,singlespace]{aucklandthesis}
 % \documentclass[11pt,partial]{aucklandthesis}
+%
+\documentclass[10pt,partial,draft,doublespace]{aucklandthesis}
+% \documentclass[10pt,partial,doublespace]{aucklandthesis}
+% \documentclass[10pt,partial,singlespace]{aucklandthesis}
+% \documentclass[10pt,partial]{aucklandthesis}
 %
 % This is a template for University of Auckland theses.
 %
@@ -17,18 +22,27 @@
 %	draft: adds 'draft' and date to footer
 %
 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
 %%%% Packages introduced by me, not included with the template
+
+\usepackage[newzealand]{babel}
+
 \usepackage[normalem]{ulem}
 \usepackage{amsmath,amssymb,cpsystems,url,xcolor}
 \usepackage{subcaption}
 \usepackage{listings,minted,alltt}
+
+\usepackage{csquotes}
 
 \lstset{frame=single}
 \lstset{mathescape=true,escapechar=\#}
 \lstset{showstringspaces=false}
 \lstset{basicstyle=\small}
 
-\usepackage[binary-units]{siunitx}
+% \usepackage[binary-units]{siunitx}
+\usepackage{siunitx}
 \usepackage{threeparttable} % look at removing all of these --- they were only introduced to make the G Col Rep stuff build
 \usepackage{fixme}
 \fxusetheme{color}
@@ -58,9 +72,6 @@
 %
 % Add, delete or un-comment packages below as required.
 %
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 
 % Readability options
 %
@@ -127,7 +138,8 @@
 %
 \usepackage[
 	bibstyle=ieee, 
-	citestyle=numeric-comp,
+%	citestyle=numeric-comp,
+    citestyle=ieee,
 	backend=biber,
 	sorting=nyt,
 	sortcites,
@@ -145,10 +157,7 @@
 	\addbibresource{bib/g-col.bib}
 	\addbibresource{bib/nmp.bib}
 
-    % \addbibresource{chapters/tsp/biblio.bib}
-    % \addbibresource{chapters/gcol/biblio.bib}
 % bibliography{bibliography1.bib, bibliography2.bib} % Specify bibliography files 
-% bibliography{bib/stereo.bib, Mendeley.bib}
 
 % The below was copied verbatim from https://tex.stackexchange.com/a/154875 on 9 December 2019, and then modified to reverse the ordering of the URL and DOI fields.  The purpose of it is to suppress the use of the URL field if the DOI field is defined - thus avoiding the many instances where the URL is printed, but is just a link to the DOI (besides which, in the PDF the DOI becomes a link to the DOI site).  It seems to work for my purposes.
 \DeclareSourcemap{
@@ -189,11 +198,8 @@
 % ====================================================
 
 % Specify the title page content
-% \title{Neighbourhood Message Passing Computation on a Grid}
-% \subtitle{Modelled with cP systems and applied to Stereo Matching}
 \title{Highly Concurrent Solutions to Graph and Image Processing Problems}
-% \title{Bio-inspired Solutions to Selected Graph and Image Problems}
-\subtitle{Modelled for shared-memory scenarios in cP systems and various programming languages \\ {\small v0.1.3 compiled on \today}}
+\subtitle{Modelled for shared-memory scenarios in \gls{cps} and code \\ {\small v0.1.7 compiled on \today}}
 \author{James Cooper}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
@@ -214,12 +220,19 @@
 
 % Contents, lists of tables and figures
 \settocdepth{subsection} % choose chapter, section, subsection 
-\cleardoublepage\tableofcontents
-\cleardoublepage\listoffigures
-\cleardoublepage\listoftables
-\cleardoublepage\listofcprulesetfloats
-\cleardoublepage\listofcpobjectsfloats
-\cleardoublepage\listoffixmes
+% \cleardoublepage\tableofcontents
+% \cleardoublepage\listoffigures
+% \cleardoublepage\listoftables
+% \cleardoublepage\listofcprulesetfloats
+% \cleardoublepage\listofcpobjectsfloats
+% \cleardoublepage\listoffixmes
+
+\clearpage\tableofcontents
+\clearpage\listoffigures
+\clearpage\listoftables
+\clearpage\listofcprulesetfloats
+\clearpage\listofcpobjectsfloats
+\clearpage\listoffixmes
 
 % ====================================================
 %
@@ -240,6 +253,9 @@
 \glsresetall
 \cpresetrulenumber
 \input{chapters/litreview/litreview}
+\glsresetall
+\cpresetrulenumber
+\input{chapters/cpsystems/cpsystems}
 \glsresetall
 \cpresetrulenumber
 \input{chapters/tsp/tsp}

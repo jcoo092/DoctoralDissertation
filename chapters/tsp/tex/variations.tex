@@ -1,69 +1,11 @@
 \section{\label{sec:tsp:variations}Variations on the Algorithms}
-We have presented above algorithms to find a single Hamiltonian path or cycle, with minimum cost in the case of a weighted digraph (i.e., the \gls{tsp}).  With minimal modifications however, other results may be obtained from the algorithm, such as using a specific starting vertex or generating all possible paths/cycles.
+We have presented above algorithms to find a single Hamiltonian path or cycle, with minimum cost in the case of a weighted digraph (i.e., the \gls{tsp}).  With minimal modifications, however, other results may be obtained from the algorithm, such as using a specific starting vertex or generating all possible paths/cycles.
 
-To use a specific vertex as the starting point of the algorithm, rule (1) may be skipped by starting the system in state 2, with an \(s\) subcell containing the chosen vertex as the head of the \(p\) subcell supplied to the top-level cell.
+To use a specific vertex as the starting point of the algorithm, rule 1 may be skipped by starting the system in state \(s_2\), with an \(s\) subcell containing the chosen vertex as the head of the \(p\) subcell supplied to the top-level cell.
 
-For the \gls{hcp} and \gls{tsp}, rule (5) could be applied in \(\mathtt{max}\) mode without any other changes so as to produce all possible Hamiltonian cycles (with minimum cost for the \gls{tsp}) back to the starting node.  This results in the output into the top-level cell of multiple \(p'\) subcells, to be handled further as appropriate.  The same modification can be applied to rule (5) of the \gls{tsp} algorithm to obtain all minimum-cost cycle paths.  Likewise for each problem, if \(\mathtt{max}\) mode is used on rule (1), then the paths/cycles starting at every vertex will be generated.  These all potentially have the effect of increasing the space complexity of the system, which is not an issue for P~systems with their infinite available space, but may impact software simulations.
+For the \gls{hcp} and \gls{tsp}, rule 5 could be applied in maximally-parallel mode without any other changes so as to produce all possible Hamiltonian cycles (with minimum cost for the \gls{tsp}) back to the starting node.  This results in the output into the top-level cell of multiple \(p'\) subcells, to be handled further as appropriate.  The same modification can be applied to rule 5 of the \gls{tsp} algorithm to obtain all minimum-cost cycle paths.  Likewise for each problem, if maximally-parallel mode is used on rule 1, then the paths/cycles starting at every vertex will be generated.  All these potentially have the effect of increasing the space complexity of the system, which is not an issue for \gls{ps} with their infinite available space, but may impact software simulations.
 
-%In the case of a Hamiltonian path, more interesting is if a particular vertex is desired as the end point of the system.
-
-% For the \gls{hcp} and \gls{tsp}, a specific vertex can be required as the ending point of the cycle.  This requires the instantiation of two extra unique subcells, which we will name here \(j\) and \(k\), shown in \autoref{hcprule12alt}.  Such a subcell is created either in the top-level cell at the time of application of rule (1), or supplied inside an initial \(s\) subcell.  Rule (2) of the \gls{hcp} or \gls{tsp} rules is modified so that instead of seeking \(e\) subcells that point back to the origin vertex, it instead instantiates the \(z\) subcells based on connections to the terminus vertex.  
-
-% \begin{figure}[!htbp]
-% \begin{framed}
-% \renewcommand{\arraystretch}{1.5}
-% \[\begin{array}{lllr}
-% S_1 ~ & ~ v(v(R)v(N)Y) & \rightarrow_{1} ~ S_2 ~~ s(u(Y) ~ n(N) ~ p(h(R)p())) ~ & \qquad (1) \\
-% S_2 ~ & ~   ~ &   \rightarrow_{1} ~ S_3 ~ p'(h(N)P)  & \qquad (2) \\
-% 	~ & ~	~ & ~ \hspace{1.5cm} ~ | ~ s(u() ~ n(N) ~ p(h(N)P))	\\
-% \end{array}\]
-% \end{framed}
-% \caption{Alternative rules 1 and 2 for the \gls{hcp} \& \gls{tsp} algorithms for finding cycles that end at a given vertex}
-% \label{hcprule12alt}  
-% \end{figure}
-
-% For the \gls{hcp}, if all possible Hamiltonian cycles from the starting node are desired, rule (5) could instead be applied in \(\mathtt{max}\) mode without any other changes to achieve the desired result %, as shown in \autoref{hcprule5alt}
-% -- this of course also applies to the \gls{hpp} rules.  This results in the output into the top-level cell of multiple \(p\) subcells, to be handled further as appropriate.
-% %  Or rule (5) can leave the system in state \(S_3\), in which case the rule is applied ad infinitum, producing a path subcell at random from the collection of created subcells.  %Differently again, rule 5 could be modified so that it destroys the \(z\) subcell it selects instead of using it as a promoter, and thus the computation eventually terminates as all the generated \(z\) subcells are used up, but that appears to be simply a less efficient alternative to using \(\mathtt{max}\) mode.  
-% The same modification can be applied to rule (5) of the \gls{tsp} algorithm to obtain all minimum-cost cycle paths.  Likewise, if \(\mathtt{max}\) mode is used on rule (1), then the paths/cycles starting at every vertex will be generated.
-
-% \begin{figure}[!htbp]
-% \begin{framed}
-% \renewcommand{\arraystretch}{1.5}
-% \[\begin{array}{lllr}
-% S_3 ~ & ~   ~ & \rightarrow_{+} ~ S_4 ~ p'(P))   & \qquad \qquad (5b) \\
-% 	~ & ~	~ & ~ \hspace{1.5cm} ~ | ~ z(p(P))	\\
-% \end{array}\]
-% \end{framed}
-% \caption{Alternative rule 5 for the \gls{hcp} algorithm returning all Hamiltonian paths from a given starting node}
-% \label{hcprule5alt}  
-% \end{figure}
-
-%Furthermore, if all possible Hamiltonian cycles from \textbf{every} node of the graph are desired, the only change required to achieve this is to modify rule (1) so that it operates in \(\mathtt{max}\) mode, rather than \(\mathtt{min}\) mode.  This would generate a starting \(s\) subcell carrying an \(r\) root subcell for every node in the graph, because the unification of \(R\) described in the rule will match upon every node contained in the initial \(v\) subcell.  Neither this change nor the alternative \(\mathtt{max}\)-mode rule (5) described above impact the running time of the algorithm -- though they will increase the space requirements to a greater or lesser degree, which has no effect in P~systems with their infinite available space, but may impact computerised simulations of them.
-
-In \autoref{sec:tsp:algotsp} we assumed that all arc weights are strictly positive integers.  Weights of zero can be accommodated relatively easily.  Should every possible cycle have a minimum weight of at least 1, then no changes are needed.  If it is possible for there to be a cycle with a total weight of zero, then a sixth rule must be introduced, prior to the current rule (5), which in turn becomes rule (6).  This rule simply detects a minimum of zero, as set out in \autoref{sec-min}.  These new rules are shown in \autoref{minzerorules}.% (recall that \(\lambda\) inside a subcell denotes the subcell as empty).
-
-% \begin{figure}[htbp]
-% \begin{framed}
-% %\begin{adjustwidth}{-1em}{-1em}
-% \renewcommand{\arraystretch}{1.5}
-% \[\begin{array}{lllr}
-% % S_3 ~ & ~   ~ & \rightarrow_{1} ~ S_4 ~ p'(P) ~~~ c'(\lambda)  & (5) \\
-% %     ~ & ~   ~ & ~ \hspace{1.5cm} ~ | ~ z(p(P) ~ c(\lambda)) \\
-% % S_3 ~ & ~   ~ & \rightarrow_{1} ~ S_4 ~ p'(P) ~~~ c'(C1W)   & (6) \\
-% % 	~ & ~	~ & ~ \hspace{1.5cm} ~ | ~ z(p(P) ~ c(C1W))	\\
-% %     ~ & ~	~ & ~ \hspace{1.5cm} ~ \neg ~ z(p(\_) ~ c(C))	\\
-% S_3 ~ & ~   ~ & \rightarrow_{1} ~ S_4 ~ p'(P) ~~~ c'(\lambda)  & (5) \\
-%     ~ & ~   ~ & ~ \hspace{1.5cm} ~ | ~ z(p(P) ~ c(\lambda)) \\
-% S_3 ~ & ~   ~ & \rightarrow_{1} ~ S_4 ~ p'(P) ~~~ c'(1D)   & (6) \\
-% 	~ & ~	~ & ~ \hspace{1.5cm} ~ | ~ z(p(P) ~ c(1D))	\\
-%     ~ & ~	~ & ~ \hspace{1.5cm} ~ \neg ~ (D = CW) ~ z(p(\_) ~ c(C))	\\
-% \end{array}\]
-% %\end{adjustwidth}
-% \end{framed}
-% \caption{Rules to find the minimum cost path in our \gls{tsp} algorithm, when that path cost may be zero}
-% \label{minzerorules}  
-% \end{figure}
+In \autoref{sec:tsp:algotsp} we assumed that all arc weights are strictly positive integers.  Weights of zero can be accommodated relatively easily.  Should every possible cycle have a minimum weight of at least 1, then no changes are needed.  If it is possible for there to be a cycle with a total weight of zero, then a sixth rule must be introduced, before the current rule 5, which in turn becomes rule 6.  This rule simply detects a minimum of zero, as set out in \autoref{sec-min}.  These new rules are shown in \autoref{minzerorules}.
 
 \cpchangerulenumber{4}
 
@@ -77,5 +19,5 @@ In \autoref{sec:tsp:algotsp} we assumed that all arc weights are strictly positi
     \cpinhibitor{\cpfunc{z}{\cpfunc{p}{\_} \, \cpfunc{c}{C}}}
     
 \end{cpruleset}
-\caption{\label{minzerorules} Rules to find the minimum cost path in our \gls{tsp} algorithm, when that path cost may be zero}
+\caption[Rules to find the minimum cost path when it may be zero]{\label{minzerorules}Rules to find the minimum cost path in our \gls{tsp} algorithm, when that path cost may be zero}
 \end{cprulesetfloat}

@@ -10,7 +10,7 @@ The most significant change from \autoref{sec:nmp:systemwide} is perhaps the use
 \begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{chapters/nmp/images/proxelspecificstatemachine.pdf}
-    \caption{State machine of the progression of the \gls{pe}-specific \gls{nmp} \gls{cps} rules.  The vertices are labelled with the states and the arcs with the rule(s) which cause that transition.}
+    \caption[State machine of the progression of the \acrshort{pe}-specific \acrlong{nmp} \gls{cps} rules]{State machine of the progression of the \gls{pe}-specific \gls{nmp} \gls{cps} rules.  The vertices are labelled with the states and the arcs with the rule(s) which cause that transition.}
     \label{fig:nmp:proxelspecificstatemachine}
 \end{figure}
 
@@ -58,7 +58,7 @@ As with \autoref{sec:nmp:systemwide}, we show the progression of the system thro
             \(W \gets\) \Uniq{\(W\)} \tcc*[l]{Multiset to set}
             \;
             \lpForEach{\((w, g, d) \in W\)}{\((w, g, d) \Rightarrow \langle o \rangle\)}
-            \tcc*[l]{** assume that oracle \(o\) returns all required messages}
+            \tcc*[l]{** assume oracle \(o\) returns all required messages}
             
             \lpForEach{\((w, g, d) \Leftarrow \langle o \rangle\)}{\((w, g, d) \Rightarrow \langle w \rangle\)}
             \(W \gets \emptyset\)
@@ -87,7 +87,7 @@ As with \autoref{sec:nmp:systemwide}, we show the progression of the system thro
     \(z \Leftarrow \langle o \rangle\)\;
     \(z \Rightarrow \langle e \rangle\)
 }
-\caption{\label{alg:nmp:pespecific}Pseudocode description of the process for an individual \gls{fne} \gls{pe} in the asynchronous system}
+\caption[Pseudocode description of the process for an individual \gls{fne} \acrshort{pe} in the asynchronous system]{\label{alg:nmp:pespecific}Pseudocode description of the process for an individual \gls{fne} \gls{pe} in the asynchronous system}
 \end{algorithm}
 
 Again, we also supply a pseudocode representation of the procedure in \autoref{alg:nmp:pespecific}.  The pseudocode does not closely resemble the ruleset of \autoref{ruleset:nmp:proxspec} in appearance.  Instead, the pseudocode is written to reflect best the meaning and intention of the rules while still relating it to the ruleset.
@@ -158,7 +158,7 @@ Per the tuple definition from \autoref{sec:nmp:notation}:
         \cprule{s_8}{\cprecv{\cpfunc{z}{Z}}{o}}{\cpundig}{s_9}{\cpsend{\cpfunc{z}{Z}}{e}}
         
     \end{cpruleset}
-    \caption{\label{ruleset:nmp:proxspec}Ruleset for the \gls{fne} \gls{pe}-specific asynchronous \gls{nmp} system, for an inner \gls{pe} (i.e., one not on the border) and using an oracle to compute the data for outgoing messages}
+    \caption[Ruleset for the \gls{fne} \acrshort{pe}-specific asynchronous \acrlong{nmp} system, for an inner \acrshort{pe}]{\label{ruleset:nmp:proxspec}Ruleset for the \gls{fne} \gls{pe}-specific asynchronous \gls{nmp} system, for an inner \gls{pe} (i.e., one not on the border) and using an oracle to compute the data for outgoing messages}
 \end{cprulesetfloat}
 
 \begin{enumerate}
@@ -206,7 +206,7 @@ The same as in \autoref{sec:nmp:systemwide}.
     \cpterm{s_9}{Equivalent to state \(s_7\) in \autoref{sec:nmp:systemwide}.}
 \end{description}
 
-\subsection{\label{sec:nmp:ruleslessthanfour}Rules for \texorpdfstring{\gls{fne}}{four-neighbourhood} \texorpdfstring{\glspl{pe}}{proxels} with fewer than four neighbours}
+\subsection{\label{sec:nmp:ruleslessthanfour}Rules for \texorpdfstring{\acrlong{fne}}{four-neighbourhood} \texorpdfstring{\acrshort{pe}s}{proxels} with fewer than four neighbours}
 
 The rules of \autoref{ruleset:nmp:proxspec} consider only the case where a \gls{pe} has exactly four neighbours.  These would not work correctly for those \glspl{pe} with three neighbours (i.e., on the grid border, but not in a corner) or two neighbours (i.e., in a grid corner).  The only adjustment necessary to handle these edge cases is to change the number of neighbours considered, specifically in rule 3.
 
@@ -230,7 +230,7 @@ These alternative rules are listed in \autoref{ruleset:nmp:3alts} as rule 3a and
         \cppromoter{\cpfunc{a}{\cpfunc{n}{X}\,\cpfunc{n}{W}}}
         
     \end{cpruleset}
-    \caption{\label{ruleset:nmp:3alts}Alternative forms of \autoref{ruleset:nmp:proxspec}'s rule 3 for \glspl{pe} on the border of a grid or in the corner of a grid, respectively}
+    \caption[Alternative forms of \autoref{ruleset:nmp:proxspec}'s rule 3]{\label{ruleset:nmp:3alts}Alternative forms of \autoref{ruleset:nmp:proxspec}'s rule 3 for \glspl{pe} on the border of a grid or in the corner of a grid, respectively}
 \end{cprulesetfloat}
 
 A strength of \gls{cps} in earlier work has been the fact that one rule system applies to all possible problems \cite{Cooper2019a,Cooper2019}.  Modifying the rules to fit the problem weakens that strength.  An alternative is the use of `dummy' or `sentinel' \glspl{pe} with special rules outside the grid connected to the corner and border \glspl{pe}.  The specifics of the special rules are situation-dependent and so unexplored here.

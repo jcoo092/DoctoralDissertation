@@ -1,8 +1,6 @@
 \section{Conclusion and Future Work}
 After briefly summarising core aspects of \gls{cps}, this paper has presented two variants of a generic grid-based \gls{nmp} computation system in \gls{cps}:  A synchronous one in which every top-level cell, representing a \glsentrylong{pe}, performs the same actions simultaneously;  and an asynchronous one where different top-level cells \emph{may} be in different states and perform different actions simultaneously, with synchronisation introduced by synchronous messaging.  A small example was then provided aiming to clarify the operation and overall procession of the rules.
 
-% \fxerror{Need to discuss the analysis bits}{Analysis.}
-
 Lastly, we analysed the asynchronous system.  We proved that, as with the synchronous version, in the asynchronous version every \gls{pe} sends exactly one message per neighbour per generation, and halts once it has reached its maximum number of generations.  The main difference between the two systems is that in preparing the outgoing message for neighbour \(k\) and generation \(g + 1\), some of the received input messages may already be at a generation greater than \(g\).  No message used will ever be from a generation less than \(g\), however.  We expect that this will enable more-efficient computer implementations of the system.  We also hypothesise that the later messages may lead to a small improvement in final results from computations.
 
 We found that the system has a relatively low level of rule and symbol complexity for a \gls{cps} implementation, but caution that the systems are only a partial view.  They are missing the rules for detailed internal computations, for which an oracle was substituted for the sake of (relative) brevity and simplicity.

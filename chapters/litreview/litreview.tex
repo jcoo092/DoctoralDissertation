@@ -7,35 +7,4 @@
 \input{chapters/litreview/membranecomputing}
 % \input{chapters/litreview/sm}
 \input{chapters/background/background}
-% \input{chapters/litreview/cml}
-
-% \section{Measures of `code quality'}
-% Measuring code quality is a small subset of a much larger topic, often called, amongst other names, Software Quality Assurance or Software Quality Engineering.  The broader field is largely concerned with ensuring that software meets quality requirements, where quality may be defined in a multitude of ways.  Much of the field is concerned with managing processes for professional developers and organisations which employ them, as opposed to 
-
-% \subsection{Why should one care about code quality in this context?}
-% Stereo matching algorithms\footnote{For the purposes of this subsection specifically, unless stated otherwise, `algorithm' shall be used in the sense of referring to particular implementations of the theoretical algorithms} tend to be relatively self-contained -- one can simply treat them as black boxes whereby a pair (or more) of rectified images are passed in, and a disparity map returned.  One might wonder why exactly there is any reason to consider concepts of code quality in this context.
-
-% A number of reasons to consider it are listed below:
-% \begin{itemize}
-% \item \textbf{Maintainability} -- Inevitably, changes in the environment a particular algorithm is to run in will occur over time.  Eventually, with enough of these changes accumulated, the algorithm will need to be updated in order to ensure that it still continues to run and produce accurate results.  Better quality code can make such changes significantly easier.
-% \item \textbf{Changes in maintainers} -- In almost all circumstances outside of academic research, algorithms are not written once and then never looked at again.  Instead, they will be revised at some point as part of necessary maintenance.  It is highly likely that, sooner or later, the person(s) tasked with maintaining the algorithm will change.  While it is plausible that both the old and new maintainers might understand the theoretical underpinnings of an algorithm (though that is by no means guaranteed in general), one inevitably needs time to learn how to work within a new codebase.  Better quality code will make the transition between maintainers significantly easier, and likely lead to the new maintainer becoming productive quicker.
-% \item \textbf{Ease of experimentation} -- better code (especially more well factored out code) means that one can probably experiment with different approaches more easily.
-% \item \textbf{Upgradability} -- Related to maintainability,\footnote{Both maintainability and upgradability are closely linked to the concept of `technical debt', which is [insert definition here].} it is likely that with new developments in hardware, operating systems, or stereo matching theory, new, more efficient, ways of implementing algorithms may become possible.  An uncoordinated mess of spaghetti code could prove extremely difficult to modify appropriately, with the result that attempts to upgrade the operation of an algorithm may fail, or at least not achieve the success aimed for.  Better quality code, however, will in most cases make such upgrades both quicker to perform, and likely to succeed.
-% \end{itemize}
-
-% \subsection{Dimensions of quality}
-% See that standard ISO/IEC 25010:2011.  
-
-% In this work, the focus will be entirely upon metrics that can be computed via static analysis.  The are multiple reasons for that.  For one, much of the measurement of software quality is performed over a relatively long timescale, whereby measures such as the number of bugs reported, customer satisfaction, or some other concept of how fit for purpose the final product was, are used.  Secondly, the measurements are typically taken at a much larger scale than that of individual algorithms, which in this case are loosely analogous to individual function calls.  Thirdly, a considerable number the metrics are qualitative in nature, requiring judgement calls on the part of a reviewer to determine the quality of the code.
-
-% Limiting the focus in this work purely to static measures will provide quantitative data that are as close to objective and comparable as can reasonably be achieved, and which can be calculated purely on the basis of the available source code, without needing to run it at all.  Note that even using static metrics may not provide full objectivity, as there will inevitably differences across programming languages that can be taken into account and controlled for entirely.
-
-% \subsection{Metrics chosen}
-% \begin{itemize}
-% \item SLoC
-% \item Cyclomatic complexity
-% \item Ease of reading measures?
-% \item Nested expressions?
-% \item From Alec et al.'s paper on the Santa Claus problem - ratio of uncompressed to compressed code files - the less it can be compressed, the more expressive the current code would appear to be. "The raw/compressed ratio is intuitively a measure of the expressiveness: the lower the ratio, the better: less noise/redundancy and higher information density."
-% \item What else?
-% \end{itemize}
+\input{chapters/litreview/cml}

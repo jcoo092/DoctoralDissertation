@@ -37,8 +37,6 @@ $\pi_k$, accessible via channels labelled by $k \in \{ 1, 2, 3, 4 \}$.
     $v(k)(g+1)(\_)$. % \qed
 \end{proof}
 
-% the first two lemmas may be combined ...
-
 \begin{remark}\label{remark:nmp:-1}
 The conclusion of Lemma~\ref{lemma:nmp:-1} will hold even in the hypothetical case that cell $\pi_k$ would be allowed to send multiple copies of the same message $v$. 
 Only the first received copy will be accepted, and the rest will be ignored,
@@ -241,7 +239,7 @@ Each of the sequences uses a different method for computing the values present i
     \subcaptionbox{Round 2}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/nodelay/maxWithPDatum_no_delays_four_generations_round_2.pdf}}
     \subcaptionbox{Round 3}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/nodelay/maxWithPDatum_no_delays_four_generations_round_3.pdf}}
     \subcaptionbox{Round 4}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/nodelay/maxWithPDatum_no_delays_four_generations_round_4.pdf}}
-    \caption{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed by taking over the current messages the maximum, including a datum stored by the \gls{pe}}
+    \caption[Visualisation of the spread of `influence' from the centre \acrshort{pe} during \acrlong{nmp}]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed by taking over the maximum over the current messages, including a datum stored by the \gls{pe}}
     \label{fig:nmp:maxpdatum}
 \end{figure}
 
@@ -259,7 +257,7 @@ The sequence in \autoref{fig:nmp:maxpdatum} was produced by using the maximum of
     \subcaptionbox{Round 7}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/delay2/maxWithPDatum_delay2_four_generations_round_7.pdf}}
     \subcaptionbox{Round 8}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/delay2/maxWithPDatum_delay2_four_generations_round_8.pdf}}
     \subcaptionbox{Round 9}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/delay2/maxWithPDatum_delay2_four_generations_round_9.pdf}}
-    \caption{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed by taking over the current messages the maximum, including a datum stored by the \gls{pe}, and with delivery delays of two rounds on messages going to the neighbours below and to the left}
+    \caption[Visualisation of the spread of `influence' from the centre \acrshort{pe} during \acrlong{nmp}]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed by taking over the current messages the maximum, including a datum stored by the \gls{pe}, and with delivery delays of two rounds on messages going to the neighbours below and to the left}
     \label{fig:nmp:maxpdatumdelays}
 \end{figure}
 
@@ -279,7 +277,7 @@ What might happen if there is a systematic delay in only one direction, and thus
     \subcaptionbox{Round 7}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/delay2westonly/maxWithPDatum_delay2_west_only_four_generations_round_7.pdf}}
     \subcaptionbox{Round 8}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/delay2westonly/maxWithPDatum_delay2_west_only_four_generations_round_8.pdf}}
     \subcaptionbox{Round 9}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/delay2westonly/maxWithPDatum_delay2_west_only_four_generations_round_9.pdf}}
-    \caption{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed by taking over the current messages the maximum, including a datum stored by the \gls{pe}, and with delivery delays of two rounds on messages going to the left only}
+    \caption[Visualisation of the spread of `influence' from the centre \acrshort{pe} during \acrlong{nmp}.]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed by taking over the current messages the maximum, including a datum stored by the \gls{pe}, and with delivery delays of two rounds on messages going to the left only}
     \label{fig:nmp:maxpdatumdelayswestonly}
 \end{figure}
 
@@ -291,7 +289,7 @@ What might happen if there is a systematic delay in only one direction, and thus
     \subcaptionbox{Round 2}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/max/nodelay/max_no_delay_four_generations_round_2.pdf}}
     \subcaptionbox{Round 3}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/max/nodelay/max_no_delay_four_generations_round_3.pdf}}
     \subcaptionbox{Round 4}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/max/nodelay/max_no_delay_four_generations_round_4.pdf}}
-    \caption{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed by taking over the current messages the maximum}
+    \caption[Visualisation of the spread of `influence' from the centre \acrshort{pe} during \acrlong{nmp}]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed by taking over the current messages the maximum}
     \label{fig:nmp:max}
 \end{figure}
 
@@ -305,7 +303,7 @@ The sequence in \autoref{fig:nmp:max} was produced by using the maximum of the m
     \subcaptionbox{Round 2}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/mean/nodelay/mean_no_delay_four_generations_round_2.pdf}}
     \subcaptionbox{Round 3}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/mean/nodelay/mean_no_delay_four_generations_round_3.pdf}}
     \subcaptionbox{Round 4}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/mean/nodelay/mean_no_delay_four_generations_round_4.pdf}}
-    \caption{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed as by taking over the current messages the mean}
+    \caption[Visualisation of the spread of `influence' from the centre \acrshort{pe} during \acrlong{nmp}]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed as by taking over the current messages the mean}
     \label{fig:nmp:mean}
 \end{figure}
 

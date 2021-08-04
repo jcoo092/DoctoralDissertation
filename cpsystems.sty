@@ -41,7 +41,7 @@ rulesets, following Nicolescu's standard style]
 \newenvironment{cpobjects}{\begin{framed}}{\end{framed}}
 \newcommand{\cprule}[5]{
     \refstepcounter{cpsystems@RuleNum}
-    \cpsystems@basecprule{#1}{#2}{#3}{#4}{#5}{\hspace{4.0em}(\arabic{cpsystems@RuleNum})}
+    \cpsystems@basecprule{#1}{#2}{#3}{#4}{#5}{\hspace{1.0em}(\arabic{cpsystems@RuleNum})}
 }
 \newcommand{\cpruleinline}[1]{
 \[\begin{array}{lllllr}#1\end{array}\]
@@ -85,13 +85,27 @@ rulesets, following Nicolescu's standard style]
 \newcommand*{\cpfuncms}[2]{
 \trim@spaces@noexp{#1\perfectunary{IncreaseHeight}{\{}{\}}{#2}}
 }
+
+\newcommand*{\cpfuncn}[3]{
+\cpfunc{#1}{#2}\perfectunary{IncreaseHeight}{(}{)}{#3}
+}
+\newcommand*{\cpfuncnms}[3]{
+\cpfunc{#1}{#2}\perfectunary{IncreaseHeight}{\{}{\}}{#3}
+}
+
+\newcommand*{\cpfuncnn}[4]{
+\cpfuncn{#1}{#2}{#3}\perfectunary{IncreaseHeight}{(}{)}{#4}
+}
+\newcommand*{\cpfuncnnms}[4]{
+\cpfuncn{#1}{#2}{#3}\perfectunary{IncreaseHeight}{\{}{\}}{#4}
+}
 \newcommand*{\cpterm}[2]{
 \item[$#1$]#2
 }
 \newcommand*{\cpundig}{\mathit{1}}
 \newcommand*{\cpempty}{\lambda}
 \newcommand{\cpsystems@basecprule}[6]{
-    \trim@spaces@noexp{#1 & #2 & \rightarrow_{#3} & #4 & #5  & #6\\}
+    \trim@spaces@noexp{#1 & #2 & \rightarrow_{#3} & #4 & #5 & #6\\}
 }
 \newcommand{\cpsystems@cpprominhi}[2]{
     \trim@spaces@noexp{& & & & ~ \hspace{1em} ~ #1 ~ #2 & \\}

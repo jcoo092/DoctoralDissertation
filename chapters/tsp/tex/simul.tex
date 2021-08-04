@@ -9,8 +9,6 @@ Considering that for a totally-connected 11 vertex digraph, at the 11th step alm
 
 A comparison of \autoref{fig:tsp:utree} and \autoref{fig:tsp:dtree} suggests, however, that for graphs that are not totally connected, the implementations may cope much better, as would be expected.  With ultimately fewer paths to explore, the explosion in the number of objects will not be so great, and thus the space requirements will be lower.  This is not unique by any means to the \gls{cps} version of the \gls{tsp} - any method to solve the \gls{tsp} which involves a breadth-first search of the graph, taking into account whether nodes have already been visited, will experience the same. 
 
-%\newpage
-
 \subsection{Prolog simulation}
 
 It is perhaps interesting to contrast the Prolog method for exploring the problem space and finding an answer with that of \gls{cps}.  On the surface they appear quite similar -- a handful of rules and some initial statements specific to the problem, combined with unification.   In some ways, however, they appear also to be opposing duals of each other.  Prolog in general, and thus in the case of our program, works on a top-down backward-chaining approach, whilst \gls{cps} works on a bottom-up forward-chaining approach.
@@ -19,13 +17,12 @@ That is to say that (sequential) Prolog tries to do the least work and use the l
 
 Conversely, our \gls{cps} algorithm starts with the definition of the problem graph, and does all possible work in order to find the result in what is essentially a breadth-first search.  All possible cycles from the root node are instantiated and eventually checked for minimum cost. The ability of \gls{cps} to perform these instantiations and the comparison completely in parallel means that a relatively small number of steps are required to find the minimum -- though at the cost of a potentially (exponentially) large space and processing complexity.
 \\
-%\newpage
 \begin{listing}
 \caption{\label{app:tsp:probprolog}SWI-Prolog code defining the example problem undirected graph G shown in \autoref{fig:tsp:ugraph}}
 \inputminted[linenos,breaklines,frame=lines,autogobble,lastline=3]{prolog}{chapters/tsp/code/tsp.pl.txt}
 \end{listing}
 
 \begin{listing}
-\caption{\label{app:tsp:codeprolog}Complete SWI-Prolog code for the rules of our \gls{tsp} algorithm}
+\caption[Complete SWI-Prolog code for the \acrlong{tsp} algorithm]{\label{app:tsp:codeprolog}Complete SWI-Prolog code for the rules of our \gls{tsp} algorithm}
 \inputminted[linenos,breaklines,frame=lines,autogobble,firstline=5]{prolog}{chapters/tsp/code/tsp.pl.txt}
 \end{listing}

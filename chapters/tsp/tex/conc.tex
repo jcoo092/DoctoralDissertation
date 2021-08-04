@@ -5,7 +5,7 @@ Simple examples were provided to demonstrate the operation of the algorithm.  Th
 
 \begin{table}
 \centering
-\caption{Comparison of known exact \gls{ps} solutions to the \gls{tsp}}
+\caption{Comparison of known exact \gls{ps} solutions to the \acrlong{tsp}}
 \label{tab:tsp:algocomp}
 \setlength{\tabcolsep}{5pt}
 \begin{tabular}{@{}lcc@{}}
@@ -16,8 +16,6 @@ Cooper \& Nicolescu & 5                                          & \(\mathcal{O}
 \end{tabular}
 \end{table}
 
-% Future developments for \gls{cps} could proceed along a number of lines.  As of yet, messaging between top-level cells has not been fully developed in \gls{cps}, either using an asynchronous \gls{actor}-model-style, or a synchronous \gls{csp} style.  Such techniques were not required here, but might prove very useful when creating any distributed algorithms.  
-
 One-way multiset unification occurs frequently in \gls{cps}, with unification being used in every rule presented above.  An efficient algorithm to perform this task would be highly beneficial for creating useful simulations of systems (we are not aware of an efficient algorithm in the case of multisets).  For example, our simulations of the \gls{tsp} algorithm written in functional programming languages (see \autoref{sec:tsp:simulation}) regularly simply iterate over all relevant objects in the system, even though frequently most will be of little use in a given function call, and so the simulations could benefit from improved unification in practice.
 
-We would like to further develop the capacity to simulate \gls{cps}, in particular developing more advanced techniques for translating \gls{cps} rules to efficient parallel code.  Work down this avenue has not begun as of yet however.
+We would like to further develop the capacity to simulate \gls{cps}, in particular developing more advanced techniques for translating \gls{cps} rules to efficient parallel code.  Work down this avenue has not begun as yet, however.

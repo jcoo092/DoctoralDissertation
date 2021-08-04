@@ -1,5 +1,4 @@
-% \section{\label{sec:tsp:algotsp}Our \gls{cps} \gls{tsp} Algorithm}
-\section{\label{sec:tsp:algotsp}Our \texorpdfstring{\gls{cps}}{cP systems} \texorpdfstring{\glsentrylong{tsp-glossary}}{Travelling Salesman Problem} Algorithm}
+\section{\label{sec:tsp:algotsp}A \texorpdfstring{\gls{cps}}{cP systems} \texorpdfstring{\glsentrylong{tsp-glossary}}{Travelling Salesman Problem} Algorithm}
 
 The expansion of the Hamiltonian Cycle algorithm to solve the \gls{tsp} is fairly straightforward.  The \gls{tsp} is merely the \gls{hcp} with weights upon the vertices of the digraph, and the imposition of the additional constraint that the chosen Hamiltonian cycle is one with minimum total weight.  
 
@@ -7,38 +6,7 @@ In presenting their algorithm to solve the \gls{tsp}, some papers have assumed t
 
 \cptuple{TSP}{\cpset{1}}{\cpset{c, c', e, f, h, p, p', s, t, u, v, z}}{\\\newline\cpset{E \cup \cpset{v}}}{\text{\autoref{ruleset:tsp:tsp}}}{\cpset{s_1, s_2, s_3, s_4}}{s_1}
 
-Again the algorithm requires five rules, presented in \autoref{ruleset:tsp:tsp}.  The only differences between the rules in \autoref{ruleset:tsp:tsp} and \autoref{ruleset:tsp:hcp} are the addition of a weight/cost component to the \(e\) and \(s\) subcells, the tracking of costs throughout the process, and the inhibitor added to rule (5), which ensures that the chosen path has minimum cost.
-
-% \begin{figure}[htb]
-% \begin{framed}
-% \begin{adjustwidth}{-1em}{-1em}
-% \renewcommand{\arraystretch}{1.5}
-% \[\begin{array}{lllr}
-% S_1 ~ & ~ v(v(R)Y) & \rightarrow_{1} ~ S_2 ~~ s(r(R) ~ u(Y) ~ p(h(R)p()) ~ c(\lambda)) ~ & (1) \\
-
-% S_2 ~ & ~ s(r(R) ~ u() ~ p(h(F)p(P)) ~ c(C))  ~ &   &  \\
-%  ~ & ~  ~ & \rightarrow_{+} ~ S_3 ~ z(p(h(R)p(h(F)p(P))) ~ c(CW))  & (2) \\
-% 	~ & ~	~ & ~ \hspace{1.5cm} ~ | ~ e(f(F) ~ t(R) ~ c(W))	\\
-
-% S_2 ~ & ~ & \rightarrow_{+} ~ S_2 ~ s(r(R) ~ u(Z) ~ p(h(T)p(h(F)p(P))) ~ c(CW)) ~ & (3) \\
-%     ~ & ~	~ & ~ \hspace{1.5cm} ~ | ~ s(r(R) ~ u(v(T)Z) ~ p(h(F)p(P)) ~ c(C))	\\
-%     ~ & ~	~ & ~ \hspace{1.5cm} ~ | ~ e(f(F) ~ t(T) ~ c(W))	\\
-
-% S_2 ~ & ~ s(\_)  ~ & \rightarrow_{+} ~ S_2 ~   & (4) \\
-
-% % S_3 ~ & ~   ~ & \rightarrow_{1} ~ S_4 ~ p'(P) ~~~ c'(C1W)   & (5) \\
-% % 	~ & ~	~ & ~ \hspace{1.5cm} ~ | ~ z(p(P) ~ c(C1W))	\\
-% %     ~ & ~	~ & ~ \hspace{1.5cm} ~ \neg ~ z(p(\_) ~ c(C))	\\
-
-% S_3 ~ & ~   ~ & \rightarrow_{1} ~ S_4 ~ p'(P) ~~~ c'(1D)   & (5) \\
-% 	~ & ~	~ & ~ \hspace{1.5cm} ~ | ~ z(p(P) ~ c(1D))	\\
-%     ~ & ~	~ & ~ \hspace{1.5cm} ~ \neg ~ (D = CW) ~ z(p(\_) ~ c(C))	\\
-% \end{array}\]
-% \end{adjustwidth}
-% \end{framed}
-% \caption{Ruleset for our \gls{tsp} \gls{cps} algorithm.}
-% \label{rulestsp}  
-% \end{figure}
+Again the algorithm requires five rules, presented in \autoref{ruleset:tsp:tsp}.  The only differences between the rules in \autoref{ruleset:tsp:tsp} and \autoref{ruleset:tsp:hcp} are the addition of a weight/cost component to the \(e\) and \(s\) subcells, the tracking of costs throughout the process, and the inhibitor added to rule 5, which ensures that the chosen path has minimum cost.
 
 \cpresetrulenumber
 
@@ -64,7 +32,7 @@ Again the algorithm requires five rules, presented in \autoref{ruleset:tsp:tsp}.
     \caption[Ruleset for the \glsentrylong{tsp-glossary}]{\label{ruleset:tsp:tsp}Ruleset for our \gls{tsp} \gls{cps} algorithm.}
 \end{cprulesetfloat}
 
-The \(e\) subcells store the cost of traversing an arc in the digraph with a new \(c\) subcell.  The costs are extracted from the \(e\) subcells via pattern-matching, and accumulated in the \(s\) subcells through addition, as described in \autoref{sec:lr:cpsystems}. Otherwise the first four rules are substantively unchanged from those presented in \autoref{ruleset:tsp:hcp}.  Rule (5), however, has been more notably modified, in that it now includes an inhibitor as a condition, as well as the promoter.  The inhibitor acts to ensure that the path chosen is truly one of minimum cost, in accordance with the process described in \autoref{sec-min}.
+The \(e\) subcells store the cost of traversing an arc in the digraph with a new \(c\) subcell.  The costs are extracted from the \(e\) subcells via pattern-matching, and accumulated in the \(s\) subcells through addition, as described in \autoref{sec:lr:cpsystems}. Otherwise the first four rules are substantively unchanged from those presented in \autoref{ruleset:tsp:hcp}.  Rule 5, however, has been more notably modified, in that it now includes an inhibitor as a condition, as well as the promoter.  The inhibitor acts to ensure that the path chosen is truly one of minimum cost, in accordance with the process described in \autoref{sec-min}.
 
 The time complexity of this algorithm remains unchanged, as we merely expand the space complexity slightly.  Thus the time complexity can still be summarised as Proposition \ref{prop:tsp:tspruntime}:
 

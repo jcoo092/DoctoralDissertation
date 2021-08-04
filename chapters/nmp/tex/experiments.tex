@@ -6,7 +6,7 @@ The \gls{cps} models proposed were extremely helpful as a starting point for dev
 
 One of the more significant examples of the benefit comes from early in the development.  As it was at the time, the validation program would usually end normally but occasionally crashed or entered an infinite loop.  Investigating this issue's cause revealed a potential race condition in \autoref{ruleset:nmp:proxspec} (as it was then).  It was possible for \glspl{pe} either to send too few or too many messages.
 
-\subsection{Validation of rules for asynchronous \texorpdfstring{\gls{nmp}}{neighbourhood message passing}}
+\subsection{Validation of rules for asynchronous \texorpdfstring{\acrlong{nmp}}{neighbourhood message passing}}
 A short script was written in \fsharp{}.  This script takes the perspective of a single arbitrary \gls{pe} on a \gls{fne} grid and simulates the receipt and sending of messages.  Actual data are irrelevant to this test, so message data \gls{oq} updates were omitted.  During each round, the \gls{pe} `receives messages' from one or more randomly selected neighbours.  Said receipts are represented by incrementing the received-message generation counts and creating receipt tokens.  The \gls{pe} then generates \gls{nm} messages per \autoref{ruleset:nmp:proxspec} based on the generation counts and receipt tokens and increments the sent-message counts as appropriate.  Finally, the script prints the results then terminates once messaging completes.
 
 Inspecting the state of the \gls{pe} at various points in the system's execution confirmed \autoref{theorem:nmp:-4}.  If exactly \(g\) messages were received from each neighbour, where \(g\) is the maximum generation count, the same number of messages would consequently be sent.  Furthermore, messages were indeed sent based on the ordering of messages received, as expected.
@@ -33,7 +33,7 @@ In each case, the results are from running the program with a maximum generation
 249,001  & 542,285  & 546,213  & 493,311  & 625,959  & 595,861  & 527,898  & 614,079  & 564,406  & 558,970 \\ \bottomrule
 \end{tabular}%
 }
-\caption{Mean recorded running times in milliseconds for each \gls{nmp} variant in a simulation, with different sending delay lengths, on a computer with a CPU with 4/8 physical/logical cores}
+\caption[Mean recorded running times for each \acrlong{nmp} variant]{Mean recorded running times in milliseconds for each \gls{nmp} variant in a simulation, with different sending delay lengths, on a computer with a CPU with 4/8 physical/logical cores}
 \label{tab:nmp:simulation8cores}
 \end{table}
 
@@ -50,7 +50,7 @@ In each case, the results are from running the program with a maximum generation
 249,001  & 408,463  & 392,901  & 371,576  & 413,106  & 391,907  & 370,683  & 413,224  & 394,115  & 372,556 \\ \bottomrule
 \end{tabular}%
 }
-\caption{Mean recorded running times in milliseconds for each \gls{nmp} variant in a simulation, with different sending delay lengths, on a computer with a CPU with 6/12 physical/logical cores}
+\caption[Mean recorded running times for each \acrlong{nmp} variant]{Mean recorded running times in milliseconds for each \gls{nmp} variant in a simulation, with different sending delay lengths, on a computer with a CPU with 6/12 physical/logical cores}
 \label{tab:nmp:simulation12cores}
 \end{table}
 
@@ -67,7 +67,7 @@ In each case, the results are from running the program with a maximum generation
 249,001  & 296,516  & 255,703  & 215,504  & 299,926  & 265,365  & 215,721  & 298,732  & 263,814  & 216,048 \\ \bottomrule
 \end{tabular}%
 }
-\caption{Mean recorded running times in milliseconds for each \gls{nmp} variant in a simulation, with different sending delay lengths, on a computer with a CPU with 24/48 physical/logical cores}
+\caption[Mean recorded running times in milliseconds for each \acrlong{nmp} variant]{Mean recorded running times in milliseconds for each \gls{nmp} variant in a simulation, with different sending delay lengths, on a computer with a CPU with 24/48 physical/logical cores}
 \label{tab:nmp:simulation48cores}
 \end{table}
 
@@ -91,7 +91,7 @@ The data for Tables \ref{tab:nmp:simulation8cores}-\ref{tab:nmp:simulation48core
             % legend to name=timingsleg,
             symbolic x coords={Equal,One,Two},
             small,
-            width=0.53\textwidth,
+            width=0.52\textwidth,
             xlabel=Number of longer delays,
             xtick={data},
             ybar,
@@ -159,7 +159,7 @@ The data for Tables \ref{tab:nmp:simulation8cores}-\ref{tab:nmp:simulation48core
         \end{groupplot}
     \end{tikzpicture}
     % \ref{timingsleg}
-    \caption{Bar chart visualising the timing differences for the variants running on a CPU with 8 cores, with different sized grids and differing channel delay lengths.  Each bar cluster goes from left to right with the \gls{gs}, \gls{ls} and asynchronous variants respectively.  The numbers of \glspl{pe} are:  Top-left: 361;  Top-right:  9,801;  Bottom-left:  89,401;  Bottom-right:  249,001.  See also \autoref{tab:nmp:simulation8cores}}
+    \caption[Bar chart visualising the timing differences for the variants]{Bar chart visualising the timing differences for the variants running on a CPU with 8 cores, with different sized grids and differing channel delay lengths.  Each bar cluster goes from left to right with the \gls{gs}, \gls{ls} and asynchronous variants respectively.  The numbers of \glspl{pe} are:  Top-left: 361;  Top-right:  9,801;  Bottom-left:  89,401;  Bottom-right:  249,001.  See also \autoref{tab:nmp:simulation8cores}}
     \label{fig:nmp:timings8cores}
 \end{figure}
 
@@ -178,7 +178,7 @@ The data for Tables \ref{tab:nmp:simulation8cores}-\ref{tab:nmp:simulation48core
             height=0.50\textheight,
             symbolic x coords={Equal,One,Two},
             small,
-            width=0.53\textwidth,
+            width=0.52\textwidth,
             xlabel=Number of longer delays,
             xtick={data},
             ybar,
@@ -246,7 +246,7 @@ The data for Tables \ref{tab:nmp:simulation8cores}-\ref{tab:nmp:simulation48core
         \end{groupplot}
     \end{tikzpicture}
     % \ref{timingsleg}
-    \caption{Bar chart visualising the timing differences for the variants running on a CPU with 12 cores, with different sized grids and differing channel delay lengths.  Each bar cluster goes from left to right with the \gls{gs}, \gls{ls} and asynchronous variants respectively.  The numbers of \glspl{pe} are:  Top-left: 361;  Top-right:  9,801;  Bottom-left:  89,401;  Bottom-right:  249,001.  See also \autoref{tab:nmp:simulation12cores}}
+    \caption[Bar chart visualising the timing differences for the variants]{Bar chart visualising the timing differences for the variants running on a CPU with 12 cores, with different sized grids and differing channel delay lengths.  Each bar cluster goes from left to right with the \gls{gs}, \gls{ls} and asynchronous variants respectively.  The numbers of \glspl{pe} are:  Top-left: 361;  Top-right:  9,801;  Bottom-left:  89,401;  Bottom-right:  249,001.  See also \autoref{tab:nmp:simulation12cores}}
     \label{fig:nmp:timings12cores}
 \end{figure}
 
@@ -265,7 +265,7 @@ The data for Tables \ref{tab:nmp:simulation8cores}-\ref{tab:nmp:simulation48core
             height=0.50\textheight,
             symbolic x coords={Equal,One,Two},
             small,
-            width=0.53\textwidth,
+            width=0.52\textwidth,
             xlabel=Number of longer delays,
             xtick={data},
             ybar,
@@ -333,7 +333,7 @@ The data for Tables \ref{tab:nmp:simulation8cores}-\ref{tab:nmp:simulation48core
         \end{groupplot}
     \end{tikzpicture}
     % \ref{timingsleg}
-    \caption{Bar chart visualising the timing differences for the variants running on a CPU with 48 cores, with different sized grids and differing channel delay lengths.  Each bar cluster goes from left to right with the \gls{gs}, \gls{ls} and asynchronous variants respectively.  The numbers of \glspl{pe} are:  Top-left: 361;  Top-right:  9,801;  Bottom-left:  89,401;  Bottom-right:  249,001.  See also \autoref{tab:nmp:simulation48cores}}
+    \caption[Bar chart visualising the timing differences for the variants]{Bar chart visualising the timing differences for the variants running on a CPU with 48 cores, with different sized grids and differing channel delay lengths.  Each bar cluster goes from left to right with the \gls{gs}, \gls{ls} and asynchronous variants respectively.  The numbers of \glspl{pe} are:  Top-left: 361;  Top-right:  9,801;  Bottom-left:  89,401;  Bottom-right:  249,001.  See also \autoref{tab:nmp:simulation48cores}}
     \label{fig:nmp:timings48cores}
 \end{figure}
 
@@ -379,7 +379,7 @@ Knowing that the \gls{gs} and \gls{ls} variants produce the same result, the asy
 249,001  & 898  & 1.00\% & 1,103  & 1.23\% & 1,454  & 1.63\% \\ \bottomrule
 \end{tabular}%
 % }
-\caption{Mean Hamming distances for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 4/8 physical/logical cores}
+\caption[Mean Hamming distances for \acrshort{pe} ending values between the \gls{ls} and asynchronous variants]{Mean Hamming distances for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 4/8 physical/logical cores}
 \label{tab:nmp:hamming8cores}
 \end{table}  
 
@@ -395,7 +395,7 @@ Knowing that the \gls{gs} and \gls{ls} variants produce the same result, the asy
 249,001  & 586  & 0.66\% & 837  & 0.94\% & 1,276  & 1.43\% \\ \bottomrule
 \end{tabular}%
 % }
-\caption{Mean Hamming distances for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 6/12 physical/logical cores}
+\caption[Mean Hamming distances for \acrshort{pe} ending values between the \gls{ls} and asynchronous variants]{Mean Hamming distances for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 6/12 physical/logical cores}
 \label{tab:nmp:hamming12cores}
 \end{table}  
 
@@ -411,7 +411,7 @@ Knowing that the \gls{gs} and \gls{ls} variants produce the same result, the asy
 249,001  & 221  & 0.25\% & 367  & 0.41\% & 332  & 0.37\% \\ \bottomrule
 \end{tabular}%
 % }
-\caption{Mean Hamming distances for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 24/48 physical/logical cores}
+\caption[Mean Hamming distances for \acrshort{pe} ending values between the \gls{ls} and asynchronous variants]{Mean Hamming distances for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 24/48 physical/logical cores}
 \label{tab:nmp:hamming48cores}
 \end{table}
 
@@ -432,7 +432,7 @@ The Hamming distance gives a clear indication of the proportion of the grid whic
 249,001  & 8.984 & 0.004\% & 11.032 & 0.004\% & 14.544 & 0.006\% \\ \bottomrule
 \end{tabular}%
 % }
-\caption{Mean sums of absolute differences for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 4/8 physical/logical cores}
+\caption[Mean sums of absolute differences for \acrshort{pe} ending values between the \gls{ls} and asynchronous variants]{Mean sums of absolute differences for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 4/8 physical/logical cores}
 \label{tab:nmp:diffs8cores}
 \end{table}  
 
@@ -448,7 +448,7 @@ The Hamming distance gives a clear indication of the proportion of the grid whic
 249,001  & 5.860 & 0.005\% & 8.366 & 0.007\% & 12.762 & 0.010\% \\ \bottomrule
 \end{tabular}%
 % }
-\caption{Mean sums of absolute differences for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 6/12 physical/logical cores}
+\caption[Mean sums of absolute differences for \acrshort{pe} ending values between the \gls{ls} and asynchronous variants]{Mean sums of absolute differences for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 6/12 physical/logical cores}
 \label{tab:nmp:diffs12cores}
 \end{table}  
 
@@ -464,7 +464,7 @@ The Hamming distance gives a clear indication of the proportion of the grid whic
 249,001  & 2.212 & 0.002\% & 3.670 & 0.003\% & 3.324 & 0.003\% \\ \bottomrule
 \end{tabular}%
 % }
-\caption{Mean sums of absolute differences for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 24/48 physical/logical cores}
+\caption[Mean sums of absolute differences for \acrshort{pe} ending values between the \gls{ls} and asynchronous variants]{Mean sums of absolute differences for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 24/48 physical/logical cores}
 \label{tab:nmp:diffs48cores}
 \end{table}
 
@@ -498,7 +498,7 @@ To investigate the likelihood of a sizeable proportion of the \glspl{pe} finishi
 10,100 & Local  & 98,746  & 101,900 & 103,782 & 4.852  & 1.813  \\
 10,100 & Async  & 98,347  & 100,522 & 100,670 & 2.308  & 0.147  \\ \bottomrule
 \end{tabular}
-\caption{Minimum, average, and maximum processing times in milliseconds for \glspl{pe} for varying grid sizes, and the difference between the minimum \& maximum times plus the mean \& maximum times expressed as a percentage of the maximum time, running on an 8 core CPU.}
+\caption[Minimum, average, and maximum processing times]{Minimum, average, and maximum processing times in milliseconds for \glspl{pe} for varying grid sizes, and the difference between the minimum \& maximum times plus the mean \& maximum times expressed as a percentage of the maximum time, running on an 8 core CPU.}
 \label{tab:nmp:progressive8cores}
 \end{table}
 
@@ -523,7 +523,7 @@ To investigate the likelihood of a sizeable proportion of the \glspl{pe} finishi
 10,100 & Local  & 71,256 & 73,009 & 74,145 & 3.896  & 1.532  \\
 10,100 & Async  & 71,148 & 72,484 & 72,701 & 2.136  & 0.298  \\ \bottomrule
 \end{tabular}
-\caption{Minimum, average, and maximum processing times in milliseconds for \glspl{pe} for varying grid sizes, and the difference between the minimum \& maximum times plus the mean \& maximum times expressed as a percentage of the maximum time, running on a 12 core CPU.}
+\caption[Minimum, average, and maximum processing times]{Minimum, average, and maximum processing times in milliseconds for \glspl{pe} for varying grid sizes, and the difference between the minimum \& maximum times plus the mean \& maximum times expressed as a percentage of the maximum time, running on a 12 core CPU.}
 \label{tab:nmp:progressive12cores}
 \end{table}
 
@@ -548,7 +548,7 @@ To investigate the likelihood of a sizeable proportion of the \glspl{pe} finishi
 10,100 & Local  & 29,791 & 31,363 & 33,348 & 10.666 & 5.952  \\
 10,100 & Async  & 30,299 & 31,018 & 31,534 & 3.916  & 1.636  \\ \bottomrule
 \end{tabular}
-\caption{Minimum, average, and maximum processing times in milliseconds for \glspl{pe} for varying grid sizes, and the difference between the minimum \& maximum times plus the mean \& maximum times expressed as a percentage of the maximum time, running on a 48 core CPU.}
+\caption[Minimum, average, and maximum processing times]{Minimum, average, and maximum processing times in milliseconds for \glspl{pe} for varying grid sizes, and the difference between the minimum \& maximum times plus the mean \& maximum times expressed as a percentage of the maximum time, running on a 48 core CPU.}
 \label{tab:nmp:progressive48cores}
 \end{table}
 
@@ -572,7 +572,7 @@ In absolute terms, the largest difference between the minimum and maximum runnin
             xtick=data,
             small,
             height=0.27\textheight,
-            width=0.37\textwidth,
+            width=0.36\textwidth,
             % legend columns=-1,
             % legend entries={\Gls{gs}, \Gls{ls}, Asynchronous},
             % legend to name=progressiveleg,
@@ -604,7 +604,7 @@ In absolute terms, the largest difference between the minimum and maximum runnin
     \end{groupplot}
     \end{tikzpicture}
     % \ref{timingsleg}
-    \caption{Charts comparing the minimum, mean, and maximum termination times for \glspl{pe} executing on a CPU with 8 cores, for grids with (from left) 110, 2,550 and 10,100 \glspl{pe}, respectively.  See also \autoref{tab:nmp:progressive8cores}}
+    \caption[Charts comparing the minimum, mean, and maximum termination times for \acrshort{pe}s]{Charts comparing the minimum, mean, and maximum termination times for \glspl{pe} executing on a CPU with 8 cores, for grids with (from left) 110, 2,550 and 10,100 \glspl{pe}, respectively.  See also \autoref{tab:nmp:progressive8cores}}
     \label{fig:nmp:progressive8cores}
 \end{figure}
 
@@ -622,7 +622,7 @@ In absolute terms, the largest difference between the minimum and maximum runnin
             xtick=data,
             small,
             height=0.27\textheight,
-            width=0.37\textwidth,
+            width=0.36\textwidth,
     ]
     \nextgroupplot
     \addplot % global-sync
@@ -651,7 +651,7 @@ In absolute terms, the largest difference between the minimum and maximum runnin
     \end{groupplot}
     \end{tikzpicture}
     % \ref{timingsleg}
-    \caption{Charts comparing the minimum, mean, and maximum termination times for \glspl{pe} executing on a CPU with 12 cores, for grids with (from left) 110, 2,550 and 10,100 \glspl{pe}, respectively.  See also \autoref{tab:nmp:progressive12cores}}
+    \caption[Charts comparing the minimum, mean, and maximum termination times for \acrshort{pe}s]{Charts comparing the minimum, mean, and maximum termination times for \glspl{pe} executing on a CPU with 12 cores, for grids with (from left) 110, 2,550 and 10,100 \glspl{pe}, respectively.  See also \autoref{tab:nmp:progressive12cores}}
     \label{fig:nmp:progressivecharts12cores}
 \end{figure}
 
@@ -670,7 +670,7 @@ In absolute terms, the largest difference between the minimum and maximum runnin
             xtick=data,
             small,
             height=0.27\textheight,
-            width=0.37\textwidth,
+            width=0.36\textwidth,
     ]
     \nextgroupplot
     \addplot % global-sync
@@ -699,7 +699,7 @@ In absolute terms, the largest difference between the minimum and maximum runnin
     \end{groupplot}
     \end{tikzpicture}
     % \ref{timingsleg}
-    \caption{Charts comparing the minimum, mean, and maximum termination times for \glspl{pe} executing on a CPU with 48 cores, for grids with (from left) 110, 2,550 and 10,100 \glspl{pe}, respectively.  See also \autoref{tab:nmp:progressive48cores}}
+    \caption[Charts comparing the minimum, mean, and maximum termination times for \acrshort{pe}s]{Charts comparing the minimum, mean, and maximum termination times for \glspl{pe} executing on a CPU with 48 cores, for grids with (from left) 110, 2,550 and 10,100 \glspl{pe}, respectively.  See also \autoref{tab:nmp:progressive48cores}}
     \label{fig:nmp:progressivecharts48cores}
 \end{figure}
 
