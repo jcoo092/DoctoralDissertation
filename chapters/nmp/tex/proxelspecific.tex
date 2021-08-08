@@ -5,7 +5,7 @@ This section presents a variant of the above system where the \glspl{pe} run \em
 
 There is no longer a single state spanning the entire system.  Instead, each \gls{pe} has its own state dictating its operation individually.  The same conceptual phases are kept, though the \gls{oq} and \gls{nm} phases are combined because they now may occur interleaved.  During the \gls{oq} \& \gls{nm} phase, each \gls{pe} independently works through a series of \emph{rounds}, following the typical idea of a round in theoretical asynchronous systems:  The \gls{pe} receives one or more messages, processes the received messages and updates its internal data, then sends out new messages based on the results.
 
-The most significant change from \autoref{sec:nmp:systemwide} is perhaps the use of \emph{receipt tokens}.  Receipt tokens show that the \gls{pe} has received a message from a particular neighbour since the last time messages were sent.  This is vital to ensure that the correct number of messages are sent, and sent only after receiving appropriate messages from other neighbours.  Initialisation of the \glspl{pe} differs slightly from \autoref{sec:nmp:systemwide}.  Along with the channels, each \gls{pe} also starts with an adjacency list object, \(\cpfunc{a}{A}\), which holds a copy of the atoms for each neighbour/channel.
+The most significant change from \cref{sec:nmp:systemwide} is perhaps the use of \emph{receipt tokens}.  Receipt tokens show that the \gls{pe} has received a message from a particular neighbour since the last time messages were sent.  This is vital to ensure that the correct number of messages are sent, and sent only after receiving appropriate messages from other neighbours.  Initialisation of the \glspl{pe} differs slightly from \cref{sec:nmp:systemwide}.  Along with the channels, each \gls{pe} also starts with an adjacency list object, \(\cpfunc{a}{A}\), which holds a copy of the atoms for each neighbour/channel.
 
 \begin{figure}
     \centering
@@ -14,7 +14,7 @@ The most significant change from \autoref{sec:nmp:systemwide} is perhaps the use
     \label{fig:nmp:proxelspecificstatemachine}
 \end{figure}
 
-As with \autoref{sec:nmp:systemwide}, we show the progression of the system through its states in \autoref{fig:nmp:proxelspecificstatemachine}.  In this system, an \gls{oq} \& \gls{nm} round can be regarded as the steps taken to proceed from state \(s_2\) until reaching \(s_2\) again.  Thus, receiving one or more messages, followed potentially by preparing and sending new messages, forms a round.  The initialisation phase is only rules 1 and 2.  The combined \gls{oq} and \gls{nm} phase is made up of rules 3 through 10, which involve the receipt of one or more messages with generation \(0 < g \leq I\) from neighbours, then preparation of new messages to send to neighbours through communicating with the oracle and forwarding the results of the oracle's computation to the relevant neighbours.  Lastly, rules 11 and 12 make up the finalisation phase.
+As with \cref{sec:nmp:systemwide}, we show the progression of the system through its states in \cref{fig:nmp:proxelspecificstatemachine}.  In this system, an \gls{oq} \& \gls{nm} round can be regarded as the steps taken to proceed from state \(s_2\) until reaching \(s_2\) again.  Thus, receiving one or more messages, followed potentially by preparing and sending new messages, forms a round.  The initialisation phase is only rules 1 and 2.  The combined \gls{oq} and \gls{nm} phase is made up of rules 3 through 10, which involve the receipt of one or more messages with generation \(0 < g \leq I\) from neighbours, then preparation of new messages to send to neighbours through communicating with the oracle and forwarding the results of the oracle's computation to the relevant neighbours.  Lastly, rules 11 and 12 make up the finalisation phase.
 
 \begin{algorithm}
 \DontPrintSemicolon
@@ -90,16 +90,16 @@ As with \autoref{sec:nmp:systemwide}, we show the progression of the system thro
 \caption[Pseudocode description of the process for an individual \gls{fne} \acrshort{pe} in the asynchronous system]{\label{alg:nmp:pespecific}Pseudocode description of the process for an individual \gls{fne} \gls{pe} in the asynchronous system}
 \end{algorithm}
 
-Again, we also supply a pseudocode representation of the procedure in \autoref{alg:nmp:pespecific}.  The pseudocode does not closely resemble the ruleset of \autoref{ruleset:nmp:proxspec} in appearance.  Instead, the pseudocode is written to reflect best the meaning and intention of the rules while still relating it to the ruleset.
+Again, we also supply a pseudocode representation of the procedure in \cref{alg:nmp:pespecific}.  The pseudocode does not closely resemble the ruleset of \cref{ruleset:nmp:proxspec} in appearance.  Instead, the pseudocode is written to reflect best the meaning and intention of the rules while still relating it to the ruleset.
 
 An important assumption for this ruleset is that the oracle returns all outstanding results together.  After a \gls{pe} sends one or more \gls{oq} messages to the oracle, it enters a blocking wait until it receives updated \gls{nm} messages back from the oracle.  One \gls{nm} message is expected per \gls{oq} message.  We assume that the oracle returns all these messages during one step, possibly waiting until it has finished computing new values for every message.  We make the same assumption for finalisation, and similarly, assume that the environment sends in all the initial messages during a single step.
 
-In preparing the new \gls{oq} messages to go to the oracle, rule 3 discards the information about which datum came from which neighbour (visible in line \ref{line:nmp:rule3} in \autoref{alg:nmp:pespecific}).  This is irrelevant for \gls{bp} \gls{sm}.  It might be relevant, however, to keep said information for a different computation.  One must bear this in mind when adapting the rules to their problem.  The changes needed are likely minor, but we do not explore them further as they are superfluous.
+In preparing the new \gls{oq} messages to go to the oracle, rule 3 discards the information about which datum came from which neighbour (visible in line \ref{line:nmp:rule3} in \cref{alg:nmp:pespecific}).  This is irrelevant for \gls{bp} \gls{sm}.  It might be relevant, however, to keep said information for a different computation.  One must bear this in mind when adapting the rules to their problem.  The changes needed are likely minor, but we do not explore them further as they are superfluous.
 
 \subsection{System Definition}
-Per the tuple definition from \autoref{sec:nmp:notation}:
+Per the tuple definition from \cref{sec:nmp:notation}:
 
-\(T\) is a set of top-level cells, each representing a single \gls{pe}, numbered sequentially.  These numbers correspond to the \(\iota\) of \autoref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is equal to the set of terms defined in \autoref{sec:pespecific:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is the appropriate channel endpoints and an adjacency list term \(a\).  Every \gls{pe}'s ruleset in \(R\) is either equal to that found in \autoref{ruleset:nmp:proxspec}, or one which starts with that ruleset as a base.  These latter rulesets drop terms from rule 3 to adapt it to the relevant \gls{pe} having fewer than four neighbours (see \autoref{sec:nmp:ruleslessthanfour}).  \(S = \{s_1, \dots, s_9\}\) and \(\bar{s} = s_1\).
+\(T\) is a set of top-level cells, each representing a single \gls{pe}, numbered sequentially.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is equal to the set of terms defined in \cref{sec:pespecific:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is the appropriate channel endpoints and an adjacency list term \(a\).  Every \gls{pe}'s ruleset in \(R\) is either equal to that found in \cref{ruleset:nmp:proxspec}, or one which starts with that ruleset as a base.  These latter rulesets drop terms from rule 3 to adapt it to the relevant \gls{pe} having fewer than four neighbours (see \cref{sec:nmp:ruleslessthanfour}).  \(S = \{s_1, \dots, s_9\}\) and \(\bar{s} = s_1\).
 
 \subsection{Description of Rules}
 
@@ -179,18 +179,18 @@ Per the tuple definition from \autoref{sec:nmp:notation}:
 \subsection{\label{sec:pespecific:definitions}Definitions of Terms}
 
 \paragraph{Atoms}
-The same as in \autoref{sec:nmp:systemwide}.
+The same as in \cref{sec:nmp:systemwide}.
 
 \paragraph{Functors}
 \begin{description}
     \cpterm{a}{Adjacency set.  Lists the neighbours of the \gls{pe} as a set of \(n\) functors.}
-    \cpterm{i}{Maximum generations counter.  Used slightly differently to \autoref{sec:nmp:systemwide}.}
+    \cpterm{i}{Maximum generations counter.  Used slightly differently to \cref{sec:nmp:systemwide}.}
     \cpterm{n}{Neighbourhood functor.  Stores the label for one of the channels/neighbours to which the current \gls{pe} is connected.}
     \cpterm{r}{Receipt token, showing that a message was recently received from neighbour \(X\).}
-    \cpterm{v}{Serves as both the internal data stores and \gls{nm} messages of the system.  These are the \(v\) compound terms described in \autoref{sec:nmp:compoundterms}.}
+    \cpterm{v}{Serves as both the internal data stores and \gls{nm} messages of the system.  These are the \(v\) compound terms described in \cref{sec:nmp:compoundterms}.}
     \cpterm{w}{Identical in most respects to \(v\) functors, except used for messaging with the oracle instead of neighbouring \gls{pe}.  That is, these are \gls{oq}, rather than \gls{nm}, messages.}
     \cpterm{w'}{Identical to \(w\), except marked to indicate to the oracle that the messages sent are to be used for finalisation computations instead of \gls{oq}.}
-    \cpterm{z}{Identical to the \(z\) in \autoref{sec:nmp:systemwide}.}
+    \cpterm{z}{Identical to the \(z\) in \cref{sec:nmp:systemwide}.}
 \end{description}
 
 \paragraph{States}
@@ -200,17 +200,18 @@ The same as in \autoref{sec:nmp:systemwide}.
     \cpterm{s_3}{Message send phase, part 1.  Drop any duplicate \gls{oq} messages referring to the same neighbour.   Send \gls{oq} messages to compute new outgoing \gls{nm} messages.}
     \cpterm{s_4}{Receive the new \gls{nm} messages computed by the oracle, and forward them to the appropriate neighbour(s).}
     \cpterm{s_5}{Receipt token deletion state.  Unconditionally delete all receipt tokens present.}
-    \cpterm{s_6}{Message receipt state.  When there are no messages to send, the \gls{pe} performs a `blocking' receipt (see \autoref{sec:nmp:blocking}) in this state until one or more of its neighbours send messages on the connecting channels.}
-    \cpterm{s_7}{Equivalent to state \(s_5\) in \autoref{sec:nmp:systemwide}.}
-    \cpterm{s_8}{Equivalent to state \(s_6\) in \autoref{sec:nmp:systemwide}.}
-    \cpterm{s_9}{Equivalent to state \(s_7\) in \autoref{sec:nmp:systemwide}.}
+    \cpterm{s_6}{Message receipt state.  When there are no messages to send, the \gls{pe} performs a `blocking' receipt (see \cref{sec:nmp:blocking}) in this state until one or more of its neighbours send messages on the connecting channels.}
+    \cpterm{s_7}{Equivalent to state \(s_5\) in \cref{sec:nmp:systemwide}.}
+    \cpterm{s_8}{Equivalent to state \(s_6\) in \cref{sec:nmp:systemwide}.}
+    \cpterm{s_9}{Equivalent to state \(s_7\) in \cref{sec:nmp:systemwide}.}
 \end{description}
 
-\subsection{\label{sec:nmp:ruleslessthanfour}Rules for \texorpdfstring{\acrlong{fne}}{four-neighbourhood} \texorpdfstring{\acrshort{pe}s}{proxels} with fewer than four neighbours}
+% \subsection{\label{sec:nmp:ruleslessthanfour}Rules for \texorpdfstring{\gls{fne}}{four-neighbourhood} \texorpdfstring{\acrshort{pe}s}{proxels} with fewer than four neighbours}
+\subsection{\label{sec:nmp:ruleslessthanfour}Rules for \glsentrytext{fne} \glsentrytext{pe}s with fewer than four neighbours}
 
-The rules of \autoref{ruleset:nmp:proxspec} consider only the case where a \gls{pe} has exactly four neighbours.  These would not work correctly for those \glspl{pe} with three neighbours (i.e., on the grid border, but not in a corner) or two neighbours (i.e., in a grid corner).  The only adjustment necessary to handle these edge cases is to change the number of neighbours considered, specifically in rule 3.
+The rules of \cref{ruleset:nmp:proxspec} consider only the case where a \gls{pe} has exactly four neighbours.  These would not work correctly for those \glspl{pe} with three neighbours (i.e., on the grid border, but not in a corner) or two neighbours (i.e., in a grid corner).  The only adjustment necessary to handle these edge cases is to change the number of neighbours considered, specifically in rule 3.
 
-These alternative rules are listed in \autoref{ruleset:nmp:3alts} as rule 3a and rule 3b for the border and corner cases, respectively.  We assume henceforth that any \gls{nmp} system is constructed to handle the finite boundaries of the grid correctly by replacing the usual rule 3 with the suitable alternative for edge \glspl{pe}.  \autoref{sec:nmp:example} uses rule 3a to simplify and shorten the example without neglecting the essential details.
+These alternative rules are listed in \cref{ruleset:nmp:3alts} as rule 3a and rule 3b for the border and corner cases, respectively.  We assume henceforth that any \gls{nmp} system is constructed to handle the finite boundaries of the grid correctly by replacing the usual rule 3 with the suitable alternative for edge \glspl{pe}.  \cref{sec:nmp:example} uses rule 3a to simplify and shorten the example without neglecting the essential details.
 
 \begin{cprulesetfloat}
     \begin{cpruleset}
@@ -230,19 +231,10 @@ These alternative rules are listed in \autoref{ruleset:nmp:3alts} as rule 3a and
         \cppromoter{\cpfunc{a}{\cpfunc{n}{X}\,\cpfunc{n}{W}}}
         
     \end{cpruleset}
-    \caption[Alternative forms of \autoref{ruleset:nmp:proxspec}'s rule 3]{\label{ruleset:nmp:3alts}Alternative forms of \autoref{ruleset:nmp:proxspec}'s rule 3 for \glspl{pe} on the border of a grid or in the corner of a grid, respectively}
+    \caption[Alternative forms of \cref{ruleset:nmp:proxspec}'s rule 3]{\label{ruleset:nmp:3alts}Alternative forms of \cref{ruleset:nmp:proxspec}'s rule 3 for \glspl{pe} on the border of a grid or in the corner of a grid, respectively}
 \end{cprulesetfloat}
 
 A strength of \gls{cps} in earlier work has been the fact that one rule system applies to all possible problems \cite{Cooper2019a,Cooper2019}.  Modifying the rules to fit the problem weakens that strength.  An alternative is the use of `dummy' or `sentinel' \glspl{pe} with special rules outside the grid connected to the corner and border \glspl{pe}.  The specifics of the special rules are situation-dependent and so unexplored here.
-
-\newcounter{traces}[section]
-\newcommand{\tracesautorefname}{Trace Snapshot}
-\newcounter{tracesarrows}[section]
-\newcommand*{\trace}[4]{\((\)#1,~#2,~#3,~#4\()\)}
-\newcommand*{\tracen}[4]{\refstepcounter{traces}\((\)#1,~#2,~#3,~#4\()_{\thetraces}\)}
-\newcommand*{\trac}[3]{\((\)#1,~#2,~#3\()\)}
-\newcommand*{\tracn}[3]{\refstepcounter{traces}\((\)#1,~#2,~#3\()_{\thetraces}\)}
-\newcommand*{\tarr}{ \(\Rightarrow\) }
 
 \subsection{Traces}
 

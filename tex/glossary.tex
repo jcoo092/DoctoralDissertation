@@ -17,6 +17,7 @@
 \newacronym{mpbsm}{MPBSM}{Message Passing-Based Stereo~Matching}
 \newacronym{mpi}{MPI}{Message Passing Interface}
 \newacronym{mrf}{MRF}{Markov Random Field}
+\newacronym{mwt}{MWT}{Moving Window Transform}
 
 %% N-Z
 \newacronym{ndcsm}{NDCSM}{Noise-Driven Concurrent Stereo~Matching}
@@ -45,7 +46,7 @@
 % \newglossaryentry{}{name={},description={}}
 
 %% A-M
-\newglossaryentry{actor}{name={Actor},description={A model of message-passing-based concurrent programming originally developed  chiefly by Carl Hewitt.  Its defining characteristics are arguably that it uses asynchronous messaging, whereby the sender and receiver do not need to coordinate or synchronise at all; and that instead of using channels or similar as a go-between, Actors send messages directly to each other, which necessitates `knowing' (i.e. holding a reference to) the intended recipient.  Notable examples of implementations of Actors are found in the programming languages Erlang and Pony, and the Scala library Akka}}
+\newglossaryentry{actor}{name={actor},description={A model of message-passing-based concurrent programming originally developed  chiefly by Carl Hewitt.  Its defining characteristics are arguably that it uses asynchronous messaging, whereby the sender and receiver do not need to coordinate or synchronise at all; and that instead of using channels or similar as a go-between, Actors send messages directly to each other, which necessitates `knowing' (i.e. holding a reference to) the intended recipient.  Notable examples of implementations of Actors are found in the programming languages Erlang and Pony, and the Scala library Akka}}
 \newglossaryentry{blas}{name={BLAS},description={Basic Linear Algebra Subroutines}}
 \newglossaryentry{clps}{name={cell-like P~systems},description={The original \gls{ps} variant, based on the operation of chemicals in cells}}
 \newglossaryentry{cps}{name={cP~systems},description={A variant of P~systems created by Nicolescu}}
@@ -55,11 +56,13 @@
 \newglossaryentry{gs}{description={\fxerror{Add definition}{Fill this in}},name={globally-synchronous}}
 \newglossaryentry{lapack}{name={LAPACK},description={Linear Algebra Package (???)}}
 \newglossaryentry{ls}{description={\fxerror{Add definition}{Fill this in}},name={locally-synchronous}}
-\newglossaryentry{mc}{name={Membrane Computing},description={A computational model inspired by the functioning of biological systems, specifically the interactions of chemicals inside the membranes of a biological cell.  The terms Membrane Computing and P systems are frequently used interchangeably}}
+\newglossaryentry{mc}{name={membrane computing},description={A computational model inspired by the functioning of biological systems, specifically the interactions of chemicals inside the membranes of a biological cell.  The terms Membrane Computing and P systems are frequently used interchangeably}}
 \newglossaryentry{mecosim}{name={MeCoSim}, description={Explain MeCoSim}}
+\newglossaryentry{medianfilter}{name={median filter}, description={An image processing technique often used to remove `salt \& pepper' noise from images.  Every pixel's value is updated to the median value of it and its neighbours, in a given neighbourhood.  It is an embarassingly-parallel problem in that each pixel in the image can compute its median without relying on other pixels' results, so long as it can observe their current value.  The necessity for performing selecting, however, means that it is non-trivial to implement a fast median filter.  It does not reduce to only basic arithmetic operations easily.}}
 
 %% N-Z
-\newglossaryentry{ps}{name={P~systems},description={See \glsentrytext{mc}}}
+% \newglossaryentry{ps}{name={P~systems},description={See \glsentrytext{mc}}}
+\newglossaryentry{ps}{name={P~systems},see={mc},description={},}
 \newglossaryentry{plingua}{name={P-Lingua}, description={A plain-text markup language used to represent P~systems specifications in computer files readable by both humans and computers.}}
 % \newglossaryentry{sm}{name={Stereo~Matching},description={A family of methods to match points from different images of the same scene to estimate the distance from the capturing cameras to objects in the scene.  See \autoref{subsec:smgeneral}}}
 \newglossaryentry{sm}{name={Stereo~Matching},description={A family of methods to match points from different images of the same scene to estimate the distance from the capturing cameras to objects in the scene.}}

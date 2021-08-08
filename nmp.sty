@@ -1,0 +1,14 @@
+\ProvidesPackage{nmp}
+
+\RequirePackage{amssymb}
+
+
+
+\newcounter{traces}[section]
+\newcommand{\tracesautorefname}{Trace Snapshot}
+\newcounter{tracesarrows}[section]
+\newcommand*{\trace}[4]{\((\)#1,~#2,~#3,~#4\()\)}
+\newcommand*{\tracen}[4]{\refstepcounter{traces}\((\)#1,~#2,~#3,~#4\()_{\thetraces}\)}
+\newcommand*{\trac}[3]{\((\)#1,~#2,~#3\()\)}
+\newcommand*{\tracn}[3]{\refstepcounter{traces}\((\)#1,~#2,~#3\()_{\thetraces}\)}
+\newcommand*{\tarr}{ \(\Rightarrow\) }

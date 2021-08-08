@@ -3,10 +3,10 @@
 % \documentclass[11pt,partial,singlespace]{aucklandthesis}
 % \documentclass[11pt,partial]{aucklandthesis}
 %
-\documentclass[10pt,partial,draft,doublespace]{aucklandthesis}
-% \documentclass[10pt,partial,doublespace]{aucklandthesis}
-% \documentclass[10pt,partial,singlespace]{aucklandthesis}
-% \documentclass[10pt,partial]{aucklandthesis}
+% \documentclass[newzealand,10pt,partial,draft,doublespace]{aucklandthesis}
+% \documentclass[newzealand,10pt,partial,doublespace]{aucklandthesis}
+% \documentclass[newzealand,10pt,partial,singlespace]{aucklandthesis}
+\documentclass[newzealand,10pt,partial]{aucklandthesis}
 %
 % This is a template for University of Auckland theses.
 %
@@ -22,15 +22,15 @@
 %	draft: adds 'draft' and date to footer
 %
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
 
 %%%% Packages introduced by me, not included with the template
 
-\usepackage[newzealand]{babel}
+\usepackage{babel}
 
 \usepackage[normalem]{ulem}
-\usepackage{amsmath,amssymb,cpsystems,url,xcolor}
+\usepackage{amsmath,amssymb,cpsystems,nmp,url,xcolor}
 \usepackage{subcaption}
 \usepackage{listings,minted,alltt}
 
@@ -41,9 +41,9 @@
 \lstset{showstringspaces=false}
 \lstset{basicstyle=\small}
 
-% \usepackage[binary-units]{siunitx}
-\usepackage{siunitx}
-\usepackage{threeparttable} % look at removing all of these --- they were only introduced to make the G Col Rep stuff build
+\usepackage[binary-units]{siunitx}
+% \usepackage{siunitx}
+\usepackage{threeparttable} % look at removing this --- it was only introduced to make the G Col Rep stuff build
 \usepackage{fixme}
 \fxusetheme{color}
 
@@ -55,18 +55,6 @@
 \usepackage{morewrites}
 \usepackage{amsthm}
 \theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[chapter]
-\newcommand{\theoremautorefname}{Theorem}
-\newtheorem{proposition}[theorem]{Proposition}
-\newcommand{\propositionautorefname}{Proposition}
-\newtheorem{lemma}[theorem]{Lemma}
-\newcommand{\lemmaautorefname}{Lemma}
-\newtheorem{conjecture}[theorem]{Conjecture}
-\newcommand{\conjectureautorefname}{Conjecture}
-
-% Need to remember to come back to this one and set it appropriately - I don't think it should be following the standard newtheorem style
-\newtheorem{remark}[theorem]{Remark}
-\newcommand{\remarkautorefname}{Remark}
 
 \newcommand{\listingautorefname}{Listing}
 %
@@ -172,6 +160,8 @@
 \usepackage{hyperref} % for formatting web addresses and other URLs
 \urlstyle{same} % try also tt, sf if this option doesn't produce clear enough output
 
+\usepackage[nameinlink]{cleveref} % Placed after hyperref in accordance with the documentation
+
 %%% All the glossaries stuff was put here, since the Glossaries documentation says it should be used after hyperref.
 
 \usepackage[acronym,noredefwarn,toc]{glossaries}
@@ -183,6 +173,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \loadglsentries{tex/glossary}
+
+% \includeonly{chapters/cpsystems/cpsystems}
 
 \begin{document}
 
@@ -199,8 +191,9 @@
 
 % Specify the title page content
 \title{Highly Concurrent Solutions to Graph and Image Processing Problems}
-\subtitle{Modelled for shared-memory scenarios in \gls{cps} and code \\ {\small v0.1.7 compiled on \today}}
-\author{James Cooper}
+\subtitle{Modelled for shared-memory scenarios in \gls{cps} and code \\ {\small v0.1.12 compiled on \today}}
+% \author{James Cooper}
+% \author{James Cooper\orcidlink{0000-0001-9954-3280}}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
 \degreecompletionyear{2021}
@@ -209,7 +202,7 @@
 \maketitle
 
 % Abstract, up to 350 words
-\input{tex/abstract} % it's in a separate file
+\include{tex/abstract} % it's in a separate file
 
 % Dedication (optional)
 % \thesisdedication{Dedicated to grandma, and to grammar.}
@@ -220,19 +213,19 @@
 
 % Contents, lists of tables and figures
 \settocdepth{subsection} % choose chapter, section, subsection 
-% \cleardoublepage\tableofcontents
-% \cleardoublepage\listoffigures
-% \cleardoublepage\listoftables
-% \cleardoublepage\listofcprulesetfloats
-% \cleardoublepage\listofcpobjectsfloats
-% \cleardoublepage\listoffixmes
+\cleardoublepage\tableofcontents
+\cleardoublepage\listoffigures
+\cleardoublepage\listoftables
+\cleardoublepage\listofcprulesetfloats
+\cleardoublepage\listofcpobjectsfloats
+\cleardoublepage\listoffixmes
 
-\clearpage\tableofcontents
-\clearpage\listoffigures
-\clearpage\listoftables
-\clearpage\listofcprulesetfloats
-\clearpage\listofcpobjectsfloats
-\clearpage\listoffixmes
+% \clearpage\tableofcontents
+% \clearpage\listoffigures
+% \clearpage\listoftables
+% \clearpage\listofcprulesetfloats
+% \clearpage\listofcpobjectsfloats
+% \clearpage\listoffixmes
 
 % ====================================================
 %
@@ -249,22 +242,53 @@
 
 \mainmatter
 
-\input{chapters/intro.tex}
+% \input{chapters/intro.tex}
+% \glsresetall
+% \cpresetrulenumber
+% \input{chapters/litreview/litreview}
+% \glsresetall
+% \cpresetrulenumber
+% \input{chapters/cpsystems/cpsystems}
+% \glsresetall
+% \cpresetrulenumber
+% \input{chapters/tsp/tsp}
+% \glsresetall
+% \cpresetrulenumber
+% \input{chapters/gcol/g-col-rep}
+% \glsresetall
+% \cpresetrulenumber
+% \input{chapters/nmp/nmp}
+% % \glsresetall
+% % \cpresetrulenumber
+% % \chapter{\texorpdfstring{\acrlong{bp}}{Belief Propagation} for \texorpdfstring{\gls{sm}}{Stereo Matching}}
+% % The \gls{bp}-specific stuff that builds on the \gls{nmp} work goes here.
+% % \input{chapters/litreview/sm}
+% \glsresetall
+% \cpresetrulenumber
+% \input{chapters/medianfilter/cml}
+% \glsresetall
+% \cpresetrulenumber
+% \input{chapters/discussion.tex}
+% \glsresetall
+% \cpresetrulenumber
+% \input{tex/conclusion.tex}
+
+\include{chapters/intro.tex}
 \glsresetall
 \cpresetrulenumber
-\input{chapters/litreview/litreview}
+\include{chapters/litreview/litreview}
 \glsresetall
 \cpresetrulenumber
-\input{chapters/cpsystems/cpsystems}
+\include{chapters/cpsystems/cpsystems}
 \glsresetall
 \cpresetrulenumber
-\input{chapters/tsp/tsp}
+\include{chapters/tsp/tsp}
 \glsresetall
 \cpresetrulenumber
-\input{chapters/gcol/g-col-rep}
+\include{chapters/gcol/g-col-rep}
 \glsresetall
 \cpresetrulenumber
-\input{chapters/nmp/nmp}
+\include{chapters/nmp/nmp}
 % \glsresetall
 % \cpresetrulenumber
 % \chapter{\texorpdfstring{\acrlong{bp}}{Belief Propagation} for \texorpdfstring{\gls{sm}}{Stereo Matching}}
@@ -272,13 +296,13 @@
 % \input{chapters/litreview/sm}
 \glsresetall
 \cpresetrulenumber
-\input{chapters/medianfilter/cml}
+\include{chapters/medianfilter/cml}
 \glsresetall
 \cpresetrulenumber
-\input{chapters/discussion.tex}
+\include{chapters/discussion.tex}
 \glsresetall
 \cpresetrulenumber
-\input{tex/conclusion.tex}
+\include{tex/conclusion.tex}
 
 % ====================================================
 %

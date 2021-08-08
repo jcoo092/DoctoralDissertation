@@ -77,7 +77,7 @@ For example, later in this paper, compound \(v\) terms appear in multiple rules.
 \[ \cpfunc{v}{\cpfunc{v'}{X} \; \cpfunc{v''}{G}\; D} \]
 \vspace{-0.7cm}
 \end{framed}\noindent
-and used inside a given \gls{pe} to represent a set of tagged data.  They are indexed by neighbour \(X\) and tagged with a `generation count' \(G\) (further explained in \autoref{sec:nmp:pespecific}).  Both values track metadata about a datum.  Lastly, the final datum \(D\) stored by the encapsulating term is given.  In many common programming languages, accessing each datum might be written like \texttt{v[X]}, where \texttt{v} is a dictionary indexed by neighbour.
+and used inside a given \gls{pe} to represent a set of tagged data.  They are indexed by neighbour \(X\) and tagged with a `generation count' \(G\) (further explained in \cref{sec:nmp:pespecific}).  Both values track metadata about a datum.  Lastly, the final datum \(D\) stored by the encapsulating term is given.  In many common programming languages, accessing each datum might be written like \texttt{v[X]}, where \texttt{v} is a dictionary indexed by neighbour.
 
 The \(v\) functors could instead be written as
 \begin{framed}
@@ -100,7 +100,7 @@ In \gls{cps} sending messages from one top-level cell to others is non-blocking 
 
 It may be useful in some circumstances, however, to simulate the nature of a blocking receipt.  This can be achieved with the use of added dedicated states.  The beginning state for the intended blocking receipt should be unused as the beginning state for any other rule (except for another aspect of the same blocking receipt).  This state is the ending state for another rule, which enters the blocking receipt.  The ending state for the blocking receipt rule should return the cell to its standard process.
 
-The overall effect of using the dedicated state ensures that no other rules may be used inside a particular top-level cell at a given step.  Effectively, the top-level cell becomes quiescent until another top-level cell offers to send a message to the first cell.  At that point, one or more messages are exchanged as appropriate, and the receiving top-level cell returns to its standard processing otherwise.  We make use of this later in \autoref{sec:nmp:pespecific} (rules 7 \& 10 in \autoref{ruleset:nmp:proxspec}).
+The overall effect of using the dedicated state ensures that no other rules may be used inside a particular top-level cell at a given step.  Effectively, the top-level cell becomes quiescent until another top-level cell offers to send a message to the first cell.  At that point, one or more messages are exchanged as appropriate, and the receiving top-level cell returns to its standard processing otherwise.  We make use of this later in \cref{sec:nmp:pespecific} (rules 7 \& 10 in \cref{ruleset:nmp:proxspec}).
 
 As an example, consider the two \gls{cps} rules below:
 \begin{framed}
@@ -117,7 +117,7 @@ What if, however, the second rule was not there? If the only rule with the start
 
 \subsection{\label{sec:nmp:antiport}Antiport communication rules in \texorpdfstring{\gls{cps}}{cP systems}}
 
-We propose and use an antiport rule \cite{Orellana-Martin2019,Paun2002} in \autoref{sec:nmp:systemwide}.  To the best of our knowledge, this is the first time an antiport rule has been used in \gls{cps}.  In brief, antiport rules allow for the bidirectional exchange of objects between membranes/cells/neurons during a single rule execution, with the restriction that objects \emph{must} travel in both directions.  Thus, if one side is only ready to send or receive, rather than both, the rule cannot run at the next step.  Instead, other rules down the priority order will be tested.  An important ramification of this is that it avoids deadlock by both sides of the exchange waiting on the other to send a message.
+We propose and use an antiport rule \cite{Orellana-Martin2019,Paun2002} in \cref{sec:nmp:systemwide}.  To the best of our knowledge, this is the first time an antiport rule has been used in \gls{cps}.  In brief, antiport rules allow for the bidirectional exchange of objects between membranes/cells/neurons during a single rule execution, with the restriction that objects \emph{must} travel in both directions.  Thus, if one side is only ready to send or receive, rather than both, the rule cannot run at the next step.  Instead, other rules down the priority order will be tested.  An important ramification of this is that it avoids deadlock by both sides of the exchange waiting on the other to send a message.
 
 In the context of \gls{cps}, this means that a given rule must involve a receipt over a channel on the LHS, and a send on the \emph{same} channel on the RHS.  For example,
 \begin{framed}

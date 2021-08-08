@@ -1,7 +1,7 @@
 \subsection{\label{sec:tsp:cpsystems}\texorpdfstring{\gls{cps}}{cP systems}: \texorpdfstring{\gls{ps}}{P systems} with Complex Symbols}
 % --------------------------------------------------
 
-In the interests of self-containment, we present here some material describing the background of \gls{cps}, for the benefit of readers as yet unfamiliar with the topic.  More extensive presentation of \gls{cps} has appeared most recently in \cite{Nicolescu2018}, and it is recommended that the interested reader peruse that paper as well.  There are two notable additions shown here that are not in \cite{Nicolescu2018}, however: the stronger semantics for inhibitors, to fully implement logical negation; and the minimum-finding algorithm explained in \autoref{sec-min}, used in solving the \gls{tsp}.  We wish to point out that, while \gls{cps} is transitively bio-inspired through its basis in \gls{ps}, it has not been developed with the aim of simulating or modelling real-world biology, and instead is intended as a useful theoretical model for computation.
+In the interests of self-containment, we present here some material describing the background of \gls{cps}, for the benefit of readers as yet unfamiliar with the topic.  More extensive presentation of \gls{cps} has appeared most recently in \cite{Nicolescu2018}, and it is recommended that the interested reader peruse that paper as well.  There are two notable additions shown here that are not in \cite{Nicolescu2018}, however: the stronger semantics for inhibitors, to fully implement logical negation; and the minimum-finding algorithm explained in \cref{sec-min}, used in solving the \gls{tsp}.  We wish to point out that, while \gls{cps} is transitively bio-inspired through its basis in \gls{ps}, it has not been developed with the aim of simulating or modelling real-world biology, and instead is intended as a useful theoretical model for computation.
 
 \subsubsection{Complex symbols as subcells}
 
@@ -241,7 +241,7 @@ Unification (2b) fails the inhibitor test, because it generates all the followin
 (2b1) $X, Y = cc, \lambda$; (2b2) $X, Y = \lambda, cc$; (2b3) $X, Y = c, c$; 
 and there IS a cell term corresponding to (2b3), $a(c)$.
 
-The pattern of rule (2) will be used later, in \autoref{sec-min}, 
+The pattern of rule (2) will be used later, in \cref{sec-min}, 
 to define a single step minimum-finding ruleset.
 
 \smallskip

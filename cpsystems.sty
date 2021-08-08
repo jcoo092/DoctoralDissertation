@@ -80,39 +80,31 @@ rulesets, following Nicolescu's standard style]
 \[#1\]
 }
 \newcommand*{\cpfunc}[2]{
-\trim@spaces@noexp{#1\perfectunary{IncreaseHeight}{(}{)}{#2}}
+% \trim@spaces@noexp{#1\perfectunary{IncreaseHeight}{(}{)}{#2}}
+\trim@spaces@noexp{#1\cpsystems@perfunparens{#2}}
 }
 \newcommand*{\cpfuncms}[2]{
-\trim@spaces@noexp{#1\perfectunary{IncreaseHeight}{\{}{\}}{#2}}
+\trim@spaces@noexp{#1\cpsystems@perfuncurlies{#2}}
 }
 
 \newcommand*{\cpfuncn}[3]{
-\cpfunc{#1}{#2}\perfectunary{IncreaseHeight}{(}{)}{#3}
+\cpfunc{#1}{#2}\cpsystems@perfunparens{#3}
 }
 \newcommand*{\cpfuncnms}[3]{
-\cpfunc{#1}{#2}\perfectunary{IncreaseHeight}{\{}{\}}{#3}
+\cpfunc{#1}{#2}\cpsystems@perfuncurlies{#3}
 }
 
 \newcommand*{\cpfuncnn}[4]{
-\cpfuncn{#1}{#2}{#3}\perfectunary{IncreaseHeight}{(}{)}{#4}
+\cpfuncn{#1}{#2}{#3}\cpsystems@perfunparens{#4}
 }
 \newcommand*{\cpfuncnnms}[4]{
-\cpfuncn{#1}{#2}{#3}\perfectunary{IncreaseHeight}{\{}{\}}{#4}
+\cpfuncn{#1}{#2}{#3}\cpsystems@perfuncurlies{#4}
 }
 \newcommand*{\cpterm}[2]{
 \item[$#1$]#2
 }
 \newcommand*{\cpundig}{\mathit{1}}
 \newcommand*{\cpempty}{\lambda}
-\newcommand{\cpsystems@basecprule}[6]{
-    \trim@spaces@noexp{#1 & #2 & \rightarrow_{#3} & #4 & #5 & #6\\}
-}
-\newcommand{\cpsystems@cpprominhi}[2]{
-    \trim@spaces@noexp{& & & & ~ \hspace{1em} ~ #1 ~ #2 & \\}
-}
-\newcommand{\cpsystems@basecpsendrecv}[3]{
-    \trim@spaces@noexp{\perfectunary{IncreaseHeight}{\{}{\}}{#1}{#3}_{#2}}
-}
 
 \newcommand*{\cptuple}[7]{
     \[
@@ -124,10 +116,23 @@ rulesets, following Nicolescu's standard style]
     \cptuple{cP}{T}{A}{O}{R}{S}{\Bar{s}}
 }
 
-\newcommand*{\cpset}[1]{\perfectunary{IncreaseHeight}{\{}{\}}{#1}}
+\newcommand*{\cpset}[1]{\cpsystems@perfuncurlies{#1}}
 
 \newcommand*{\cponce}{{\scriptstyle 1}}
 \newcommand*{\cpmaxpar}{{\scriptstyle +}}
+
+\newcommand{\cpsystems@basecprule}[6]{
+    \trim@spaces@noexp{#1 & #2 & \rightarrow_{#3} & #4 & #5 & #6\\}
+}
+\newcommand{\cpsystems@cpprominhi}[2]{
+    \trim@spaces@noexp{& & & & ~ \hspace{1em} ~ #1 ~ #2 & \\}
+}
+\newcommand{\cpsystems@basecpsendrecv}[3]{
+    \trim@spaces@noexp{\perfectunary{IncreaseHeight}{\{}{\}}{#1}{#3}_{#2}}
+}
+
+\newcommand{\cpsystems@perfunparens}[1]{\perfectunary{IncreaseHeight}{(}{)}{#1}}
+\newcommand{\cpsystems@perfuncurlies}[1]{\perfectunary{IncreaseHeight}{\{}{\}}{#1}}
 
 \endinput
 %%
