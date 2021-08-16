@@ -1,0 +1,115 @@
+%-----------------------------------------------------------------------------------
+\section{Complex symbols as subcells}
+%-----------------------------------------------------------------------------------
+
+\emph{Complex symbols} or \emph{subcells}, 
+play the roles of cellular microcompartments or substructures,
+such as organelles, vesicles, or cytoophidium assemblies (``snakes''),
+which are embedded in cells or travel between cells, 
+but without having the full processing power of a complete cell.
+In our proposal, subcells represent nested labelled data compartments
+with no processing power of their own;
+instead, they are acted upon by the rules of their enclosing cells.
+
+Subcells can be either \emph{atoms} or \emph{compound terms}: multisets labelled by \emph{functors} (`functor' is also commonly used as a shorthand for said compound terms).  Atoms, as the name suggests, are indivisible symbols.  They can be of any given type relevant to a system, but are static objects with no other inherent distinctive properties.  Atoms are written simply as the name of the atom's type.  Compound terms are objects that may contain both atoms and other compound terms and are written with the functor's type, followed by opening and closing parentheses, surrounding the encapsulated multiset.\footnote{For legibility, many compound terms in this work have been written with growing parentheses, dependent upon the level of nesting of terms involved.  This typesetting behaviour is not required or even specified as a part of \gls{cps} and can be freely omitted.}
+
+Our basic vocabulary consists of atoms and \emph{variables}, collectively known as \emph{simple symbols}.  \emph{Complex symbols} are similar to Prolog-like \emph{first-order terms}, recursively built from \emph{multisets} of atoms and variables.  Together, complex symbols and simple symbols (atoms, variables) are called \emph{symbols} and can be defined by the following formal grammar:
+
+\begin{framed}
+\vspace{-0.6cm}
+\begin{small}
+\begin{bnf*}
+    \bnfprod*{symbol}{\bnfpn{atom} \bnfor \bnfpn{variable} \bnfor \bnfpn{term}}\\
+    \bnfprod*{term}{\bnfpn{functor} \bnfsp \bnfts{`('} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`)'}}\\
+    \bnfprod*{functor}{\bnfpn{atom}}\\
+    % \bnfprod*{argument}{\bnfes \bnfor \bnfts{(} \bnfsp \bnfpn{symbol} \bnfsp \bnfts{)} \bnfts{+}}
+    \bnfprod*{argument}{\bnfes \bnfor \bnfsp \bnfpn{symbol} \bnfsp \bnfts{+}}
+\end{bnf*}
+\end{small}
+\vspace{-0.8cm}
+\end{framed}
+
+Atoms are typically denoted by lower case letters (or, occasionally, digits), usually drawn from the Latin alphabet, 
+such as \(a\), \(b\), \(c\), \(\cpundig\). 
+\emph{Variables} are typically denoted by uppercase letters, 
+such as \(X\), \(Y\), \(Z\).
+\emph{Functors} are term (subcell) labels; here, functors can only be atoms, not variables.  
+E.g., an x atom may be written as \(x\), while a compound term labelled by a y functor might be written as \(\cpfunc{y}{a \, xx \, z}\).  When there is more than one of a given atom present, the count is usually written as a superscript, so the earlier compound term would look like \(\cpfunc{y}{a \, x^2 \, z}\).
+
+We also consider \emph{anonymous variables} for improved readability, denoted by underscores (``\(\_\)'').
+Each underscore occurrence represents a \emph{new} unnamed variable
+and indicates that something we are not interested in must fill that slot.
+
+Symbols that do \emph{not} contain variables are called \emph{ground}, e.g.:
+\begin{itemize}
+\item Ground symbols:
+\(a\), \(\cpfunc{a}{\cpempty}\), \(\cpfunc{a}{b}\), \(\cpfunc{a}{b c}\), \(\cpfunc{a}{b^2 c}\), \(\cpfunc{a}{\cpfunc{b}{c}}\), \(\cpfunc{a}{b\cpfunc{c}{\cpempty}}\), \(\cpfunc{a}{\cpfunc{b}{c}\cpfunc{d}{e}}\), \(\cpfunc{a}{\cpfunc{b}{c}\cpfunc{d}{e}}\), \(\cpfunc{a}{\cpfunc{b}{c}\cpfunc{d}{\cpfunc{e}{\cpempty}}}\), \(\cpfunc{a}{bc^2 d}\).
+
+\smallskip
+\item Symbols which are not ground:
+\(X\), \(\cpfunc{a}{X}\), \(\cpfunc{a}{bX}\), \(\cpfunc{a}{\cpfunc{b}{X}}\), \(\cpfunc{a}{XY}\), \(\cpfunc{a}{X^2}\), \(\cpfunc{a}{XdY}\),  \(\cpfunc{a}{X\cpfunc{c}{}}\), \(\cpfunc{a}{\cpfunc{b}{X}\cpfunc{d}{e}}\), \(\cpfunc{a}{\cpfunc{b}{c}\cpfunc{d}{Y}}\), \(\cpfunc{a}{\cpfunc{b}{X^2}\cpfunc{d}{\cpfunc{e}{Xf^2}}}\);
+also, using anonymous variables: \(\_\), \(\cpfunc{a}{b\_}\), \(\cpfunc{a}{X\_}\), \(\cpfunc{a}{\cpfunc{b}{X}\cpfunc{d}{\cpfunc{e}{\_}}}\).
+
+\smallskip
+\item This term-like construct which starts with a variable is \emph{not} a symbol (the above grammar defines first-order terms only):
+\(\cpfunc{X}{a Y}\).
+\end{itemize}
+
+Note that we may abbreviate the expression of complex symbols 
+by removing inner \(\cpempty\)'s as explicit references to the empty multiset, 
+e.g.~\(\cpfunc{a}{\cpempty} = \cpfunc{a}{}\).  Alternatively, where the term stores a number (see \cref{sec:cps:natnums}), \(\cpempty\) may instead be replaced with \(0\) (i.e. the numeral for zero).
+
+In \emph{concrete} models, cells contain ground symbols only.
+Rules may, however, contain \emph{any} kind of symbols, atoms, variables, and terms (whether ground or not).
+
+% \medskip
+% \noindent
+%-------------------------------------------------------
+\subsection{\label{sec:cps:unification}Unification.} 
+%-------------------------------------------------------
+All symbols which appear in rules (ground or not) can be (asymmetrically) \emph{matched} against \emph{ground} terms,
+using an ad-hoc version of \emph{pattern matching}, 
+more precisely, a \emph{one-way first-order syntactic unification} (one-way, because cells may not contain variables) \cite{Liu2021}.
+An atom can only match another copy of itself, but
+a variable can match any multiset of ground terms (including \(\cpempty\)).
+This may create combinatorial \emph{non-determinism}, 
+when a combination of two or more variables are matched against the same multiset,
+in which case an arbitrary matching is chosen. 
+For example:
+\begin{itemize}
+\item Matching \(\cpfunc{a}{\cpfunc{b}{X}fY} = \cpfunc{a}{\cpfunc{b}{c\cpfunc{d}{e}}f^2g}\) deterministically creates a single set of unifiers:
+\(X, Y = c\cpfunc{d}{e}, fg\).
+
+\smallskip
+\item Matching \(\cpfunc{a}{XY^2} = \cpfunc{a}{de^2f}\) deterministically creates a single set of unifiers: 
+\(X, Y = df, e\).
+
+\smallskip
+\item Matching \(\cpfunc{a}{\cpfunc{b}{X}\cpfunc{c}{\cpundig X}} = \cpfunc{a}{\cpfunc{b}{\cpundig^2}\cpfunc{c}{\cpundig^3}}\) deterministically creates one single unifier: 
+\(X = \cpundig^2\).
+
+\smallskip
+\item Matching \(\cpfunc{a}{\cpfunc{b}{X}\cpfunc{c}{\cpundig X}} = \cpfunc{a}{\cpfunc{b}{\cpundig^2}\cpfunc{c}{\cpundig^2}}\) fails.
+
+\smallskip
+\item Matching \(\cpfunc{a}{XY} = \cpfunc{a}{df}\) non-deterministically creates one of the following four sets of unifiers: 
+\(X, Y = \cpempty, df\); \(X, Y = df, \cpempty\); \(X, Y = d, f\); \(X, Y = f, d\). 
+\end{itemize}
+
+% \iffalse
+% \noindent
+%-----------------------------------------
+\subsubsection{Performance note.}
+%-----------------------------------------
+If the rules avoid any matching non-determinism, 
+this proposal should not affect the performance of P~simulators running on existing machines.
+Assuming that bags are already taken care of, e.g.~via hash-tables,
+our proposed unification probably adds an almost linear factor.
+Let us recall that, in similar contexts (no occurs check needed), 
+Prolog unification algorithms can run in \(O(n g(n))\) steps,
+where \(g\) is the inverse Ackermann function.
+Our conjecture must be proven, though, 
+as the novel presence of multisets may affect the performance.
+% \fi
+
+% -------------------------------------------------

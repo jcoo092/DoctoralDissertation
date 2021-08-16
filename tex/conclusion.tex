@@ -24,8 +24,8 @@ I did some stuff!
 
 None of the below were investigated further, due to a lack of time, but they are obvious next steps to look at.
 
-\subsection{\glsentrytext{cml}}
-\Gls{cml} seems like the obvious approach to take from here.\footnote{In fact, considerable time and effort was spent on attempting to identify a suitable \gls{cml} implementation to use for just this purpose.  Unfortunately, in the end, it was found that there was not currently a usable \gls{cml} implementation with appropriate performance available at this time.}
+% \subsection{\glsentrytext{cml}}
+% \Gls{cml} seems like the obvious approach to take from here.\footnote{In fact, considerable time and effort was spent on attempting to identify a suitable \gls{cml} implementation to use for just this purpose.  Unfortunately, in the end, it was found that there was not currently a usable \gls{cml} implementation with appropriate performance available at this time.}
 
 % \subsection{`Faked' message passing in shared memory}
 % Roughly, most of the message passing involved here is largely, in effect, just handing around pointers to memory locations.  It would seem that the message passing itself places some overhead in the way of that.  Could there be some way to fake the message passing, so that to the program's writer it looks like an actual message passing implementation, but in reality it is just doing normal updates on mutable memory?  This \emph{might} enable the best of both worlds -- programming the algorithms according to their theory, but running in a highly efficient fashion `under-the-hood'.
@@ -59,7 +59,7 @@ Future work should explore \gls{cml} as applied to other computer vision algorit
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{\nameref{chap:nmp}}
+\subsection{\nameref{chap:nmp}}
 The next step in this work is to adapt the system to the purpose of Belief Propagation Stereo Matching, using \gls{nmp} precepts.  This will be presented in Part Two.  Furthermore, work has begun on implementing a close approximation of the asynchronous system as a framework in a standard programming languages, to explore the effectiveness of this approach in modern computer systems.  We plan to implement Belief Propagation Stereo Matching (see e.g. \cite{Blake2011,Felzenszwalb2011,JianSun2003}) atop this as a proof-of-concept.
 
 One aspect the systems presented above lack is that both the size and shape of the grid involved, as well as the communication topology between neighbours, are permanently fixed at the time of system initialisation.  In most cases, this is unneeded, but the greater flexibility could be of use when implementing certain algorithms.

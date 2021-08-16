@@ -97,7 +97,7 @@ An important assumption for this ruleset is that the oracle returns all outstand
 In preparing the new \gls{oq} messages to go to the oracle, rule 3 discards the information about which datum came from which neighbour (visible in line \ref{line:nmp:rule3} in \cref{alg:nmp:pespecific}).  This is irrelevant for \gls{bp} \gls{sm}.  It might be relevant, however, to keep said information for a different computation.  One must bear this in mind when adapting the rules to their problem.  The changes needed are likely minor, but we do not explore them further as they are superfluous.
 
 \subsection{System Definition}
-Per the tuple definition from \cref{sec:nmp:notation}:
+Per the tuple definition from \cref{sec:cps:formaldescriptions}:
 
 \(T\) is a set of top-level cells, each representing a single \gls{pe}, numbered sequentially.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is equal to the set of terms defined in \cref{sec:pespecific:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is the appropriate channel endpoints and an adjacency list term \(a\).  Every \gls{pe}'s ruleset in \(R\) is either equal to that found in \cref{ruleset:nmp:proxspec}, or one which starts with that ruleset as a base.  These latter rulesets drop terms from rule 3 to adapt it to the relevant \gls{pe} having fewer than four neighbours (see \cref{sec:nmp:ruleslessthanfour}).  \(S = \{s_1, \dots, s_9\}\) and \(\bar{s} = s_1\).
 
@@ -183,27 +183,27 @@ The same as in \cref{sec:nmp:systemwide}.
 
 \paragraph{Functors}
 \begin{description}
-    \cpterm{a}{Adjacency set.  Lists the neighbours of the \gls{pe} as a set of \(n\) functors.}
-    \cpterm{i}{Maximum generations counter.  Used slightly differently to \cref{sec:nmp:systemwide}.}
-    \cpterm{n}{Neighbourhood functor.  Stores the label for one of the channels/neighbours to which the current \gls{pe} is connected.}
-    \cpterm{r}{Receipt token, showing that a message was recently received from neighbour \(X\).}
-    \cpterm{v}{Serves as both the internal data stores and \gls{nm} messages of the system.  These are the \(v\) compound terms described in \cref{sec:nmp:compoundterms}.}
-    \cpterm{w}{Identical in most respects to \(v\) functors, except used for messaging with the oracle instead of neighbouring \gls{pe}.  That is, these are \gls{oq}, rather than \gls{nm}, messages.}
-    \cpterm{w'}{Identical to \(w\), except marked to indicate to the oracle that the messages sent are to be used for finalisation computations instead of \gls{oq}.}
-    \cpterm{z}{Identical to the \(z\) in \cref{sec:nmp:systemwide}.}
+    \cptermdef{a}{Adjacency set.  Lists the neighbours of the \gls{pe} as a set of \(n\) functors.}
+    \cptermdef{i}{Maximum generations counter.  Used slightly differently to \cref{sec:nmp:systemwide}.}
+    \cptermdef{n}{Neighbourhood functor.  Stores the label for one of the channels/neighbours to which the current \gls{pe} is connected.}
+    \cptermdef{r}{Receipt token, showing that a message was recently received from neighbour \(X\).}
+    \cptermdef{v}{Serves as both the internal data stores and \gls{nm} messages of the system.  These are the \(v\) compound terms described in \cref{sec:cps:compoundterms}.}
+    \cptermdef{w}{Identical in most respects to \(v\) functors, except used for messaging with the oracle instead of neighbouring \gls{pe}.  That is, these are \gls{oq}, rather than \gls{nm}, messages.}
+    \cptermdef{w'}{Identical to \(w\), except marked to indicate to the oracle that the messages sent are to be used for finalisation computations instead of \gls{oq}.}
+    \cptermdef{z}{Identical to the \(z\) in \cref{sec:nmp:systemwide}.}
 \end{description}
 
 \paragraph{States}
 \begin{description}
-    \cpterm{s_1}{Environmental inputs receipt state.}
-    \cpterm{s_2}{Messaging round starting state.  If it is appropriate for the \gls{pe} to send new messages to its neighbours, then \gls{oq} messages are prepared and the sending process continues.  Otherwise, return to receiving once again.}
-    \cpterm{s_3}{Message send phase, part 1.  Drop any duplicate \gls{oq} messages referring to the same neighbour.   Send \gls{oq} messages to compute new outgoing \gls{nm} messages.}
-    \cpterm{s_4}{Receive the new \gls{nm} messages computed by the oracle, and forward them to the appropriate neighbour(s).}
-    \cpterm{s_5}{Receipt token deletion state.  Unconditionally delete all receipt tokens present.}
-    \cpterm{s_6}{Message receipt state.  When there are no messages to send, the \gls{pe} performs a `blocking' receipt (see \cref{sec:nmp:blocking}) in this state until one or more of its neighbours send messages on the connecting channels.}
-    \cpterm{s_7}{Equivalent to state \(s_5\) in \cref{sec:nmp:systemwide}.}
-    \cpterm{s_8}{Equivalent to state \(s_6\) in \cref{sec:nmp:systemwide}.}
-    \cpterm{s_9}{Equivalent to state \(s_7\) in \cref{sec:nmp:systemwide}.}
+    \cptermdef{s_1}{Environmental inputs receipt state.}
+    \cptermdef{s_2}{Messaging round starting state.  If it is appropriate for the \gls{pe} to send new messages to its neighbours, then \gls{oq} messages are prepared and the sending process continues.  Otherwise, return to receiving once again.}
+    \cptermdef{s_3}{Message send phase, part 1.  Drop any duplicate \gls{oq} messages referring to the same neighbour.   Send \gls{oq} messages to compute new outgoing \gls{nm} messages.}
+    \cptermdef{s_4}{Receive the new \gls{nm} messages computed by the oracle, and forward them to the appropriate neighbour(s).}
+    \cptermdef{s_5}{Receipt token deletion state.  Unconditionally delete all receipt tokens present.}
+    \cptermdef{s_6}{Message receipt state.  When there are no messages to send, the \gls{pe} performs a `blocking' receipt (see \cref{sec:cps:blocking}) in this state until one or more of its neighbours send messages on the connecting channels.}
+    \cptermdef{s_7}{Equivalent to state \(s_5\) in \cref{sec:nmp:systemwide}.}
+    \cptermdef{s_8}{Equivalent to state \(s_6\) in \cref{sec:nmp:systemwide}.}
+    \cptermdef{s_9}{Equivalent to state \(s_7\) in \cref{sec:nmp:systemwide}.}
 \end{description}
 
 % \subsection{\label{sec:nmp:ruleslessthanfour}Rules for \texorpdfstring{\gls{fne}}{four-neighbourhood} \texorpdfstring{\acrshort{pe}s}{proxels} with fewer than four neighbours}

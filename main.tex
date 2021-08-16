@@ -3,10 +3,10 @@
 % \documentclass[11pt,partial,singlespace]{aucklandthesis}
 % \documentclass[11pt,partial]{aucklandthesis}
 %
-% \documentclass[newzealand,10pt,partial,draft,doublespace]{aucklandthesis}
+\documentclass[newzealand,10pt,partial,draft,doublespace]{aucklandthesis}
 % \documentclass[newzealand,10pt,partial,doublespace]{aucklandthesis}
 % \documentclass[newzealand,10pt,partial,singlespace]{aucklandthesis}
-\documentclass[newzealand,10pt,partial]{aucklandthesis}
+% \documentclass[newzealand,10pt,partial]{aucklandthesis}
 %
 % This is a template for University of Auckland theses.
 %
@@ -33,7 +33,6 @@
 \usepackage{amsmath,amssymb,cpsystems,nmp,url,xcolor}
 \usepackage{subcaption}
 \usepackage{listings,minted,alltt}
-
 \usepackage{csquotes}
 
 \lstset{frame=single}
@@ -175,6 +174,7 @@
 \loadglsentries{tex/glossary}
 
 % \includeonly{chapters/cpsystems/cpsystems}
+% \includeonly{chapters/gcol/g-col-rep}
 
 \begin{document}
 
@@ -191,8 +191,8 @@
 
 % Specify the title page content
 \title{Highly Concurrent Solutions to Graph and Image Processing Problems}
-\subtitle{Modelled for shared-memory scenarios in \gls{cps} and code \\ {\small v0.1.12 compiled on \today}}
-% \author{James Cooper}
+\subtitle{Modelled for shared-memory scenarios in \gls{cps} and code \\ {\small v0.1.19 compiled on \today}}
+\author{James Cooper}
 % \author{James Cooper\orcidlink{0000-0001-9954-3280}}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
@@ -275,19 +275,19 @@
 
 \include{chapters/intro.tex}
 \glsresetall
-\cpresetrulenumber
+% \cpresetrulenumber
 \include{chapters/litreview/litreview}
 \glsresetall
-\cpresetrulenumber
+% \cpresetrulenumber
 \include{chapters/cpsystems/cpsystems}
 \glsresetall
-\cpresetrulenumber
+% \cpresetrulenumber
 \include{chapters/tsp/tsp}
 \glsresetall
-\cpresetrulenumber
+% \cpresetrulenumber
 \include{chapters/gcol/g-col-rep}
 \glsresetall
-\cpresetrulenumber
+% \cpresetrulenumber
 \include{chapters/nmp/nmp}
 % \glsresetall
 % \cpresetrulenumber
@@ -295,14 +295,14 @@
 % The \gls{bp}-specific stuff that builds on the \gls{nmp} work goes here.
 % \input{chapters/litreview/sm}
 \glsresetall
-\cpresetrulenumber
+% \cpresetrulenumber
 \include{chapters/medianfilter/cml}
 \glsresetall
-\cpresetrulenumber
-\include{chapters/discussion.tex}
+% \cpresetrulenumber
+\include{chapters/discussion}
 \glsresetall
-\cpresetrulenumber
-\include{tex/conclusion.tex}
+% \cpresetrulenumber
+\include{tex/conclusion}
 
 % ====================================================
 %

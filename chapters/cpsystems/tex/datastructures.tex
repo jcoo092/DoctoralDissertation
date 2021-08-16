@@ -1,0 +1,126 @@
+%-----------------------------------------------------------------------------------
+\section{Data structures in \glsentrytext{cps}}\label{sec:cps:datastructures}
+%-----------------------------------------------------------------------------------
+
+In this subsection, we sketch the design of some high-level data structures, 
+similar to the data structures used in high-level pseudocode or %high-level 
+programming languages:
+numbers, relations, functions, associative arrays, lists, trees, strings, 
+together with alternative, more readable notations.
+
+% \medskip
+% \noindent
+%-------------------------------------------------------
+\subsection{\label{sec:cps:natnums}Natural numbers.}
+%-------------------------------------------------------
+Natural numbers can be represented via \emph{multisets} containing repeated occurrences of the \emph{same} atom.
+For example, considering that \(\cpundig\) represents an ad hoc unary digit, 
+the following complex symbols can be used to describe 
+the contents of a virtual integer \emph{variable} \(a\): 
+\(a () = \cpfunc{a}{\cpempty}\) --- the value of \(a\) is 0;
+\(\cpfunc{a}{\cpundig^3}\) --- the value of \(a\) is 3.
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $\cpfunc{e}{\cpempty} \equiv \cpfunc{e}{0} \equiv \cpfunc{e}{}$ #\hfill\textsl{empty functor}\enspace#
+  $\cpfunc{a}{\cpundig\cpundig\cpundig} \equiv \cpfunc{a}{\cpundig^3} \equiv \cpfunc{a}{3}$ #\hfill\textsl{the number three}\enspace#
+\end{lstlisting}
+
+For concise expressions, we may alias these number representations by their corresponding numbers, e.g.~\(\cpfunc{a}{} \equiv \cpfunc{a}{0}, \cpfunc{b}{\cpundig^3} \equiv \cpfunc{b}{3}\).  Numerical operations are simulated with unary arithmetic \cite{Aman2019,Bonchis2006}.
+Nicolescu \textit{et al.} \cite{Nicolescu2014,RN-HW-ROMJIST14} show how the basic arithmetic operations can be modelled efficiently by \gls{ps} with complex symbols.
+
+Here follows a list of simple arithmetic expressions, assignments, and comparisons:
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $x = 0$ $\equiv$ $\cpfunc{x}{\lambda}$
+  $x = 1$ $\equiv$ $\cpfunc{x}{\cpundig}$
+  $x = 2$ $\equiv$ $\cpfunc{x}{\cpundig \cpundig}$
+  $x = n$ $\equiv$ $\cpfunc{x}{\cpundig^n}$
+  
+  $x \leftarrow y \cpmaxpar z$ $\equiv$ $\cpfunc{y}{Y} ~ \cpfunc{z}{Z} ~ \rightarrow ~ \cpfunc{x}{YZ}$ #\hfill\textsl{destructive add}\enspace#
+  $x \leftarrow y + z$ $\equiv$ $ \rightarrow ~ \cpfunc{x}{YZ} ~ \mid ~ \cpfunc{y}{Y} ~ \cpfunc{z}{Z}$ #\hfill\textsl{preserving add}\enspace#
+  
+  $x = y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X}$ #\hfill\textsl{equality}\enspace#
+  $x \leq y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{XY}$ #\hfill\textsl{less than or equal to}\enspace#
+  $x <  y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X1Y}$ #\hfill\textsl{strictly less than}\enspace#
+\end{lstlisting}
+\noindent
+`Strictly less than' (\(<\)) requires the extra \(1\), because \(Y\) can match on \(\cpempty\).
+
+% \medskip
+% \noindent
+%-------------------------------------------------------
+\subsection{Relations and functions.}
+%-------------------------------------------------------
+Consider the \emph{binary relation} \(r\), as defined by: 
+\(r = \{ (a, b),\, (b, c),\, (a, d),\, (d, c) \}\) (which has a diamond-shaped graph). 
+Using complex symbols, relation \(r\) can be represented as a \emph{multiset} with four \(r\) items,
+\(\cpset{ \cpfunc{r}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{b}},\, \cpfunc{r}{\cpfunc{\kappa}{b} ~ \cpfunc{\upsilon}{c}},\, \cpfunc{r}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{d}},\, \cpfunc{r}{\cpfunc{\kappa}{d} ~ \cpfunc{\upsilon}{c}} }\), 
+where ad-hoc atoms \(\kappa\) and \(\upsilon\) introduce \emph{domain} and \emph{codomain} values (respectively).
+We may also alias the items of this multiset by a more expressive notation such as: \(\{ (a \stackrel{r}\rightleftarrows b)\), \((b \stackrel{r}\rightleftarrows c)\), \((a \stackrel{r}\rightleftarrows d)\), \((d \stackrel{r}\rightleftarrows c) \}\).
+
+If the relation is a \emph{functional relation}, we can emphasise this using another operator, such as ``\textsf{mapsto}''. For example, the functional relation 
+\(f = \cpset{ (a, b),\, (b, c),\, (d, c) }\) can be represented by the multiset
+\(\cpset{ \cpfunc{f}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{b}},\, \cpfunc{f}{\cpfunc{\kappa}{b} ~ \cpfunc{\upsilon}{c}},\, \cpfunc{f}{\cpfunc{\kappa}{d} ~ \cpfunc{\upsilon}{c}} }\) or by the more suggestive notation: 
+\(\{ (a \stackrel{f}\mapsto b)\), \((b \stackrel{f}\mapsto c)\), \((d \stackrel{f}\mapsto c) \}\).
+To highlight the actual mapping value, instead of \(a \stackrel{f}\mapsto b\),
+we may also use the succinct abbreviation \(f[a] = b\).
+
+In this context, the \(\rightleftarrows\) and \(\mapsto\) operators are considered to have a high associative priority, so the enclosing parentheses are primarily used to increase readability.
+
+% \medskip
+% \noindent
+%-------------------------------------------------------
+\subsection{Associative arrays.}
+%-------------------------------------------------------
+Consider the \emph{associative array} \(x\), 
+with the following key-value mappings (i.e., functional relation): 
+\(\{ \cpundig \mapsto a; \cpundig^3 \mapsto c; \cpundig^7 \mapsto g \}\). 
+Using complex symbols, array \(x\) can be represented as a multiset with three items,
+\(\cpset{ \cpfunc{x}{\cpfunc{\kappa}{\cpundig}\,\cpfunc{\upsilon}{a}},\, \cpfunc{x}{\cpfunc{\kappa}{\cpundig^3}\,\cpfunc{\upsilon}{c}},\, \cpfunc{x}{\cpfunc{\kappa}{\cpundig^7}\,\cpfunc{\upsilon}{g}} }\), 
+where ad-hoc atoms \(\kappa\) and \(\upsilon\) introduce keys and values (respectively).
+We may also alias the items of this multiset by the more expressive notation
+\(\{ \cpundig \stackrel{x}\mapsto a\), \(\cpundig^3 \stackrel{x}\mapsto c\), \(\cpundig^7 \stackrel{x}\mapsto g \}\).
+
+% \medskip
+% \noindent
+%-------------------------------------------------------
+\subsection{\label{sec:cps:lists}Lists}
+%-------------------------------------------------------
+Consider the \emph{list} \(y\), containing the following sequence of values: 
+\([u; v; w]\). 
+List \(y\) can be represented as the complex symbol
+\(\cpfunc{y}{\, \cpfunc{\gamma}{u~\cpfunc{\gamma}{v~\cpfunc{\gamma}{w~\cpfunc{\gamma}{}}}}}\), 
+where the ad-hoc atom \(\gamma\) represents the list constructor \emph{cons} and \(\cpfunc{\gamma}{}\) the empty list.
+We may also alias this list by the more expressive equivalent notation
+\(\cpfunc{y}{u\,|\,v\,|\,w}\)
+-- or by \(\cpfunc{y}{u\,|\,y'}\), \(y'(v\,|\,w)\) --
+where operator \(\mid\) separates the head and the tail of the list.
+The notation \(\cpfunc{z}{|}\) is shorthand for \(\cpfunc{z}{\cpfunc{\gamma}{}}\) and indicates an empty list, \(z\).
+
+% \medskip
+% \noindent
+%-------------------------------------------------------
+\subsection{Trees.}
+%-------------------------------------------------------
+Consider the \emph{binary tree} \(z\), described by the structured expression \\
+\((a, (b), (c, (d), (e)))\), 
+i.e.~\(z\) points to a root node which has: 
+(i) the value \(a\); 
+(ii) a left node with value \(b\); and 
+(iii) a right node with value \(c\), left leaf \(d\), and right leaf \(e\). 
+Tree \(z\) can be represented by the complex symbol
+\(\cpfunc{z}{a ~ \cpfunc{\phi}{b} ~ \cpfunc{\psi}{c ~ \cpfunc{\phi}{d} ~ \cpfunc{\psi}{e}}}\), 
+where ad-hoc atoms \(\phi, \psi\) introduce left and right subtrees, respectively.
+
+% \medskip
+% \noindent
+%-------------------------------------------------------
+\subsection{Strings.}
+%-------------------------------------------------------
+Consider the \emph{string} \(s = ``abc"\), 
+where \(a\), \(b\), and \(c\) are atoms. 
+Obviously, string \(s\) can be interpreted as the list \(s = [a; b; c]\), i.e.
+string \(s\) can be represented as the complex symbol
+\(\cpfunc{s}{\, \cpfunc{\gamma}{a~\cpfunc{\gamma}{b~\cpfunc{\gamma}{c~\cpfunc{\gamma}{}}}}}\), etc.

@@ -1,11 +1,11 @@
 \section{\label{sec:tsp:variations}Variations on the Algorithms}
-We have presented above algorithms to find a single Hamiltonian path or cycle, with minimum cost in the case of a weighted digraph (i.e., the \gls{tsp}).  With minimal modifications, however, other results may be obtained from the algorithm, such as using a specific starting vertex or generating all possible paths/cycles.
+\Cref{sec:tsp:algohpp,sec:tsp:algotsp} presented algorithms to find a single Hamiltonian Path or Cycle, with minimum cost in the case of a weighted digraph (i.e., the \gls{tsp}).  With minimal modifications, however, other results may be obtained from the algorithm, such as using a specific starting vertex or generating all possible paths/cycles.
 
 To use a specific vertex as the starting point of the algorithm, rule 1 may be skipped by starting the system in state \(s_2\), with an \(s\) subcell containing the chosen vertex as the head of the \(p\) subcell supplied to the top-level cell.
 
-For the \gls{hcp} and \gls{tsp}, rule 5 could be applied in maximally-parallel mode without any other changes so as to produce all possible Hamiltonian cycles (with minimum cost for the \gls{tsp}) back to the starting node.  This results in the output into the top-level cell of multiple \(p'\) subcells, to be handled further as appropriate.  The same modification can be applied to rule 5 of the \gls{tsp} algorithm to obtain all minimum-cost cycle paths.  Likewise for each problem, if maximally-parallel mode is used on rule 1, then the paths/cycles starting at every vertex will be generated.  All these potentially have the effect of increasing the space complexity of the system, which is not an issue for \gls{ps} with their infinite available space, but may impact software simulations.
+For the \gls{hcp} and \gls{tsp}, rule 5 could be applied in maximally-parallel mode without any other changes to produce all possible Hamiltonian Cycles (with minimum cost for the \gls{tsp}).  This results in the output into the top-level cell of multiple \(p'\) subcells, to be handled further as appropriate.  Likewise for each problem, if maximally-parallel mode is used on rule 1, then the paths/cycles starting at every vertex will be generated.  All these potentially have the effect of increasing the space complexity of the system, which is not an issue for \gls{ps} with their infinite available space, but may impact software simulations.
 
-In \cref{sec:tsp:algotsp} we assumed that all arc weights are strictly positive integers.  Weights of zero can be accommodated relatively easily.  Should every possible cycle have a minimum weight of at least 1, then no changes are needed.  If it is possible for there to be a cycle with a total weight of zero, then a sixth rule must be introduced, before the current rule 5, which in turn becomes rule 6.  This rule simply detects a minimum of zero, as set out in \cref{sec-min}.  These new rules are shown in \cref{minzerorules}.
+\Cref{sec:tsp:algotsp} assumed that all arc weights are strictly positive integers.  Weights of zero can be accommodated relatively easily.  Should every possible cycle have a minimum weight of at least 1, then no changes are needed.  If it is possible for there to be a cycle with a total weight of zero, then a sixth rule must be introduced, before the current rule 5, which in turn becomes rule 6.  This new rule 5 simply detects a minimum of zero.  The new rules are shown in \cref{rules:tsp:minzerorules}.
 
 \cpchangerulenumber{4}
 
@@ -19,5 +19,5 @@ In \cref{sec:tsp:algotsp} we assumed that all arc weights are strictly positive 
     \cpinhibitor{\cpfunc{z}{\cpfunc{p}{\_} \, \cpfunc{c}{C}}}
     
 \end{cpruleset}
-\caption[Rules to find the minimum cost path when it may be zero]{\label{minzerorules}Rules to find the minimum cost path in our \gls{tsp} algorithm, when that path cost may be zero}
+\caption[Rules to find the minimum cost path when it may be zero]{\label{rules:tsp:minzerorules}Rules to find the minimum cost path in the \gls{tsp} algorithm, when that path cost may be zero}
 \end{cprulesetfloat}

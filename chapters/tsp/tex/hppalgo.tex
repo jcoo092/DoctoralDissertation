@@ -1,70 +1,111 @@
-\section{\label{sec:tsp:algohpp}cP~Systems Hamiltonian Path and Cycle Algorithms}
+\section{\label{sec:tsp:algohpp}\glsentrytext{cps} Hamiltonian Path and Cycle Algorithms}
 % We discuss in this section only digraphs, recalling that all undirected graphs can be represented quite simply as a directed graph with arcs in both directions simulating edges -- this is in fact how we represent undirected graphs in our algorithm.
 
-This section discusses only digraphs, since all undirected graphs can be represented quite simply as a directed graph with arcs in both directions simulating edges --- this is in fact how undirected graphs in are represented in the below algorithm.
+This \namecref{sec:tsp:algohpp} discusses only digraphs, since all undirected graphs can be represented quite simply as a directed graph with arcs in both directions simulating edges --- this is in fact how undirected graphs are represented in the below algorithm.
 
 \subsection{Formal System Definition}
-A cP~system can be described as a 6-tuple as shown below.
+% A \glspl{cps} can be described as a 6-tuple, as shown below.
 
-\cptupletemplate{}
+% \cptupletemplate{}
 
-\(T\) is the set of top-level cells at the start of the evolution of the system; \(A\) is the alphabet of the system; \(O\) is the set of multisets of initial objects in the top-level cells; \(R\) is the set of rulesets for each top-level cell, \(S\) is the set of possible states of the system, and \(\Bar{s} \in S\) is the starting state of the system. Further, \(|T| = |O| = |R|\).
+% \(T\) is the set of top-level cells at the start of the evolution of the system; \(A\) is the alphabet of the system; \(O\) is the set of multisets of initial objects in the top-level cells; \(R\) is the set of rulesets for each top-level cell, \(S\) is the set of possible states of the system, and \(\Bar{s} \in S\) is the starting state of the system. Further, \(|T| = |O| = |R|\).
 
-\(T = \{1\}\), i.e. the entire system consists of only one top-level cell.  \(A = \) (the set of all symbols used).  \(O = \{E \cup v\}\).  For the \gls{hpp}, \(R\) is the ruleset in \cref{ruleset:tsp:hpp}, and for the \gls{hcp} it is \cref{ruleset:tsp:hcp}.  For both, \(S = \{s_1, s_2, s_3, s_4\}\), and \(\Bar{s} = s_1\).
+Following the 6-tuple description style of \cref{sec:cps:formaldescriptions}:  \(T = \{1\}\), i.e. the entire system consists of only one top-level cell.  \(A_{HPP} = \cpset{e, f, h, p, p', s, t, u, v}\), \(A_{HCP} = A_{HPP} \cup \cpset{r, z}\).  \(O = E \cup \cpset{\cpfunc{v}{V}}\) (\(E\) is described further in \cref{sec:tsp:hpp}).  For the \gls{hpp}, \(R\) is the rules in \cref{ruleset:tsp:hpp}, and for the \gls{hcp} it is \cref{ruleset:tsp:hcp}.  For the \gls{hpp} \(S_{HPP} = \cpset{s_1, s_2, s_3}\) and for the \gls{hcp} \(S_{HCP} = S_{HPP} \cup \cpset{s_4}\), and for both \(\Bar{s} = s_1\).
 
-\cptuple{HPP}{\cpset{1}}{\cpset{e, f, h, p, p', s, t, u, v}}{\cpset{E \cup \cpset{v}}}{\text{\cref{ruleset:tsp:hpp}}}{\cpset{s_1, s_2, s_3, s_4}}{s_1}
+\cptuple{HPP}{\cpset{1}}{\cpset{e, f, h, p, p', s, t, u, v}}{\cpset{E \cup \cpset{v}}}{\text{\cref{ruleset:tsp:hpp}}}{\cpset{s_1, s_2, s_3}}{s_1}
 
-\cptuple{HCP}{\cpset{1}}{\cpset{e, f, h, p, p', s, t, u, v}}{\cpset{E \cup \cpset{v}}}{\text{\cref{ruleset:tsp:hcp}}}{\cpset{s_1, s_2, s_3, s_4}}{s_1}
+\cptuple{HCP}{\cpset{1}}{\cpset{e, f, h, p, p', r, s, t, u, v, z}}{\cpset{E \cup \cpset{v}}}{\text{\cref{ruleset:tsp:hcp}}}{\cpset{s_1, s_2, s_3, s_4}}{s_1}
 
-\subsection{Hamiltonian Path}
-The algorithm follows a simple approach, essentially a simple maximally parallel breadth-first search of the digraph.  We start with a top-level cell enclosed by the skin membrane, and populated with subcells describing the problem digraph (recall that subcells in \gls{cps} are the namesake complex objects).  From there, a starting vertex of the problem digraph is randomly selected, and the top-level cell is then populated with the other initial required subcells.  The evolution of the system then proceeds synchronously level-by-level through the different potential paths of the cycle by creating new subcells encoding the digraph traversals up to that point, expanding all possible paths from a given vertex which exclude any of the previously visited vertices.
+\subsection{\label{sec:tsp:hpp}Hamiltonian Path}
+The algorithm follows a simple approach, essentially a simple maximally parallel breadth-first search of the digraph.  It starts with a top-level cell enclosed by the skin membrane, and populated with subcells describing the problem digraph (recall that subcells in \gls{cps} are the namesake complex objects).  From there, a starting vertex of the problem digraph is randomly selected, and the top-level cell is then populated with the other initial required subcells.  The evolution of the system then proceeds synchronously level-by-level through the different potential paths of the cycle by creating new subcells encoding the digraph traversals up to that point, expanding all possible paths from a given vertex which exclude any of the previously visited vertices.  The algorithm requires a fixed set of \textbf{only four rules}, presented in \cref{ruleset:tsp:hpp}.
 
-The algorithm requires a fixed set of \textbf{only four rules}, presented in \cref{ruleset:tsp:hpp}.  Note that we do not define a class of rules and suggest that there should be instantiations of it to fit the specific problem, but instead we define precisely four rules that apply the same to all problems conforming to the basic assumptions described below.
+% The algorithm requires a fixed set of \textbf{only four rules}, presented in \cref{ruleset:tsp:hpp}.  Note that we do not define a class of rules and suggest that there should be instantiations of it to fit the specific problem, but instead we define precisely four rules that apply the same to all problems conforming to the basic assumptions described below.
 
-At the beginning of the computation, assume an elementary cell with the skin membrane, and that the set \(E\) of subcells of the form \(E = \{e(f(i)\,t(j))\}_{i,j \in \mathbb{N}; ~ i \neq j}\) encoding the arcs of the problem digraph is already present inside the skin membrane.  Subcell \(e\) represents an arc; \(f\) the origin vertex; and \(t\) the destination vertex.  We further assume that the subcell \( v(v(X),v(Y)\dots)\), listing the vertices of the problem digraph is present, though this could be derived from the subcells in \(E\), if required.  The system begins in state 1.
+% At the beginning of the computation, assume an elementary cell with the skin membrane, and that the set \(E\) of subcells of the form \(E = \{e(f(i)\,t(j))\}_{i,j \in \mathbb{N}; ~ i \neq j}\) encoding the arcs of the problem digraph is already present inside the skin membrane.  Subcell \(e\) represents an arc; \(f\) the origin vertex; and \(t\) the destination vertex.  We further assume that the subcell \( v(v(X),v(Y)\dots)\), listing the vertices of the problem digraph is present, though this could be derived from the subcells in \(E\), if required.  The system begins in state 1.
+
+At the beginning of the computation, assume an elementary cell with the skin membrane, and that the set \(E\) of subcells of the form \(E = \cpset{\cpfunc{e}{\cpfunc{f}{i} \, \cpfunc{t}{j}} ~ | ~ i,j \in \mathbb{N}, ~ i \neq j}\) encoding the arcs of the problem digraph is already present inside the skin membrane.  Subcell \(e\) represents an arc; \(f\) the origin vertex; and \(t\) the destination vertex.  Assume further that the subcell \(\cpfunc{v}{\cpfunc{v}{X}, \, \cpfunc{v}{Y} \dots}\), listing the vertices of the problem digraph, is present.  This could be derived from the subcells in \(E\) if required, though.  The system begins in state \(s_1\).
+
+\subsubsection{\label{sec:tsp:hpprules}Description of rules}
 
 \begin{cprulesetfloat}
     \begin{cpruleset}
-        \cprule{s_1}{\cpfunc{v}{\cpfunc{v}{R} Y}}{1}{s_2}{\cpfunc{s}{\cpfunc{u}{Y} \; \cpfunc{p}{\cpfunc{h}{R}\cpfunc{p}{}}}}
+        \cprule{s_1}{\cpfunc{v}{\cpfunc{v}{R} Y}}{1}{s_2}{\cpfunc{s}{\cpfunc{u}{Y} \; \cpfunc{p}{\cpfunc{h}{R}\cpfunc{p}{\cpempty}}}}
         
         \cprule{s_2}{}{1}{s_3}{\cpfunc{p'}{P}}
-        \cppromoter{\cpfunc{s}{\cpfunc{u}{} \; \cpfunc{p}{P}}}
+        \cppromoter{\cpfunc{s}{\cpfunc{u}{\cpempty} \; \cpfunc{p}{P}}}
         
         \cprule{s_2}{}{+}{s_2}{\cpfunc{s}{\cpfunc{u}{Z} \; \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}}
         \cppromoter{\cpfunc{s}{\cpfunc{u}{\cpfunc{v}{T}Z} \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}
         \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \; \cpfunc{t}{T}}}
         
-        \cprule{s_2}{\cpfunc{s}{\_}}{+}{s_2}{}
+        \cprule{s_2}{\cpfunc{s}{\cpdiscard}}{+}{s_2}{}
     \end{cpruleset}
     \caption[Ruleset for the \glsentrylong{hpp-glossary}]{\label{ruleset:tsp:hpp}Ruleset for our \gls{hpp} \gls{cps} algorithm.}
 \end{cprulesetfloat}
 
-Rule 1 begins the computation by selecting an arbitrary vertex \(R\) from the subcell \(v\) to become the starting point of the cycle, and creating the first \(s\) subcell.  The \(s\) subcells represent steps down the tree of the exploration of the digraph (see \cref{fig:tsp:utree} for an example), with the first step representing the selection of the starting vertex \(R\).  Each \(s\) subcell comprises two components: \(u\), a set representing the remaining unexplored vertices in the digraph; and \(p\) which acts as a list as described above, and keeps track of the cycle's path so far.  The \(R\) variable used in this rule represents the root of the computation, which is not used further in this algorithm, but becomes important for the \gls{hcp} and \gls{tsp}.  The rule is applied in exactly-once mode, and the system transitions to state 2.  Application of this rule takes one step.
+% Rule 1 begins the computation by selecting an arbitrary vertex \(R\) from the subcell \(v\) to become the starting point of the cycle, and creating the first \(s\) subcell.  The \(s\) subcells represent steps down the tree of the exploration of the digraph (see \cref{fig:tsp:utree} for an example), with the first step representing the selection of the starting vertex \(R\).  Each \(s\) subcell comprises two components: \(u\), a set representing the remaining unexplored vertices in the digraph; and \(p\) which acts as a list (see \cref{sec:cps:lists}), and keeps track of the cycle's path so far.  The \(R\) variable used in this rule represents the root of the computation, which is not used further in this algorithm, but becomes important for the \gls{hcp} and \gls{tsp}.  The rule is applied in exactly-once mode, and the system transitions to state \(s_2\).  Application of this rule takes one step.
 
-Rule 2 is listed earlier despite being applied after rules 3 and 4, to enjoy an advantage in the weak priority ordering.  After rules 3 and 4 have been applied enough times to leave the system only with \(s\) subcells that have no further nodes to explore in their \(u\) subcell, rule 2 will select and output a path \(p'\) chosen at random from among those deduced so far.  This rule is applied in exactly-once mode, and application of the rule takes one step, with the system ending in state 3.  The application of this rule represents the end of the evolution of the system.
+% Rule 2 is listed earlier despite being applied after rules 3 and 4, to enjoy an advantage in the weak priority ordering.  After rules 3 and 4 have been applied enough times to leave the system only with \(s\) subcells that have no further nodes to explore in their \(u\) subcell, rule 2 will select and output a path \(p'\) chosen at random from among those deduced so far.  This rule is applied in exactly-once mode, and application of the rule takes one step, with the system ending in state \(s_3\).  The application of this rule represents the end of the evolution of the system.
 
-Rule 3 is arguably the heart of the algorithm.  So long as there are one or more vertex labels remaining in the unexplored vertex subcells \(u\) and a relevant \(e\) subcell available, this rule will be applied to each extant \(s\) subcell, and create new derivative \(s\) subcells that represent another step in the exploration of the digraph/another level in the exploration tree.  The next selected vertex \(T\) for each instantiation will be removed from \(u\) and prepended to \(p\).  This rule is applied in maximally-parallel parallel mode, and the system remains in state 2.  Application of this rule takes one step per remaining vertex in the digraph, or \(n - 1\) steps in total.
+% Rule 3 is the core of the algorithm.  So long as there are one or more vertex labels remaining in the unexplored vertex subcells \(u\) and a relevant \(e\) subcell available, this rule will be applied to each extant \(s\) subcell, and create new derivative \(s\) subcells that represent another step in the exploration of the digraph/another level in the exploration tree.  The next selected vertex \(T\) for each instantiation will be removed from \(u\) and prepended to \(p\).  This rule is applied in maximally-parallel mode, and the system remains in state \(s_2\).  Application of this rule takes one step per remaining vertex in the digraph, or \(n - 1\) steps in total.
 
-Rule 4 runs in parallel with rule 3, and simply removes the extant \(s\) subcells from the system.  Due to the parallel nature of \gls{clps}, where any number of rules can be applied concurrently so long as they do not conflict with each other, this rule can work in conjunction with rule 3 without issue, because changes to subcells are not performed until the end of the step.  Note that neither rules 3 nor 4 can be applied alongside rule 2, because rule 2 changes the system's state, and therefore application of it conflicts with the latter two rules.  Both later rules are applied at the same time, so that at the end of their application, the new \(s\) subcells have been created, and the pre-existing ones deleted.  This rule is applied in maximally-parallel mode, and the system remains in state 2.  Application of this rule takes one step per vertex in the digraph, or \(n - 1\) steps in total -- of note is that these steps are the same ones used for the application of rule 3, and occur simultaneously.
+% Rule 4 runs in parallel with rule 3, and simply removes the extant \(s\) subcells from the system.  Due to the parallel nature of \gls{clps}, where any number of rules can be applied concurrently so long as they do not conflict with each other, this rule can work in conjunction with rule 3 without issue, because changes to subcells are not performed until the end of the step.  Note that neither rules 3 nor 4 can be applied alongside rule 2, because rule 2 changes the system's state, and therefore application of it conflicts with the latter two rules.  Both later rules are applied at the same time, so that at the end of their application, the new \(s\) subcells have been created, and the pre-existing ones deleted.  This rule is applied in maximally-parallel mode, and the system remains in state \(s_2\).  Application of this rule takes one step per vertex in the digraph, or \(n - 1\) steps in total.  These steps are the same ones used for the application of rule 3, and occur simultaneously.
+
+\begin{enumerate}
+    \item Rule 1 begins the computation by selecting an arbitrary vertex \(R\) from the subcell \(v\) to become the starting point of the cycle, and creating the first \(s\) subcell.  The \(s\) subcells represent steps down the tree of the exploration of the digraph (see \cref{fig:tsp:utree} for an example), with the first step representing the selection of the starting vertex \(R\).  Each \(s\) subcell comprises two components: \(u\), a set representing the remaining unexplored vertices in the digraph; and \(p\) which acts as a list (see \cref{sec:cps:lists}), and keeps track of the cycle's path so far.  The \(R\) variable used in this rule represents the root of the computation, which is not used further in this algorithm, but becomes important for the \gls{hcp} and \gls{tsp}.  The rule is applied in exactly-once mode, and the system transitions to state \(s_2\).  Application of this rule takes one step.
+    \item Rule 2 is listed earlier despite being applied after rules 3 and 4, to enjoy an advantage in the weak priority ordering.  After rules 3 and 4 have been applied enough times to leave the system only with \(s\) subcells that have no further vertices to explore in their \(u\) subcell, rule 2 will select and output a path \(p'\) chosen at random from among those deduced so far.  This rule is applied in exactly-once mode, and application of the rule takes one step, with the system ending in state \(s_3\).  The application of this rule represents the end of the evolution of the system.
+    \item Rule 3 is the core of the algorithm.  So long as there are one or more vertex labels remaining in the unexplored vertex subcells \(u\) and a relevant \(e\) subcell available, this rule will be applied to each extant \(s\) subcell, and create new derivative \(s\) subcells that represent another step in the exploration of the digraph/another level in the exploration tree.  The next selected vertex \(T\) for each instantiation will be removed from \(u\) and prepended to \(p\).  This rule is applied in maximally-parallel mode, and the system remains in state \(s_2\).  Application of this rule takes one step per remaining vertex in the digraph, or \(n - 1\) steps in total.
+    \item Rule 4 runs in parallel with rule 3, and simply removes the extant \(s\) subcells from the system.  Due to the parallel nature of \gls{clps}, where any number of rules can be applied concurrently so long as they do not conflict with each other, this rule can work in conjunction with rule 3 without issue, because changes to subcells are not performed until the end of the step.  Note that neither rules 3 nor 4 can be applied alongside rule 2, because rule 2 changes the system's state, and therefore application of it conflicts with the latter two rules.  Both later rules are applied at the same time, so that at the end of their application, the new \(s\) subcells have been created, and the pre-existing ones deleted.  Such behaviour naturally eliminates any dead-end paths where there is no arc from the current vertex to an unexplored one.  This rule is applied in maximally-parallel mode, and the system remains in state \(s_2\).  Application of this rule takes one step per vertex in the digraph, or \(n - 1\) steps in total.  These steps are the same ones used for the application of rule 3, and occur simultaneously.
+\end{enumerate}
+
+\subsubsection{\label{sec:tsp:hppterms}Definition of terms}
+
+\paragraph{Atoms}
+\begin{description}
+    \cptermdef{\cpempty}{The standard \gls{cps} `empty' symbol.}
+\end{description}
+
+\paragraph{Functors}
+\begin{description}
+    \cptermdef{e}{Arc term.  Describes an arc in the digraph, using \(f\) and \(t\) subterms.}
+    \cptermdef{f}{Arc start term.  Lists the ``from'' vertex for an arc in the digraph.}
+    \cptermdef{h}{List head.  Represents the head of a classic \fxwarning{ref}{\texttt{cons} linked list}, which is used to track a path explored-so-far in the digraph.}
+    \cptermdef{p}{Path term.  Holds a list of vertices traversed so far, in reverse order from the end to the start vertex.}
+    \cptermdef{p'}{Final result.  The selected Hamiltonian Path is placed into this subcell immediately before the end of the \gls{tlc}'s evolution.}
+    \cptermdef{s}{Exploration term.  This term holds a \(p\) subcell describing the path explored so far, and a \(u\) subcell with a set of all vertices yet to be explored on this particular path.}
+    \cptermdef{t}{Arc end term.  List the ``to'' vertex for an arc in the digraph.}
+    \cptermdef{u}{Unexplored vertices set.  The set of all vertices yet to be visited on the current Hamiltonian Path --- one is stored per \(s\) term.}
+    \cptermdef{v}{Vertex set.  At the start of evolution, this contains the label of every vertex, as another \(v\) subcell.}
+\end{description}
+
+\paragraph{States}
+\begin{description}
+    \cptermdef{s_1}{Initial state.  One of the vertices in the graph is chosen at random as the starting vertex.}
+    \cptermdef{s_2}{Evolution state.  The `main loop' of the system occurs here.  At each step, another vertex in the remaining set for each \(s\) term is chosen for exploration.}
+    \cptermdef{s_3}{Ending state.  The \gls{tlc} transitions to this state when it has selected a Hamiltonian Path, and ceased evolution.}
+\end{description}
 
 \subsection{Hamiltonian Cycle}
 Finding a Hamiltonian cycle requires an expansion of the algorithm, specifically to record the initial starting vertex, and ensure that the paths produced also end there.  The modified rules taking account of the changes are presented in \cref{ruleset:tsp:hcp}.
 
-\cpresetrulenumber
+The major changes to this from the \gls{hpp} algorithm are the addition of an \(r\) subcell to every \(s\) subcell, the change of rule 2 and the addition of a rule 5. The \(r\) subcell stores a vertex -- the \(R\) selected in rule 1 -- to keep track of the starting point of the cycle, where the cycle will also have to end.  This is used by the new rule 2, which instead of outputting a randomly selected path, constructs new \(z\) subcells out of the \(s\) subcells.  These new subcells contain the full path of the cycle, but are only instantiated if there is an \(e\) subcell representing an arc on the graph from the final vertex on the path back to the origin vertex \(R\), by the action of the promoter.  Finally, rule 5 selects at random from one of these new \(z\) subcells and outputs a final path subcell \(p'\).  Rule 5 runs in exactly-once mode.  Application of this rule takes one step, and the system ends in state \(s_4\), which represents the new termination point of the evolution of the system.
+
+% \cpresetrulenumber
+\subsubsection{Description of rules}
 
 \begin{cprulesetfloat}
     \begin{cpruleset}
         
-        \cprule{s_1}{\cpfunc{v}{\cpfunc{v}{R} Y}}{1}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{Y} \; \cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{}}}}
+        \cprule{s_1}{\cpfunc{v}{\cpfunc{v}{R} Y}}{1}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{Y} \; \cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpempty}}}}
         
-        \cprule{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{} \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}{+}{s_3}{\cpfunc{z}{\cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}}
+        \cprule{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{\cpempty} \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}{+}{s_3}{\cpfunc{z}{\cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}}
         \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \; \cpfunc{t}{R}}}
         
         \cprule{s_2}{}{+}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{Z} \; \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}}
         \cppromoter{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{\cpfunc{v}{T} Z} \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}
         \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \; \cpfunc{t}{T}}}
         
-        \cprule{s_2}{\cpfunc{s}{\_}}{+}{s_2}{}
+        \cprule{s_2}{\cpfunc{s}{\cpdiscard}}{+}{s_2}{}
         
         \cprule{s_3}{}{1}{s_4}{\cpfunc{p'}{P}}
         \cppromoter{\cpfunc{z}{\cpfunc{p}{P}}}
@@ -73,11 +114,49 @@ Finding a Hamiltonian cycle requires an expansion of the algorithm, specifically
     \caption[Ruleset for the \glsentrylong{hcp-glossary}]{\label{ruleset:tsp:hcp}Ruleset for our \gls{hcp} \gls{cps} algorithm.}
 \end{cprulesetfloat}
 
-The major changes to this from the \gls{hpp} algorithm are the addition of an \(r\) subcell to every \(s\) subcell, the change of rule 2 and the addition of a rule 5. The \(r\) subcell stores a vertex -- the \(R\) selected in rule 1 -- to keep track of the starting point of the cycle, where the cycle will also have to end.  This is used by the new rule 2, which instead of outputting a randomly selected path, constructs new \(z\) subcells out of the \(s\) subcells.  These new subcells contain the full path of the cycle, but are only instantiated if there is an \(e\) subcell representing an arc on the graph from the final vertex on the path back to the origin vertex \(R\), by the action of the promoter.  Finally, rule 5 selects at random from one of these new \(z\) subcells and outputs a final path subcell \(p'\).  Rule 5 runs in exactly-once mode.  Application of this rule takes one step, and the system ends in state 4, which represents the new termination point of the evolution of the system.
+\begin{enumerate}
+    \item Almost identical to rule 1 in \cref{ruleset:tsp:hpp}.  The only difference is that the generated \(s\) subcell also contains an \(r\) subcell.
+    \item This rule is new to this ruleset.  When the \(s\) terms have emptied their \(u\) subcells, every vertex on the graph has been explored, and every \(p\) subcell contains a Hamiltonian Path.  To make those paths Hamiltonian Cycles, another final arc traversal back to the origin vertex is required.  This rule generates \(z\) terms where there is an arc in the digraph from the last vertex on the path back to said origin vertex (stored in an \(r\) subcell in each \(s\) term).  The final Hamiltonian Cycle is selected from one of those \(z\) terms.
+    \item Almost identical to rule 3 in \cref{ruleset:tsp:hpp}.  The only difference is that here the rule accounts for the additional presence of \(r\) subcells inside the \(s\) subcells.
+    \item Identical to rule 4 in \cref{ruleset:tsp:hpp}.
+    \item Similar to rule 2 in \cref{ruleset:tsp:hpp}.  This rule selects a path from a \(z\) object instead an \(s\) object, but still represents the end of the \gls{tlc}'s evolution.
+\end{enumerate}
+
+\subsubsection{Definition of terms}
+
+\paragraph{Atoms}
+\begin{description}
+    \cptermdef{\cpempty}{The standard \gls{cps} `empty' symbol.}
+\end{description}
+
+\paragraph{Functors}
+\begin{description}
+    \cptermdef{e}{Identical to \(e\) in \cref{ruleset:tsp:hpp}.}
+    \cptermdef{f}{Identical to \(f\) in \cref{ruleset:tsp:hpp}..}
+    \cptermdef{h}{Identical to \(h\) in \cref{ruleset:tsp:hpp}.}
+    \cptermdef{p}{Identical to \(p\) in \cref{ruleset:tsp:hpp}.}
+    \cptermdef{p'}{Identical to \(p'\) in \cref{ruleset:tsp:hpp}.}
+    \cptermdef{r}{``Root'' term.  This records the selected starting vertex, so that the new rule 2 can ensure that the final traversal on the path is a return to the starting vertex.}
+    \cptermdef{s}{Almost identical to \(e\) in \cref{ruleset:tsp:hpp}.  The only difference is that each \(s\) subcell now also contains an \(r\) subcell.}
+    \cptermdef{t}{Identical to \(t\) in \cref{ruleset:tsp:hpp}.}
+    \cptermdef{u}{Identical to \(u\) in \cref{ruleset:tsp:hpp}.}
+    \cptermdef{v}{Identical to \(v\) in \cref{ruleset:tsp:hpp}.}
+    \cptermdef{z}{Hamiltonian Cycle containers.  Once created, each one will a \(p\) object listing a completed Hamiltonian cycle.}
+\end{description}
+
+\paragraph{States}
+\begin{description}
+    \cptermdef{s_1}{Identical to \(s_1\) in \cref{ruleset:tsp:hpp}.}
+    \cptermdef{s_2}{Identical to \(s_2\) in \cref{ruleset:tsp:hpp}.}
+    \cptermdef{s_3}{Hamiltonian Cycle selection state.  The \gls{tlc} transitions to this state when it generates all possible Hamiltonian Cycles.}
+    \cptermdef{s_4}{Identical to \(s_3\) in \cref{ruleset:tsp:hpp}.}
+\end{description}
+
+\subsubsection{Time complexity of the \glsentrytext{hcp} (\glsentrytext{hpp}) algorithm}
 
 The time complexity of this algorithm can be summarised as Proposition \ref{prop:tsp:runtime}:
 
 \begin{proposition}
-In total, the Hamiltonian cycle (path) algorithm takes \(n + 3\) (\(n + 1\)) operations, giving the algorithm a time complexity of \(\mathcal{O}(n)\).
+In total, the Hamiltonian cycle (path) algorithm takes \(n + 3\) (\(n + 1\)) operations, giving the algorithm a time complexity of \bigoh{n}.
 \label{prop:tsp:runtime}
 \end{proposition}

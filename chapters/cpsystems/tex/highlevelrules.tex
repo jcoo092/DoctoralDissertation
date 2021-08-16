@@ -1,0 +1,227 @@
+%-----------------------------------------------------------------------------------
+\section{High-level or generic rules}
+%-----------------------------------------------------------------------------------
+
+% \noindent
+%-------------------------------------------------------
+\subsection{\label{sec:cps:genericrules}Generic rules format.}
+%-------------------------------------------------------
+We consider rules of the following \emph{generic} format 
+(we call this format generic because it defines templates involving variables):
+\begin{framed}
+\vspace{-0.6cm}
+\begin{align*}
+\emph{current-state} ~~ \emph{symbols} \dots ~ \rightarrow_\alpha ~ & \emph{target-state} ~~ (\emph{in-symbols}) \dots ~~ \\
+ & (\emph{out-symbols})_\delta \dots \\
+ & | ~  \emph{promoters} \dots ~~ \neg ~  \emph{inhibitors} \dots
+\end{align*}
+\vspace{-0.8cm}
+\end{framed}
+Where:
+\begin{itemize}
+\item \emph{current-state} and \emph{target-state} are atoms or terms;
+
+\smallskip
+\item \emph{symbols}, \emph{in-symbols}, \emph{promoters} and \emph{inhibitors} are symbols;
+
+\smallskip
+\item \emph{in-symbols} become available after the end of the current step only, as in traditional \gls{ps}  (we can imagine that these are sent via an ad-hoc fast \emph{loopback} channel); 
+
+\smallskip
+\item subscript \(\alpha\) \(\in\) \(\{\cponce\), \(\cpmaxpar\}\), 
+indicates the application mode, as further discussed in the below;
+
+\smallskip
+\item \fxerror{We basically never use these anymore...}{\emph{out-symbols}} are sent to the cell's structural neighbours at the end of the step.
+These symbols are enclosed in round parentheses that indicate 
+their \fxerror{Should this be moved to an ``intra-cell messaging'' section?}{destinations}, abbreviated above as \(\delta\). 
+The most usual scenarios include: 
+
+\begin{itemize}
+\item \((a)\downarrow_i\) indicates that \(a\) is sent over outgoing arc \(i\) (unicast); 
+
+\item \((a)\downarrow_{i,j}\) indicates that \(a\) is sent over outgoing arcs \(i\) and \(j\)(multicast); 
+
+\item \((a)\downarrow_\forall\) indicates that \(a\) is sent over all outgoing arcs (broadcast). 
+\end{itemize}
+
+All symbols sent via one \emph{generic rule} to the same destination form one single \emph{message}, and they travel together as one single block (even if the generic rule is applied in mode \(\cpmaxpar\)).
+\end{itemize}
+
+% \smallskip
+% \noindent
+%-------------------------------------------------------
+\subsection{Pattern matching.}
+%-------------------------------------------------------
+\fxerror{Should this be combined with the unification section above?}{Rules are matched against cell contents using the aforementioned \emph{pattern matching},
+which involves the rule's \emph{\gls{lhs}}, promoters and inhibitors.}
+
+Generally, variables have \emph{global rule scope};
+these are assumed to be introduced by \emph{existential} quantifiers preceding the rule
+-- except for inhibitors, which may introduce \emph{local variables}, 
+as further discussed below. 
+
+The matching is \emph{valid} only if, after unification/substituting variables by their values, 
+the rule's \emph{\gls{rhs}} contains ground terms only
+(so \emph{no} free variables are injected in the cell or sent to its neighbours),
+as illustrated by the following sample scenario:
+\begin{itemize}
+\item The cell's \emph{current content} includes the \emph{ground term}:\\
+\(\cpfunc{n}{a \, \cpfunc{\phi}{b \, \cpfunc{\phi}{c} \, \cpfunc{\psi}{d}} \, \cpfunc{\psi}{e}}\)
+
+\smallskip
+\item The following (state-less) \emph{rewriting rule} is considered: \\ 
+\(\cpfunc{n}{X \, \cpfunc{\phi}{Y \, \cpfunc{\phi}{Y_1} \, \cpfunc{\psi}{Y_2}} \, \cpfunc{\psi}{Z}} ~ \rightarrow ~ \cpfunc{v}{X} \: \cpfunc{n}{Y \, \cpfunc{\phi}{Y_2} \, \cpfunc{\psi}{Y_1}} \: \cpfunc{v}{Z}\)
+
+\smallskip
+\item Our pattern matching determines the following \emph{unifiers}: \\
+\(X = a\), \(Y = b\), \(Y_1 = c\), \( Y_2 = d\), \(Z = e\).
+
+\smallskip
+\item This is a \emph{valid} matching and, after \emph{substitutions}, 
+the rule's \gls{rhs} gives the \emph{new content}: \\
+\(\cpfunc{v}{a} ~ \cpfunc{n}{b \, \cpfunc{\phi}{d} \, \cpfunc{\psi}{c}} ~ \cpfunc{v}{e}\)
+\end{itemize}
+
+% \smallskip
+% \noindent
+%-------------------------------------------------------
+\subsection{Promoters and inhibitors.}
+%-------------------------------------------------------
+
+Promoters are objects that \emph{must} be present within the cell for the rule to be applicable but are \emph{not} destroyed by the rule.  Conversely, inhibitors are objects that \emph{must not} be present for the rule to be applicable, although the rule may create them.  If promoters are present, they are denoted following a \(|\) per promoter, and inhibitors by \(\neg\), e.g. \(|\,\cpfunc{a}{A}\) or \(\neg\,\cpfunc{b}{B}\).  Inhibitors and promoters are traditionally written below the main rule body, but this is not strictly required.
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+  $| ~ \cpfunc{a}{A}$ #\hfill\textsl{promoter}\enspace#
+  $\neg ~ \cpfunc{b}{B}$ #\hfill\textsl{inhibitor}\enspace#
+\end{lstlisting}
+
+To define additional useful matchings expressively, 
+promoters and inhibitors may also use virtual ``equality'' terms, 
+written in infix format, with the \(=\) operator.
+For example, including the term \((ab = XY)\) indicates the following additional matching constraints on variables \(X\) and \(Y\): either \(X, Y = ab, \cpempty\); or \(X, Y = a, b\); or \(X, Y = b, a\); or \(X, Y = \cpempty, ab\).
+
+To define inhibitors as logical negations usefully,
+variables that only appear in the scope of an inhibitor are assumed to have \emph{local scope}. 
+Furthermore, these variables are assumed to be defined by \emph{existential} quantifiers, immediately after the negation. 
+Semantically, this is equivalent to introducing these variables at the global rule level, 
+but by \emph{universal} quantifiers, after all other global variables;
+introduced by \emph{existential} quantifiers.
+
+As an illustration, consider a cell containing \(\cpfunc{a}{c} ~ \cpfunc{a}{ccc}\) and contrast two rules, 
+containing the following two sample promoter/inhibitor pairs 
+(for brevity, other rule details are omitted here).
+
+\lstset{xleftmargin=.5in, xrightmargin=.5in} 
+\begin{lstlisting}
+... $\mid$  $\cpfunc{a}{cXY}$     $\neg$  $\cpfunc{a}{X}$    #\hfill (1)\enspace#
+... $\mid$  $\cpfunc{a}{cZ}$     $\neg$  $(Z=XY)$  $\cpfunc{a}{X}$    #\hfill (2)\enspace#
+\end{lstlisting}
+
+These two rules appear very similar, and their inhibitor tests share the same expression: 
+NO \(\cpfunc{a}{X}\) may be present in the cell.
+
+Rule (1) uses two global variables, \(X, Y\). 
+According to its promoter, \(\cpfunc{a}{cXY}\), these variables can be matched in four different ways:
+(1a) \(X, Y = \cpempty, \cpempty\); (1b) \(X, Y = cc, \cpempty\); (1c) \(X, Y = \cpempty, cc\); (1d) \(X, Y = c, c\).\footnote{Strictly speaking, this matching is possible in multiple ways, with different \(c\) atoms assigned to each variable.  For current purposes, though, they are equivalent and so are reduced to the one result.}
+Three different unifications, (1a), (1b), (1c), pass the inhibitor test, 
+as there are no cell terms \(\cpfunc{a}{}\), \(\cpfunc{a}{cc}\), \(\cpfunc{a}{}\), respectively. 
+Unification (1d) fails the inhibitor test, because there \emph{is} one cell term \(\cpfunc{a}{c}\).
+
+Rule (2) uses one global variable, \(Z\), and two local inhibitor variables, \(X, Y\).
+According to its promoter, \(\cpfunc{a}{cZ}\), variable \(Z\) can be matched in two different ways: 
+(2a) \(Z = \cpempty\); (2b) \(Z = cc\).
+Unification (2a) passes the inhibitor test, because it only generates one local unification,
+\(X, Y = \cpempty, \cpempty\), and there is NO cell term \(\cpfunc{a}{}\).
+Unification (2b) fails the inhibitor test, because it generates all three following local unifications:
+(2b1) \(X, Y = cc, \cpempty\); (2b2) \(X, Y = \cpempty, cc\); (2b3) \(X, Y = c, c\); 
+and there \emph{is} a cell term corresponding to (2b3), \(\cpfunc{a}{c}\).
+
+% \smallskip
+% \noindent
+% \subsection{Application modes -- \(\cponce\) and \(\cpmaxpar\).}
+%-------------------------------------------------------
+\subsection{Application modes --- exactly-once and maximally-parallel.}
+%-------------------------------------------------------
+To explain the two rule application modes, \(\cponce\) and \(\cpmaxpar\) -- referred to as \emph{exactly-once} and \emph{maximally-parallel} respectively -- consider a cell, \(\sigma\), containing three counter-like complex symbols,
+\(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^3}\),
+and the two possible application modes of the following high-level ``decrementing'' rule:
+\vspace{-0.2cm}
+\begin{framed}
+\vspace{-0.5cm}
+\[(\rho_\beta) ~s_1 ~\cpfunc{c}{\cpundig \, X} \rightarrow_{\alpha} s_2 ~\cpfunc{c}{X},\\
+\mathrm{where} \; \alpha \in \{\cponce, \cpmaxpar\}.\]
+\vspace{-0.8cm}
+\end{framed}
+
+The \gls{lhs} of rule \(\rho_\beta\), \(\cpfunc{c}{\cpundig \, X}\), can be unified in three different ways,
+to each one of the three \(c\) symbols extant in cell \(\sigma\).
+Conceptually, we instantiate this rule in three different ways,
+each one tied and applicable to a distinct symbol:
+\begin{eqnarray*}
+& (\rho_1)  & ~s_1 ~\cpfunc{c}{\cpundig^2} \rightarrow s_2 ~\cpfunc{c}{\cpundig},\\
+& (\rho_2)  & ~s_1 ~\cpfunc{c}{\cpundig^2} \rightarrow s_2 ~\cpfunc{c}{\cpundig},\\
+& (\rho_3) & ~s_1 ~\cpfunc{c}{\cpundig^3} \rightarrow s_2 ~\cpfunc{c}{\cpundig^2}.
+\end{eqnarray*}
+
+\begin{enumerate}
+\item If \(\alpha = \: \cponce\), rule~\(\rho_1\) 
+non-deterministically selects and applies one of these virtual rules \(\rho_1\), \(\rho_2\), \(\rho_3\).
+Using \(\rho_1\) or \(\rho_2\), 
+cell \(\sigma\) ends with counters \(\cpfunc{c}{\cpundig}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^3}\).
+Using \(\rho_3\),
+cell \(\sigma\) ends with counters \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\).
+
+\smallskip
+\item If \(\alpha = \: \cpmaxpar\), rule~\(\rho_\cpmaxpar\) 
+applies in parallel all these virtual rules \(\rho_1\), \(\rho_2\), \(\rho_3\).
+Cell \(\sigma\) ends with counters \(\cpfunc{c}{\cpundig}\), \(\cpfunc{c}{\cpundig}\), \(\cpfunc{c}{\cpundig^2}\).
+\end{enumerate}
+
+Semantically, the \(\cpmaxpar\) mode is equivalent to a virtual sequential \texttt{while} loop around the same rule in \(\cponce\) mode, which is repeated until it is no longer applicable.  All such applications of the rule are carried out concurrently in a single step, however.
+
+Like most other \gls{ps} variants, \gls{cps} \emph{usually} evolve synchronously in a stepwise fashion following an implicit global clock.  Rules are applied based on whether the available multiset(s) within the system match the rules' \gls{lhs} and promoters, and not the inhibitors.  The consumption of removed objects plus the creation of new objects happens instantaneously at the end of a step.
+
+% \smallskip
+% \noindent
+%-------------------------------------------------------
+\subsection{Benefits.}
+%-------------------------------------------------------
+This type of generic rules allows (i) a reasonably fast parsing and processing of subcomponents, and
+(ii) algorithm descriptions with \emph{fixed-size alphabets} and \emph{fixed-sized rulesets}, 
+independent of the size of the problem and the number of cells in the system (often \emph{impossible} with only atomic symbols).
+
+% \smallskip
+% \noindent
+%-------------------------------------------------------
+\subsection{Special cases.}
+%-------------------------------------------------------
+Simple scenarios involving generic rules are sometimes 
+semantically equivalent to sets of nongeneric rules defined via bounded loops.
+For example, consider the rule
+\[
+s_1 ~ \cpfunc{a}{\cpfunc{x}{I} \; \cpfunc{y}{J}} ~ \rightarrow_\cpmaxpar ~ s_2 ~ \cpfunc{b}{I} ~ \cpfunc{c}{J},
+\]
+where the cell's contents guarantee that \(I\) and \(J\) 
+only match integers in ranges \fxwarning{Shouldn't these be from zero to n/m?}{\([1,n]\) and \([1,m]\)}, respectively.
+Under these assumptions, 
+this rule is equivalent to the following set of nongeneric rules:
+\[
+s_1 ~ a_{i,j} ~ \rightarrow s_2 ~ b_i ~ c_j, ~ \forall i \in [1,n], j \in [1,m].
+\]
+
+However, unification is a much more powerful concept, 
+which cannot be reduced generally to simple bounded loops.
+
+% \smallskip
+% \noindent
+%-------------------------------------------------------
+\subsection{Synchronous vs asynchronous.}
+%-------------------------------------------------------
+In our models, we do not make any \emph{syntactic} difference between the synchronous and asynchronous scenarios;
+this is strictly a \emph{runtime} assumption~\cite{Nicolescu2012}.
+Any model can run on both the synchronous and asynchronous runtime ``engines'',
+albeit the results may differ.
+Our asynchronous model matches closely the standard definition of asynchronicity used in distributed algorithms;
+however, we do not follow this topic here.
