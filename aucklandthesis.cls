@@ -179,22 +179,24 @@
 \vspace*{\fill}
 }
 
-% line spacing
-\renewcommand\mainmatter{
-	\ifUa@doublesp
-   \DoubleSpacing%
-\else\ifUa@singlesp
-   \SingleSpacing%
-\else
-   \OnehalfSpacing
-\fi%
-\fi
-}
+% % line spacing
+% \renewcommand\mainmatter{
+% 	\ifUa@doublesp
+%   \DoubleSpacing%
+% \else\ifUa@singlesp
+%   \SingleSpacing%
+% \else
+%   \OnehalfSpacing
+% \fi%
+% \fi
+% % \pagenumbering{arabic}
+% % \setcounter{page}{0}
+% }
 
-\renewcommand\backmatter{
-	\clearpage
-	\setcounter{page}{0}
-}
+% \renewcommand\backmatter{
+% 	\clearpage
+% 	\setcounter{page}{0}
+% }
 
 \frenchspacing
 

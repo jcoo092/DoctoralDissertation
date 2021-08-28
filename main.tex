@@ -1,10 +1,8 @@
-% \documentclass[11pt,partial,draft,doublespace]{aucklandthesis}
-% \documentclass[11pt,partial,doublespace]{aucklandthesis}
-% \documentclass[11pt,partial,singlespace]{aucklandthesis}
 % \documentclass[11pt,partial]{aucklandthesis}
 %
-\documentclass[newzealand,10pt,partial,draft,doublespace]{aucklandthesis}
+% \documentclass[newzealand,10pt,partial,draft,doublespace]{aucklandthesis}
 % \documentclass[newzealand,10pt,partial,doublespace]{aucklandthesis}
+\documentclass[newzealand,10pt,partial,onehalfspace]{aucklandthesis}
 % \documentclass[newzealand,10pt,partial,singlespace]{aucklandthesis}
 % \documentclass[newzealand,10pt,partial]{aucklandthesis}
 %
@@ -28,17 +26,20 @@
 %%%% Packages introduced by me, not included with the template
 
 \usepackage{babel}
+\usepackage[UKenglish,abbreviations,xfrench]{foreign}
 
 \usepackage[normalem]{ulem}
 \usepackage{amsmath,amssymb,cpsystems,nmp,url,xcolor}
 \usepackage{subcaption}
 \usepackage{listings,minted,alltt}
-\usepackage{csquotes}
 
 \lstset{frame=single}
 \lstset{mathescape=true,escapechar=\#}
 \lstset{showstringspaces=false}
 \lstset{basicstyle=\small}
+
+\usepackage{csquotes}
+\usepackage[defblank]{paralist}
 
 \usepackage[binary-units]{siunitx}
 % \usepackage{siunitx}
@@ -156,15 +157,16 @@
   }
 }
 
-\usepackage{hyperref} % for formatting web addresses and other URLs
+\usepackage[hidelinks]{hyperref} % for formatting web addresses and other URLs
 \urlstyle{same} % try also tt, sf if this option doesn't produce clear enough output
 
 \usepackage[nameinlink]{cleveref} % Placed after hyperref in accordance with the documentation
 
 %%% All the glossaries stuff was put here, since the Glossaries documentation says it should be used after hyperref.
 
-\usepackage[acronym,noredefwarn,toc]{glossaries}
-\setacronymstyle{long-short}
+\usepackage[acronym,]{glossaries-extra}
+% \setacronymstyle{long-short}
+\setabbreviationstyle[acronym]{long-short}
 \makeglossaries
 
 \input{tex/newcommands}
@@ -174,11 +176,12 @@
 \loadglsentries{tex/glossary}
 
 % \includeonly{chapters/cpsystems/cpsystems}
-% \includeonly{chapters/gcol/g-col-rep}
+% \includeonly{chapters/nmp/nmp}
 
 \begin{document}
-
-% \frontmatter
+\OnehalfSpacing
+\pagenumbering{roman}
+\frontmatter
 
 % ====================================================
 %
@@ -191,7 +194,7 @@
 
 % Specify the title page content
 \title{Highly Concurrent Solutions to Graph and Image Processing Problems}
-\subtitle{Modelled for shared-memory scenarios in \gls{cps} and code \\ {\small v0.1.19 compiled on \today}}
+\subtitle{Modelled for shared-memory scenarios in \gls{cps} and code \\ {\small v0.1.29 compiled on \today}}
 \author{James Cooper}
 % \author{James Cooper\orcidlink{0000-0001-9954-3280}}
 \degreesought{Doctor of Philosophy} 
@@ -201,6 +204,9 @@
 % Print the title page
 \maketitle
 
+% \pagenumbering{roman}
+% \setcounter{page}{1}
+
 % Abstract, up to 350 words
 \include{tex/abstract} % it's in a separate file
 
@@ -209,7 +215,7 @@
 % \thesisdedication{This work is dedicated to the interested reader and all those who make use of material presented within.}
 
 % Preface and/or acknowledgements (optional)
-% \input{tex/acknowledgements.tex} % it's in a separate file
+\input{tex/acknowledgements.tex} % it's in a separate file
 
 % Contents, lists of tables and figures
 \settocdepth{subsection} % choose chapter, section, subsection 
@@ -219,6 +225,8 @@
 \cleardoublepage\listofcprulesetfloats
 \cleardoublepage\listofcpobjectsfloats
 \cleardoublepage\listoffixmes
+\cleardoublepage\printglossary
+\cleardoublepage\printglossary[type=\acronymtype]
 
 % \clearpage\tableofcontents
 % \clearpage\listoffigures
@@ -226,6 +234,8 @@
 % \clearpage\listofcprulesetfloats
 % \clearpage\listofcpobjectsfloats
 % \clearpage\listoffixmes
+% \clearpage\printglossary
+% \clearpage\printglossary[type=\acronymtype]
 
 % ====================================================
 %
@@ -241,6 +251,7 @@
 % ====================================================
 
 \mainmatter
+% \pagenumbering{arabic}
 
 % \input{chapters/intro.tex}
 % \glsresetall
@@ -273,7 +284,7 @@
 % \cpresetrulenumber
 % \input{tex/conclusion.tex}
 
-\include{chapters/intro.tex}
+\include{chapters/intro}
 \glsresetall
 % \cpresetrulenumber
 \include{chapters/litreview/litreview}
@@ -313,22 +324,18 @@
 %
 % ====================================================
 
-\cleardoublepage % start afresh on a new page
-\setcounter{page}{1} % re-sets the page counter
-
-\printbibliography[title={Works Cited}, heading=bibintoc]
-
-\printglossary
- 
-\printglossary[type=\acronymtype]
-
-% \cleardoublepage
-% Put an index here?
-
 % \cleardoublepage % start afresh on a new page
 % \setcounter{page}{1} % re-sets the page counter
 % \appendixpage* % makes a page to mark beginning of appendices -- currently there are no appendices
-% \input{appendix1} 
+% \input{appendix1}
+
+\cleardoublepage % start afresh on a new page
+% \setcounter{page}{1} % re-sets the page counter
+
+\printbibliography[title={Works Cited}, heading=bibintoc]
+
+% \cleardoublepage
+% Put an index here?
 
 
 \end{document}

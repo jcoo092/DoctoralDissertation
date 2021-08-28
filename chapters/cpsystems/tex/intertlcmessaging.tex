@@ -2,7 +2,7 @@
 \section{Inter-\glsentrytext{tlc} messaging}
 %-----------------------------------------------------------------------------------
 
-\Glspl{tlc} may exchange messages over channels (differently to the behaviour of out-symbols described in \cref{sec:cps:genericrules}).  Each \gls{tlc} may hold one or more appropriately labelled endpoints for any relevant channels, and may attempt both to send and to receive messages via those endpoints in its rules.  A message is written encapsulated inside \fxerror{May change from curly braces}{curly braces} and marked with either an exclamation mark on the \gls{rhs} or a question mark on the \gls{lhs} to represent sending or receiving, respectively.  E.g. \(\cpsend{\cpfunc{a}{b}}{c}\) would represent a message \(\cpfunc{a}{b}\) to be sent via channel \(c\), and \(\cprecv{\cpfunc{d}{e}}{f}\) would represent a message to be received via channel \(f\).
+\Glspl{tlc} may exchange messages over channels (differently to the behaviour of out-symbols described in \cref{sec:cps:genericrules}).  Each \gls{tlc} may hold one or more appropriately labelled endpoints for any relevant channels, and may attempt both to send and to receive messages via those endpoints in its rules.  A message is written encapsulated inside \fxerror{May change from angle brackets}{angle brackets} and marked with either an exclamation mark on the \gls{rhs} or a question mark on the \gls{lhs} to represent sending or receiving, respectively.  E.g. \(\cpsend{\cpfunc{a}{b}}{c}\) would represent a message \(\cpfunc{a}{b}\) to be sent via channel \(c\), and \(\cprecv{\cpfunc{d}{e}}{f}\) would represent a message to be received via channel \(f\).
 
 Both sending and receiving use pattern matching.  For the sending case, any \gls{cps} term which matches the pattern in the rule may be removed from the \gls{tlc} and placed into a buffer multiset at the other end of the channel.  Receiving works similarly in that any object stored in the channel's nearby buffer multiset, which matches the pattern of a receipt rule, may be withdrawn.  If more than one object in the buffer matches the pattern, one of them is selected non-deterministically.  Importantly, this means that ordinary \gls{cps} channels do \emph{not} operate as FIFO queues by default.
 
@@ -20,7 +20,7 @@ Both sending and receiving use pattern matching.  For the sending case, any \gls
 
 Antiport rules \cite{Orellana-Martin2019,Paun2002} allow for the bidirectional exchange of objects between membranes/cells/neurons during a single rule execution, with the restriction that objects \emph{must} travel in both directions.  Thus, if one side is only ready to send or receive, rather than both, the rule cannot run at the next step.  An important ramification of this is that it prevents deadlock from both sides of the exchange waiting on the other to send a message.
 
-% In the context of \gls{cps}, this means that a given rule must involve receipt over a channel on the left-hand-side, and sending on the \emph{same} channel on the right-hand-side.  For example, in the context of inter-\gls{tlc} messaging, \cpruleinline{ \cprulenonum{s_1}{\cpantirecv{\cpfunc{a}{B}}{c} \; \cpfunc{d}{E}}{1}{s_2}{\cpantisend{\cpfunc{d}{E}}{c} \; \cpfunc{a}{B}}} would be valid because the same channel is used on both sides of the rule.  To emphasise that the rule requires antiport behaviour, the sending and receiving terms have an extra ? or !, respectively.
+% In the context of \gls{cps}, this means that a given rule must involve receipt over a channel on the left-hand-side, and sending on the \emph{same} channel on the right-hand-side.  For example, in the context of inter-\gls{tlc} messaging, \cpruleinline{ \cprule*{s_1}{\cpantirecv{\cpfunc{a}{B}}{c} \; \cpfunc{d}{E}}{1}{s_2}{\cpantisend{\cpfunc{d}{E}}{c} \; \cpfunc{a}{B}}} would be valid because the same channel is used on both sides of the rule.  To emphasise that the rule requires antiport behaviour, the sending and receiving terms have an extra ? or !, respectively.
 
 In the context of \gls{cps}, this means that a given rule must involve receipt over a channel on the left-hand-side, and sending on the \emph{same} channel on the right-hand-side.  To emphasise that the rule requires antiport behaviour, the sending and receiving terms have an extra ? or !, respectively.
 
@@ -30,7 +30,7 @@ In the context of \gls{cps}, this means that a given rule must involve receipt o
   $\cpantirecv{\cpfunc{d}{e}}{f}$ #\hfill\textsl{antiport receive}\enspace#
 \end{lstlisting}
 
-For example, \cpruleinline{ \cprulenonum{s_1}{\cpantirecv{\cpfunc{a}{B}}{c} \; \cpfunc{d}{E}}{1}{s_2}{\cpantisend{\cpfunc{d}{E}}{c} \; \cpfunc{a}{B}}} would be valid because the same channel is used on both sides of the rule.
+For example, \cpruleinline{ \cprule*{s_1}{\cpantirecv{\cpfunc{a}{B}}{c} \; \cpfunc{d}{E}}{1}{s_2}{\cpantisend{\cpfunc{d}{E}}{c} \; \cpfunc{a}{B}}} would be valid because the same channel is used on both sides of the rule.
 
 \begin{anfxwarning}
 A ramification of antiport communication is arguably that it completely bypasses the multisets at either end of the channel.  Whether this makes any practical difference is another story altogether.

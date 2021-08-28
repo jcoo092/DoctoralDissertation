@@ -1,11 +1,11 @@
 \section{\label{sec:nmp:analysis}Asynchronous system analysis}
 
-In this section, we examine and analyse the asynchronous \gls{pe}-specific system of \cref{sec:nmp:pespecific}.  Firstly, we describe and prove several properties about the system, in particular, that the asynchronous system exchanges precisely the same number of \gls{nm} messages as the \gls{gs} system of \cref{sec:nmp:systemwide}.  Then, we state three conjectures about the system, which we have yet to prove or disprove mathematically, before examining the asynchronous system's complexity from the standpoint of the rules and symbols used.  Lastly, we briefly discuss the results of some small experiments performed to validate and explore the behaviour of the system.
+This \namecref{sec:nmp:analysis} examines and analyses the asynchronous \gls{pe}-specific system of \cref{sec:nmp:pespecific}.  Firstly, it describes and proves several properties about the system, in particular, that the asynchronous system exchanges precisely the same number of \gls{nm} messages as the \gls{gs} system of \cref{sec:nmp:systemwide}.  Then, it states three conjectures about the system, yet to be proven or disproven mathematically, before examining the asynchronous system's complexity from the standpoint of the rules and symbols used.  Lastly, the \namecref{sec:nmp:analysis} discusses some visualisations of the propagation of ``influence'' from one \gls{pe} in a \gls{fne} grid to others, over multiple steps.
 
 \subsection{\label{sec:nmp:msgprops}Messaging properties and behaviours}
 
 Consider a cell (\gls{pe}) $\pi_0$ in the asynchronous framework of \cref{sec:nmp:pespecific},
-where the maximum iteration count is $I$, set by the environment via $i(I)$.
+where the maximum generation count is $I$, set by the environment via $\cpfunc{i}{I}$.
 Without loss of generality, 
 we consider only a \gls{fne} system and
 assume that $\pi_0$ is a non-border/non-corner cell with four neighbours, 
@@ -13,45 +13,45 @@ $\pi_k$, accessible via channels labelled by $k \in \{ 1, 2, 3, 4 \}$.
 
 \begin{lemma}\label{lemma:nmp:-0}
     For any $k \in \{ 1, 2, 3, 4 \}$, after each round except the last,
-    cell $\pi_0$ contains exactly one $k$-tagged value $v(k)(\_)(\_)$, 
+    cell $\pi_0$ contains exactly one $k$-tagged value $\cpvv{k}{\cpdiscard}{\cpdiscard}$, 
     which is accepted from channel $k$ 
-    -- except the first round, when that value $v$ comes from the environment channel $e$.
+    --- except the first round, when that value $v$ comes from the environment channel $e$.
 \end{lemma}
 
 \begin{proof}
-    By rule 2, cell $\pi_0$ starts by accepting a value $v(k)(0)(\_)$, from the environment channel $e$.
-    Rule 10 gives the only possibility of obtaining another $k$-tagged value, by replacing the current value $v$ with another value $v'$, accepted from channel $k$. % \qed
+    By \cpruleref{rule:nmp:proxspec:recvinputs}, cell $\pi_0$ starts by accepting a value $\cpvv{k}{0}{\cpdiscard}$, from the environment channel $e$.
+    \cpRuleref{rule:nmp:proxspec:recvfromneighs} gives the only possibility of obtaining another $k$-tagged value, by replacing the current value $v$ with another value $v'$, accepted from channel $k$.
 \end{proof}
 
 \begin{remark}
-    In fact, \cref{lemma:nmp:-0} holds practically at all times, not just at the end of each round.  The only exceptions are: before the start of the system's evolution and application of rule 2; and after the start of the finalisation phase, specifically after applying rule 11.
+    In fact, \cref{lemma:nmp:-0} holds practically at all times, not just at the end of each round.  The only exceptions are: before the start of the system's evolution and application of \cpruleref{rule:nmp:proxspec:recvinputs}; and after the start of the finalisation phase, specifically after applying \cpruleref{rule:nmp:proxspec:finaloracle}.
 \end{remark}
 
 \begin{lemma}\label{lemma:nmp:-1}
-    For any $k \in \{ 1, 2, 3, 4 \}$, the time sequence of generation numbers $g \geq 0$ of accepted values $v(k)(g)(\_)$ forms an arithmetic progression with step size one.
+    For any $k \in \{ 1, 2, 3, 4 \}$, the time sequence of generation numbers $g \geq 0$ of accepted values $\cpvv{k}{g}{\cpdiscard}$ forms an arithmetic progression with step size one.
 \end{lemma}
 
 \begin{proof}
-    Proof by induction. Cell $\pi_0$ starts with value $v(k)(0)(\_)$, received via the environment channel $e$.
-    Assume that this hypothesis holds for a given $g \geq 0$, appearing as a generation number in value $v(k)(g)(\_)$. Rule 10 gives the only possibility of changing this number, by replacing the current value by another $v$ value, where the generation number is strictly greater by one, 
-    $v(k)(g+1)(\_)$. % \qed
+    Proof by induction. Cell $\pi_0$ starts with value $\cpvv{k}{0}{\cpdiscard}$, received via the environment channel $e$.
+    Assume that this hypothesis holds for a given $g \geq 0$, appearing as a generation number in value $\cpvv{k}{g}{\cpdiscard}$. \cpRuleref{rule:nmp:proxspec:recvfromneighs} gives the only possibility of changing this number, by replacing the current value with another $v$ value, where the generation number is strictly greater by one, 
+    $\cpvv{k}{g+1}{\cpdiscard}$.
 \end{proof}
 
 \begin{remark}\label{remark:nmp:-1}
 The conclusion of \cref{lemma:nmp:-1} will hold even in the hypothetical case that cell $\pi_k$ would be allowed to send multiple copies of the same message $v$. 
 Only the first received copy will be accepted, and the rest will be ignored,
-courtesy of rule 10. However, this is not the case, as excess \(w\) \gls{oq} messages are deleted by rule 5. 
+courtesy of \cpruleref{rule:nmp:proxspec:recvfromneighs}. However, this is not the case, as excess \(w\) \gls{oq} messages are deleted by \cpruleref{rule:nmp:proxspec:uniq}. 
 \end{remark}
 
 \begin{lemma}\label{lemma:nmp:-2}
-    For any $k \in \{ 1, 2, 3, 4 \}$, if channels are reliable and cell $\pi_k$ sends a sequence of messages that reach $\pi_0$ as $v(k)(g)(\_)$, $g \in [1,I]$, 
+    For any $k \in \{ 1, 2, 3, 4 \}$, if channels are reliable and cell $\pi_k$ sends a sequence of messages that reach $\pi_0$ as $\cpvv{k}{g}{\cpdiscard}$, $g \in [1,I]$, 
     then $\pi_0$ accepts all these values in the order of their increasing generation numbers.
 \end{lemma}
 
 \begin{proof}
-    Channels are reliable, so no message is lost. Channels in \gls{cps} are not typically FIFO, but cell $\pi_0$ will still pick messages with increasing generation numbers, by \cref{lemma:nmp:-1}.
+    Channels are reliable, so no message is lost. Channels in \gls{cps} are not inherently FIFO, but cell $\pi_0$ will still pick messages with increasing generation numbers, by \cref{lemma:nmp:-1}.
     As defined by the async version of the model, any messages arriving out-of-order are not lost, but stored in a multiset at the end of the channel
-    and will be picked when their time comes. % \qed
+    and will be picked when their time comes.
 \end{proof}
 
 \begin{lemma}\label{lemma:nmp:-3}
@@ -61,43 +61,48 @@ courtesy of rule 10. However, this is not the case, as excess \(w\) \gls{oq} mes
 
 \begin{proof}
     \textbf{Only if}. Assume that $\pi_0$ sends out a generation $g$ message $v$ over channel $k$.   
-    This may only happen by rule 7, where $\pi_0$ just forwards the same message $v$, received as $w$ from its oracle. 
-    Rule 6 triggers the oracle to build this message $w$, based on three other $v$ messages 
-    $v(k_1)(g_1)(d_1)$, $v(k_2)(g_2)(d_2)$, $v(k_3)(g_3)(d_3)$, 
+    This may only happen by \cpruleref{rule:nmp:proxspec:recvfromoracle}, where $\pi_0$ just forwards the same message $v$, received as $w$ from its oracle. 
+    \cpRuleref{rule:nmp:proxspec:sendtooracle} triggers the oracle to build this message $w$, based on three other $v$ messages 
+    $\cpvv{k_1}{g_1}{d_1}$, $\cpvv{k_2}{g_2}{d_2}$, $\cpvv{k_3}{g_3}{d_3}$, 
     where $g_1 = g-1$, $g_2, g_3 \geq g_1$, and $k, k_1, k_2, k_3$ are all distinct.
     By \cref{lemma:nmp:-2}, $\pi_0$ must have also received two generation $g-1$ values $v$, from $k_2$ and $k_3$.
-    Thus, cell $\pi_0$ has received three values $v(k_1)(g-1)(d_1)$, $v(k_2)(g-1)(\_)$, $v(k_3)(g-1)(\_)$.
+    Thus, cell $\pi_0$ has received three values $\cpvv{k_1}{g-1}{d_1}$, $\cpvv{k_2}{g-1}{\cpdiscard}$, $\cpvv{k_3}{g-1}{\cpdiscard}$.
     
-    \textbf{If}. Assume that $\pi_0$ accepts three values $v(k_1)(g')(d_1)$, $v(k_2)(g')(\_)$, $v(k_3)(g')(\_)$, where $g' = g - 1 \geq 0$. These values need not arrive at the same round. Without loss of generality, assume that $\pi_0$ has just received the first value, $v(k_1)(g')(d_1)$, while the other values may have been already received and even updated, 
-    $v(k_2)(g'+h_2)(d_2)$, $v(k_3)(g'+h_3)(d_3)$, $h_2, h_3 \geq 0$.
-    Rule 3 applies and creates at least two identical \(w\) messages $\cpvw{k_4}{g' + 1}{d}$, where \(d = \cpfunc{d}{d_1}, \, \cpfunc{d}{d_2}, \, \cpfunc{d}{d_3}\). Additional $w$ messages may be created, if either $h_2=0$, or $h_3=0$, or both. This doesn't matter, 
-    as excess \(w\) messages are deleted by rule 5, so only one $w(k_4)(g' + 1)(d)$ remains.
+    \textbf{If}. Assume that $\pi_0$ accepts three values $\cpvv{k_1}{g'}{d_1}$, $\cpvv{k_2}{g'}{\cpdiscard}$, $\cpvv{k_3}{g'}{\cpdiscard}$, where $g' = g - 1 \geq 0$. These values need not arrive at the same round. Without loss of generality, assume that $\pi_0$ has just received the first value, $\cpvv{k_1}{g'}{d_1}$, while the other values may have been received and even updated already, 
+    $\cpvv{k_2}{g'+h_2}{d_2}$, $\cpvv{k_3}{g'+h_3}{d_3}$, $h_2, h_3 \geq 0$.
+    \cpRuleref{rule:nmp:proxspec:makews} applies and creates at least two identical \(w\) messages $\cpvw{k_4}{g' + 1}{d}$, where \(d = \cpfunc{d}{d_1}, \, \cpfunc{d}{d_2}, \, \cpfunc{d}{d_3}\). Additional $w$ messages may be created, if either $h_2=0$, or $h_3=0$, or both. This doesn't matter, 
+    as excess \(w\) messages are deleted by \cpruleref{rule:nmp:proxspec:uniq}, so only one $\cpvw{k_4}{g' + 1}{d}$ remains.
     This message goes to the oracle, 
-    which creates and returns the value $w(k_4)(g'+1)(d') = v(k_4)(g)(d')$, 
-    further forwarded by rule 7 to $\pi_{k_4}$, over channel $k_4$. % \qed
+    which creates and returns the value $\cpvw{k_4}{g'+1}{d'} = \cpvv{k_4}{g}{d'}$, 
+    further forwarded by \cpruleref{rule:nmp:proxspec:recvfromoracle} to $\pi_{k_4}$, over channel $k_4$.
 \end{proof}
 
 \begin{theorem}\label{theorem:nmp:-1}%\label{theorem:nmp:-1}
     For each $k \in \{ 1, 2, 3, 4 \}$, and each $g \in [0, I]$:
-    (i) $\pi_0$ receives one $k$-tagged generation $g$ value $v$,
-    and (ii) if $g < I$, $\pi_0$ sends one $k$-tagged generation $g+1$ value $v$.
+    % (i) $\pi_0$ receives one $k$-tagged generation $g$ value $v$,
+    % and (ii) if $g < I$, $\pi_0$ sends one $k$-tagged generation $g+1$ value $v$.
+    \begin{inparaenum}[(i)]
+        \item\label{enumitem:nmp:analysis:-1:1} $\pi_0$ receives one $k$-tagged generation $g$ value $v$; and
+        \item\label{enumitem:nmp:analysis:-1:2} if $g < I$, $\pi_0$ sends one $k$-tagged generation $g+1$ value $v$.
+    \end{inparaenum}
 \end{theorem}
 
 \begin{proof}
-By bounded induction on $g$. Base case: $g = 0$. By rule 2, cell $\pi_0$ receives \emph{four} $k$-tagged generation $g$ values -- one for each $k \in \{ 1, 2, 3, 4 \}$ -- from the environment channel $e$ (acting on behalf of its neighbour channels). By \cref{lemma:nmp:-3}, applied \emph{four} times, $\pi_0$ sends out \emph{four} generation $g+1$ values $v$, one over each channel $k$. % \qed
+By bounded induction on $g$. Base case: $g = 0$. By \cpruleref{rule:nmp:proxspec:recvinputs}, cell $\pi_0$ receives \emph{four} $k$-tagged generation $g$ values -- one for each $k \in \{ 1, 2, 3, 4 \}$ -- from the environment channel $e$ (acting on behalf of its neighbour channels). By \cref{lemma:nmp:-3}, applied \emph{four} times, $\pi_0$ sends out \emph{four} generation $g+1$ values $v$, one over each channel $k$.
 
 Induction step: assume that the induction hypothesis holds for 
 $g \in [0, I)$, and we prove that it still holds for $g+1$.
 The induction hypothesis holds for all cells, 
 including $\pi_0$ and $\pi_k$. 
-Thus, by part (ii), each cell $\pi_k$ sends a generation $g+1$ value $v$, 
-which is further received by $\pi_0$, as $v(k)(g+1)(\_)$.
-This proves part (i) of the induction step.
+% Thus, by part (ii), each cell $\pi_k$ sends a generation $g+1$ value $v$,
+Thus, by part (\ref{enumitem:nmp:analysis:-1:2}), each cell $\pi_k$ sends a generation $g+1$ value $v$, 
+which is further received by $\pi_0$, as $\cpvv{k}{g+1}{\cpdiscard}$.
+This proves part (\ref{enumitem:nmp:analysis:-1:1}) of the induction step.
 
 If $g+1 < I$, rule 9 does not apply and, 
 as shown by \cref{lemma:nmp:-3}, applied \emph{four} times, 
 $\pi_0$ sends out \emph{four} generation $g+2$ values $v$, one over each channel $k$.
-This proves part (ii) of the hypothesis. % \qed
+This proves part (\ref{enumitem:nmp:analysis:-1:2}) of the hypothesis.
 \end{proof}
 
 \begin{theorem}\label{theorem:nmp:-2}
@@ -105,7 +110,7 @@ This proves part (ii) of the hypothesis. % \qed
 \end{theorem}
 
 \begin{proof}
-    \Gls{oq} \(w\) messages (and thus indirectly \gls{nm} \(v\) messages) are created only by rule 3, with generation counts \(g + 1\), only if \(g + 1 \leq I\).  The promoter \(\cpfunc{i}{G1\_}\) for rule 3 prevents the creation of any \(w\) message with a larger generation count. % \qed
+    \Gls{oq} \(w\) messages (and thus indirectly \gls{nm} \(v\) messages) are created only by \cpruleref{rule:nmp:proxspec:makews}, with generation counts \(g + 1\), only if \(g + 1 \leq I\).  The promoter \(\cpfunc{i}{G1\cpdiscard}\) for \cpruleref{rule:nmp:proxspec:makews} prevents the creation of any \(w\) message with a larger generation count.
 \end{proof}
 
 \begin{theorem}\label{theorem:nmp:-3}%\label{theorem:nmp:-3}
@@ -113,22 +118,22 @@ This proves part (ii) of the hypothesis. % \qed
 \end{theorem}
 
 \begin{proof}
-    After receiving the last generation \(I\) message, rule 3 does not apply (per \cref{theorem:nmp:-2}), and instead control flows by rule 4 to state \(s_5\), then to \(s_6\) by rule 8.  Finally, rule 9 applies, and the control flow breaks out of the main messaging loop, proceeding to state \(s_7\) and the finalisation phase, where no further \gls{nm} occurs.  % \qed
+    After receiving the last generation \(I\) message, \cpruleref{rule:nmp:proxspec:makews} does not apply (per \cref{theorem:nmp:-2}), and instead control flows by \cpruleref{rule:nmp:proxspec:skiptorecv} to state \(s_5\), then to \(s_6\) by \cpruleref{rule:nmp:proxspec:clearrs}.  Finally, \cpruleref{rule:nmp:proxspec:movetoend} applies, and the control flow breaks out of the main messaging loop, proceeding to state \(s_7\) and the finalisation phase, where no further \gls{nm} occurs. 
 \end{proof}
 
 \begin{theorem}\label{theorem:nmp:-4}
     For the asynchronous system in \cref{sec:nmp:pespecific}, 
     each cell (\gls{pe}) sends and receives the same number of messages as in the synchronous system in \cref{sec:nmp:systemwide}.   
-    Thus the system as a whole uses the same number of messages.
+    Thus, the system as a whole uses the same number of messages.
 \end{theorem}
 
 \begin{proof}
-    % Direct consequence of Theorems~\ref{theorem:nmp:-1},\ref{theorem:nmp:-3}. % \qed
+    % Direct consequence of Theorems~\ref{theorem:nmp:-1},\ref{theorem:nmp:-3}.
     Direct consequence of \cref{theorem:nmp:-1,theorem:nmp:-3}
 \end{proof}
 
 \begin{remark}\label{remark:nmp:-2}
-    The evolution of our asynchronous version can be suggestively summarised by
+    The evolution of the asynchronous version can be suggestively summarised by
     analysing the following four typical cases of cell $\pi_0$ snapshots,
     which focus on the received values having the \emph{least generation number}, here indicated by $g$.
     Note that each star (*) indicates the channel of the incoming value 
@@ -139,15 +144,15 @@ This proves part (ii) of the hypothesis. % \qed
     
     \begin{enumerate}
     \item $(g?***, g?*, g?, g?)$: 
-    $\pi_0$ receives all \emph{four} generation $g$ values in the same round, by rule 10. 
+    $\pi_0$ receives all \emph{four} generation $g$ values in the same round, by \cpruleref{rule:nmp:proxspec:recvfromneighs}. 
     As shown by \cref{lemma:nmp:-3}, applied \emph{four} times, 
     $\pi_0$ sends \emph{four} generation $g+1$ values.
-    Rule 3 will initially create \emph{six} \gls{oq} messages per neighbour (for a total of 24)
+    \cpRuleref{rule:nmp:proxspec:makews} will initially create \emph{six} \gls{oq} messages per neighbour (for a total of 24)
     but the excess ones will be deleted, so exactly one \(w\) message per channel will remain and be sent to the oracle.
     
     \medskip
     \item $(g?***, g?*, g?, g_4)$, $g < g_4$: 
-    $\pi_0$ receives \emph{three} generation $g$ values in the same round, by rule 10.
+    $\pi_0$ receives \emph{three} generation $g$ values in the same round, by \cpruleref{rule:nmp:proxspec:recvfromneighs}.
     The fourth value is at least one generation ahead.    
     This case evolves similarly to case (1) above, with a few changes in the details.
     As shown by \cref{lemma:nmp:-3}, still applied \emph{four} times, 
@@ -158,8 +163,8 @@ This proves part (ii) of the hypothesis. % \qed
     
     \medskip
     \item $(g?***, g?*, g_3, g_4)$, $g < g_3, g_4$: 
-    $\pi_0$ receives \emph{two} generation $g$ values in the same round, by rule 10.
-    The last two values are at least one generation ahead.    
+    $\pi_0$ receives \emph{two} generation $g$ values in the same round, by \cpruleref{rule:nmp:proxspec:recvfromneighs}.
+    The other two values are at least one generation ahead.    
     This case evolves similarly to case (2) above, with a few changes in the details.
     As shown by \cref{lemma:nmp:-3}, still applied \emph{four} times, 
     $\pi_0$ sends \emph{four} generation $g+1$ values.
@@ -169,7 +174,7 @@ This proves part (ii) of the hypothesis. % \qed
     
     \medskip
     \item $(g?***, g_2, g_3, g_4)$, $g < g_2, g_3, g_4$: 
-    $\pi_0$ receives \emph{one} single generation $g$ value in a given round, by rule 10.
+    $\pi_0$ receives \emph{one} single generation $g$ value in a given round, by \cpruleref{rule:nmp:proxspec:recvfromneighs}.
     The last three values are at least one generation ahead.
     As shown by \cref{lemma:nmp:-3}, applied \emph{three} times, 
     $\pi_0$ sends \emph{three} generation $g+1$ values.
@@ -196,38 +201,42 @@ This proves part (ii) of the hypothesis. % \qed
 
 \end{remark}
 
-\subsection{Approximate confluence}
-The asynchronous system is \emph{not} (necessarily) confluent.  Messages may be received in such an order that the contents of some messages might not be used in the preparation of new messages, since two messages potentially can be received from one neighbour between receipts from a different neighbour.  Nevertheless, for a \gls{pe} to send a message for generation \(g + 1\) to neighbour \(k\), it must have received messages for \emph{at least} generation \(g\) from all other neighbours.  Therefore, no input data will be `out-of-date'.
+\subsection{Generational confluence}
+The asynchronous system is \emph{not} (necessarily) confluent.  Messages may be received in such an order that the contents of some messages might not be used in the preparation of new messages, since two messages potentially can be received from one neighbour between receipts from a different neighbour.  Nevertheless, for a \gls{pe} to send a message for generation \(g + 1\) to neighbour \(k\), it must have received messages for \emph{at least} generation \(g\) from all other neighbours.  Therefore, no input data will be `out-of-date'.  This concept is given the name \emph{generational confluence}.
 
 \begin{conjecture}\label{conj:nmp:1}
-A \gls{nmp} system following the asynchronous rules of \cref{sec:nmp:pespecific} will be \emph{approximately} confluent.  Under a wide variety of practical conditions (e.g., when the base synchronous version is convergent), every evolution of the system will produce a similar result, no matter the specific ordering of the messaging.
+A \gls{nmp} system following the asynchronous rules of \cref{sec:nmp:pespecific} will be \emph{approximately/generationally} confluent.  Under a wide variety of practical conditions (\eg{} when the base synchronous version is convergent), every evolution of the system will produce a similar result, no matter the specific ordering of the messaging.
 \end{conjecture}
 
 \begin{conjecture}\label{conj:nmp:2}
     The asynchronous behaviour, specifically the potential for \glspl{pe} to forgo the use of data from particular messages in favour of newer data, will lead to a final output that is no worse than the synchronous variants' and might result in a `better quality' result, for a particular domain-specific meaning of quality.
 \end{conjecture}
 
-Determining the truth or falsity of Conjecture \ref{conj:nmp:1} is still an open problem requiring further study (but see \cref{sec:nmp:convergence}).  Ideally, one would also clarify and quantify what ``similar'' means in this context.  Part Two investigates Conjecture \ref{conj:nmp:2}, as applied to \gls{bp} \gls{sm}, in more detail.
+% Determining the truth or falsity of Conjecture \ref{conj:nmp:1} is still an open problem requiring further study (but see \cref{sec:nmp:convergence}).  Ideally, one would also clarify and quantify what ``similar'' means in this context.  Part Two investigates Conjecture \ref{conj:nmp:2}, as applied to \gls{bp} \gls{sm}, in more detail.
+
+Determining the truth or falsity of \cref{conj:nmp:1,conj:nmp:2} is still an open problem requiring further study (but see \cref{sec:nmp:convergence}).  Ideally, one would also clarify and quantify what ``similar'' means in this context.%  Part Two investigates Conjecture \ref{conj:nmp:2}, as applied to \gls{bp} \gls{sm}, in more detail.
 
 \begin{proposition}\label{prop:nmp:3}
     No matter the approach to \gls{nmp} employed, the most generations any given \gls{pe} may be ahead of any other \gls{pe} on the lattice depends on their distance from each other, as measured by the smallest number of intermediate \glspl{pe} along any path between the two.
 \end{proposition}
 
-The requirement to have received messages from every other neighbour before preparing the message to send to the final neighbour means that, at a certain point, a \gls{pe} transitively depends on its neighbours' neighbours in an ever-expanding radius.  A given \gls{pe} cannot send a new message to neighbour 4 until it has received messages from neighbours 1-3.  In turn, neighbour 4 cannot send messages to any of its other neighbours besides the original \gls{pe} until it has received the next message from the original \gls{pe}.  The same then applies to those neighbours of the original \gls{pe}'s neighbour 4, \textit{et cetera}.
+The requirement for a \gls{pe} to have received messages from every other neighbour before preparing a message to send to the final neighbour means that, at a certain point, a \gls{pe} transitively depends on its neighbours' neighbours in an ever-expanding radius.  A given \gls{pe} cannot send a new message to neighbour 4 until it has received messages from neighbours 1-3.  In turn, neighbour 4 cannot send messages to any of its other neighbours besides the original \gls{pe} until it has received the next message from the original \gls{pe}.  The same then applies to those neighbours of the original \gls{pe}'s neighbour 4, \etc{}.
 
-This reasoning gives rise to the intuition in Proposition \ref{prop:nmp:3}.  In all cases where two \glspl{pe} have a path between them, there is an inter-dependency, albeit in some cases far removed.  Eventually, if one of the \glspl{pe} stops sending messages but has not yet reached its maximum generation, the \glspl{pe} in between will successively be unable to send further messages themselves, which will ripple across the lattice and eventually prevent the other \gls{pe} from sending further messages.  Until the ripple has progressed across the lattice, however, the latter \gls{pe} may still send new messages.  As yet, we have not found a suitable and convincing proof of this conjecture.
+% This reasoning gives rise to the intuition in Proposition \ref{prop:nmp:3}.  In all cases where two \glspl{pe} have a path between them, there is an inter-dependency, albeit in some cases far removed.  Eventually, if one of the \glspl{pe} stops sending messages but has not yet reached its maximum generation, the \glspl{pe} in between will successively be unable to send further messages themselves, which will ripple across the lattice and eventually prevent the other \gls{pe} from sending further messages.  Until the ripple has progressed across the lattice, however, the latter \gls{pe} may still send new messages.  As yet, we have not found a suitable and convincing proof of this conjecture.
+
+This reasoning gives rise to the intuition in \cref{prop:nmp:3}.  If one of the \glspl{pe} stops sending messages but has not yet reached its maximum generation, the neighbouring \glspl{pe} will successively be unable to send further messages themselves, which will ripple across the lattice and eventually prevent farther \glspl{pe} from sending further messages as well.  Until the ripple has progressed across the lattice, however, the more remote \glspl{pe} may still send new messages.  Therefore, in all cases where two \glspl{pe} have a path between them, there is an inter-dependency, albeit in some cases far removed.  As yet, no suitable and convincing formal proof of this idea has been found.
 
 \subsection{Rule and symbol complexity}
-Overall, the rule and symbol complexity of the system is relatively low, but given that some elements of any specific \gls{nmp} process are abstracted away, this is likely an underestimate for a given final implementation.
+Overall, the rule and symbol complexity of the system is relatively low, but given that some elements of any specific \gls{nmp} process are abstracted away (\eg{} the oracle), this is likely an underestimate for a given final implementation.
 
 \subsubsection{Rule complexity}
-The total system requires 12 rules.  Two for the initialisation phase, eight for the joint \gls{nm} \& \gls{oq} phases -- only two directly involve interaction with the oracle, but others prepare for said interaction -- and two for the finalisation phase.  The two rules that involve direct interaction with the oracle, rules 6 and 7, will normally be replaced with an arbitrary new ruleset, however.  Thus, it can be said that there are 10 rules relating to the structure and process for \gls{nmp}, and two stub rules which stand in for a more complex process.
+The total system requires 12 rules.  Two for the initialisation phase, eight for the joint \gls{nm} \& \gls{oq} phases -- only two directly involve interaction with the oracle, but others prepare for said interaction -- and two for the finalisation phase.  The two rules that involve direct interaction with the oracle, rules \cpruleref*{rule:nmp:proxspec:sendtooracle} and \cpruleref*{rule:nmp:proxspec:recvfromoracle}, will normally be replaced with an arbitrary new ruleset, however.  Thus, it can be said that there are 10 rules relating to the structure and process for \gls{nmp}, and two stub rules which stand in for a more complex process.
 
 \subsubsection{Symbol complexity}
-Across all 12 rules, three atoms, eight functors, and nine states are used.  This gives a total symbol complexity of 20 distinct symbols.  As with the rule complexity, there will likely be more symbols used when the \gls{oq} phase is expanded out to encompass a desired computation process.
+Across all 12 rules, three atoms, eight functors, and nine states are used.  This gives a total symbol complexity of 20 distinct symbols.  As with the rule complexity, there likely will be more symbols used when the \gls{oq} phase is expanded to encompass a desired computation process.
 
 \subsection{Visualisations}
-Sequences of visualisations of the evolution of a sample \gls{fne} system have been created to explore the messaging behaviour of \gls{nmp}.  These sequences reflect the changes on a small grid that result from \gls{nmp} according to the system from \cref{sec:nmp:pespecific}.  Each square on the grids represents one \gls{pe}, and the \glspl{pe} are assumed to be connected in the standard \gls{fne} manner.
+Sequences of visualisations of the evolution of a sample \gls{fne} system have been created to explore the messaging behaviour of \gls{nmp}.  These sequences reflect the changes on a small grid that result from \gls{nmp} following \cref{sec:nmp:pespecific}'s system.  Each square on the grids represents one \gls{pe}, and the \glspl{pe} are assumed to be connected in the standard \gls{fne} manner.
 
 Each sequence was generated using a script by computing values over the grid at the end of each round of messaging and writing the results out to a standalone .tex file, then compiling the .tex file to produce an output .pdf.  In each case, the grid starts with all zero values, except for the centre \gls{pe}, which starts with a `full-strength' value --- represented by wholly white and completely black squares, respectively.  The value to display at a given grid point for each round was in turn computed by selecting the maximum from among the data stored in the corresponding \gls{pe}.
 
@@ -241,11 +250,11 @@ Each of the sequences uses a different method for computing the values present i
     \subcaptionbox{Round 2}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/nodelay/maxWithPDatum_no_delays_four_generations_round_2.pdf}}
     \subcaptionbox{Round 3}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/nodelay/maxWithPDatum_no_delays_four_generations_round_3.pdf}}
     \subcaptionbox{Round 4}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/nodelay/maxWithPDatum_no_delays_four_generations_round_4.pdf}}
-    \caption[Visualisation of the spread of `influence' from the centre \acrshort{pe} during \acrlong{nmp}]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed by taking over the maximum over the current messages, including a datum stored by the \gls{pe}}
+    \caption[Visualisation of the spread of `influence' from the centre \glsxtrshort{pe} during \glsxtrlong{nmp}]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  Each square's value was computed as the maximum over both the last messages received, and a datum stored by the \gls{pe}}
     \label{fig:nmp:maxpdatum}
 \end{figure}
 
-The sequence in \cref{fig:nmp:maxpdatum} was produced by using the maximum of the \gls{pe}'s current messages received from the other neighbours \emph{and} a separate value stored internally and updated when computing the new outgoing messages.  The extra value was updated at each step to be the maximum of itself or the messages currently held.  The net effect of this was to ensure that when a message carrying information from the centre \gls{pe} arrived, the current \gls{pe} would turn black and remain that way.  \cref{fig:nmp:maxpdatum} shows that this information propagates outwards as expected, given the semi-synchronous nature of the updates.
+The sequence in \cref{fig:nmp:maxpdatum} was produced by using the maximum of the \gls{pe}'s current messages received from the other neighbours \emph{and} a separate value stored internally and updated when computing the new outgoing messages.  The extra value was updated at each step to be the maximum of itself or the messages currently held.  The net effect of this was to ensure that when a message carrying information from the centre \gls{pe} arrived, the current \gls{pe} would turn black and remain that way.  \Cref{fig:nmp:maxpdatum} shows that this information propagates outwards as expected, given the nature of the updates.
 
 \begin{figure}
     \centering
@@ -259,13 +268,13 @@ The sequence in \cref{fig:nmp:maxpdatum} was produced by using the maximum of th
     \subcaptionbox{Round 7}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/delay2/maxWithPDatum_delay2_four_generations_round_7.pdf}}
     \subcaptionbox{Round 8}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/delay2/maxWithPDatum_delay2_four_generations_round_8.pdf}}
     \subcaptionbox{Round 9}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/delay2/maxWithPDatum_delay2_four_generations_round_9.pdf}}
-    \caption[Visualisation of the spread of `influence' from the centre \acrshort{pe} during \acrlong{nmp}]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed by taking over the current messages the maximum, including a datum stored by the \gls{pe}, and with delivery delays of two rounds on messages going to the neighbours below and to the left}
+    \caption[Visualisation of the spread of `influence' from the centre \glsxtrshort{pe} during \glsxtrlong{nmp}]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  Each square's value was computed as the maximum over both the last messages received, and a datum stored by the \gls{pe}, and with delivery delays of two rounds on messages going to the neighbours below and to the left}
     \label{fig:nmp:maxpdatumdelays}
 \end{figure}
 
-More interesting is \cref{fig:nmp:maxpdatumdelays}.  The same update computations were performed, but a two-round delay was introduced for the delivery of messages to the neighbours below and to the left of the sending \gls{pe}.  Messages destined for the neighbours to the right and above of the sending \gls{pe} were delivered without delays as in \cref{fig:nmp:maxpdatum}.
+More interesting is \cref{fig:nmp:maxpdatumdelays}.  The same update computations were performed, but a two-round delay was introduced for the delivery of messages to the neighbours below and to the left of the sending \gls{pe}.  Messages destined for the neighbours to the right and above of the sending \gls{pe} were delivered without delays, as in \cref{fig:nmp:maxpdatum}.
 
-What might happen if there is a systematic delay in only one direction, and thus potentially messages from all other neighbours might arrive relatively quickly?  This is examined in \cref{fig:nmp:maxpdatumdelayswestonly}, where a two round delay was introduced for messages sent to the left only.  In this case, the overall shape of the \glspl{pe} on the grid who have received a message containing `influence' from the centre \gls{pe} still invariably ends up returning to a symmetrical, balanced shape.  It is a different shape, however, from that seen in either \cref{fig:nmp:maxpdatum} or \cref{fig:nmp:maxpdatumdelays}, and is not centred on the centre \gls{pe}.  Instead, it grows with a bias towards the right.
+What might happen if there is a systematic delay in only one direction, and thus potentially messages from all other neighbours might arrive relatively quickly?  This is examined in \cref{fig:nmp:maxpdatumdelayswestonly}, where a two round delay was introduced for messages sent to the left only.  In this case, the overall shape of the \glspl{pe} on the grid who have received a message containing `influence' from the centre \gls{pe} still invariably ends up returning to a symmetrical, balanced shape.  It is a different shape, however, from that seen in \cref{fig:nmp:maxpdatum,fig:nmp:maxpdatumdelays}, and is not centred on the centre \gls{pe}.  Instead, it grows with a bias towards the right.
 
 \begin{figure}
     \centering
@@ -279,7 +288,7 @@ What might happen if there is a systematic delay in only one direction, and thus
     \subcaptionbox{Round 7}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/delay2westonly/maxWithPDatum_delay2_west_only_four_generations_round_7.pdf}}
     \subcaptionbox{Round 8}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/delay2westonly/maxWithPDatum_delay2_west_only_four_generations_round_8.pdf}}
     \subcaptionbox{Round 9}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/delay2westonly/maxWithPDatum_delay2_west_only_four_generations_round_9.pdf}}
-    \caption[Visualisation of the spread of `influence' from the centre \acrshort{pe} during \acrlong{nmp}.]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed by taking over the current messages the maximum, including a datum stored by the \gls{pe}, and with delivery delays of two rounds on messages going to the left only}
+    \caption[Visualisation of the spread of `influence' from the centre \glsxtrshort{pe} during \glsxtrlong{nmp}.]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  Each square's value was computed as the maximum over both the last messages received, and a datum stored by the \gls{pe}, and with delivery delays of two rounds on messages going to the left only}
     \label{fig:nmp:maxpdatumdelayswestonly}
 \end{figure}
 
@@ -291,7 +300,7 @@ What might happen if there is a systematic delay in only one direction, and thus
     \subcaptionbox{Round 2}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/max/nodelay/max_no_delay_four_generations_round_2.pdf}}
     \subcaptionbox{Round 3}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/max/nodelay/max_no_delay_four_generations_round_3.pdf}}
     \subcaptionbox{Round 4}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/max/nodelay/max_no_delay_four_generations_round_4.pdf}}
-    \caption[Visualisation of the spread of `influence' from the centre \acrshort{pe} during \acrlong{nmp}]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed by taking over the current messages the maximum}
+    \caption[Visualisation of the spread of `influence' from the centre \glsxtrshort{pe} during \glsxtrlong{nmp}]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  Each square's value was computed as the maximum over the last messages received}
     \label{fig:nmp:max}
 \end{figure}
 
@@ -305,8 +314,8 @@ The sequence in \cref{fig:nmp:max} was produced by using the maximum of the mess
     \subcaptionbox{Round 2}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/mean/nodelay/mean_no_delay_four_generations_round_2.pdf}}
     \subcaptionbox{Round 3}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/mean/nodelay/mean_no_delay_four_generations_round_3.pdf}}
     \subcaptionbox{Round 4}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/mean/nodelay/mean_no_delay_four_generations_round_4.pdf}}
-    \caption[Visualisation of the spread of `influence' from the centre \acrshort{pe} during \acrlong{nmp}]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  The squares' value was computed as by taking over the current messages the mean}
+    \caption[Visualisation of the spread of `influence' from the centre \glsxtrshort{pe} during \glsxtrlong{nmp}]{Visualisation of the spread of `influence' from the centre \gls{pe} during \gls{nmp}.  Each square's value was computed as the mean over the last messages received}
     \label{fig:nmp:mean}
 \end{figure}
 
-The sequence in \cref{fig:nmp:mean} was produced by using the mean of the messages received from the other neighbours when computing the new outgoing messages for each \gls{pe}.  This sequence makes it clear that as the initial information from a given \gls{pe} diffuses across the grid, its direct influence upon the data in the \glspl{pe} gradually dilutes.  After just four rounds of message passing, the `signal strength' from the centre \gls{pe} has become so weak as to be almost imperceptible in the most distant locations it has reached, e.g., points (0,4) and (4,8), assuming a zero-based grid count beginning in the upper-left corner.
+The sequence in \cref{fig:nmp:mean} was produced by using the mean of the messages received from the other neighbours when computing the new outgoing messages for each \gls{pe}.  This sequence makes it clear that as the initial information from a given \gls{pe} diffuses across the grid, its direct influence upon the data in the \glspl{pe} gradually dilutes.  After just four rounds of message passing, the `signal strength' from the centre \gls{pe} has become so weak as to be almost imperceptible in the most distant locations it has reached, \eg{} points (0,4) and (4,8), assuming a zero-based grid count beginning in the upper-left corner.

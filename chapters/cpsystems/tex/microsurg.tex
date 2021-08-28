@@ -42,8 +42,8 @@ In particular, it is not possible here to make the second rule work in parallel 
 To avoid this problem, we revisit and clarify an older and rarely used operation that permits a rule to be applied to the contents of a sub-cell or functor, \emph{without} also seizing control (i.e. locking) of the sub-cell or functor itself.  We term this operation \emph{\gls{ms}}, representing the idea that as-minimal-as-possible modification is made to the containing object while modifying its contents.  We denote \glspl{ms} through the use of curly braces, rather than the usual parentheses for complex terms.  They are still complex terms, but the operation performed on them differs.  Due to this differing operation, every instance of a \gls{ms} on the \gls{lhs} \emph{must} have a matching instance on the \gls{rhs}.
 
 % \cpruleinline{
-% \cprulenonum{s_0}{}{\cponce}{s_1}{\cpfunc{e}{\cpempty}}
-% \cprulenonum{s_1}{\cpfuncms{e}{\cpempty}}{\cpmaxpar}{s_2}{\cpfuncms{e}{B}~|~\cpfunc{c}{d\cpdiscard}~|~\cpfunc{a}{B}}}
+% \cprule*{s_0}{}{\cponce}{s_1}{\cpfunc{e}{\cpempty}}
+% \cprule*{s_1}{\cpfuncms{e}{\cpempty}}{\cpmaxpar}{s_2}{\cpfuncms{e}{B}~|~\cpfunc{c}{d\cpdiscard}~|~\cpfunc{a}{B}}}
 
 % \begin{cprulesetfloat}
 %     \begin{cpruleset}
@@ -70,13 +70,13 @@ To avoid this problem, we revisit and clarify an older and rarely used operation
 \Cref{rules:cps:microsurg} is an example of three rules using \glspl{ms} that achieve in \emph{two} steps the same destructive multiplication as the ruleset listed in \cref{rules:cps:slowmulti}, which requires \(D + 1\) steps.  Crucially, the second rule is still \emph{one} rule application, but the insertion of \(B\) into \(e\) happens once for each possible match on the promoter.  The use of \(c(d\cpdiscard)\) combined with the maximally parallel rule mode means that the rule will take control of and execute once for each \(d\) atom in the multiset labelled by the \(c\) functor.  As such, three lots of \(B\) will be inserted into \(e\) simultaneously while executing this rule under the example described above.
 
 % Furthermore, non-destructive division of \(d\) by \(e\), \(d \div e = f\), could be:
-% \cpruleinline{\cprulenonum{s_1}{\cpfuncms{f}{\cpempty}~\cpfuncms{d}{E}}{\cpmaxpar}{s_1}{f[\cpundig]~\cpfuncms{d}{\cpempty}~|~\cpfunc{e}{E}}}
+% \cpruleinline{\cprule*{s_1}{\cpfuncms{f}{\cpempty}~\cpfuncms{d}{E}}{\cpmaxpar}{s_1}{f[\cpundig]~\cpfuncms{d}{\cpempty}~|~\cpfunc{e}{E}}}
 
 % Furthermore, destructive division of \(d\) by \(e\), \(d \div e = f\), could be:
-% \cpruleinline{\cprulenonum{s_1}{\cpfuncms{f}{\cpempty}~\cpfuncms{d}{E}}{\cpmaxpar}{s_1}{\cpfuncms{f}{\cpundig}~\cpfuncms{d}{\cpempty}~|~\cpfunc{e}{E}}}
+% \cpruleinline{\cprule*{s_1}{\cpfuncms{f}{\cpempty}~\cpfuncms{d}{E}}{\cpmaxpar}{s_1}{\cpfuncms{f}{\cpundig}~\cpfuncms{d}{\cpempty}~|~\cpfunc{e}{E}}}
 
 Furthermore, destructive division of \(d\) by \(e\), \(d \div e = f\), could be:
-\cpruleinline{\cprulenonum{s_1}{\cpfuncms{f}{\,}~\cpfuncms{d}{E}}{\cpmaxpar}{s_1}{\cpfuncms{f}{\cpundig}~\cpfuncms{d}{\,}~|~\cpfunc{e}{E}}}
+\cpruleinline{\cprule*{s_1}{\cpfuncms{f}{\,}~\cpfuncms{d}{E}}{\cpmaxpar}{s_1}{\cpfuncms{f}{\cpundig}~\cpfuncms{d}{\,}~|~\cpfunc{e}{E}}}
 
 Note that in the case of division, the quotient returned in the \(f\) term will be the \emph{floor} of the precise division result, i.e. the equation could be written as \(\lfloor d \div e \rfloor = f\).  For cases where the dividend is an exact multiple of the divisor, this will be the same as the correct result.  Otherwise, it will be the correct result's whole-number part only.  E.g. referring to the rule immediately above, for \(d(6)~\&~e(3)\), the output will be \(f(2)\), whereas for \(d(5)~\&~e(3)\), the output will be \(f(1)\), with the two left-over unary digits remaining in \(d\).  In other words, \(f\) receives the quotient, and \(d\) keeps the remainder.
 
@@ -87,4 +87,4 @@ Note that in the case of division, the quotient returned in the \(f\) term will 
 \end{lstlisting}
 
 % To instead achieve ceiling division, first copy the dividend into the receiving term (in the example above, this would be the \(f\) term), and then withdrawing multiples of the divisor from there.  An integer multiple of the divisor will be withdrawn from the receiving term, and the copies of the unary digit added back form the quotient of the division.  The remainder of the division will also be in the receiving term, as it is not removed during the step.  Continuing with the example above, if the contents of the \(d\) term have already been copied into the \(f\) term, then ceiling division can be perfomed via:
-\cpruleinline{\cprulenonum{s_1}{\cpfuncms{f}{E}}{\cpmaxpar}{s_1}{\cpfuncms{f}{\cpundig}~|~\cpfunc{e}{E}}}
+\cpruleinline{\cprule*{s_1}{\cpfuncms{f}{E}}{\cpmaxpar}{s_1}{\cpfuncms{f}{\cpundig}~|~\cpfunc{e}{E}}}
