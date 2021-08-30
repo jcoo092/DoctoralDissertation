@@ -114,6 +114,9 @@ placement={htbp},]
 \newcommand*{\cprulerefNoStar}[1]{\zref@extract{#1}{cpsystems@ruleslabel}{rule \zref{#1}}}
 \newcommand*{\cprulerefStar}[1]{\zref@extract{#1}{cpsystems@ruleslabel}{\zref{#1}}}
 \newcommand*{\cpRuleref}[1]{\zref@extract{#1}{cpsystems@ruleslabel}{Rule \zref{#1}}}
+% \newcommand*{\cprulerefNoStar}[1]{\cpsystems@baseruleref{#1}{rule }}
+% \newcommand*{\cprulerefStar}[1]{\cpsystems@baseruleref{#1}{}}
+% \newcommand*{\cpRuleref}[1]{\cpsystems@baseruleref{#1}{Rule }}
 \newcommand{\cpobjectsline}[1]{
 \[#1\]
 }
@@ -170,6 +173,9 @@ placement={htbp},]
 \newcommand{\cpsystems@perfunangles}[1]{
     \perfectunary{IncreaseHeight}{\langle}{\rangle}{#1}
 }
+% \newcommand*{\cpsystems@baseruleref}[2]{
+%     \zref@extract{#1}{cpsystems@ruleslabel}{#2\zref{#1}\ignorespaces}
+% }
 \endinput
 %%
 %% End of file `cpsystems.sty'.
