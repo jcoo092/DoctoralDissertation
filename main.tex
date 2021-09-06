@@ -1,9 +1,8 @@
 % \documentclass[11pt,partial]{aucklandthesis}
 %
 % \documentclass[newzealand,10pt,partial,draft,doublespace]{aucklandthesis}
-% \documentclass[newzealand,10pt,partial,doublespace]{aucklandthesis}
-\documentclass[newzealand,10pt,partial,onehalfspace]{aucklandthesis}
-% \documentclass[newzealand,10pt,partial,singlespace]{aucklandthesis}
+\documentclass[newzealand,10pt,partial,draft,onehalfspace]{aucklandthesis}
+% \documentclass[newzealand,10pt,partial,onehalfspace]{aucklandthesis}
 % \documentclass[newzealand,10pt,partial]{aucklandthesis}
 %
 % This is a template for University of Auckland theses.
@@ -21,12 +20,12 @@
 %
 
 % \usepackage[utf8]{inputenc}
-% \usepackage[T1]{fontenc}
+\usepackage[T1]{fontenc}
 
 %%%% Packages introduced by me, not included with the template
 
 \usepackage{babel}
-\usepackage[UKenglish,abbreviations,xfrench]{foreign}
+\usepackage[UKenglish,abbreviations,xfrench,xlatin]{foreign}
 
 \usepackage[normalem]{ulem}
 \usepackage{amsmath,amssymb,cpsystems,nmp,url,xcolor}
@@ -42,7 +41,6 @@
 \usepackage[defblank]{paralist}
 
 \usepackage[binary-units]{siunitx}
-% \usepackage{siunitx}
 \usepackage{threeparttable} % look at removing this --- it was only introduced to make the G Col Rep stuff build
 \usepackage{fixme}
 \fxusetheme{color}
@@ -166,21 +164,19 @@
 %%% All the glossaries stuff was put here, since the Glossaries documentation says it should be used after hyperref.
 
 \usepackage[acronym,]{glossaries-extra}
-% \setacronymstyle{long-short}
 \setabbreviationstyle[acronym]{long-short}
 \makeglossaries
 
-\input{tex/newcommands}
+\input{tex/newcommands} % Miscellaneous commands I made for use in this dissertation
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \loadglsentries{tex/glossary}
 
 % \includeonly{chapters/cpsystems/cpsystems}
-% \includeonly{chapters/nmp/nmp}
+% \includeonly{chapters/litreview/litreview}
 
 \begin{document}
-\OnehalfSpacing
 \pagenumbering{roman}
 \frontmatter
 
@@ -195,18 +191,14 @@
 
 % Specify the title page content
 \title{Highly Concurrent Solutions to Graph and Image Processing Problems}
-\subtitle{Modelled for shared-memory scenarios in \gls{cps} and code \\ {\small v0.1.30 compiled on \today}}
+\subtitle{Modelled for shared-memory scenarios in \gls{cps} and code \\ {\small v0.2.4 compiled on \today}}
 \author{James Cooper}
-% \author{James Cooper\orcidlink{0000-0001-9954-3280}}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
 \degreecompletionyear{2021}
 
 % Print the title page
 \maketitle
-
-% \pagenumbering{roman}
-% \setcounter{page}{1}
 
 % Abstract, up to 350 words
 \include{tex/abstract} % it's in a separate file
@@ -229,15 +221,6 @@
 \cleardoublepage\printglossary
 \cleardoublepage\printglossary[type=\acronymtype]
 
-% \clearpage\tableofcontents
-% \clearpage\listoffigures
-% \clearpage\listoftables
-% \clearpage\listofcprulesetfloats
-% \clearpage\listofcpobjectsfloats
-% \clearpage\listoffixmes
-% \clearpage\printglossary
-% \clearpage\printglossary[type=\acronymtype]
-
 % ====================================================
 %
 % MAINMATTER
@@ -252,68 +235,28 @@
 % ====================================================
 
 \mainmatter
-% \pagenumbering{arabic}
 
-% \input{chapters/intro.tex}
-% \glsresetall
-% \cpresetrulenumber
-% \input{chapters/litreview/litreview}
-% \glsresetall
-% \cpresetrulenumber
-% \input{chapters/cpsystems/cpsystems}
-% \glsresetall
-% \cpresetrulenumber
-% \input{chapters/tsp/tsp}
-% \glsresetall
-% \cpresetrulenumber
-% \input{chapters/gcol/g-col-rep}
-% \glsresetall
-% \cpresetrulenumber
-% \input{chapters/nmp/nmp}
-% % \glsresetall
-% % \cpresetrulenumber
-% % \chapter{\texorpdfstring{\acrlong{bp}}{Belief Propagation} for \texorpdfstring{\gls{sm}}{Stereo Matching}}
-% % The \gls{bp}-specific stuff that builds on the \gls{nmp} work goes here.
-% % \input{chapters/litreview/sm}
-% \glsresetall
-% \cpresetrulenumber
-% \input{chapters/medianfilter/cml}
-% \glsresetall
-% \cpresetrulenumber
-% \input{chapters/discussion.tex}
-% \glsresetall
-% \cpresetrulenumber
-% \input{tex/conclusion.tex}
-
-\include{chapters/intro}
 \glsresetall
-% \cpresetrulenumber
+\include{tex/intro}
+\glsresetall
 \include{chapters/litreview/litreview}
 \glsresetall
-% \cpresetrulenumber
 \include{chapters/cpsystems/cpsystems}
 \glsresetall
-% \cpresetrulenumber
 \include{chapters/tsp/tsp}
 \glsresetall
-% \cpresetrulenumber
 \include{chapters/gcol/g-col-rep}
 \glsresetall
-% \cpresetrulenumber
+\include{chapters/medianfilter/median}
+\glsresetall
 \include{chapters/nmp/nmp}
 % \glsresetall
-% \cpresetrulenumber
 % \chapter{\texorpdfstring{\acrlong{bp}}{Belief Propagation} for \texorpdfstring{\gls{sm}}{Stereo Matching}}
 % The \gls{bp}-specific stuff that builds on the \gls{nmp} work goes here.
 % \input{chapters/litreview/sm}
 \glsresetall
-% \cpresetrulenumber
-\include{chapters/medianfilter/median}
+\include{tex/discussion}
 \glsresetall
-% \cpresetrulenumber
-\include{chapters/discussion}
-\glsresetall
-% \cpresetrulenumber
 \include{tex/conclusion}
 
 % ====================================================
@@ -325,18 +268,15 @@
 %
 % ====================================================
 
-% \cleardoublepage % start afresh on a new page
-% \setcounter{page}{1} % re-sets the page counter
-% \appendixpage* % makes a page to mark beginning of appendices -- currently there are no appendices
-% \input{appendix1}
-
 \cleardoublepage % start afresh on a new page
 % \setcounter{page}{1} % re-sets the page counter
+
+% \appendixpage* % makes a page to mark beginning of appendices -- currently there are no appendices
+% \input{appendix1}
 
 \printbibliography[title={Works Cited}, heading=bibintoc]
 
 % \cleardoublepage
 % Put an index here?
-
 
 \end{document}

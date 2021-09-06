@@ -11,7 +11,7 @@ together with alternative, more readable notations.
 % \medskip
 % \noindent
 %-------------------------------------------------------
-\subsection{\label{sec:cps:natnums}Natural numbers.}
+\subsection{\label{sec:cps:natnums}Natural numbers}
 %-------------------------------------------------------
 Natural numbers can be represented via \emph{multisets} containing repeated occurrences of the \emph{same} atom.
 For example, considering that \(\cpundig\) represents an ad hoc unary digit, 
@@ -27,7 +27,7 @@ the contents of a virtual integer \emph{variable} \(a\):
 \end{lstlisting}
 
 For concise expressions, we may alias these number representations by their corresponding numbers, e.g.~\(\cpfunc{a}{} \equiv \cpfunc{a}{0}, \cpfunc{b}{\cpundig^3} \equiv \cpfunc{b}{3}\).  Numerical operations are simulated with unary arithmetic \cite{Aman2019,Bonchis2006}.
-Nicolescu \textit{et al.} \cite{Nicolescu2014,RN-HW-ROMJIST14} show how the basic arithmetic operations can be modelled efficiently by \gls{ps} with complex symbols.
+Nicolescu \etal{} \cite{Nicolescu2014,RN-HW-ROMJIST14} show how the basic arithmetic operations can be modelled efficiently by \gls{ps} with complex symbols.
 
 Here follows a list of simple arithmetic expressions, assignments, and comparisons:
 
@@ -51,7 +51,7 @@ Here follows a list of simple arithmetic expressions, assignments, and compariso
 % \medskip
 % \noindent
 %-------------------------------------------------------
-\subsection{Relations and functions.}
+\subsection{Relations and functions}
 %-------------------------------------------------------
 Consider the \emph{binary relation} \(r\), as defined by: 
 \(r = \{ (a, b),\, (b, c),\, (a, d),\, (d, c) \}\) (which has a diamond-shaped graph). 
@@ -72,7 +72,7 @@ In this context, the \(\rightleftarrows\) and \(\mapsto\) operators are consider
 % \medskip
 % \noindent
 %-------------------------------------------------------
-\subsection{Associative arrays.}
+\subsection{Associative arrays}
 %-------------------------------------------------------
 Consider the \emph{associative array} \(x\), 
 with the following key-value mappings (i.e., functional relation): 
@@ -102,7 +102,7 @@ The notation \(\cpfunc{z}{|}\) is shorthand for \(\cpfunc{z}{\cpfunc{\gamma}{}}\
 % \medskip
 % \noindent
 %-------------------------------------------------------
-\subsection{Trees.}
+\subsection{Trees}
 %-------------------------------------------------------
 Consider the \emph{binary tree} \(z\), described by the structured expression \\
 \((a, (b), (c, (d), (e)))\), 
@@ -117,7 +117,7 @@ where ad-hoc atoms \(\phi, \psi\) introduce left and right subtrees, respectivel
 % \medskip
 % \noindent
 %-------------------------------------------------------
-\subsection{Strings.}
+\subsection{Strings}
 %-------------------------------------------------------
 Consider the \emph{string} \(s = ``abc"\), 
 where \(a\), \(b\), and \(c\) are atoms. 

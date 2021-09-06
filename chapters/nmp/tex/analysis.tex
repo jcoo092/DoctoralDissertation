@@ -77,10 +77,8 @@ courtesy of \cpruleref{rule:nmp:proxspec:recvfromneighs}. However, this is not t
     further forwarded by \cpruleref{rule:nmp:proxspec:recvfromoracle} to $\pi_{k_4}$, over channel $k_4$.
 \end{proof}
 
-\begin{theorem}\label{theorem:nmp:-1}%\label{theorem:nmp:-1}
+\begin{theorem}\label{theorem:nmp:-1}
     For each $k \in \{ 1, 2, 3, 4 \}$, and each $g \in [0, I]$:
-    % (i) $\pi_0$ receives one $k$-tagged generation $g$ value $v$,
-    % and (ii) if $g < I$, $\pi_0$ sends one $k$-tagged generation $g+1$ value $v$.
     \begin{inparaenum}[(i)]
         \item\label{enumitem:nmp:analysis:-1:1} $\pi_0$ receives one $k$-tagged generation $g$ value $v$; and
         \item\label{enumitem:nmp:analysis:-1:2} if $g < I$, $\pi_0$ sends one $k$-tagged generation $g+1$ value $v$.
@@ -113,7 +111,7 @@ This proves part (\ref{enumitem:nmp:analysis:-1:2}) of the hypothesis.
     \Gls{oq} \(w\) messages (and thus indirectly \gls{nm} \(v\) messages) are created only by \cpruleref{rule:nmp:proxspec:makews}, with generation counts \(g + 1\), only if \(g + 1 \leq I\).  The promoter \(\cpfunc{i}{G1\cpdiscard}\) for \cpruleref{rule:nmp:proxspec:makews} prevents the creation of any \(w\) message with a larger generation count.
 \end{proof}
 
-\begin{theorem}\label{theorem:nmp:-3}%\label{theorem:nmp:-3}
+\begin{theorem}\label{theorem:nmp:-3}
     For each cell $\pi_0$, the neighbourhood (inter-cell) messaging loop stops after receiving the last generation $I$ value.
 \end{theorem}
 
@@ -128,7 +126,6 @@ This proves part (\ref{enumitem:nmp:analysis:-1:2}) of the hypothesis.
 \end{theorem}
 
 \begin{proof}
-    % Direct consequence of Theorems~\ref{theorem:nmp:-1},\ref{theorem:nmp:-3}.
     Direct consequence of \cref{theorem:nmp:-1,theorem:nmp:-3}
 \end{proof}
 
@@ -212,9 +209,7 @@ A \gls{nmp} system following the asynchronous rules of \cref{sec:nmp:pespecific}
     The asynchronous behaviour, specifically the potential for \glspl{pe} to forgo the use of data from particular messages in favour of newer data, will lead to a final output that is no worse than the synchronous variants' and might result in a `better quality' result, for a particular domain-specific meaning of quality.
 \end{conjecture}
 
-% Determining the truth or falsity of Conjecture \ref{conj:nmp:1} is still an open problem requiring further study (but see \cref{sec:nmp:convergence}).  Ideally, one would also clarify and quantify what ``similar'' means in this context.  Part Two investigates Conjecture \ref{conj:nmp:2}, as applied to \gls{bp} \gls{sm}, in more detail.
-
-Determining the truth or falsity of \cref{conj:nmp:1,conj:nmp:2} is still an open problem requiring further study (but see \cref{sec:nmp:convergence}).  Ideally, one would also clarify and quantify what ``similar'' means in this context.%  Part Two investigates Conjecture \ref{conj:nmp:2}, as applied to \gls{bp} \gls{sm}, in more detail.
+Determining the truth or falsity of \cref{conj:nmp:1,conj:nmp:2} is still an open problem requiring further study (but see \cref{sec:nmp:convergence}).  Ideally, one would also clarify and quantify what ``similar'' means in this context.
 
 \begin{proposition}\label{prop:nmp:3}
     No matter the approach to \gls{nmp} employed, the most generations any given \gls{pe} may be ahead of any other \gls{pe} on the lattice depends on their distance from each other, as measured by the smallest number of intermediate \glspl{pe} along any path between the two.
@@ -222,15 +217,13 @@ Determining the truth or falsity of \cref{conj:nmp:1,conj:nmp:2} is still an ope
 
 The requirement for a \gls{pe} to have received messages from every other neighbour before preparing a message to send to the final neighbour means that, at a certain point, a \gls{pe} transitively depends on its neighbours' neighbours in an ever-expanding radius.  A given \gls{pe} cannot send a new message to neighbour 4 until it has received messages from neighbours 1-3.  In turn, neighbour 4 cannot send messages to any of its other neighbours besides the original \gls{pe} until it has received the next message from the original \gls{pe}.  The same then applies to those neighbours of the original \gls{pe}'s neighbour 4, \etc{}.
 
-% This reasoning gives rise to the intuition in Proposition \ref{prop:nmp:3}.  In all cases where two \glspl{pe} have a path between them, there is an inter-dependency, albeit in some cases far removed.  Eventually, if one of the \glspl{pe} stops sending messages but has not yet reached its maximum generation, the \glspl{pe} in between will successively be unable to send further messages themselves, which will ripple across the lattice and eventually prevent the other \gls{pe} from sending further messages.  Until the ripple has progressed across the lattice, however, the latter \gls{pe} may still send new messages.  As yet, we have not found a suitable and convincing proof of this conjecture.
-
 This reasoning gives rise to the intuition in \cref{prop:nmp:3}.  If one of the \glspl{pe} stops sending messages but has not yet reached its maximum generation, the neighbouring \glspl{pe} will successively be unable to send further messages themselves, which will ripple across the lattice and eventually prevent farther \glspl{pe} from sending further messages as well.  Until the ripple has progressed across the lattice, however, the more remote \glspl{pe} may still send new messages.  Therefore, in all cases where two \glspl{pe} have a path between them, there is an inter-dependency, albeit in some cases far removed.  As yet, no suitable and convincing formal proof of this idea has been found.
 
 \subsection{Rule and symbol complexity}
 Overall, the rule and symbol complexity of the system is relatively low, but given that some elements of any specific \gls{nmp} process are abstracted away (\eg{} the oracle), this is likely an underestimate for a given final implementation.
 
 \subsubsection{Rule complexity}
-The total system requires 12 rules.  Two for the initialisation phase, eight for the joint \gls{nm} \& \gls{oq} phases -- only two directly involve interaction with the oracle, but others prepare for said interaction -- and two for the finalisation phase.  The two rules that involve direct interaction with the oracle, rules \cpruleref*{rule:nmp:proxspec:sendtooracle} and \cpruleref*{rule:nmp:proxspec:recvfromoracle}, will normally be replaced with an arbitrary new ruleset, however.  Thus, it can be said that there are 10 rules relating to the structure and process for \gls{nmp}, and two stub rules which stand in for a more complex process.
+The total system requires 12 rules.  Two for the initialisation phase, eight for the joint \gls{nm} \& \gls{oq} phases -- only two directly involve interaction with the oracle, but others prepare for said interaction -- and two for the finalisation phase.  The two rules that involve direct interaction with the oracle, rules \cpruleref*{rule:nmp:proxspec:sendtooracle} and \cpruleref*{rule:nmp:proxspec:recvfromoracle}, will normally be replaced with an arbitrary new \gls{ruleset}, however.  Thus, it can be said that there are 10 rules relating to the structure and process for \gls{nmp}, and two stub rules which stand in for a more complex process.
 
 \subsubsection{Symbol complexity}
 Across all 12 rules, three atoms, eight functors, and nine states are used.  This gives a total symbol complexity of 20 distinct symbols.  As with the rule complexity, there likely will be more symbols used when the \gls{oq} phase is expanded to encompass a desired computation process.

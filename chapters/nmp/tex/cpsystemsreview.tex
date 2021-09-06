@@ -3,7 +3,7 @@ The following is a stripped-down synopsis of \gls{cps}, included in the interest
 
 \gls{cps} is another variant of P~systems \cite{Paun2001,Paun2002a,Paun2010b}, complementary to the classic trinity of Cell-like \cite{Paun2000}, Tissue-like \cite{Martin-Vide2003}, and Spiking Neural P~systems \cite{Ionescu2006}.  It has features reminiscent of both Cell-like and Tissue-like systems.  The core unit of \gls{cps} is the \emph{top-level cell}, which is arranged as a nested tree structure, but there can be an arbitrary number of these cells in the environment, communicating with each other through a form of \emph{message-passing over channels}.  The internal operation of \gls{cps}' top-level cells closely resembles Cell-like P~systems.  A key difference, however, is that \emph{only} the top-level cells have accompanying rules.  All sub-cells are merely inert symbolic objects operated upon by the top-level cell's rules.  These sub-cells are represented as labelled multisets within the top-level cells.
 
-Sub-cells can be either \emph{atoms} or \emph{compound terms}, multisets labelled by \emph{functors} (the name `functor' is commonly used as a shorthand for said compound terms).  Atoms, as the name suggests, are indivisible symbols.  They can be of any given type relevant to a system but are static objects with no other inherent properties.  Atoms are written simply as the name of the atom's type.  On the other hand, functors are objects that may hold both atoms and other functors, serve as the said labels for multisets, and are written with the functors' type, followed by opening and closing parentheses surrounding the functor's contents.
+Sub-cells can be either \emph{atoms} or \emph{compound terms}, multisets labelled by \emph{functors} (the name `functor' is commonly used as a shorthand for said compound terms).  Atoms, as the name suggests, are indivisible symbols.  They can be of any given type relevant to a system, but are static objects with no other inherent properties.  Atoms are written simply as the name of the atom's type.  On the other hand, functors are objects that may hold both atoms and other functors, serve as the said labels for multisets, and are written with the functors' type, followed by opening and closing parentheses surrounding the functor's contents.
 
 Both functors and atoms are written using lower-case letters --- typically from the Latin alphabet, although others may be used.  E.g., an x atom may be written as \(x\), while a y functor might be written like \(\cpfunc{y}{a \, xx \, z}\).  Empty functors are written either with nothing between the parentheses, or with a lower-case lambda: \(\cpfunc{b}{}\) or \(\cpfunc{b}{\cpempty}\).  Furthermore, when there is more than one of a given atom present, the count is usually written as a superscript.  The earlier functor thus could look like \(\cpfunc{y}{a \, x^2 \, z}\).
 
@@ -20,7 +20,7 @@ where \(s_i\) is the starting state; \(LHS\) is the multiset of objects required
 
 For example, if a top-level cell has two functors \(a(b^2)\) \& \(\cpfunc{a}{b^3}\), and an applicable rule's LHS is \(a(B)\), \(B\) in this instance will be unified \emph{non-deterministically} to \(b^2\) or \(b^3\).  Or, if the rule uses \(a(bB)\), \(B\) will be unified to \(b\) or \(bb\).  If the rule instead uses \(a(BC)\), then a \emph{non-deterministic} choice will be made to decide what atoms to assign to \(B\) and \(C\), which could be one of the following pairs:  \(B=0\), \(C=2\); \(B=0\), \(C=3\); \(B=1\), \(C=1\); \(B=1\), \(C=2\); \(B=2\), \(C=0\); \(B=2\), \(C=1\); \(B=3\), \(C=0\).
 
-Promoters are objects that \emph{must} be present within the cell for an associated rule to be applicable but are \emph{not} destroyed by the rule.  Conversely, inhibitors are objects that \emph{must not} be present for the rule to be applicable, although the rule may create them.  If promoters are present, they are denoted following a \(|\) per promoter, and inhibitors by \(\neg\), e.g., \(|\,a(A)\) or \(\neg\,b(B)\).  Inhibitors and promoters traditionally are written below the main rule body, but this is not strictly needed.
+Promoters are objects that \emph{must} be present within the cell for an associated rule to be applicable but are \emph{not} destroyed by the rule.  Conversely, inhibitors are objects that \emph{must not} be present for the rule to be applicable, although the rule may create them.  If promoters are present, they are denoted following a \(|\) per promoter, and inhibitors by \(\neg\), \eg{} \(|\,a(A)\) or \(\neg\,b(B)\).  Inhibitors and promoters traditionally are written below the main rule body, but this is not strictly needed.
 
 \begin{framed}
 \vspace{-1.1cm}
@@ -42,7 +42,7 @@ Top-level cells may exchange messages over channels.  Each top-level cell may ho
 
 Both sending and receiving use pattern matching.  For sending, any \gls{cps} term matching the pattern in the rule may be removed from the top-level cell and passed to a waiting recipient or placed into a buffer multiset in the channel.  Receiving works similarly in that any object matching the pattern of a receipt rule either offered by a top-level cell on the other side of the endpoint or stored in the channel's buffer multiset may be withdrawn.  If more than one object in the buffer matches the pattern, one is selected randomly.  Importantly, this means that ordinary \gls{cps} channels do \emph{not} behave as FIFO queues.
 
-Numerical operations are simulated with unary arithmetic (see, e.g., \cite{Aman2019,Bonchis2006}).  Natural numbers are represented by counting copies of the \emph{unary digit} atom, \(\cpundig\), inside a given functor.  E.g., the number three can be represented as \(\cpfunc{a}{\cpundig\cpundig\cpundig}\), \(\cpfunc{a}{\cpundig^3}\) or \(\cpfunc{a}{3}\).
+Numerical operations are simulated with unary arithmetic (see, \eg{} \cite{Aman2019,Bonchis2006}).  Natural numbers are represented by counting copies of the \emph{unary digit} atom, \(\cpundig\), inside a given functor.  E.g., the number three can be represented as \(\cpfunc{a}{\cpundig\cpundig\cpundig}\), \(\cpfunc{a}{\cpundig^3}\) or \(\cpfunc{a}{3}\).
 
 \begin{framed}
 \vspace{-1.1cm}
@@ -65,7 +65,7 @@ A specific cP~system can be described as a 6-tuple, as shown below.
 \vspace{-0.7cm}
 \end{framed}
 
-\(T\) is the set of top-level cells at the start of the evolution of the system; \(A\) is the alphabet of the system; \(O\) is the set of multisets of initial objects in the top-level cells; \(R\) is the set of rulesets for each top-level cell; \(S\) is the set of possible states of the system; \(\bar{s} \in S\) is the starting state of the system.
+\(T\) is the set of top-level cells at the start of the evolution of the system; \(A\) is the alphabet of the system; \(O\) is the set of multisets of initial objects in the top-level cells; \(R\) is the set of \glspl{ruleset} for each top-level cell; \(S\) is the set of possible states of the system; \(\bar{s} \in S\) is the starting state of the system.
 
 \subsection{\label{sec:nmp:compoundterms}Indexed notation for compound terms}
 
@@ -85,7 +85,7 @@ The \(v\) functors could instead be written as
 \[ \cpvv{X}{G}{D} \]
 \vspace{-0.7cm}
 \end{framed}\noindent
-for a shorthand that can be expanded back out to a full form automatically.  The first pair of parentheses selects functors by neighbour, the second records the generation, while the final pair shows the actual contents.  This shorthand is \emph{purely} a notational convenience without effect on rule application and system evolution.  When a concrete instance of a \(v\) compound term is indexed by a ground term (i.e., not a variable) \(k\), e.g. \(\cpvv{k}{\_}{\_}\), we refer to it as \emph{k-tagged}.
+for a shorthand that can be expanded back out to a full form automatically.  The first pair of parentheses selects functors by neighbour, the second records the generation, while the final pair shows the actual contents.  This shorthand is \emph{purely} a notational convenience without effect on rule application and system evolution.  When a concrete instance of a \(v\) compound term is indexed by a ground term (\ie{} not a variable) \(k\), \eg{} \(\cpvv{k}{\_}{\_}\), we refer to it as \emph{k-tagged}.
 
 \begin{framed}
 \vspace{-1.1cm}
@@ -109,7 +109,7 @@ As an example, consider the two \gls{cps} rules below:
 \cpruleinline{\cprulenonum{s_2}{}{1}{s_4}{}}
 \vspace{-0.7cm}
 \end{framed}\noindent
-Assume these two rules are the only ones in the ruleset that begin in state \(s_2\) and that the top-level cell this ruleset applies to is presently in state \(s_2\).  Therefore, the only rules which may be applied at the next step are one or the other of these --- the different ending states prevent the application of both.
+Assume these two rules are the only ones in the \gls{ruleset} that begin in state \(s_2\) and that the top-level cell this \gls{ruleset} applies to is presently in state \(s_2\).  Therefore, the only rules which may be applied at the next step are one or the other of these --- the different ending states prevent the application of both.
 
 When applied in the typical top-down weak priority order, the first rule has priority.  If one or more messages available on channel \(z\) match the pattern -- here a functor \(x\) with any contents -- then the first rule applies, and the new \(x\) terms are created in the top-level cell at the end of the step.  Conversely, if no such message is on hand, the top-level cell will unconditionally transition to state \(s_4\).  Thus, receiving messages through the first rule while the second is available is a \emph{non-blocking} receipt.
 

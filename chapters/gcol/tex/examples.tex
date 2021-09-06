@@ -17,9 +17,6 @@ To demonstrate the operation of the \gls{cps} algorithm in a 3-colouring context
 \end{figure}
 
 \subsection{Successful example}
-% For the graph in \cref{fig:gcol:examplegraph}, we begin with a single \gls{tlc} situated in the environment and in state \(s_1\).  From the hypothetical set of nodes \(V = \{1, 2, 3, 4, 5\}\) we derive the functor \(V' = \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}~\cpfunc{n}{5}}\), and the set of objects \[ 
-% E' = \{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}},~\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{5}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}},~\cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}}\}
-% ,\] representing the edges of the graph, as well as the set of colour objects \(K' = \{\cpfunc{k}{r},~\cpfunc{k}{g},~\cpfunc{k}{b}\}\), in this case representing the colours red, green and blue.  These sets of objects are all immediately within the \gls{tlc}, along with \(\cpfunc{s}{1}\) to select node 1 at the beginning of the process, as shown in \cref{objs:gcol:obj1}.
 
 For the graph in \cref{fig:gcol:examplegraph}, begin with a single \gls{tlc} situated in the environment and in state \(s_1\).  From the hypothetical set of nodes \(V = \{1, 2, 3, 4, 5\}\),  derive the functor \(V' = \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}~\cpfunc{n}{5}}\), and the set of objects \[ 
 E' = \cpset{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}},~\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{5}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}},~\cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}}}
@@ -58,18 +55,14 @@ Simultaneously, \cpruleref{rule:gcol:rules:loopclean} is applied to sweep away t
     \cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{2}~ \cpfunc{n}{3}~ \cpfunc{n}{4}}}
 }
 \end{cpobjects}
-\caption[Example set of objects inside the \gls{tlc} after the second step for the \gls{gcp} \gls{cps} solution]{\label{objs:gcol:obj2}Set of objects inside the \gls{tlc} after the second step (i.e. after one application of rules \cpruleref*{rule:gcol:rules:loop} and \cpruleref*{rule:gcol:rules:loopclean}) for \cref{fig:gcol:examplegraph}.}
+\caption[Example set of objects inside the \gls{tlc} after the second step for the \gls{gcp} \gls{cps} solution]{\label{objs:gcol:obj2}Set of objects inside the \gls{tlc} after the second step (\ie{} after one application of rules \cpruleref*{rule:gcol:rules:loop} and \cpruleref*{rule:gcol:rules:loopclean}) for \cref{fig:gcol:examplegraph}.}
 \end{cpobjectsfloat}
 
 The next step proceeds almost identically to the previous one, except that there are more new objects created (see \cref{objs:gcol:obj3}).  At the previous step, the edges both between node 1 and node 5, and node 1 and node 2, were explored.  In this next step, edges between node 1 and node 5, node 1 and node 2 (where these edges were not explored previously for a given \(b\) object), node 5 and node 4, and node 2 and node 3 are all explored, with all objects that will not have direct colour conflicts instantiated as per \cpruleref{rule:gcol:rules:loop}.
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
-% \begin{gather*}
     \cpobjectsline{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \dots \cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}} \quad \cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b}}
-%    
-    % \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \; \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{5}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}} \; \cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}}\\
-    % \cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b} \quad \\
 %    
     \cpobjectsline{
         \cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{g}}~\cpfunc{v}{\cpfunc{n}{3}~ \cpfunc{n}{4}}}
@@ -77,12 +70,6 @@ The next step proceeds almost identically to the previous one, except that there
     \cpobjectsline{
         \cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{3}~ \cpfunc{n}{4}}}
     }
-    % \cpobjectsline{
-    %     \cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{g}}~\cpfunc{v}{\cpfunc{n}{3}~ \cpfunc{n}{4}}}
-    % }
-    % \cpobjectsline{
-    %     \cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{3}~ \cpfunc{n}{4}}}
-    % }
     \cpobjectsline{
         \vdots
     }
@@ -92,7 +79,6 @@ The next step proceeds almost identically to the previous one, except that there
     \cpobjectsline{
         \cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{b}}~\cpfunc{m}{\cpfunc{n}{3} \, \cpfunc{c}{g}}~\cpfunc{v}{\cpfunc{n}{4}~ \cpfunc{n}{5}}}
     }
-% \end{gather*}
 \end{cpobjects}
 \caption[Set of objects inside the \gls{tlc} after the third step for the \gls{gcp} \gls{cps} solution]{\label{objs:gcol:obj3}Set of objects inside the \gls{tlc} after the third step for \cref{fig:gcol:examplegraph}.  There will be some identical objects here which have been created independently.}
 \end{cpobjectsfloat}
@@ -101,9 +87,6 @@ At the fourth step, many further objects are created, some of which are listed i
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
-% \begin{gather*}
-    % \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \; \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{5}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}} \; \cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}}\\
-    % \cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b} \quad \\
     
     \cpobjectsline{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \dots \cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}} \quad \cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b}}
     
@@ -111,17 +94,12 @@ At the fourth step, many further objects are created, some of which are listed i
     
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{4} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{3}}}}
     
-    % \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{4} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{g}}~\cpfunc{v}{\cpfunc{n}{3}}}}
-    
-    % \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{4} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{3}}}}
-    
     \cpobjectsline{\vdots}
     
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{b}}~\cpfunc{m}{\cpfunc{n}{3} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{g}}~\cpfunc{v}{\cpfunc{n}{4}}}}
     
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{b}}~\cpfunc{m}{\cpfunc{n}{3} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{4}}}}
-% \end{gather*}
-
+    
 \end{cpobjects}
 \caption[Example set of objects inside the \gls{tlc} after the fourth step the for \gls{gcp} \gls{cps} solution]{\label{objs:gcol:obj4}Set of objects inside the \gls{tlc} after the fourth step for \cref{fig:gcol:examplegraph}.}
 \end{cpobjectsfloat}
@@ -150,7 +128,7 @@ Step 5 proceeds analogously.  At the end of step 5 a number of \(b\) objects whi
 
 % ------------------------------------------------
 
-\subsection{\label{sec:gcol:examplefail}Failure example}
+\subsection{\label{sec:gcol:examplefail}Failing example}
 This \namecref{sec:gcol:examplefail} steps through the execution of the algorithm when there is no possible valid 3-colouring solution, using the graph depicted in \cref{fig:gcol:examplegraphnosol}.  The system begins with the objects depicted in \cref{objs:gcol:objn1}.
 
 \begin{cpobjectsfloat}
@@ -172,25 +150,15 @@ After the first step, the application of \cpruleref{rule:gcol:rules:init}, the o
 \begin{cpobjectsfloat}
 \begin{cpobjects}
 
-% \begin{gather*}
-    % \cpobjectsline{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \; \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{3}} \; \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{4}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}} \; \cpfunc{e}{\cpfunc{n}{3} \, \cpfunc{n}{4}}}
-    
-    % \cpobjectsline{\cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b}}
-    
     \cpobjectsline{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \dots \cpfunc{e}{\cpfunc{n}{3} \, \cpfunc{n}{4}} \quad \cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b}}
     
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{v}{\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}}}}
-% \end{gather*}
 \end{cpobjects}
 \caption{\label{objs:gcol:objn2}Set of objects inside the \gls{tlc} at the end of step 1, for \cref{fig:gcol:examplegraphnosol}.}
 \end{cpobjectsfloat}
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
-% \begin{gather*}
-    % \cpobjectsline{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \; \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{3}} \; \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{4}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}} \; \cpfunc{e}{\cpfunc{n}{3} \, \cpfunc{n}{4}}}
-    
-    % \cpobjectsline{\cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b} \quad}
     
     \cpobjectsline{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \dots \cpfunc{e}{\cpfunc{n}{3} \, \cpfunc{n}{4}} \quad \cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b}}
     
@@ -205,7 +173,6 @@ After the first step, the application of \cpruleref{rule:gcol:rules:init}, the o
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{4} \, \cpfunc{c}{g}}~\cpfunc{v}{\cpfunc{n}{2}~\cpfunc{n}{3}}}}
     
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{4} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{2}~\cpfunc{n}{3}}}}
-% \end{gather*}
 
 \end{cpobjects}
 \caption{\label{objs:gcol:objn3}Set of objects inside the \gls{tlc} at the end of step 2, for \cref{fig:gcol:examplegraphnosol}.}
@@ -216,14 +183,8 @@ After the first step, the application of \cpruleref{rule:gcol:rules:init}, the o
 \begin{cpobjectsfloat}
 \begin{cpobjects}
 
-% \begin{gather*}
-    % \cpobjectsline{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \; \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{3}} \; \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{4}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}} \; \cpfunc{e}{\cpfunc{n}{3} \, \cpfunc{n}{4}}}
-    
-    % \cpobjectsline{\cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b}}
-    
     \cpobjectsline{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \dots \cpfunc{e}{\cpfunc{n}{3} \, \cpfunc{n}{4}} \quad \cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b}}
     
-    % \cpfunc{b}{m(\cpfunc{n}{1}\,\cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2}\,\cpfunc{c}{g}}~\cpfunc{v}{\cpfunc{n}{3}~\cpfunc{n}{4}})\\
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{3} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{4}}}}
     
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{3} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{4}}}}
@@ -233,7 +194,7 @@ After the first step, the application of \cpruleref{rule:gcol:rules:init}, the o
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{4} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{3}}}}
     
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{4} \, \cpfunc{c}{b}}~\cpfunc{v}{\cpfunc{n}{3}}}}
-% \end{gather*}
+    
 \end{cpobjects}
 \caption{\label{objs:gcol:objn4}Set of objects inside the \gls{tlc} at the end of step 3, for \cref{fig:gcol:examplegraphnosol}.}
 \end{cpobjectsfloat}
@@ -243,13 +204,8 @@ Finally, \cref{objs:gcol:objn5} shows the objects in the \gls{tlc} as at the end
 \begin{cpobjectsfloat}
 \begin{cpobjects}
 
-% \begin{gather*}
-    % \cpobjectsline{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \; \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{3}} \; \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{4}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}} \; \cpfunc{e}{\cpfunc{n}{3} \, \cpfunc{n}{4}}}
-    
-    % \cpobjectsline{\cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b}}
-    
     \cpobjectsline{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \dots \cpfunc{e}{\cpfunc{n}{3} \, \cpfunc{n}{4}} \quad \cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b}}
-% \end{gather*}
+    
 \end{cpobjects}
 \caption{\label{objs:gcol:objn5}Set of objects inside the \gls{tlc} at the end of step 4, for \cref{fig:gcol:examplegraphnosol}.}
 \end{cpobjectsfloat}

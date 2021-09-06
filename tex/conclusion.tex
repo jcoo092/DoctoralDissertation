@@ -5,7 +5,7 @@ I did some stuff!
 \section{Future Directions}
 
 \begin{anfxwarning}{Where should this go?}
-    Similar material is also covered in the discussion chapter.  Should much of the below be shifted into there?  Alternatively, should much of the stuff from the discussion chapter move to here?
+    Similar material is also covered in the discussion chapter.  Should much of the below be shifted into there?  Alternatively, should much of the stuff from the discussion chapter move to here?  Should there even be a discussion chapter?
 \end{anfxwarning}
 
 % The use of Full/Empty bits looks highly promising for making message passing more efficient.  It doesn't seem to have any real support in mainstream/commodity hardware, however.  There were Intel's TGX instructions, but they have been taken out of processors again.
@@ -22,7 +22,7 @@ I did some stuff!
 
 % https://link.springer.com/chapter/10.1007/3-540-63697-8_82
 
-None of the below were investigated further, due to a lack of time, but they are obvious next steps to look at.
+% None of the below were investigated further, due to a lack of time, but they are obvious next steps to look at.
 
 % \subsection{\glsentrytext{cml}}
 % \Gls{cml} seems like the obvious approach to take from here.\footnote{In fact, considerable time and effort was spent on attempting to identify a suitable \gls{cml} implementation to use for just this purpose.  Unfortunately, in the end, it was found that there was not currently a usable \gls{cml} implementation with appropriate performance available at this time.}
@@ -41,15 +41,19 @@ None of the below were investigated further, due to a lack of time, but they are
 
 % See also \url{https://hastlayer.com/} -- they seem to say that they do relevant stuff on FPGAs.  Interestingly, they also do unums/posits, apparently.
 
+A major theme of this dissertation has been exploiting large-scale parallelism, and concurrency more broadly, to reduce the time complexity of solutions to problems.  Practical implementations of those solutions sometimes provide no measurable benefit over traditional approaches, however.  Developing the capacity to simulate \gls{cps} further, in particular developing more advanced techniques for translating \gls{cps} rules to efficient parallel code, should be a priority if the benefits of \gls{cps} are to be realised.
+
 \subsection{Universal Numbers}
 The \gls{cps} work kinda ignored non-integer numbers, which in real practice is quite a glaring omission.  Investigating modelling IEEE-754 floating point (and/or the fixed-point version), as well as Gufstafson's unums/posits, would be another good step to take.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{\nameref{chap:tsp}}
-One-way multiset unification occurs frequently in \gls{cps}, with unification being used in every rule presented above.  \fxerror*{Isn't this what Yezhou's paper \cite{Liu2021} covers?}{An efficient algorithm to perform this task would be highly beneficial for creating useful simulations of systems (we are not aware of an efficient algorithm in the case of multisets).}  For example, our simulations of the \gls{tsp} algorithm written in functional programming languages (see \cref{sec:tsp:simulation}) regularly simply iterate over all relevant objects in the system, even though frequently most will be of little use in a given function call, and so the simulations could benefit from improved unification in practice.
+% One-way multiset unification occurs frequently in \gls{cps}, with unification being used in every rule presented above.  \fxerror*{Isn't this what Yezhou's paper \cite{Liu2021} covers?}{An efficient algorithm to perform this task would be highly beneficial for creating useful simulations of systems (we are not aware of an efficient algorithm in the case of multisets).}  For example, our simulations of the \gls{tsp} algorithm written in functional programming languages (see \cref{sec:tsp:simulation}) regularly simply iterate over all relevant objects in the system, even though frequently most will be of little use in a given function call, and so the simulations could benefit from improved unification in practice.
 
-We would like to further develop the capacity to simulate \gls{cps}, in particular developing more advanced techniques for translating \gls{cps} rules to efficient parallel code.  Work down this avenue has not begun as yet, however.
+% We would like to further develop the capacity to simulate \gls{cps}, in particular developing more advanced techniques for translating \gls{cps} rules to efficient parallel code.  Work down this avenue has not begun as yet, however.
+
+One-way multiset unification occurs frequently in \gls{cps}, with unification being used in every rule presented above.  An efficient algorithm to perform this task would be highly beneficial for creating useful simulations of systems.  For example, the simulations of the \gls{tsp} algorithm written in functional programming languages (see \vref{sec:tsp:simulation}) regularly simply iterate over all relevant objects in the system, even though frequently most will be of little use in a given function call, and so the simulations could benefit from improved unification in practice.  At the time \cref{chap:tsp} was completed, no efficient algorithm for this task was known, but more recently \citeauthor{Liu2021} published \citetitle{Liu2021} \cite{Liu2021}.  The \gls{tsp} simulations should be revisited in light of this development.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

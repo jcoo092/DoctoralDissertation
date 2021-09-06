@@ -186,7 +186,7 @@
 % \else\ifUa@singlesp
 %   \SingleSpacing%
 % \else
-%   \OnehalfSpacing
+  \OnehalfSpacing
 % \fi%
 % \fi
 % % \pagenumbering{arabic}

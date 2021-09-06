@@ -1,16 +1,15 @@
 @book{Syme2015a,
 address = {Berkeley, CA},
-annote = {QA75.5-76.95},
 author = {Syme, Don and Granicz, Adam and Cisternino, Antonio},
-% booktitle = {Expert F{\#} 4.0},
 doi = {10.1007/978-1-4842-0740-6},
-edition = {4 ed.},
+edition = {4},
 isbn = {978-1-4842-0741-3},
 publisher = {Apress},
 title = {{Expert F{\#} 4.0}},
 url = {http://link.springer.com/10.1007/978-1-4842-0740-6},
 year = {2015}
 }
+
 @book{Butcher2014,
 address = {Dallas, TX, USA},
 author = {Butcher, Paul},
@@ -24,13 +23,12 @@ title = {{7 Concurrency Models in 7 Weeks}},
 url = {https://pragprog.com/book/pb7con/seven-concurrency-models-in-seven-weeks},
 year = {2014}
 }
+
 @article{Shi2013,
 abstract = {In this day and age of multicore architectures, programming language support is in urgent need for constructing programs that can take great advantage of machines with multiple cores. We present in this paper an approach to safe multicore programming in ATS, a recently developed functional programming language that supports both linear and dependent types. In particular, we formalize a type system capable of guaranteeing safe manipulation of resources on multicore machines and establish its soundness. We also provide concrete examples as well as experimental results in support of the practicality of the presented approach to multicore programming. {\textcopyright} 2012 Elsevier B.V. All rights reserved.},
-annote = {ID: 271600},
 author = {Shi, Rui and Xi, Hongwei},
 doi = {10.1016/j.scico.2012.09.005},
 file = {:D$\backslash$:/Users/jcoo092/SLR/Papers/Holding/Shi, Xi - A linear type system for multicore programming in ATS - 2013.pdf:pdf},
-% isbn = {0167-6423},
 issn = {01676423},
 journal = {Science of Computer Programming},
 keywords = {ATS,Linear types,Multicore,Type systems},
@@ -42,13 +40,13 @@ url = {http://www.sciencedirect.com.ezproxy.auckland.ac.nz/science/article/pii/S
 volume = {78},
 year = {2013}
 }
+
 @incollection{Reppy2011,
 abstract = {Concurrent ML (CML) is a higher-order concurrent language embedded in the sequential language Standard ML (SML). CML's basic programming model consists of dynamically created threads that communicate via message passing over dynamically created channels. CML also provides first-class synchronous operations, called event values, which support user-defined synchronization and communication abstractions. While the term “CML” refers to a specific language implementation, it is also used to refer to implementations of its language primitives in other systems.},
 address = {Boston, MA},
 author = {Reppy, John H.},
 booktitle = {Encyclopedia of Parallel Computing},
 doi = {10.1007/978-0-387-09766-4_47},
-edition = {2011},
 editor = {Padua, David},
 isbn = {978-0-387-09766-4},
 keywords = {Concurrent ML},
@@ -58,6 +56,7 @@ title = {{Concurrent ML}},
 url = {https://doi.org/10.1007/978-0-387-09766-4{\_}47},
 year = {2011}
 }
+
 @book{Reppy2007,
 address = {New York, New York, USA},
 author = {Reppy, John H.},
@@ -68,12 +67,12 @@ publisher = {Cambridge University Press},
 title = {{Concurrent Programming in ML}},
 year = {2007}
 }
+
 @article{Reppy1991,
 abstract = {An abstract is not available.},
 author = {Reppy, John H.},
 doi = {10.1145/113446.113470},
 file = {:D$\backslash$:/jarak/Documents/Reppy - 1991 - CML A Higher-order Concurrent Language.pdf:pdf},
-% isbn = {0-89791-428-7},
 issn = {03621340},
 journal = {ACM SIGPLAN Notices},
 keywords = {Concurrent ML},
@@ -85,6 +84,7 @@ url = {http://portal.acm.org/citation.cfm?doid=113446.113470},
 volume = {26},
 year = {1991}
 }
+
 @inproceedings{Reppy2007a,
 abstract = {Concurrent ML (CML) is a statically-typed higher-order concurrent language that is embedded in Standard ML. Its most notable feature is its support for first-class synchronous operations. This mechanism allows programmers to encapsulate complicated communication and synchronization protocols as first-class abstractions, which encourages a modular style of programming where the underlying channels used to communicate with a given thread are hidden behind data and type abstraction.While CML has been in active use for well over a decade, little attention has been paid to optimizing CML programs. In this paper, we present a new program analysis for statically-typed higher-order concurrent languages that enables the compile-time specialization of communication operations. This specialization is particularly important in a multiprocessor or multicore setting, where the synchronization overhead for general-purpose operations are high. Preliminary results from a prototype that we have built demonstrate that specialized channel operations are much faster than the general-purpose operations.Our analysis technique is modular (i.e., it analyzes and optimizes a single unit of abstraction at a time), which plays to the modular style of many CML programs. The analysis consists of three steps: the first is a type-sensitive control-flow analysis that uses the program's type-abstractions to compute more precise results. The second is the construction of an extended control-flow graph using the results of the CFA. The last step is an iterative analysis over the graph that approximates the usage patterns of known channels. Our analysis is designed to detect special patterns of use, such as one-shot channels, fan-in channels, and fan-out channels. We have proven the safety of our analysis and state those results. Copyright {\textcopyright} 2007 ACM.},
 address = {New York, New York, USA},
@@ -92,7 +92,6 @@ author = {Reppy, John H. and Xiao, Yingqi},
 booktitle = {Proceedings of the 34th annual ACM SIGPLAN-SIGACT symposium on Principles of programming languages - POPL '07},
 doi = {10.1145/1190216.1190264},
 isbn = {1595935754},
-% issn = {07308566},
 keywords = {Concurrent ML,Concurrent languages,ML,Message passing,Static analysis},
 pages = {315},
 publisher = {ACM Press},
@@ -100,6 +99,7 @@ title = {{Specialization of CML message-passing primitives}},
 url = {http://portal.acm.org/citation.cfm?doid=1190216.1190264},
 year = {2007}
 }
+
 @inproceedings{Atiya2005,
 abstract = {The Ravenscar Profile is a restricted subset of the Ada tasking model, designed to meet the requirements of producing analysable and deterministic code. A central feature of Ravenscar is the use of protected objects to ensure mutually exclusive access to shared data. This paper uses Ravenscar protected objects to implement CSP channels in Ada - the proposed implementation is formally verified using model checking. The advantage of these Ravenscar channels is transforming the data-oriented asynchronous tasking model of Ravenscar into the cleaner message-passing synchronous model of CSP. Thus, formal proofs and techniques for model-checking CSP specifications can be applied to Ravenscar programs. In turn, this increases confidence in these programs and their reliability. Indeed, elsewhere, we use the proposed Ravenscar channels as the basis for a cost-effective technique for verifying concurrent safety-critical system. {\textcopyright} Springer-Verlag Berlin Heidelberg 2005.},
 author = {Atiya, Diyaa-Addein and King, Steve},
@@ -108,7 +108,6 @@ doi = {10.1007/11499909_7},
 editor = {Vardanega, Tullio and Wellings, Andy},
 file = {:H$\backslash$:/2019/Papers/To read/Atiya, King - 2005 - Extending Ravenscar with CSP Channels.pdf:pdf},
 isbn = {978-3-540-31666-4},
-% issn = {03029743},
 pages = {79--90},
 publisher = {Springer Berlin Heidelberg},
 title = {{Extending Ravenscar with CSP Channels}},
@@ -155,7 +154,9 @@ keywords = {Communicating sequential processes,Concurrency,Occam,Process,Transpu
 month = {1},
 number = {1},
 pages = {27--37},
-title = {{Occam-A programming language for multiprocessor systems}},
+% title = {{Occam-A programming language for multiprocessor systems}},
+title = {{Occam}},
+subtitle = {{A programming language for multiprocessor systems}},
 url = {http://www.sciencedirect.com/science/article/pii/0096055187900105 https://linkinghub.elsevier.com/retrieve/pii/0096055187900105},
 volume = {12},
 year = {1987}
@@ -211,7 +212,6 @@ year = {2010}
 
 @article{Varela2001,
 abstract = {Applications running on the Internet, or on limited-resource devices, need to be able to adapt to changes in their execution environment at run-time. Current languages and systems fall short of enabling developers to migrate and reconfigure application sub-components at program-execution time. In this paper, we describe essential aspects of the design and implementation of SALSA, an actor-based language for mobile and Internet computing. SALSA simplifies programming dynamically reconfigurable, open applications by providing universal names, active objects, and migration. Moreover, SALSA introduces three language mechanisms to help programmers coordinate asynchronous, mobile computations: token-passing continuations, join continuations and first-class continuations. We provide some examples which illustrate how SALSA programs are not only dynamically reconfigurable and open, but also much more concise and easier to follow than comparable Java code. Furthermore, we provide empirical results which show SALSA's performance to be better than Java code using an actor library, and which illustrate the difference between local, local area, and wide area communication and migration. Finally, we discuss the implementation of our preprocessor which translates SALSA code into Java.},
-%address = {New York, NY, USA},
 author = {Varela, Carlos A. and Agha, Gul},
 doi = {10.1145/583960.583964},
 issn = {0362-1340},
@@ -220,7 +220,6 @@ keywords = {Actors,Continuations,Internet,Java,SALSA},
 month = {12},
 number = {12},
 pages = {20--34},
-%publisher = {Association for Computing Machinery},
 title = {{Programming dynamically reconfigurable open systems with SALSA}},
 url = {https://doi-org.ezproxy.auckland.ac.nz/10.1145/583960.583964 https://dl.acm.org/doi/10.1145/583960.583964},
 volume = {36},
@@ -236,7 +235,6 @@ editor = {Vitek, Jan},
 doi = {10.1007/978-3-540-70592-5_6},
 file = {:D$\backslash$:/Users/jcoo092/Documents/Mendeley Desktop/Srinivasan, Mycroft - 2008 - Kilim Isolation-Typed Actors for Java.pdf:pdf},
 isbn = {3540705910},
-%issn = {03029743},
 pages = {104--128},
 publisher = {Springer Berlin Heidelberg},
 title = {{Kilim: Isolation-Typed Actors for Java}},
@@ -248,7 +246,6 @@ year = {2008}
 @article{Charousset2016,
 abstract = {The actor model of computation has gained significant popularity over the last decade. Its high level of abstraction makes it appealing for concurrent applications in parallel and distributed systems. However, designing a real-world actor framework that subsumes full scalability, strong reliability, and high resource efficiency requires many conceptual and algorithmic additives to the original model. In this paper, we report on designing and building CAF, the C++ Actor Framework. CAF targets at providing a concurrent and distributed native environment for scaling up to very large, high-performance applications, and equally well down to small constrained systems. We present the key specifications and design concepts—in particular a message-transparent architecture, type-safe message interfaces, and pattern matching facilities—that make native actors a viable approach for many robust, elastic, and highly distributed developments. We demonstrate the feasibility of CAF in three scenarios: first for elastic, upscaling environments, second for including heterogeneous hardware like GPUs, and third for distributed runtime systems. Extensive performance evaluations indicate ideal runtime at very low memory footprint for up to 64 CPU cores, or when offloading work to a GPU. In these tests, CAF continuously outperforms the competing actor environments Erlang, Charm++, SalsaLite, Scala, ActorFoundry, and even the raw message passing framework OpenMPI.},
 archivePrefix = {arXiv},
-%arxivId = {1505.07368},
 author = {Charousset, Dominik and Hiesgen, Raphael and Schmidt, Thomas C.},
 doi = {10.1016/j.cl.2016.01.002},
 eprint = {1505.07368},
@@ -258,7 +255,6 @@ journal = {Computer Languages, Systems {\&} Structures},
 keywords = {C++ Actor framework,Concurrent programming,Distributed software architecture,GPU computing,Message-oriented middleware,Performance analysis},
 month = {4},
 pages = {105--131},
-%publisher = {Elsevier},
 title = {{Revisiting actor programming in C++}},
 url = {http://dx.doi.org/10.1016/j.cl.2016.01.002 https://linkinghub.elsevier.com/retrieve/pii/S1477842416000038},
 volume = {45},
@@ -268,14 +264,13 @@ year = {2016}
 @book{Armstrong2013,
 abstract = {A multi-user game, web site, cloud application, or networked database can have thousands of users all interacting at the same time. You need a powerful, industrial-strength tool to handle the really hard problems inherent in parallel, concurrent environments. You need Erlang. In this second edition of the bestselling Programming Erlang, you'll learn how to write parallel programs that scale effortlessly on multicore systems. Using Erlang, you'll be surprised at how easy it becomes to deal with parallel problems, and how much faster and more efficiently your programs run. That's because Erlang uses sets of parallel processes-not a single sequential process, as found in most programming languages. Joe Armstrong, creator of Erlang, introduces this powerful language in small steps, giving you a complete overview of Erlang and how to use it in common scenarios. You'll start with sequential programming, move to parallel programming and handling errors in parallel programs, and learn to work confidently with distributed programming and the standard Erlang/Open Telecom Platform (OTP) frameworks. You need no previous knowledge of functional or parallel programming. The chapters are packed with hands-on, real-world tutorial examples and insider tips and advice, and finish with exercises for both beginning and advanced users. The second edition has been extensively rewritten. New to this edition are seven chapters covering the latest Erlang features: maps, the type system and the Dialyzer, WebSockets, programming idioms, and a new stand-alone execution environment. You'll write programs that dynamically detect and correct errors, and that can be upgraded without stopping the system. There's also coverage of rebar (the de facto Erlang build system), and information on how to share and use Erlang projects on github, illustrated with examples from cowboy and bitcask. Erlang will change your view of the world, and of how you program. What You Need The Erlang/OTP system. Download it from erlang.org.},
 author = {Armstrong, Joe},
-edition = {2nd},
+edition = {2},
 editor = {{Davidson Pfalzer}, Susannah},
 isbn = {193778553X},
 pages = {1--530},
 publisher = {Pragmatic Bookshelf},
 series = {The Pragmatic Programmers},
 title = {{Programming Erlang: Software for a Concurrent World}},
-% url = {https://pragprog.com/titles/jaerlang2/programming-erlang-2nd-edition/},
 year = {2013}
 }
 
@@ -292,7 +287,6 @@ publisher = {Springer Berlin Heidelberg},
 series = {Lecture Notes in Computer Science},
 title = {{Ada 2012 Reference Manual. Language and Standard Libraries}},
 url = {http://dx.doi.org/10.1007/978-3-642-45419-6 http://link.springer.com/10.1007/978-3-642-45419-6},
-% volume = {8339},
 year = {2013}
 }
 
@@ -311,6 +305,7 @@ title = {{Deny capabilities for safe, fast actors}},
 url = {http://dl.acm.org/citation.cfm?doid=2824815.2824816},
 year = {2015}
 }
+
 @article{Clebsch2017,
 abstract = {Orca is a concurrent and parallel garbage collector for actor programs, which does not require any stop-the-world steps, or synchronisation mechanisms, and which has been designed to support zero-copy message passing and sharing of mutable data. Orca is part of the runtime of the actor-based language Pony. Pony's runtime was co-designed with the Pony language. This co-design allowed us to exploit certain language properties in order to optimise performance of garbage collection. Namely, Orca relies on the absence of race conditions in order to avoid read/write barriers, and it leverages actor message passing for synchronisation among actors. This paper describes Pony, its type system, and the Orca garbage collection algorithm. An evaluation of the performance of Orca suggests that it is fast and scalable for idiomatic workloads. 1 INTRODUCTION Pony is an object-oriented programming language designed from the ground up to support low-latency, highly concurrent applications written in the actor model of computation (Hewitt et al. 1973). The impetus for a new language comes from the authors' experience with the requirements of fnancial applications, namely a need for i) scalable concurrency, from tens to thousands of concurrent components; ii) performance approaching that of low-level languages; and iii) ease of development and rapid prototyping. Alternatives such as Erlang and Java were considered but performance was felt to be inadequate for the former, and pauses due to garbage collection were a stumbling block for adoption of the latter. This paper introduces Orca, Pony's concurrent garbage collection algorithm. Orca stands for Ownership and Reference Counting-based Garbage Collection in the Actor World. It was co-designed with the language's type system to allow actors to share mutable objects and to reclaim memory without any form of synchronisation between actors. Orca's core design principle},
 author = {Clebsch, Sylvan and Franco, Juliana and Drossopoulou, Sophia and Yang, Albert Mingkun and Wrigstad, Tobias and Vitek, Jan},
@@ -329,7 +324,7 @@ year = {2017}
 @incollection{Panangaden1997,
 abstract = {Concurrent ML (CML) is a programming language that integrates high-level abstraction mechanisms with concurrency primitives. Like other similar, recent languages, CML embodies the idea that concurrent programming can be done in a modern high-level language like ML. The fundamental new ingredient is the notion of a (polymorphic) event. This is a piece of code packaged as a new abstraction. Combinators are provided to build new events from old ones. The key subtlety is the interaction of external choice with abstraction. Ordinary functional abstraction conceals the communication actions on which choices need to be made. The event mechanism allows one to build abstractions that expose the communication. The language CML features mobility, polymorphism, and ordinary lambda-abstraction as well as events. In this article we discuss the basic features and explain how CML can be used to implement new concurrent abstractions.},
 address = {New York, NY},
-author = {Panangaden, Prakash and Reppy, John},
+author = {Panangaden, Prakash and Reppy, John H.},
 booktitle = {ML with Concurrency: Design, Analysis, Implementation, and Application},
 chapter = {Two},
 doi = {10.1007/978-1-4612-2274-3_2},
@@ -351,7 +346,6 @@ file = {:D\:/jarak/Documents/Mendeley Desktop/Vinoski - 2012 - Concurrency and m
 issn = {1521-9615},
 journal = {Computing in Science \& Engineering},
 keywords = {applicative (functional) programming,concurrent languages,concurrent programming,distributed languages,parallel languages,programming paradigms,scientific computing},
-% mendeley-groups = {PhD/FP/SLR},
 month = {11},
 number = {6},
 pages = {24--34},
@@ -359,4 +353,89 @@ title = {{Concurrency and Message Passing in Erlang}},
 url = {http://ieeexplore.ieee.org/document/6216341/},
 volume = {14},
 year = {2012}
+}
+
+@article{McCarthy1960,
+author = {McCarthy, John},
+doi = {10.1145/367177.367199},
+issn = {0001-0782},
+journal = {Communications of the ACM},
+month = {4},
+number = {4},
+pages = {184--195},
+title = {{Recursive functions of symbolic expressions and their computation by machine, Part I}},
+url = {https://doi-org.ezproxy.auckland.ac.nz/10.1145/367177.367199 https://dl.acm.org/doi/10.1145/367177.367199},
+volume = {3},
+year = {1960}
+}
+
+@inreference{Reilly2003,
+author = {Slagle, James R. and Gini, Maria L.},
+booktitle = {Encyclopedia of Computer Science},
+edition = {4},
+editor = {Reilly, Edwin D. and Ralston, Anthony and Hemmendinger, David},
+publisher = {Wiley},
+title = {{List Processing}},
+url = {https://search-credoreference-com.ezproxy.auckland.ac.nz/content/entry/encyccs/list_processing/0?institutionId=181},
+year = {2003}
+}
+
+@inreference{Morris1992,
+author = {{Contributing Authors}},
+booktitle = {Academic Press Dictionary of Science and Technology},
+edition = {4},
+editor = {Morris, Christopher G.},
+publisher = {Elsevier Science \& Technology},
+title = {cons},
+url = {https://search-credoreference-com.ezproxy.auckland.ac.nz/content/entry/apdst/cons/0},
+year = {1992}
+}
+
+@book{Midkiff2012,
+abstract = {Abstract Compiling for parallelism is a longstanding topic of compiler research. This book describes the fundamental principles of compiling “regular” numerical programs for parallelism. We begin with an explanation of analyses that allow a compiler to understand the interaction of data reads and writes in different statements and loop iterations during program execution. These analyses include dependence analysis, use-def analysis and pointer analysis. Next, we describe how the results of these analyses are used to enable transformations that make loops more amenable to parallelization, and discuss transformations that expose parallelism to target shared memory multicore and vector processors. We then discuss some problems that arise when parallelizing programs for execution on distributed memory machines. Finally, we conclude with an overview of solving Diophantine equations and suggestions for further readings in the topics of this book to enable the interested reader to delve deeper into the field. Ta...},
+author = {Midkiff, Samuel P.},
+doi = {10.2200/S00340ED1V01Y201201CAC019},
+editor = {Hill, Mark D.},
+isbn = {9781608458417},
+month = {1},
+number = {19},
+pages = {1--169},
+series = {Synthesis Lectures on Computer Architecture},
+subtitle = {{An Overview of Fundamental Compiler Techniques}},
+title = {{Automatic Parallelization}},
+url = {http://www.morganclaypool.com/doi/abs/10.2200/S00340ED1V01Y201201CAC019},
+year = {2012}
+}
+
+@book{Fernandez2012,
+abstract = {"Java 7 Concurrency Cookbook" is a practical Cookbook packed with real-world solutions. Intermediate–advanced level Java developers will learn from task-based recipes to use Java’s concurrent API to program thread safe solutions.If you are a Java developer who wants to take your knowledge of concurrent programming and multithreading further, as well as discover the new concurrency features of Java 7, then "Java 7 Concurrency Cookbook" is for you.},
+author = {Fernandez, Javier},
+% date = {2012-10-25},
+edition = {1},
+% editor = {{Davidson Pfalzer}, Susannah},
+isbn = {9781849687881},
+location = {Olton, UK},
+% pages = {1--444},
+pagetotal = {444},
+publisher = {Packt Publishing, Limited},
+% series = {The Pragmatic Programmers},
+title = {{Java 7 Concurrency Cookbook}},
+year = {2012}
+}
+
+@Inbook{Maskrey2018,
+abstract="While the idea of programming multithreaded functions in any environment may seem daunting at first (see Figure 1-1), Apple came up with a new approach that makes multithreaded programming much easier. Grand Central Dispatch comprises language features, runtime libraries, and system enhancements that provide systemic, comprehensive improvements to the support for concurrent code execution on multicore hardware in iOS and macOS.",
+author="Maskrey, Molly and Wang, Wallace",
+% bookTitle="Pro iPhone Development with Swift 4: Design and Manage Top Quality Apps",
+booktitle="Pro iPhone Development with Swift 4",
+booksubtitle = {Design and Manage Top Quality Apps},
+chapter = {1},
+doi="10.1007/978-1-4842-3381-8_1",
+isbn="978-1-4842-3381-8",
+location = "Berkeley, CA",
+pages="1--43",
+publisher="Apress",
+title = {{Multithreaded Programming Using Grand Central Dispatch}},
+url="https://doi.org/10.1007/978-1-4842-3381-8_1",
+year="2018",
 }

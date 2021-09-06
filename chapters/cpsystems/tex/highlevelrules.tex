@@ -4,7 +4,7 @@
 
 % \noindent
 %-------------------------------------------------------
-\subsection{\label{sec:cps:genericrules}Generic rules format.}
+\subsection{\label{sec:cps:genericrules}Generic rules format}
 %-------------------------------------------------------
 We consider rules of the following \emph{generic} format 
 (we call this format generic because it defines templates involving variables):
@@ -51,7 +51,7 @@ All symbols sent via one \emph{generic rule} to the same destination form one si
 % \smallskip
 % \noindent
 %-------------------------------------------------------
-\subsection{Pattern matching.}
+\subsection{Pattern matching}
 %-------------------------------------------------------
 \fxerror{Should this be combined with the unification section above?}{Rules are matched against cell contents using the aforementioned \emph{pattern matching},
 which involves the rule's \emph{\gls{lhs}}, promoters and inhibitors.}
@@ -86,7 +86,7 @@ the rule's \gls{rhs} gives the \emph{new content}: \\
 % \smallskip
 % \noindent
 %-------------------------------------------------------
-\subsection{Promoters and inhibitors.}
+\subsection{Promoters and inhibitors}
 %-------------------------------------------------------
 
 Promoters are objects that \emph{must} be present within the cell for the rule to be applicable but are \emph{not} destroyed by the rule.  Conversely, inhibitors are objects that \emph{must not} be present for the rule to be applicable, although the rule may create them.  If promoters are present, they are denoted following a \(|\) per promoter, and inhibitors by \(\neg\), e.g. \(|\,\cpfunc{a}{A}\) or \(\neg\,\cpfunc{b}{B}\).  Inhibitors and promoters are traditionally written below the main rule body, but this is not strictly required.
@@ -142,7 +142,7 @@ and there \emph{is} a cell term corresponding to (2b3), \(\cpfunc{a}{c}\).
 % \noindent
 % \subsection{Application modes -- \(\cponce\) and \(\cpmaxpar\).}
 %-------------------------------------------------------
-\subsection{Application modes --- exactly-once and maximally-parallel.}
+\subsection{Application modes: exactly-once and maximally-parallel}
 %-------------------------------------------------------
 To explain the two rule application modes, \(\cponce\) and \(\cpmaxpar\) -- referred to as \emph{exactly-once} and \emph{maximally-parallel} respectively -- consider a cell, \(\sigma\), containing three counter-like complex symbols,
 \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^3}\),
@@ -186,16 +186,16 @@ Like most other \gls{ps} variants, \gls{cps} \emph{usually} evolve synchronously
 % \smallskip
 % \noindent
 %-------------------------------------------------------
-\subsection{Benefits.}
+\subsection{Benefits}
 %-------------------------------------------------------
 This type of generic rules allows (i) a reasonably fast parsing and processing of subcomponents, and
-(ii) algorithm descriptions with \emph{fixed-size alphabets} and \emph{fixed-sized rulesets}, 
+(ii) algorithm descriptions with \emph{fixed-size alphabets} and \emph{fixed-sized \glspl{ruleset}}, 
 independent of the size of the problem and the number of cells in the system (often \emph{impossible} with only atomic symbols).
 
 % \smallskip
 % \noindent
 %-------------------------------------------------------
-\subsection{Special cases.}
+\subsection{Special cases}
 %-------------------------------------------------------
 Simple scenarios involving generic rules are sometimes 
 semantically equivalent to sets of nongeneric rules defined via bounded loops.
@@ -204,7 +204,7 @@ For example, consider the rule
 s_1 ~ \cpfunc{a}{\cpfunc{x}{I} \; \cpfunc{y}{J}} ~ \rightarrow_\cpmaxpar ~ s_2 ~ \cpfunc{b}{I} ~ \cpfunc{c}{J},
 \]
 where the cell's contents guarantee that \(I\) and \(J\) 
-only match integers in ranges \fxwarning{Shouldn't these be from zero to n/m?}{\([1,n]\) and \([1,m]\)}, respectively.
+only match integers in ranges \([1,n]\) and \([1,m]\), respectively.
 Under these assumptions, 
 this rule is equivalent to the following set of nongeneric rules:
 \[
@@ -217,7 +217,7 @@ which cannot be reduced generally to simple bounded loops.
 % \smallskip
 % \noindent
 %-------------------------------------------------------
-\subsection{Synchronous vs asynchronous.}
+\subsection{Synchronous vs asynchronous}
 %-------------------------------------------------------
 In our models, we do not make any \emph{syntactic} difference between the synchronous and asynchronous scenarios;
 this is strictly a \emph{runtime} assumption~\cite{Nicolescu2012}.
