@@ -22,7 +22,7 @@
 \ProvidesPackage{cpsystems}
 [2021/09/02 v0.22 Package to aid in typesetting cP systems
 rulesets, following Nicolescu's standard style]
-\RequirePackage{amsmath}
+\RequirePackage{mathtools}
 \RequirePackage{array}
 \RequirePackage{etoolbox}
 \RequirePackage{framed}
@@ -32,11 +32,11 @@ rulesets, following Nicolescu's standard style]
 \RequirePackage{perfectcut}
 \RequirePackage[user]{zref}
 \DeclareFloatingEnvironment[name=Ruleset,
-listname={List of cP~systems Rulesets},within=none,
+listname={List of cP~systems Rulesets},within=chapter,
 placement={htbp},]
 {cprulesetfloat}
 \DeclareFloatingEnvironment[name=Objects Group,
-listname={List of cP~systems Objects Groups},within=none,
+listname={List of cP~systems Objects Groups},within=chapter,
 placement={htbp},]
 {cpobjectsfloat}
 \newenvironment{cpruleset}
@@ -118,9 +118,26 @@ placement={htbp},]
 \[#1\]
 }
 \newcommand*{\cpset}[1]{\cpsystems@perfuncurly{#1}}
-\newcommand*{\cpfunc}[2]{
+% \newcommand*{\cpfunc}[2]{
+% #1\cpsystems@perfunparens{#2}
+% }
+
+\DeclarePairedDelimiter{\cpsystems@mtparens}{\lparen}{\rparen}
+
+\newcommand*{\cpfunc}{%
+             \@ifstar
+                  \cpfuncStar%
+                  \cpfuncNoStar%
+              }
+              
+\newcommand*{\cpfuncStar}[3][]{
+#2\cpsystems@mtparens[#1]{#3}
+}
+
+\newcommand*{\cpfuncNoStar}[2]{
 #1\cpsystems@perfunparens{#2}
 }
+
 \newcommand*{\cpfuncms}[2]{
 #1\cpsystems@perfuncurly{#2}
 }

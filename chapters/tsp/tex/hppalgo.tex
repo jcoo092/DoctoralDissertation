@@ -9,7 +9,7 @@ Following the 6-tuple description style of \cref{sec:cps:formaldescriptions}:  \
 
 \cptuple{HCP}{\cpset{1}}{\cpset{e, f, h, p, p', r, s, t, u, v, z}}{\cpset{E \cup \cpset{v}}}{\text{\cref{ruleset:tsp:hcp}}}{\cpset{s_1, s_2, s_3, s_4}}{s_1}
 
-\subsection{\label{sec:tsp:hpp}\Glsentrylong{hpp-glossary}}
+\subsection{\label{sec:tsp:hpp}\Glsfmtlong{hpp-glossary}}
 
 The algorithm follows a simple approach, essentially a simple maximally parallel breadth-first search of the digraph.  It starts with a top-level cell enclosed by the skin membrane, and populated with subcells describing the problem digraph (recall that subcells in \gls{cps} are the namesake complex objects).  From there, a starting vertex of the problem digraph is randomly selected, and the top-level cell is then populated with the other initial required subcells.  The evolution of the system then proceeds synchronously level-by-level through the different potential paths of the cycle by creating new subcells encoding the digraph traversals up to that point, expanding all possible paths from a given vertex which exclude any of the previously visited vertices.  The algorithm requires a fixed set of \textbf{only four rules}, presented in \cref{ruleset:tsp:hpp}.
 
@@ -67,7 +67,7 @@ At the beginning of the computation, assume an elementary cell with the skin mem
     \cptermdef{s_3}{Ending state.  The \gls{tlc} transitions to this state when it has selected a Hamiltonian Path, and ceased evolution.}
 \end{description}
 
-\subsection{\Glsentrylong{hcp-glossary}}
+\subsection{\Glsfmtlong{hcp-glossary}}
 Finding a Hamiltonian cycle requires an expansion of the algorithm, specifically to record the initial starting vertex, and ensure that the paths produced also end there.  The modified rules taking account of the changes are presented in \cref{ruleset:tsp:hcp}.
 
 The major changes to this from the \gls{hpp} algorithm are the addition of an \(r\) subcell to every \(s\) subcell, the change of rule 2 and the addition of a rule 5. The \(r\) subcell stores a vertex -- the \(R\) selected in rule 1 -- to keep track of the starting point of the cycle, where the cycle will also have to end.  This is used by the new rule 2, which instead of outputting a randomly selected path, constructs new \(z\) subcells out of the \(s\) subcells.  These new subcells contain the full path of the cycle, but are only instantiated if there is an \(e\) subcell representing an arc on the graph from the final vertex on the path back to the origin vertex \(R\), by the action of the promoter.  Finally, rule 5 selects at random from one of these new \(z\) subcells and outputs a final path subcell \(p'\).  Rule 5 runs in exactly-once mode.  Application of this rule takes one step, and the system ends in state \(s_4\), which represents the new termination point of the evolution of the system.
@@ -82,8 +82,12 @@ The major changes to this from the \gls{hpp} algorithm are the addition of an \(
         \cprule{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{\cpempty} \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}{+}{s_3}{\cpfunc{z}{\cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}}
         \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \; \cpfunc{t}{R}}}
         
-        \cprule{s_2}{}{+}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{Z} \; \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}}
-        \cppromoter{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{\cpfunc{v}{T} Z} \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}
+        % \cprule{s_2}{}{+}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{Z} \; \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}}
+        % \cppromoter{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{\cpfunc{v}{T} Z} \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}
+        % \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \; \cpfunc{t}{T}}}
+        
+        \cprule{s_2}{}{+}{s_2}{\cpfunc*[\bigg]{s}{\cpfunc{r}{R} \; \cpfunc{u}{Z} &\\&&&& \quad \; \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}}
+        \cppromoter{\cpfunc*[\Big]{s}{\cpfunc{r}{R} \; \cpfunc{u}{\cpfunc{v}{T} Z} &\\&&&& \qquad\enskip \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}
         \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \; \cpfunc{t}{T}}}
         
         \cprule{s_2}{\cpfunc{s}{\cpdiscard}}{+}{s_2}{}

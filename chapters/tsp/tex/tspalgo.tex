@@ -11,13 +11,17 @@ Again the algorithm requires five rules, presented in \cref{ruleset:tsp:tsp}.  T
 \begin{cprulesetfloat}
     \begin{cpruleset}
         
-        \cprule{s_1}{\cpfunc{v}{\cpfunc{v}{R} Y}}{1}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{Y} \, \cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpempty}} \, \cpfunc{c}{\cpempty}}}
+        \cprule{s_1}{\cpfunc{v}{\cpfunc{v}{R} Y}}{1}{s_2}{\cpfunc*[\Big]{s}{\cpfunc{r}{R} \, \cpfunc{u}{Y}  &\\&&&& \, \quad \cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpempty}}\, \cpfunc{c}{\cpempty}}}
         
-        \cprule{s_2}{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{\cpempty} \, \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}} \, \cpfunc{c}{C}}}{+}{s_3}{\cpfunc{z}{\cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} \, \cpfunc{c}{CW}}}
+        \cprule{s_2}{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{\cpempty} \, \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}} \, \cpfunc{c}{C}}}{+}{s_3}{\cpfunc*[\bigg]{z}{\cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} &\\&&&& \, \quad \cpfunc{c}{CW}}}
         \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \, \cpfunc{t}{R} \, \cpfunc{c}{W}}}
         
-        \cprule{s_2}{}{+}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{Z} \, \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} \, \cpfunc{c}{CW}}}
-        \cppromoter{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{\cpfunc{v}{T} Z} \, \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}} \, \cpfunc{c}{C}}}
+        % \cprule{s_2}{}{+}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{Z} \, \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} \, \cpfunc{c}{CW}}}
+        % \cppromoter{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{\cpfunc{v}{T} Z} \, \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}} \, \cpfunc{c}{C}}}
+        % \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \, \cpfunc{t}{T} \, \cpfunc{c}{W}}}
+        
+        \cprule{s_2}{}{+}{s_2}{\cpfunc*[\bigg]{s}{\cpfunc{r}{R} \, \cpfunc{u}{Z} \, &\\&&&& \quad  \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} &\\&&&& \, \quad  \cpfunc{c}{CW}}}
+        \cppromoter{\cpfunc*[\Big]{s}{\cpfunc{r}{R} \, \cpfunc{u}{\cpfunc{v}{T} Z} &\\&&&& \, \quad\enskip  \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}} \, \cpfunc{c}{C}}}
         \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \, \cpfunc{t}{T} \, \cpfunc{c}{W}}}
         
         \cprule{s_2}{\cpfunc{s}{\_}}{+}{s_2}{}

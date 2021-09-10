@@ -872,7 +872,7 @@ Direct consequence of \crefrange{prop:cps:min}{prop:cps:selectmultisetid}.
 Importantly, \emph{none} of these \glspl{ruleset} are uniform or semi-uniform families.  That is, they do not need any form of customisation to a particular problem, nor do they rely on any form of precomputation whatsoever.  All these \glspl{ruleset} can be re-used and combined as is (modulo the appropriate renaming of functors) --- as shown in, e.g., \cref{rules:cps:mode} and \cref{rules:cps:selectmultisetrange}.  Their only dependence is on matching the rules with the types of container terms used to store the numbers to use.
 
 %-------------------------------------------------------
-\subsection{Comparing the \glsentrytext{cps} \Glspl{ruleset} to Other P systems Rules for Sorting}
+\subsection{Comparing the \glsfmttext{cps} \Glsfmtplural{ruleset} to Other P systems Rules for Sorting}
 %-------------------------------------------------------
 
 \citeauthor{Ceterchi2010} gave an overview of approaches to sorting in \gls{ps} at the time of their writing \cite{Ceterchi2010}.  They discussed approaches such as Bead Sorting \cite{Arulanandham2002}, which uses a \gls{tlps} and is founded on imitating the concept of an abacus which has been turned on its side, with beads falling towards the bottom due to gravity; Communicative Sorting \cite[Sec. 5.2]{Alhazov2007} which moves numbers between membranes in a \gls{clps}, such that at the end of the system's evolution, the numbers are sorted in ascending order from the outermost to innermost membranes; and sorting by ``carving'' \cite{Alhazov2007}, where objects in a system are iteratively removed or replaced, and the point where a particular object type is exhausted is taken as a signal that a number has been sorted.  \citeauthor{Maeda2014} also present an approach to sorting in Enzymatic Numerical \gls{ps} \cite{Maeda2014}, making use of implementations of logical operations described earlier in the paper.
@@ -884,7 +884,7 @@ On only the measure of time complexity, \cref{sec:cps:sorting} improves on all b
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %-------------------------------------------------------
-\subsection{Comparing the \glsentrytext{cps} \Glspl{ruleset} with Traditional Parallel Implementations of Sorting Algorithms}
+\subsection{Comparing the \glsentrytext{cps} \Glsfmtplural{ruleset} with Traditional Parallel Implementations of Sorting Algorithms}
 %-------------------------------------------------------
 
 Of course, the field of Membrane Computing is not the only one to have investigated methods to improve the time complexity of sorting.  Knuth dedicated much of a volume of \textit{The Art of Computer Programming} to sorting \cite{Knuth1998} and is said to have estimated that 25\% of the world's computing resources at one point were dedicated to sorting (quoted in \cite{Powers1991}).  Both \citeauthor{Powers1991} \cite{Powers1991} and \citeauthor{Chlebus1991} \cite{Chlebus1991} presented highly parallel theoretical implementations of quicksort based on concurrent-read concurrent-write parallel random access machines \cite{JaJa2011}.  Meanwhile, Batcher introduced bitonic sort and sorting networks \cite{Akl2011}, useful for implementing a parallel mergesort \cite{Lee1995}.

@@ -9,10 +9,12 @@ Why are Petri Nets not more popular?  Why do we choose \Gls{csp} or \Glspl{actor
 
 \cite{Varela2013}
 
-This work 
 
 \subsection{Parallel Random Access Machines}
+
+\begin{anfxnote}
 It seems like I should probably include a summary of PRAMs here too.
+\end{anfxnote}
 
 % \subsection{\label{subsec:lr:csp}\glsentrytext{csp} \& Pi~Calculus}
 
@@ -35,7 +37,7 @@ The \emph{\Gls{actor}} \cite{Agha1986,Agha1997} model was introduced by Carl Hew
 
 The \Gls{actor} model is popular for concurrent programming, possibly owing to its intuitive concept.  The fact that communication is asynchronous makes \glspl{actor} much more suitable for modelling distributed systems without shared memory than \gls{csp} or similar --- \glspl{actor} can send messages and proceed without (necessarily) needing to wait for a response, instead continuing forward based on the messages they have received.  By contrast, a typical distributed system with synchronous communication would have prohibitive time costs, given the relative slow speed of typical links between distributed computers as compared to their capacity for local processing.  Many \Gls{actor} systems have been implemented for different programming languages (\eg{} \cite{Varela2001,Srinivasan2008,Charousset2016,Bernstein2016}), and in fact it is a core component, and perhaps largely responsible for the success, of Erlang/OTP \cite{Armstrong2010,Armstrong2013,Vinoski2012}.  A relatively new language, Pony \cite{Clebsch2015,Clebsch2017}, takes this even further.
 
-Not only do \glspl{actor} map well onto many systems which can be modelled as independent units communicating with each other, in practice they also can prove useful for controlling access to shared resources.  For example, \citeauthor{Terrell2018} describes using an \gls{actor} to control access to a dictionary data structure shared and frequently updated by multiple threads \cite{Terrell2018}.  After experimenting with using other dictionary structures designed for concurrency, \citeauthor{Terrell2018} eventually wrapped a basic dictionary in an \gls{actor}, interposing between the dictionary and the accessing threads.  The queue behaviour of the \gls{actor}'s mailbox inherently imposes an ordering on accesses to the underlying dictionary, and the fact that the \gls{actor} is the only one to access the dictionary removes the need for any form of locking or other synchronisation.  Thus, in this case the \Gls{actor} approach proved to be the most performant.
+Not only do \glspl{actor} map well onto many systems which can be modelled as independent units communicating with each other, in practice they also can prove useful for controlling access to shared resources.  For example, \citeauthor{Terrell2018} describes using an \gls{actor} to control access to a dictionary data structure shared and frequently updated by multiple threads \cite{Terrell2018}.  After experimenting with using other dictionary structures designed for concurrency, \citeauthor{Terrell2018} eventually wrapped a basic dictionary in an \gls{actor}, interposing between the dictionary and the accessing threads.  The queue behaviour of the \gls{actor}'s mailbox inherently imposes an ordering on accesses to the underlying dictionary, and the fact that the \gls{actor} is the only one to access the dictionary removes the need for any form of locking or other synchronisation.  Thus, the \Gls{actor} approach proved the most performant.
 
 \Glspl{actor}, when used for non-trivial real-world software, have been criticised at times \cite{Welsh2013,Stucchio2013}.  While some of the criticisms described are implementation-specific (relating to Akka, a Scala \gls{actor} library), a common thread is that \glspl{actor} do not compose well.  This has the negative consequence that it is difficult to combine an \gls{actor} with anything else to create a new abstraction, and can require extensive modifications in source code to make relatively simple logical changes.
 
@@ -46,7 +48,7 @@ Chemical abstract machine, joinads, Scala communicating objects (IIRC, that was 
 \end{anfxwarning}
 
 \subsection{Others}
-Mobility calculus.  Others?
+\fxnote{What others?}{Mobility calculus.  Others?}
 
 % \subsection{Criticisms}
 

@@ -6,8 +6,8 @@
 %-------------------------------------------------------
 \subsection{\label{sec:cps:genericrules}Generic rules format}
 %-------------------------------------------------------
-We consider rules of the following \emph{generic} format 
-(we call this format generic because it defines templates involving variables):
+Consider rules of the following \emph{generic} format 
+(called generic because it defines templates involving variables):
 \begin{framed}
 \vspace{-0.6cm}
 \begin{align*}
@@ -25,14 +25,14 @@ Where:
 \item \emph{symbols}, \emph{in-symbols}, \emph{promoters} and \emph{inhibitors} are symbols;
 
 \smallskip
-\item \emph{in-symbols} become available after the end of the current step only, as in traditional \gls{ps}  (we can imagine that these are sent via an ad-hoc fast \emph{loopback} channel); 
+\item \emph{in-symbols} become available after the end of the current step only, as in traditional \gls{ps}  (one can imagine that these are sent via an ad-hoc fast \emph{loopback} channel); 
 
 \smallskip
 \item subscript \(\alpha\) \(\in\) \(\{\cponce\), \(\cpmaxpar\}\), 
 indicates the application mode, as further discussed in the below;
 
 \smallskip
-\item \fxerror{We basically never use these anymore...}{\emph{out-symbols}} are sent to the cell's structural neighbours at the end of the step.
+\item \emph{out-symbols} are sent to the cell's structural neighbours at the end of the step.
 These symbols are enclosed in round parentheses that indicate 
 their \fxerror{Should this be moved to an ``intra-cell messaging'' section?}{destinations}, abbreviated above as \(\delta\). 
 The most usual scenarios include: 

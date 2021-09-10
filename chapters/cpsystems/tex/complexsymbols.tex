@@ -65,7 +65,7 @@ Rules may, however, contain \emph{any} kind of symbols, atoms, variables, and te
 % \medskip
 % \noindent
 %-------------------------------------------------------
-\subsection{\label{sec:cps:unification}Unification.} 
+\subsection{\label{sec:cps:unification}Unification} 
 %-------------------------------------------------------
 All symbols which appear in rules (ground or not) can be (asymmetrically) \emph{matched} against \emph{ground} terms,
 using an ad-hoc version of \emph{pattern matching}, 
@@ -105,10 +105,10 @@ If the rules avoid any matching non-determinism,
 this proposal should not affect the performance of P~simulators running on existing machines.
 Assuming that bags are already taken care of, e.g.~via hash-tables,
 our proposed unification probably adds an almost linear factor.
-Let us recall that, in similar contexts (no occurs check needed), 
+Recall that, in similar contexts (no occurs check needed), 
 Prolog unification algorithms can run in \(O(n g(n))\) steps,
 where \(g\) is the inverse Ackermann function.
-Our conjecture must be proven, though, 
+This conjecture must be proven, though, 
 as the novel presence of multisets may affect the performance.
 % \fi
 

@@ -1,33 +1,104 @@
 \chapter{Introduction}
-Some wordiness will go here.
+% Some wordiness will go here.
 
-\section{My first section}
-Post-introductory wordiness
+% \section{My first section}
+% Post-introductory wordiness
 
 \begin{anfxwarning}{What goes in the intro?}
 From \url{https://abacus.bates.edu/~ganderso/biology/resources/writing/HTWsections.html}:  ``the Introduction must answer the questions, "What was I studying? Why was it an important question? What did we know about it before I did this study? How will this study advance our knowledge?"''
+
+See also \url{https://www.thephdproofreaders.com/writing/how-to-write-a-thesis-introduction/} and \url{https://papersowl.com/blog/phd-thesis-introduction}
 \end{anfxwarning}
 
-\section{Research Questions}
+\begin{anfxnote}{More tips}
+From \url{https://student.unsw.edu.au/introductions}:
+
+What types of information should you include in your introduction? 
+
+In the introduction of your thesis, you’ll be trying to do three main things, which are called Moves:
+
+\begin{itemize}
+    \item Move 1 establish your territory (say what the topic is about)
+    \item Move 2 establish a niche (show why there needs to be further research on your topic)
+    \item Move 3 introduce the current research (make hypotheses; state the research questions)
+\end{itemize}
+
+Each Move has a number of stages. Depending on what you need to say in your introduction, you might use one or more stages. Table 1 provides you with a list of the most commonly occurring stages of introductions in Honours theses (colour-coded to show the Moves). You will also find examples of Introductions, divided into stages with sample sentence extracts. Once you’ve looked at Examples 1 and 2, try the exercise that follows.
+
+Most thesis introductions include SOME (but not all) of the stages listed below. There are variations between different Schools and between different theses, depending on the purpose of the thesis.
+
+Stages in a thesis introduction
 \begin{enumerate}
-    \item Does modelling \gls{nmp} in a theoretical setting like \gls{cps} help in some way?
-    \item Does an asynchronous model of \gls{nmp} reveal any benefit over the traditional synchronous versions?
-    \item Does the practical implementation of \gls{nmp}, applied to \gls{bp} for \gls{sm} show any improvement over other techniques?
+    \item state the general topic and give some background
+    \item provide a review of the literature related to the topic
+    \item define the terms and scope of the topic
+    \item outline the current situation
+    \item evaluate the current situation (advantages/ disadvantages) and identify the gap
+    \item identify the importance of the proposed research
+    \item state the research problem/ questions
+    \item state the research aims and/or research objectives
+    \item state the hypotheses
+    \item outline the order of information in the thesis
+    \item outline the methodology
 \end{enumerate}
 
-\subsection{Research Question One}
+1-3 are move 1, 4-5 are move 2 and 6-11 are move 3.
 
-\subsection{Research Question Two}
+\end{anfxnote}
 
-\subsection{Research Question Three}
+% \section{Research Questions}
+% \begin{enumerate}
+%     \item Does modelling \gls{nmp} in a theoretical setting like \gls{cps} help in some way?
+%     \item Does an asynchronous model of \gls{nmp} reveal any benefit over the traditional synchronous versions?
+%     \item Does the practical implementation of \gls{nmp}, applied to \gls{bp} for \gls{sm} show any improvement over other techniques?
+% \end{enumerate}
 
-\section{Hypotheses}
+% \subsection{Research Question One}
 
-\subsection{Hypothesis One}
+% \subsection{Research Question Two}
 
-\subsection{Hypothesis Two}
+% \subsection{Research Question Three}
 
-\subsection{Hypothesis Three}
+% \section{Hypotheses}
 
-\section{Outline}
+% \subsection{Hypothesis One}
+
+% \subsection{Hypothesis Two}
+
+% \subsection{Hypothesis Three}
+
+\section{Brief background}
+
+\section{Motivation}
+
+\section{Questions/hypotheses/etc}
+
+\section{Steps taken}
+
+\Crefrange{chap:tsp}{chap:nmp} each investigate a different problem exhibiting significant potential for parallelism.  Specifically: \cref{chap:tsp} focuses on the \gls{hpp}, \gls{hcp} and \gls{tsp}; \cref{chap:gcol} on the \gls{gcp}; \cref{chap:median} on the \gls{medianfilter}, an operation performed in Image Processing; and, \cref{chap:nmp} on \gls{nmp}, \fxerror{Finish describing NMP}{a problem where...}.  In each of these chapters, the problem has first been modelled using \gls{cps}, with one or more \glspl{ruleset} developed and analysed, providing a highly concurrent solution to the problem.  Then, the \gls{cps} approach has been investigated empirically, using one or more computer programs.  These programs validated the correctness of the \gls{cps} \glspl{ruleset}.  They also sometimes highlight interesting aspects of either the problem or the solution presented here.
+
+\section{Outline of dissertation, Highlight contributions \& key results}
+
+\begin{anfxnote}
 Where I summarise the upcoming dissertation (this section probably needs a different/better name).  Where in the intro do I explain the novelty?
+\end{anfxnote}
+
+Background information on \gls{mc} and \gls{cml}, as well as other theoretical models for concurrent computation, is provided in \cref{chap:lr}.
+
+% \section{Highlight contributions \& key results}
+
+This dissertation provides in \cref{chap:cpsystems} a reasonably comprehensive (albeit high-level) overview of \gls{cps} as it stands at the time of submission.  The various elements of \gls{cps} that have been defined and are still in use -- many of which are used later in this work too -- are shown, before demonstrating how traditional Computer Science data structures may be modelled in \gls{cps}.  Finally, methods to perform a variety of statistical operations over numeric data are expounded.
+
+\Cref{chap:tsp} provides a \gls{cps} solution to the \gls{tsp} with a time complexity that is linear with respect to the number of nodes in the graph, \ie{} it is \bigoh{n}, where \(n\) is the order of the graph, and requires a total of five fixed rules for every graph.
+
+\Cref{chap:gcol} covers the \gls{gcp}.  
+
+Median filtering is more challenging than many similar (\gls{mwt}) problems in Image Processing.  Not only is it relatively heavy in numerical computation, but the necessity of preserving the image data prevents the use of typical enhancements to other algorithms, which involve performing a piecewise reduction over the data.  The \glspl{cps} presented in \cref{chap:median} demonstrates conclusively that sufficiently large-scale concurrency can solve the \gls{medianfilter} problem in constant time, however.  The experimental results suggest that current CPUs are far from managing this level of concurrency, though, with the \gls{cml} implementation proving to be by far the slowest --- at minimum 20 times slower than the fastest alternative.
+
+Lastly, \cref{chap:nmp} represents perhaps the most significant contribution of this dissertation.  Originally motivated by \gls{lbp} \gls{sm}, it investigates the situation where individual logical \glspl{pe} are arranged in a lattice and exchange messages as part of computing the solution to a given problem, but every \gls{pe} can only send a message to each neighbouring \gls{pe} \emph{after} it has received messages from every other one of its neighbours.  There are two main phases of the core computation process for \gls{nmp}:
+\begin{inparaenum}[a)]
+\item inter-\gls{pe} communications between neighbours via message passing; and
+\item intra-\gls{pe} computations to update internal data and produce new messages
+\end{inparaenum}.  The focus in \cref{chap:nmp} is on the first of these only, with the second abstracted over for current purposes with an oracle which \glspl{pe} communicate with to perform the required updates.
+
+The chapter analyses the traditional \gls{gs} approach to \gls{nmp}, where every \gls{pe} waits until every other \gls{pe} has finished exchanging messages before progressing further itself, and an asynchronous alternative where each \gls{pe} sends the next message to each neighbour as soon as it has received the necessary input messages.  From these, an intermediate \gls{ls} approach, where each \gls{pe} waits only for all of its own expected messages to arrive before progressing, naturally arises and is explored also.  The behaviour and comparative running times required for each variant are investigated empirically, and it is found that the \gls{ls} method is strictly superior to the \gls{gs} method -- exhibiting the same messaging behaviour but typically running 5-13\% faster -- while the asynchronous method is, in general, significantly faster than the \gls{ls} yet computes final results that are mostly within roughly 0.1\% of those of the \gls{ls} method.

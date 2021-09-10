@@ -2,7 +2,7 @@
 \newcommand*{\obinnod}[1]{Objects inside node 1 at the end of round #1}
 \newcommand*{\obinrul}[2]{Objects inside node 1 after application of rule#1 during round #2}
 
-This \namecref{sec:nmp:example} steps through a simple example of the evolution of \cref{sec:nmp:pespecific}'s asynchronous variant of \gls{nmp}.  The grid in question is found in \cref{fig:nmp:basicgrid}, and this example focuses on the node marked ``1''.  For simplicity, and to demonstrate the broader application of the \gls{ruleset}, the example focuses on a border point in the grid, \ie{} a \gls{pe} with a \emph{three}-neighbourhood.  Two generations of \gls{nm} are shown (\ie{} the maximum generation count is 2: \(\cpfunc{i}{2}\)) for demonstration purposes.  Node 1 starts in state \(s_1\) and its adjacency list object is \(\cpfunc{a}{\cpfunc{n}{2} \; \cpfunc{n}{3} \;\cpfunc{n}{4}}\).
+This \namecref{sec:nmp:example} steps through a simple example of the evolution of \cref{sec:nmp:pespecific}'s asynchronous variant of \gls{nmp}.  The grid in question is found in \cref{fig:nmp:basicgrid}, and this example focuses on the node marked ``1''.  For simplicity, but without loss of generality, the example focuses on a border point in the grid, \ie{} a \gls{pe} with a \emph{three}-neighbourhood.  Two generations of \gls{nm} are shown (\ie{} the maximum generation count is 2: \(\cpfunc{i}{2}\)) for demonstration purposes.  Node 1 starts in state \(s_1\) and its adjacency list object is \(\cpfunc{a}{\cpfunc{n}{2} \; \cpfunc{n}{3} \;\cpfunc{n}{4}}\).
 
 \begin{figure}
     \centering
@@ -11,13 +11,15 @@ This \namecref{sec:nmp:example} steps through a simple example of the evolution 
     \label{fig:nmp:basicgrid}
 \end{figure}
 
-Embodying the unknown processes of the oracle, the data for the received \(v\) terms have been randomly generated for this example and have no particular significance.
+\fxwarning{From José}{Embodying the unknown processes of the oracle, the data for the received \(v\) terms have been randomly generated for this example and have no particular significance.}
 
 To supply a partial demonstration of the expected operation of the rule(s) which would replace the oracle, the contents of outgoing messages are computed according to the following simple rule: \cpruleinline{\cprule*{s_4}{\cprecv{\cpvw{W}{G}{\cpfunc{d}{A} \; \cpfunc{d}{B}}}{\iota}}{1}{s_5}{\cpsend{\cpvw{W}{G}{AB}}{\iota}}}  This rule merely sums the data received, and returns the newly computed outgoing message to the relevant node.
 
 \setcounter{traces}{-1}
 
-The total trace for this example is: \tracn{{\label{trace:nmp:0}}--}{--}{--} \tarr{} \tracn{\label{trace:nmp:1}0?*}{0?*}{0?*} \tarr{} \tracn{\label{trace:nmp:2}1?*}{0}{1?} \tarr{} \tracn{\label{trace:nmp:3}1}{0}{2?} \tarr{} \tracn{\label{trace:nmp:4}2?}{1?**}{2} \tarr{} \tracn{\label{trace:nmp:5}2}{2?}{2} \tarr{} \tracn{\label{trace:nmp:6}--}{--}{--}.  Each round number of the trace corresponds to the same row in \cref{tab:nmp:exampleobjects}, reflecting the state of node 1 at the end of that round.  Where the contents of a functor change, the functor and its changed contents are written in boldface to highlight the modifications.
+% The total trace for this example is: \tracn{{\label{trace:nmp:0}}--}{--}{--} \tarr{} \tracn{\label{trace:nmp:1}0?*}{0?*}{0?*} \tarr{} \tracn{\label{trace:nmp:2}1?*}{0}{1?} \tarr{} \tracn{\label{trace:nmp:3}1}{0}{2?} \tarr{} \tracn{\label{trace:nmp:4}2?}{1?**}{2} \tarr{} \tracn{\label{trace:nmp:5}2}{2?}{2} \tarr{} \tracn{\label{trace:nmp:6}--}{--}{--}.  Each round number of the trace corresponds to the same row in \cref{tab:nmp:exampleobjects}, reflecting the state of node 1 at the end of that round.  Where the contents of a functor change, the functor and its changed contents are written in boldface to highlight the modifications.
+
+The total trace for this example is: \tracn{{\label{trace:0}}--}{--}{--} \tarr{} \tracn{\label{trace:1}0?*}{0?*}{0?*} \tarr{} \tracn{\label{trace:2}1?*}{0}{1?} \tarr{} \tracn{\label{trace:3}1}{0}{2?} \tarr{} \tracn{\label{trace:4}2?}{1?**}{2} \tarr{} \tracn{\label{trace:5}2}{2?}{2} \tarr{} \tracn{\label{trace:6}--}{--}{--}.  The state of Node 1 at the end of each round is shown in \autoref{tab:nmp:exampleobjects}.  The round number for each row in the table matches the round number described further below.  Where the contents of a functor change between the end of one round and the end of the next, the functor and its changed contents are written in boldface to highlight the modifications.
 
 \begin{table}
 \setlength\extrarowheight{1ex}
@@ -33,7 +35,7 @@ The total trace for this example is: \tracn{{\label{trace:nmp:0}}--}{--}{--} \ta
 5 & \(\cpfunc{a}{\cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4}} \quad \cpfunc{i}{2} \quad \cpvv{2}{2}{8} \; \cpvvbf{3}{\mathbf{2}}{\mathbf{7}} \; \cpvv{4}{2}{2}\)  \\ \hline
 6 & \(\cpfunc{a}{\cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4}} \quad \cpfunc{i}{2}\)  \\ \hline
 \end{tabular}
-\caption[Objects present inside Node 1 at the end of each round]{Objects present inside Node 1 at the end of each round in the example}
+\caption[Objects present inside Node 1 at the end of each round]{Objects present inside Node 1 at the end of each round in the example.  Functors whose contents have changed from one step to the next, and the changed contents themselves, are marked in boldface.}
 \label{tab:nmp:exampleobjects}
 \end{table}
 
