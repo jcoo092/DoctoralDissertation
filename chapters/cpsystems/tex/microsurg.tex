@@ -4,29 +4,21 @@ A \gls{cps} cell can contain an arbitrary number of various objects, like other 
 
 This capacity for fixed-size \glspl{ruleset} is enabled primarily through the use of variables and unification, permitting the rules to adapt to the contents of the cells.  This tends to be an all-or-nothing situation, though, in that a single variable usually matches to the entire contents of whichever cell or functor it is specified in.  In the case of two or more variables in the same space, the split of the objects between them is made non-deterministically (per \cref{sec:cps:unification}), and may even be done such that one of the variables is empty.  Anything to be excluded from matching with a variable \emph{must} be listed explicitly, while anything remaining to be excluded from the operation of the rule entirely is covered with the underscore \emph{discard} (aka `don't care') symbol (\(\cpdiscard\)).  This is fine for many cases, but falls short in instances when there will be an unknown quantity of a given object in a cell, and it is not desirable to perform a single operation across all of them as one.
 
-% As an example, consider a situation where there are an unknown number of \(d\) objects in the \gls{tlc}, and it is desirable to perform an operation for each of them.  Let there be an \(a\) functor containing four \(b\) objects, and a \(c\) functor containing three \(d\) objects, i.e. we have \(a(b^4)\) and \(c(d^3)\).  The goal is to write a rule that shall replicate the contents of \(a\) and place them inside a new \(e\) functor, and do this once per \(d\) present inside \(c\).  Once completed, \(a\) and \(c\) will hold their original contents immediately before the execution of the rules.
+As an example, consider a situation where there are an unknown number of \(d\) objects in the \gls{tlc}, and it is desirable to perform an operation for each of them.  Let there be an \(a\) functor containing four \(b\) objects, and a \(c\) functor containing three \(d\) objects, \ie{} \(\cpfunc{a}{b^4}\) and \(\cpfunc{c}{d^3}\).  The goal is to write a rule that shall replicate the contents of \(a\) and place them inside a new \(e\) functor, and do this once per \(d\) present inside \(c\).  Once completed, \(a\) and \(c\) will hold their original contents from before the execution of the rules.
 
-% Intuitively, if this operation is carried out as described, then the ending state of the system should be that it contains \(a(b^4)\), \(c(d^3)\) and \(e(b^{12})\).  This \emph{could} be achieved using rules as shown in \cref{rules:cps:slowmulti}.  While this would work, it requires steps equal to the size of the contents of \(c\) (i.e. three steps), as well as necessitating an uninteresting auxiliary rule.  Minor variations are possible, primarily regarding the choice of use of promoters, inhibitors and states, but ultimately, they would lead to roughly the same set.
-
-As an example, consider a situation where there are an unknown number of \(d\) objects in the \gls{tlc}, and it is desirable to perform an operation for each of them.  Let there be an \(a\) functor containing four \(b\) objects, and a \(c\) functor containing three \(d\) objects, i.e. \(\cpfunc{a}{b^4}\) and \(\cpfunc{c}{d^3}\).  The goal is to write a rule that shall replicate the contents of \(a\) and place them inside a new \(e\) functor, and do this once per \(d\) present inside \(c\).  Once completed, \(a\) and \(c\) will hold their original contents from before the execution of the rules.
-
-Intuitively, if this operation is carried out as described, then the ending state of the \gls{tlc} should be that it contains \(\cpfunc{a}{b^4}\), \(\cpfunc{c}{d^3}\) and \(\cpfunc{e}{b^{12}}\).  This \emph{could} be achieved using rules as shown in \cref{rules:cps:slowmulti}.  While this would work, it requires steps equal to the size of the contents of \(c\) plus one (i.e. four steps), as well as necessitating an uninteresting auxiliary rule.  Minor variations are possible, primarily regarding the choice of use of promoters, inhibitors and states, but ultimately, they would lead to roughly the same set.
+Intuitively, if this operation is carried out as described, then the ending state of the \gls{tlc} should be that it contains \(\cpfunc{a}{b^4}\), \(\cpfunc{c}{d^3}\) and \(\cpfunc{e}{b^{12}}\).  This \emph{could} be achieved using rules as shown in \cref{rules:cps:slowmulti}.  While this would work, it requires steps equal to the size of the contents of \(c\) plus one (\ie{} four steps), as well as necessitating an uninteresting auxiliary rule.  Minor variations are possible, primarily regarding the choice of use of promoters, inhibitors and states, but ultimately, they would lead to roughly the same set.
 
 \begin{cprulesetfloat}
     \begin{cpruleset}
         \cprule{s_0}{}{\cponce}{s_1}{\cpfunc{e}{\cpempty}~\cpfunc{f}{D}}
         \cppromoter{\cpfunc{c}{D}}
         
-        % \cprule{s_1}{c(dD)~e(E))}{\cponce}{s_1}{c(D)~e(EB)}
-        % \cppromoter{a(B)}
-        
         \cprule{s_1}{\cpfunc{c}{dD} \; \cpfunc{e}{E}}{\cponce}{s_1}{\cpfunc{c}{D} \; \cpfunc{e}{EB}}
         \cppromoter{\cpfunc{a}{B}}
     
-        % \cprule{s_1}{c(\cpempty)~f(D)}{\cponce}{s_2}{c(D)}
         \cprule{s_1}{\cpfunc{c}{\cpempty} \; \cpfunc{f}{D}}{\cponce}{s_2}{\cpfunc{c}{D}}
     \end{cpruleset}
-    \caption[Simulation of multiplication in cP systems]{\label{rules:cps:slowmulti}Simulation of multiplication in cP systems.  The values in the \(a\) and \(c\) complex terms are multiplied, with the result stored in the \(e\) term}
+    \caption[Simulation of multiplication in cP systems]{\label{rules:cps:slowmulti}Simulation of multiplication in \gls{cps}.  The values in the \(a\) and \(c\) complex terms are multiplied, with the result stored in the \(e\) term.  \Cref{fig:cps:slowmulti} shows a state machine reflecting the rules' progression}
 \end{cprulesetfloat}
 
 \begin{figure}
@@ -39,7 +31,7 @@ Intuitively, if this operation is carried out as described, then the ending stat
 In particular, it is not possible here to make the second rule work in parallel --- a given functor or atom may only be used in one rule application per system step, and so the first rule application would take exclusive control of both the \(c\) functor and its \(d\) contents, preventing any further rule applications from occurring.  A further wrinkle of this \gls{ruleset} is the fact that it requires an extra temporary functor, \(f\), to store copies of the \(d\) atoms for transfer back into \(c\) at the end because the appropriate termination point for these rules can only be detected when \(c\) has been emptied.
 
 \subsection{A Solution}
-To avoid this problem, we revisit and clarify an older and rarely used operation that permits a rule to be applied to the contents of a sub-cell or functor, \emph{without} also seizing control (i.e. locking) of the sub-cell or functor itself.  We term this operation \emph{\gls{ms}}, representing the idea that as-minimal-as-possible modification is made to the containing object while modifying its contents.  We denote \glspl{ms} through the use of curly braces, rather than the usual parentheses for complex terms.  They are still complex terms, but the operation performed on them differs.  Due to this differing operation, every instance of a \gls{ms} on the \gls{lhs} \emph{must} have a matching instance on the \gls{rhs}.
+To avoid this problem, one may optionally make use of an operation that permits a rule to be applied to the contents of a sub-cell or functor, \emph{without} also seizing control (\ie{} locking) of the sub-cell or functor itself.  This operation is termed \emph{\gls{ms}}, representing the idea that as-minimal-as-possible modification is made to the containing object while modifying its contents.  \Glspl{ms} are denoted by curly braces, rather than the usual parentheses for complex terms.  They are still complex terms, but the operation performed on them differs.  Due to this differing operation, every instance of a \gls{ms} on the \gls{lhs} \emph{must} have a matching instance on the \gls{rhs}, and they must not appear in promoters or inhibitors.
 
 % \cpruleinline{
 % \cprule*{s_0}{}{\cponce}{s_1}{\cpfunc{e}{\cpempty}}
@@ -67,7 +59,7 @@ To avoid this problem, we revisit and clarify an older and rarely used operation
     \caption{\label{rules:cps:microsurg}Rules for a destructive multiplication process that requires exactly two steps regardless of the numbers multiplied by using \gls{cps} \glspl{ms}}
 \end{cprulesetfloat}
 
-\Cref{rules:cps:microsurg} is an example of three rules using \glspl{ms} that achieve in \emph{two} steps the same destructive multiplication as the \gls{ruleset} listed in \cref{rules:cps:slowmulti}, which requires \(D + 1\) steps.  Crucially, the second rule is still \emph{one} rule application, but the insertion of \(B\) into \(e\) happens once for each possible match on the promoter.  The use of \(c(d\cpdiscard)\) combined with the maximally parallel rule mode means that the rule will take control of and execute once for each \(d\) atom in the multiset labelled by the \(c\) functor.  As such, three lots of \(B\) will be inserted into \(e\) simultaneously while executing this rule under the example described above.
+\Cref{rules:cps:microsurg} is an example of three rules using \glspl{ms} that achieve in \emph{two} steps the same destructive multiplication as \cref{rules:cps:slowmulti}, which requires \(D + 1\) steps.  Crucially, the second rule is still \emph{one} rule application, but the insertion of \(B\) into \(e\) happens once for each possible match on the promoter.  The use of \(c(d\cpdiscard)\) combined with the maximally parallel rule mode means that the rule will take control of and execute once for each \(d\) atom in the multiset labelled by the \(c\) functor.  As such, three lots of \(B\) will be inserted into \(e\) simultaneously while executing this rule.
 
 % Furthermore, non-destructive division of \(d\) by \(e\), \(d \div e = f\), could be:
 % \cpruleinline{\cprule*{s_1}{\cpfuncms{f}{\cpempty}~\cpfuncms{d}{E}}{\cpmaxpar}{s_1}{f[\cpundig]~\cpfuncms{d}{\cpempty}~|~\cpfunc{e}{E}}}
@@ -78,7 +70,7 @@ To avoid this problem, we revisit and clarify an older and rarely used operation
 Furthermore, destructive division of \(d\) by \(e\), \(d \div e = f\), could be:
 \cpruleinline{\cprule*{s_1}{\cpfuncms{f}{\,}~\cpfuncms{d}{E}}{\cpmaxpar}{s_1}{\cpfuncms{f}{\cpundig}~\cpfuncms{d}{\,}~|~\cpfunc{e}{E}}}
 
-Note that in the case of division, the quotient returned in the \(f\) term will be the \emph{floor} of the precise division result, i.e. the equation could be written as \(\lfloor d \div e \rfloor = f\).  For cases where the dividend is an exact multiple of the divisor, this will be the same as the correct result.  Otherwise, it will be the correct result's whole-number part only.  E.g. referring to the rule immediately above, for \(d(6)~\&~e(3)\), the output will be \(f(2)\), whereas for \(d(5)~\&~e(3)\), the output will be \(f(1)\), with the two left-over unary digits remaining in \(d\).  In other words, \(f\) receives the quotient, and \(d\) keeps the remainder.
+Note that in the case of division, the quotient returned in the \(f\) term will be the \emph{floor} of the precise division result, \ie{} the equation could be written as \(\lfloor d \div e \rfloor = f\).  For cases where the dividend is an exact multiple of the divisor, this will be the same as the correct result.  Otherwise, it will be the correct result's whole-number part only.  \Eg{} referring to the rule immediately above, for \(d(6)~\&~e(3)\), the output will be \(f(2)\), whereas for \(d(5)~\&~e(3)\), the output will be \(f(1)\), with the two left-over unary digits remaining in \(d\).  In other words, \(f\) receives the quotient, and \(d\) keeps the remainder.
 
 \lstset{xleftmargin=.5in, xrightmargin=.5in} 
 \begin{lstlisting}
@@ -86,5 +78,7 @@ Note that in the case of division, the quotient returned in the \(f\) term will 
   $\cpfuncms{a}{C} \; \cpfuncms{b}{\,} \; \rightarrow_{\cpmaxpar} \; \cpfuncms{a}{\,} \; \cpfuncms{b}{\cpundig}~|~\cpfunc{c}{C}$ #\hfill\textsl{single-step floor division}\enspace#
 \end{lstlisting}
 
+% Conversely, if the quotient is to be read out of the \(d\) term at the end, then the result will be \emph{ceiling} division, and equal to the quotient plus the remainder.
+
 % To instead achieve ceiling division, first copy the dividend into the receiving term (in the example above, this would be the \(f\) term), and then withdrawing multiples of the divisor from there.  An integer multiple of the divisor will be withdrawn from the receiving term, and the copies of the unary digit added back form the quotient of the division.  The remainder of the division will also be in the receiving term, as it is not removed during the step.  Continuing with the example above, if the contents of the \(d\) term have already been copied into the \(f\) term, then ceiling division can be perfomed via:
-\cpruleinline{\cprule*{s_1}{\cpfuncms{f}{E}}{\cpmaxpar}{s_1}{\cpfuncms{f}{\cpundig}~|~\cpfunc{e}{E}}}
+% \cpruleinline{\cprule*{s_1}{\cpfuncms{f}{E}}{\cpmaxpar}{s_1}{\cpfuncms{f}{\cpundig}~|~\cpfunc{e}{E}}}

@@ -2,10 +2,12 @@
 \section{\label{sec:cps:formaldescriptions}Formal \glsentrytext{cps} descriptions}
 %-----------------------------------------------------------------------------------
 
-A specific cP~system can be described by a 6-tuple, as shown below.
+A specific \glspl{cps} can be described by a 6-tuple, as shown below.
 
 \[
 \Pi_{cP}(T, A, O, R, S, \bar{s})
 \]
 
 \(T\) is the set of \glspl{tlc} at the start of the evolution of the system; \(A\) is the alphabet of the system; \(O\) is the set of multisets of initial objects in the \glspl{tlc}; \(R\) is the set of \glspl{ruleset} for each \gls{tlc}; \(S\) is the set of possible states of the \glspl{tlc}; and \(\bar{s} \in S\) is the starting state of the system.
+
+Typically in practice, in the case of multiple \glspl{tlc} the same single ruleset \(R\) is used for every \gls{tlc} in the defined system.  In these cases, a single ruleset may be specified, which is assumed to apply to every \gls{tlc}.  Furthermore, strictly speaking, the symbols used to represent the states of the system are a part of the alphabet of the system.  Ordinarily they are not used for any other purpose, however, and so their specification is omitted from that of the alphabet \(A\).  \Ie{} if \(A_\alpha\) is the complete alphabet, the alphabet typically presented in the tuple is \( A_\beta = A_\alpha \setminus S \).

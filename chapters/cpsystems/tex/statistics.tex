@@ -7,7 +7,7 @@
 % (2) any parallel algorithm that finds its minimum needs at least \(\log n\) parallel steps.
 
 % Without loss of generality, consider a \gls{cps} cell, in state \(s_1\), where multiset \(A\) is given via functor \(a\); 
-% e.g., multiset \(A = \{ 1, 2, 2, 5 \}\) is represented as \(\cpfunc{a}{1} \, \cpfunc{a}{2} \, \cpfunc{a}{2} \, \cpfunc{a}{5}\).
+% \eg{} multiset \(A = \{ 1, 2, 2, 5 \}\) is represented as \(\cpfunc{a}{1} \, \cpfunc{a}{2} \, \cpfunc{a}{2} \, \cpfunc{a}{5}\).
 % The following \glspl{ruleset} implement various versions of a \gls{cps} minimum-finding algorithm.
 % All these \glspl{ruleset} transit to state \(s_2\) and construct a term with functor \(b\), containing \(\mathop{min} A\).
 % Some of these are destructive processes; if otherwise desired, one could first make a copy of the initial multiset \(A\).
@@ -65,7 +65,7 @@
 % where \(X\) is a sub-multiset of \(Z\), \(X \subseteq Z\).
 % Finally, the newly constructed \(b\) will contain one copy of the minimum value of multiset \(A\).
 
-% If multiset \(A\) does not contain zero values, i.e. \(A \subseteq \mathbb{N}^+\), then the first rule can be safely omitted (as it will never be applicable). 
+% If multiset \(A\) does not contain zero values, \ie{} \(A \subseteq \mathbb{N}^+\), then the first rule can be safely omitted (as it will never be applicable). 
 % A similar \gls{ruleset} can be devised for finding the maximum of a given set of natural numbers.
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,18 +79,20 @@
 
 This section presents and discusses procedures in \gls{cps} for the following fundamental statistical operations on numerical sets and multisets:
 \begin{itemize}
-    \item Finding the minimum and maximum elements.
-    \item Determining the overall number and counting the frequency of elements.
-    \item Computing the sum, mean, and mode over all elements.
-    \item Sorting elements.
-    \item Selecting the \(n^{\text{th}}\) (and thus median) element.
+    \item Finding the minimum and maximum elements
+    \item Determining the overall number and counting the frequency of elements
+    \item Computing the sum, mean, and mode over all elements
+    \item Sorting elements
+    \item Selecting the \(n^{\text{th}}\) (and thus median) element
 \end{itemize}
 
 Leveraging the power of \gls{cps} -- logical pattern matching on associative data objects -- \emph{all} of the presented procedures run in constant time O\((1)\) and require small, fixed \glspl{ruleset} for all cases.  For brevity, these rules consider only the case of non-empty (multi)sets of natural numbers greater than zero (\(\mathbb{N}^+\)), and their total order (\(\leq\)).  Extensions to handle zero values and empty sets are not complicated, but would inflate \glspl{ruleset} by a few additional rules without adding significant value (although they would not alter the time complexity).
 
-At the start (``step 0'') of each presented operation, assume an arbitrary non-empty set or multiset of \(s\) objects, which each hold an arbitrary number.  For each example with a set, the starting \(s\) terms assumed present are:  \[S_1 = \cpset{\cpfunc{s}{2}, \cpfunc{s}{3}, \cpfunc{s}{5}, \cpfunc{s}{6}, \cpfunc{s}{7}}\]  Likewise, the assumed multiset is \[S_2 = \cpset{\cpfunc{s}{2}, \cpfunc{s}{2}, \cpfunc{s}{3}, \cpfunc{s}{5}, \cpfunc{s}{5}, \cpfunc{s}{6}, \cpfunc{s}{6}, \cpfunc{s}{6}, \cpfunc{s}{7}}\]  In almost all cases, the operations apply equally to sets and multisets, so the examples assume the presence of \(S_2\) inside the top-level cell.  The exceptions to that are in \cref{sec:cps:sortsets} and \cref{sec:cps:selectsets}, where \(S_1\) is assumed instead, and \cref{sec:cps:sortmultisetid} and \cref{sec:cps:sortmultisetid}, which use \(S_2\) with an additional datum for each element.  The rules provided are all non-destructive with respect to the (multi)set \(S\).  Destructive versions are simple to derive from the non-destructive ones, so are omitted.
+At the start (``step 0'') of each presented operation, assume an arbitrary non-empty set or multiset of \(s\) objects, which each hold an arbitrary number.  For each example with a set, the starting \(s\) terms assumed present are:  \[S_1 = \cpset{\cpfunc{s}{2}, \cpfunc{s}{3}, \cpfunc{s}{5}, \cpfunc{s}{6}, \cpfunc{s}{7}}\]  Likewise, the assumed multiset is \[S_2 = \cpset{\cpfunc{s}{2}, \cpfunc{s}{2}, \cpfunc{s}{3}, \cpfunc{s}{5}, \cpfunc{s}{5}, \cpfunc{s}{6}, \cpfunc{s}{6}, \cpfunc{s}{6}, \cpfunc{s}{7}}\]  In almost all cases, the operations apply equally to sets and multisets, so the examples assume the presence of \(S_2\) inside the top-level cell.  The exceptions to that are in \cref{sec:cps:sortsets} and \cref{sec:cps:selectsets}, where \(S_1\) is assumed instead, and \cref{sec:cps:sortmultisetid} and \cref{sec:cps:sortmultisetid}, which use \(S_2\) with an additional datum for each element.  The rules provided are all non-destructive with respect to the multiset \(S\).  Destructive versions are simple to derive from the non-destructive ones, so are omitted.
 
-In all cases, the rules are written so that the final result is found in one or more \(r\) functor objects, as appropriate.  Examples of the evolution are given in tabular form immediately after the rules for each operation.  Each table lists \emph{only} the newly created, modified, and deleted objects in the top-level cell at the end of that step.  Modified objects are presented with their outermost functor in boldface, e.g., \(\cpfunc{r}{0}\) to \(\mathbf{\cpfunc{r}{4}}\).  Deleted objects are struck out, e.g., \(\cpfunc{r'}{2}\) to \sout{\(\cpfunc{r'}{2}\)}.
+% In all cases, the rules are written so that the final result is found in one or more \(r\) functor objects, as appropriate.  Examples of the evolution are given in tabular form immediately after the rules for each operation.  Each table lists \emph{only} the newly created, modified, and deleted objects in the top-level cell at the end of that step.  Modified objects are presented with their outermost functor in boldface, \eg{} \(\cpfunc{r}{0}\) to \(\mathbf{\cpfunc{r}{4}}\).  Deleted objects are struck out, \eg{} \(\cpfunc{r'}{2}\) to \sout{\(\cpfunc{r'}{2}\)}.
+
+In all cases, the rules are written so that the final result is found in one or more \(r\) functor objects, as appropriate.  Examples of the evolution are given in tabular form immediately after the rules for each operation.  Modified objects are presented with their outermost functor in boldface, \eg{} \(\cpfunc{r}{0}\) to \(\mathbf{\cpfunc{r}{4}}\).  Deleted objects are struck out, \eg{} \(\cpfunc{r'}{2}\) to \sout{\(\cpfunc{r'}{2}\)}, and omitted entirely from later steps.
 
 %%%%%%%%%%%%%%%%%%
 
@@ -98,84 +100,86 @@ In all cases, the rules are written so that the final result is found in one or 
 \subsection{\label{sec:cps:minmax}Minimum and Maximum}
 %-------------------------------------------------------
 
-%-----------------------------------------------------------------------------------
-% \section{\label{sec-min}Efficient minimum-finding with cP~rules}
-%-----------------------------------------------------------------------------------
+% %-----------------------------------------------------------------------------------
+% % \section{\label{sec-min}Efficient minimum-finding with cP~rules}
+% %-----------------------------------------------------------------------------------
 
-Consider an unstructured multiset $A \subseteq \mathbb{N}$ of size \(n\). 
-It is well known that (1) any sequential algorithm that finds its minimum needs at least \(n\) steps, and 
-(2) any parallel algorithm that finds its minimum needs at least \(\log n\) parallel steps.
+% Consider an unstructured multiset $A \subseteq \mathbb{N}$ of size \(n\). 
+% It is well known that (1) any sequential algorithm that finds its minimum needs at least \(n\) steps, and 
+% (2) any parallel algorithm that finds its minimum needs at least \(\log n\) parallel steps.
 
-Without loss of generality, consider a \gls{cps} cell, in state \(s_1\), where multiset \(A\) is given via functor \(a\); 
-e.g., multiset \(A = \{ 1, 2, 2, 5 \}\) is represented as \(\cpfunc{a}{1} \, \cpfunc{a}{2} \, \cpfunc{a}{2} \, \cpfunc{a}{5}\).
-The following \glspl{ruleset} implement various versions of a \gls{cps} minimum-finding algorithm.
-All these \glspl{ruleset} transit to state \(s_2\) and construct a term with functor \(b\), containing \(\mathop{min} A\).
-Some of these are destructive processes; if otherwise desired, one could first make a copy of the initial multiset \(A\).
+% Without loss of generality, consider a \gls{cps} cell, in state \(s_1\), where multiset \(A\) is given via functor \(a\); 
+% \eg{} multiset \(A = \{ 1, 2, 2, 5 \}\) is represented as \(\cpfunc{a}{1} \, \cpfunc{a}{2} \, \cpfunc{a}{2} \, \cpfunc{a}{5}\).
+% The following \glspl{ruleset} implement various versions of a \gls{cps} minimum-finding algorithm.
+% All these \glspl{ruleset} transit to state \(s_2\) and construct a term with functor \(b\), containing \(\mathop{min} A\).
+% % Some of these are destructive processes; if otherwise desired, one could first make a copy of the initial multiset \(A\).
 
-The following destructive \gls{ruleset} emulates the classical sequential minimum finding algorithm, which takes \(n\) steps:
+% The following destructive \gls{ruleset} emulates the classical sequential minimum finding algorithm, which takes \(n\) steps:
 
-\lstset{xleftmargin=.5in, xrightmargin=.5in} 
-\begin{lstlisting}
-$s_1$  $\cpfunc{a}{X}$  $\rightarrow_{1}$  $s_2$  $\cpfunc{b}{X}$ 
-$s_2$  $\cpfunc{a}{XY}$  $\cpfunc{b}{X}$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{X}$     #\hfill  $a \geq b  $ \enspace #
-$s_2$  $\cpfunc{a}{X}$  $\cpfunc{b}{X1Y}$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{X}$   #\hfill  $a < b  $ \enspace #
-\end{lstlisting}
+% \lstset{xleftmargin=.5in, xrightmargin=.5in} 
+% \begin{lstlisting}
+% $s_1$  $\cpfunc{a}{X}$  $\rightarrow_{1}$  $s_2$  $\cpfunc{b}{X}$ 
+% $s_2$  $\cpfunc{a}{XY}$  $\cpfunc{b}{X}$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{X}$     #\hfill  $a \geq b  $ \enspace #
+% $s_2$  $\cpfunc{a}{X}$  $\cpfunc{b}{X1Y}$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{X}$   #\hfill  $a < b  $ \enspace #
+% \end{lstlisting}
 
-The following destructive \gls{ruleset} emulates the classical parallel minimum finding algorithm, which takes \(\log n\) steps.
-As long as there is more than one term \(a\), the \gls{ruleset} loops in state \(s_1\), keeping minima between pairs.
-When only one \(a\) remains (containing the minimum value), the \gls{ruleset} transits to state \(s_2\) and tags the minimum. 
+% The following destructive \gls{ruleset} emulates the classical parallel minimum finding algorithm, which takes \(\log n\) steps.
+% As long as there is more than one term \(a\), the \gls{ruleset} loops in state \(s_1\), keeping minima between pairs.
+% When only one \(a\) remains (containing the minimum value), the \gls{ruleset} transits to state \(s_2\) and tags the minimum. 
 
-\lstset{xleftmargin=.5in, xrightmargin=.5in} 
-\begin{lstlisting}
-$s_1$  $\cpfunc{a}{XY}$  $\cpfunc{a}{X}$  $\rightarrow_{\cpmaxpar}$  $s_1$  $\cpfunc{a}{X}$     
-$s_1$  $\cpfunc{a}{X}$  $\cpfunc{a}{X1Y}$  $\rightarrow_{\cpmaxpar}$  $s_1$  $\cpfunc{a}{X}$
-$s_1$  $\cpfunc{a}{X}$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{X}$  
-\end{lstlisting}
+% \lstset{xleftmargin=.5in, xrightmargin=.5in} 
+% \begin{lstlisting}
+% $s_1$  $\cpfunc{a}{XY}$  $\cpfunc{a}{X}$  $\rightarrow_{\cpmaxpar}$  $s_1$  $\cpfunc{a}{X}$     
+% $s_1$  $\cpfunc{a}{X}$  $\cpfunc{a}{X1Y}$  $\rightarrow_{\cpmaxpar}$  $s_1$  $\cpfunc{a}{X}$
+% $s_1$  $\cpfunc{a}{X}$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{X}$  
+% \end{lstlisting}
 
-However, using the full associative power of \gls{cps}, we can find a non-destructive version with two rules, 
-which works in \emph{just two steps} (regardless of the set cardinality). 
-This is a substantial improvement over existing classical algorithms (both sequential and parallel). 
-It starts by making a full copy of \(a\) as \(b\), in one \(\cpmaxpar\)-parallel step, 
-and then deletes all non-minimal \(b\) values in another \(\cpmaxpar\)-parallel step. 
+% However, using the full associative power of \gls{cps}, we can find a non-destructive version with two rules, 
+% which works in \emph{just two steps} (regardless of the set cardinality). 
+% This is a substantial improvement over existing classical algorithms (both sequential and parallel). 
+% It starts by making a full copy of \(a\) as \(b\), in one \(\cpmaxpar\)-parallel step, 
+% and then deletes all non-minimal \(b\) values in another \(\cpmaxpar\)-parallel step. 
 
-\lstset{xleftmargin=.5in, xrightmargin=.5in} 
-\begin{lstlisting}
-$s_1$  $\rightarrow_{\cpmaxpar}$  $s_1'$  $\cpfunc{b}{X}$    $\mid$  $\cpfunc{a}{X}$  
-$s_1'$  $\cpfunc{b}{X1Y}$  $\rightarrow_{\cpmaxpar}$  $s_2$    $\mid$  $\cpfunc{a}{X}$  
-\end{lstlisting}
+% \lstset{xleftmargin=.5in, xrightmargin=.5in} 
+% \begin{lstlisting}
+% $s_1$  $\rightarrow_{\cpmaxpar}$  $s_1'$  $\cpfunc{b}{X}$    $\mid$  $\cpfunc{a}{X}$  
+% $s_1'$  $\cpfunc{b}{X1Y}$  $\rightarrow_{\cpmaxpar}$  $s_2$    $\mid$  $\cpfunc{a}{X}$  
+% \end{lstlisting}
 
-Note that if the minimum value appears several times in multiset \(A\), 
-then we will end with the same multiplicity of \(b\)'s, each one containing the same value, \(\mathop{min} A\).
-If required, there are several ways to select only one copy and delete the rest, but we do not deal with this issue further here.
+% Note that if the minimum value appears several times in multiset \(A\), 
+% then we will end with the same multiplicity of \(b\)'s, each one containing the same value, \(\mathop{min} A\).
+% If required, there are several ways to select only one copy and delete the rest, but we do not deal with this issue further here.
 
-Moreover, using the full power of cP~inhibitors (as logical negations, with local variables), 
-we can even non-destructively solve the problem in just \emph{one single step},
-with one or two rules.
-This version is implemented by the following \gls{ruleset}:
+% Moreover, using the full power of cP~inhibitors (as logical negations, with local variables), 
+% we can even non-destructively solve the problem in just \emph{one single step},
+% with one or two rules.
+% This version is implemented by the following \gls{ruleset}:
 
-\lstset{xleftmargin=.5in, xrightmargin=.5in} 
-\begin{lstlisting}
-$s_1$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{}$    $\mid$  $\cpfunc{a}{}$
-$s_1$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{1Z}$     $\mid$  $\cpfunc{a}{1Z}$     $\neg$  $(Z=XY)$  $\cpfunc{a}{X}$
-\end{lstlisting}
+% \lstset{xleftmargin=.5in, xrightmargin=.5in} 
+% \begin{lstlisting}
+% $s_1$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{}$    $\mid$  $\cpfunc{a}{}$
+% $s_1$  $\rightarrow_{\cponce}$  $s_2$  $\cpfunc{b}{1Z}$     $\mid$  $\cpfunc{a}{1Z}$     $\neg$  $(Z=XY)$  $\cpfunc{a}{X}$
+% \end{lstlisting}
 
-If \(A\) contains zero, then there is a term \(\cpfunc{a}{}\), and: (1) the first rule applies, constructing \(\cpfunc{b}{}\); (2) the second rule is not applicable.
-Otherwise, (if there is no zero in \(A\)): (1) the first rule is not applicable; (2) the second rule constructs \(\cpfunc{b}{1Z}\), 
-a value which exists among \(a\)'s, as \(\cpfunc{a}{1Z}\), but there is NO other \(a\) containing a strictly lesser value, such as \(\cpfunc{a}{X}\),
-where \(X\) is a sub-multiset of \(Z\), \(X \subseteq Z\).
-Finally, the newly constructed \(b\) will contain one copy of the minimum value of multiset \(A\).
+% If \(A\) contains zero, then there is a term \(\cpfunc{a}{}\), and: (1) the first rule applies, constructing \(\cpfunc{b}{}\); (2) the second rule is not applicable.
+% Otherwise, (if there is no zero in \(A\)): (1) the first rule is not applicable; (2) the second rule constructs \(\cpfunc{b}{1Z}\), 
+% a value which exists among \(a\)'s, as \(\cpfunc{a}{1Z}\), but there is NO other \(a\) containing a strictly lesser value, such as \(\cpfunc{a}{X}\),
+% where \(X\) is a sub-multiset of \(Z\), \(X \subseteq Z\).
+% Finally, the newly constructed \(b\) will contain one copy of the minimum value of multiset \(A\).
 
-If multiset \(A\) does not contain zero values, i.e. \(A \subseteq \mathbb{N}^+\), then the first rule can be safely omitted (as it will never be applicable). 
-A similar \gls{ruleset} can be devised for finding the maximum of a given set of natural numbers.
+% If multiset \(A\) does not contain zero values, \ie{} \(A \subseteq \mathbb{N}^+\), then the first rule can be safely omitted (as it will never be applicable). 
+% A similar \gls{ruleset} can be devised for finding the maximum of a given set of natural numbers.
 
-The rules of this \namecref{sec:cps:minmax} apply equally to sets and multisets.  The \glspl{ruleset} of this  \namecref{sec:cps:minmax} are notable as being two of only three in this work to use inhibitors, while the third, \cref{rules:cps:mode}, essentially performs maximum selection as part of its process.  An alternative approach forgoing inhibitors is described in \cite{Nicolescu2018} if needed.
+% The rules of this \namecref{sec:cps:minmax} apply equally to sets and multisets.  The \glspl{ruleset} of this  \namecref{sec:cps:minmax} are notable as being two of only three in this work to use inhibitors, while the third, \cref{rules:cps:mode}, essentially performs maximum selection as part of its process.  An alternative approach forgoing inhibitors is described in \cite{Nicolescu2018} if needed.
+
+The below states the rules and steps necessary to find the minimum and maximum of a multiset.  A more comprehensive discussion (from which the following are derived) of these operations can be found in \cite{Cooper2019,Nicolescu2018}.
 
 %-----------------------------------------
 \subsubsection{Minimum --- O\((1)\)}\label{sec:cps:min}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:cps:min}
-Finding the minimum takes one step.
+Finding the minimum of a multiset takes one step.
 \end{proposition}
 
 \begin{proof}
@@ -188,15 +192,15 @@ Consider \cref{rules:cps:min} and the example in \cref{tab:cps:min}.  The rule t
 \cppromoter{\cpfunc{s}{R\cpundig T}}
 \cpinhibitor{\cpfunc{s}{R}}
 \end{cpruleset}
-\caption{\label{rules:cps:min}\Gls{ruleset} to find the minimum element in a (multi)set}
+\caption{\label{rules:cps:min}\Gls{ruleset} to find the minimum element in a multiset}
 \end{cprulesetfloat}
 
-\begin{table}
+\begin{table}[htbp]
 \centering
 \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
-    1 & \(\cpfunc{r}{2}\)\\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
+    1 & \(\cpfunc{r}{2}\) \\ \hline
 \end{tabular}
 \caption[Example evolution of \cref{rules:cps:min}]{\label{tab:cps:min}Example evolution of \cref{rules:cps:min} starting on multiset \(S_2\)}
 \end{table}
@@ -206,7 +210,7 @@ Consider \cref{rules:cps:min} and the example in \cref{tab:cps:min}.  The rule t
 %-----------------------------------------
 
 \begin{proposition}\label{prop:cps:max}
-Finding the maximum takes one step.
+Finding the maximum of a multiset takes one step.
 \end{proposition}
 
 \begin{proof}
@@ -221,13 +225,14 @@ Consider \cref{rules:cps:max} and the example in \cref{tab:cps:max}.  The rule t
 \cpinhibitor{\cpfunc{s}{R\cpundig \_}}
 
 \end{cpruleset}
-\caption{\label{rules:cps:max}\Gls{ruleset} to find the maximum element in a (multi)set}
+\caption{\label{rules:cps:max}\Gls{ruleset} to find the maximum element in a multiset}
 \end{cprulesetfloat}
 
-\begin{table} \centering
+\begin{table}[htbp]
+\centering
 \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
     1 & \(\cpfunc{r}{7}\)\\ \hline
 \end{tabular} 
 \caption[Example evolution of \cref{rules:cps:max}]{\label{tab:cps:max}Example evolution of \cref{rules:cps:max} starting on multiset \(S_2\)}
@@ -244,28 +249,29 @@ Consider \cref{rules:cps:max} and the example in \cref{tab:cps:max}.  The rule t
 %-----------------------------------------
 
 \begin{proposition}\label{prop:cps:countelems}
-Determining the magnitude of a (multi)set takes two steps.
+Determining the magnitude of a multiset takes two steps.
 \end{proposition}
 
 \begin{proof}
-Consider \cref{rules:cps:countelems} and the example in \cref{tab:cps:countelems}.  The first rule creates an empty term to store the result, and then the second rule tallies the elements present.
+Consider \cref{rules:cps:countelems} and the example in \cref{tab:cps:countelems}.  \cpRuleref{rules:cps:countelems:1} creates an empty term to store the result, and then \cpruleref{rules:cps:countelems:2} tallies the elements present.
 \end{proof}
 
 \begin{cprulesetfloat} \begin{cpruleset}
 
-\cprule{s_1}{}{\cponce}{s_2}{\cpfunc{r}{\cpempty}}
+\cprule[rules:cps:countelems:1]{s_1}{}{\cponce}{s_2}{\cpfunc{r}{\cpempty}}
 
-\cprule{s_2}{\cpfuncms{r}{\,}}{\cpmaxpar}{s_3}{\cpfuncms{r}{\cpundig}}
+\cprule[rules:cps:countelems:2]{s_2}{\cpfuncms{r}{\,}}{\cpmaxpar}{s_3}{\cpfuncms{r}{\cpundig}}
 \cppromoter{\cpfunc{s}{\_}}
 
 \end{cpruleset}
-\caption{\label{rules:cps:countelems}\Gls{ruleset} to find the magnitude of a (multi)set}
+\caption{\label{rules:cps:countelems}\Gls{ruleset} to find the magnitude of a multiset}
 \end{cprulesetfloat}
 
-\begin{table} \centering
+\begin{table}[htbp]
+\centering
    \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
     1 & \(\cpfunc{r}{0}\)\\ \hline
     
     2 & \(\mathbf{\cpfunc{r}{9}}\)\\ \hline
@@ -282,28 +288,29 @@ Counting the occurrence -- essentially creating a histogram -- of the values in 
 \end{proposition}
 
 \begin{proof}
-Consider \cref{rules:cps:countfreq} and the example in \cref{tab:cps:countfreq}.  The first rule creates a tally \(r\) term for every \(s\) term, while the second rule eliminates any ensuing duplicates, leaving only one \(r\) per unique value stored in any \(s\).  Lastly, rule 3 performs a similar operation to \cref{sec:cps:countelems}, incrementing each \(r\) term's tally by one for each \(s\) term containing the corresponding value.
+Consider \cref{rules:cps:countfreq} and the example in \cref{tab:cps:countfreq}.  \cpRuleref{rules:cps:countfreq:1} creates a tally \(r\) term for every \(s\) term, while \cpruleref{rules:cps:countfreq:2} eliminates any ensuing duplicates, leaving only one \(r\) per unique value stored in any \(s\).  Lastly, \cpruleref{rules:cps:countfreq:3} performs a similar operation to \cref{sec:cps:countelems}, incrementing each \(r\) term's tally by one for each \(s\) term containing the corresponding value.
 \end{proof}
 
 % \cpresetrulenumber
 \begin{cprulesetfloat}
 \begin{cpruleset}
-\cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncn{r}{R}{\cpempty}}
+\cprule[rules:cps:countfreq:1]{s_1}{}{\cpmaxpar}{s_2}{\cpfuncn{r}{R}{\cpempty}}
 \cppromoter{\cpfunc{s}{R}}
 
-\cprule{s_2}{\cpfuncn{r}{R}{\_}}{\cpmaxpar}{s_3}{}
+\cprule[rules:cps:countfreq:2]{s_2}{\cpfuncn{r}{R}{\_}}{\cpmaxpar}{s_3}{}
 \cppromoter{\cpfuncn{r}{R}{\_}}
 
-\cprule{s_3}{\cpfuncnms{r}{R}{\,}}{\cpmaxpar}{s_4}{\cpfuncnms{r}{R}{\cpundig}}
+\cprule[rules:cps:countfreq:3]{s_3}{\cpfuncnms{r}{R}{\,}}{\cpmaxpar}{s_4}{\cpfuncnms{r}{R}{\cpundig}}
 \cppromoter{\cpfunc{s}{R}}
 \end{cpruleset}
 \caption{\label{rules:cps:countfreq}\Gls{ruleset} to count the occurrence frequency of elements in a multiset}
 \end{cprulesetfloat}
 
-\begin{table} \centering
+\begin{table}[htbp]
+\centering
    \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
     1 & \(\cpfuncn{r}{2}{0}\), \(\cpfuncn{r}{2}{0}\), \(\cpfuncn{r}{3}{0}\), \(\cpfuncn{r}{5}{0}\), \(\cpfuncn{r}{5}{0}\), \(\cpfuncn{r}{6}{0}\), \(\cpfuncn{r}{6}{0}\), \(\cpfuncn{r}{6}{0}\), \(\cpfuncn{r}{7}{0}\)\\ \hline
     
     % 2 & \sout{\(\cpfuncn{r}{2}{0}\)}, \sout{\(\cpfuncn{r}{5}{0}\)}, \sout{\(\cpfuncn{r}{6}{0}\)}, \sout{\(\cpfuncn{r}{6}{0}\)}\\ \hline
@@ -326,7 +333,7 @@ Consider \cref{rules:cps:countfreq} and the example in \cref{tab:cps:countfreq}.
 %-----------------------------------------
 
 \begin{proposition}\label{prop:cps:sum}
-Computing the sum of the elements in a (multi)set requires two steps.
+Computing the sum of the elements in a multiset requires two steps.
 \end{proposition}
 
 \begin{proof}
@@ -339,13 +346,14 @@ Consider \cref{rules:cps:sum} and the example in \cref{tab:cps:sum}.  These rule
 \cprule{s_2}{\cpfuncms{r}{\,}}{\cpmaxpar}{s_3}{\cpfuncms{r}{R}}
 \cppromoter{\cpfunc{s}{R}}
 \end{cpruleset}
-\caption{\label{rules:cps:sum}\Gls{ruleset} to find the sum of numeric elements in a (multi)set}
+\caption{\label{rules:cps:sum}\Gls{ruleset} to find the sum of numeric elements in a multiset}
 \end{cprulesetfloat}
 
-\begin{table} \centering
+\begin{table}[htbp]
+\centering
    \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
     1 & \(\cpfunc{r}{0}\)\\ \hline
     2 & \(\cpfunc{r}{42}\)\\ \hline
 
@@ -358,7 +366,7 @@ Consider \cref{rules:cps:sum} and the example in \cref{tab:cps:sum}.  These rule
 %-----------------------------------------
 
 \begin{proposition}\label{prop:cps:mean}
-Finding the (whole number) mean of a (multi)set requires four steps.
+Finding the (whole number) mean of a multiset requires four steps.
 \end{proposition}
 
 \begin{proof}
@@ -376,18 +384,19 @@ Consider \cref{rules:cps:mean} and the example in \cref{tab:cps:mean}.  Computin
 \cprule{s_2}{\cpfuncms{r}{\,} \; \cpfuncms{r'}{\,}}{\cpmaxpar}{s_3}{\cpfuncms{r}{R} \; \cpfuncms{r'}{R}}
 \cppromoter{\cpfunc{s}{R}}
 
-\cprule{s_3}{\cpfuncms{r}{C} \; \cpfuncms{r'}{C}}{\cpmaxpar}{s_4}{\cpfuncms{r}{\cpundig} \; \cpfuncms{r'}{\,}}
+\cprule[rules:cps:mean:4]{s_3}{\cpfuncms{r}{C} \; \cpfuncms{r'}{C}}{\cpmaxpar}{s_4}{\cpfuncms{r}{\cpundig} \; \cpfuncms{r'}{\,}}
 \cppromoter{\cpfunc{c}{C}}
 
-\cprule{s_4}{\cpfunc{r}{QR} \; \cpfunc{r'}{R}}{\cponce}{s_5}{\cpfunc{r}{Q}}
+\cprule[rules:cps:mean:5]{s_4}{\cpfunc{r}{QR} \; \cpfunc{r'}{R}}{\cponce}{s_5}{\cpfunc{r}{Q}}
 \end{cpruleset}
-\caption{\label{rules:cps:mean}\Gls{ruleset} to find the mean of elements in a (multi)set}
+\caption{\label{rules:cps:mean}\Gls{ruleset} to find the mean of elements in a multiset}
 \end{cprulesetfloat}
 
-\begin{table} \centering
+\begin{table}[htbp]
+\centering
   \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
     1 & \(\cpfunc{c}{0}\), \(\cpfunc{r}{0}\), \(\cpfunc{r'}{0}\)\\ \hline
     2 & \(\mathbf{\cpfunc{c}{9}}\), \(\mathbf{\cpfunc{r}{42}}\), \(\mathbf{\cpfunc{r'}{42}}\)\\ \hline
     3 & \(\mathbf{\cpfunc{r}{11}}\), \(\mathbf{\cpfunc{r'}{6}}\)\\ \hline
@@ -397,7 +406,7 @@ Consider \cref{rules:cps:mean} and the example in \cref{tab:cps:mean}.  Computin
 \caption[Example evolution of \cref{rules:cps:mean}]{\label{tab:cps:mean}Example evolution of \cref{rules:cps:mean} starting on multiset \(S_2\)}
 \end{table}
 
-Rules 4 and 5 perform ceiling integer division.  Rule 4 removes \(C\) copies of the unary digit from \(r\) and adds one copy back to it.  This is repeated as many times as possible, given the number of digits available.  What is left in \(r\) at the end of the step is, in effect, the quotient plus the remainder.  In this example, with a count of nine and a sum of forty-two, the removal can be applied four times, for a total of thirty-six unary digits removed.  Five more are added at the end of the step, meaning a total of eleven remains.  This is not the correct result of ceiling integer division but is the correct quotient (5) plus the remainder (6).  Thus, another copy of the total is kept and divided, without the quotient added back in.  This leaves rule 5 to compute the correct final result by deducting the remainder from the combined quotient and remainder.
+Rules \cpruleref*{rules:cps:mean:4} and \cpruleref*{rules:cps:mean:5} perform ceiling integer division.  \cpRuleref{rules:cps:mean:4} removes \(C\) copies of the unary digit from \(r\) and adds one copy back to it.  This is repeated as many times as possible, given the number of digits available.  What is left in \(r\) at the end of the step is, in effect, the quotient plus the remainder.  In this example, with a count of nine and a sum of forty-two, the removal can be applied four times, for a total of thirty-six unary digits removed.  Five more are added at the end of the step, meaning a total of eleven remains.  This is not the correct result of ceiling integer division but is the correct quotient (5) plus the remainder (6).  Thus, another copy of the total is kept and divided, without the quotient added back in.  This leaves \cpruleref{rules:cps:mean:5} to compute the correct final result by deducting the remainder from the combined quotient and remainder.
 
 %-----------------------------------------
 \subsubsection{Mode --- O\((1)\)}  \label{sec:cps:mode}
@@ -408,11 +417,12 @@ Finding the mode of the elements in a multiset requires four steps.
 \end{proposition}
 
 \begin{proof}
-Consider \cref{rules:cps:mode} and the example in \cref{tab:cps:mode}.  As with the mean, this process combines other operations:  Counting the frequency of elements (\cref{sec:cps:countfreq}) takes three steps, then selecting the maximum (\cref{sec:cps:max}) uses one extra step.  Unlike in \cref{sec:cps:mean}, the aforementioned \glspl{ruleset} cannot be used concurrently to reduce the number of steps required because the maximum-finding rule must only fire once the frequency counting process has concluded.
+Consider \cref{rules:cps:mode} and the example in \cref{tab:cps:mode}.  As with the mean, this process combines other operations:  Counting the frequency of elements (\cref{sec:cps:countfreq}) takes three steps, then selecting the maximum (\cref{sec:cps:max}) uses one extra step.  Unlike in \cref{sec:cps:mean}, the aforementioned \glspl{ruleset} cannot be used concurrently to reduce the number of steps required because the maximum-finding rule may only fire once the frequency counting process has concluded.
 \end{proof}
 
 % \cpresetrulenumber
-\begin{cprulesetfloat} \begin{cpruleset}
+\begin{cprulesetfloat}
+\begin{cpruleset}
 \cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncn{c}{C}{\cpempty}}
 \cppromoter{\cpfunc{s}{C}}
 
@@ -433,7 +443,7 @@ Consider \cref{rules:cps:mode} and the example in \cref{tab:cps:mode}.  As with 
 % \begin{table} \centering
 %   \begin{tabular}{|r|l|}
 %     \hline
-%     \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+%     \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
 %     1 & \(\cpfuncn{c}{2}{0}\), \(\cpfuncn{c}{2}{0}\), \(\cpfuncn{c}{3}{0}\), \(\cpfuncn{c}{5}{0}\), \(\cpfuncn{c}{5}{0}\), \(\cpfuncn{c}{6}{0}\), \(\cpfuncn{c}{6}{0}\), \(\cpfuncn{c}{6}{0}\),\\& \(\cpfuncn{c}{7}{0}\)\\ \hline
     
 %     2 & \sout{\(\cpfuncn{c}{2}{0}\)}, \sout{\(\cpfuncn{c}{5}{0}\)}, \sout{\(\cpfuncn{c}{6}{0}\)}, \sout{\(\cpfuncn{c}{6}{0}\)}\\ \hline
@@ -445,10 +455,11 @@ Consider \cref{rules:cps:mode} and the example in \cref{tab:cps:mode}.  As with 
 % \caption[Example evolution of \cref{rules:cps:mode}]{\label{tab:cps:mode}Example evolution of \cref{rules:cps:mode} starting on multiset \(S_2\)}
 % \end{table}
 
-\begin{table} \centering
+\begin{table}[htbp]
+\centering
    \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
     1 & \(\cpfuncn{c}{2}{0}\), \(\cpfuncn{c}{2}{0}\), \(\cpfuncn{c}{3}{0}\), \(\cpfuncn{c}{5}{0}\), \(\cpfuncn{c}{5}{0}\), \(\cpfuncn{c}{6}{0}\), \(\cpfuncn{c}{6}{0}\), \(\cpfuncn{c}{6}{0}\), \(\cpfuncn{c}{7}{0}\)\\ \hline
     
     2 & \(\cpfuncn{c}{2}{0}\), \sout{\(\cpfuncn{c}{2}{0}\)}, \(\cpfuncn{c}{3}{0}\), \(\cpfuncn{c}{5}{0}\), \sout{\(\cpfuncn{c}{5}{0}\)}, \(\cpfuncn{c}{6}{0}\), \sout{\(\cpfuncn{c}{6}{0}\)}, \sout{\(\cpfuncn{c}{6}{0}\)}, \(\cpfuncn{c}{7}{0}\)\\ \hline
@@ -465,7 +476,7 @@ Consider \cref{rules:cps:mode} and the example in \cref{tab:cps:mode}.  As with 
 \subsection{Sorting}\label{sec:cps:sorting}
 %-------------------------------------------------------
 
-In the current context, sorting is defined as appropriately associating each datum/element in a (multi)set with an ordered index in the range \([1,n]\), where \(n\) is equal to the magnitude (count of elements) of the (multi)set.\footnote{This can easily be switched to \([0,n)\) if desired.}  At the end of the process, the values in the (multi)set shall be sorted in typical ascending numerical order by associating indices with them.
+In the current context, sorting is defined as appropriately associating each datum/element in a multiset with an ordered index in the range \([1,n]\), where \(n\) is equal to the magnitude (count of elements) of the multiset.\footnote{This can easily be switched to \([0,n)\) if desired.}  At the end of the process, the values in the multiset shall be sorted in typical ascending numerical order by associating indices with them.
 
 For example, in the context of \(S_2\), this will be 
 \begin{align*}
@@ -488,7 +499,8 @@ Consider \cref{rules:cps:sortsets} and the example in \cref{tab:cps:sortsets}.  
 \end{proof}
 
 % \cpresetrulenumber
-\begin{cprulesetfloat} \begin{cpruleset}
+\begin{cprulesetfloat}
+\begin{cpruleset}
 \cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncn{r}{R}{\cpundig}}
 \cppromoter{\cpfunc{s}{R}}
 
@@ -499,10 +511,11 @@ Consider \cref{rules:cps:sortsets} and the example in \cref{tab:cps:sortsets}.  
 \caption{\label{rules:cps:sortsets}\Gls{ruleset} to sort the elements in a set}
 \end{cprulesetfloat}
 
-\begin{table} \centering
+\begin{table}[htbp]
+\centering
    \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
     1 & \(\cpfuncn{r}{2}{1}\), \(\cpfuncn{r}{3}{1}\), \(\cpfuncn{r}{5}{1}\), \(\cpfuncn{r}{6}{1}\), \(\cpfuncn{r}{7}{1}\)\\ \hline
     2 & \(\cpfuncn{r}{2}{1}\), \(\mathbf{\cpfuncn{r}{3}{2}}\), \(\mathbf{\cpfuncn{r}{5}{3}}\), \(\mathbf{\cpfuncn{r}{6}{4}}\), \(\mathbf{\cpfuncn{r}{7}{5}}\)\\ \hline
 
@@ -525,8 +538,9 @@ Consider \cref{rules:cps:sortmultisetrange} and the example in \cref{tab:cps:sor
 \end{proof}
 
 % \cpresetrulenumber
-\begin{cprulesetfloat} \begin{cpruleset}
-\cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncnn{r}{R}{\cpundig}{\cpundig}}
+\begin{cprulesetfloat}
+\begin{cpruleset}
+\cprule[rules:cps:sortmultisetrange:1]{s_1}{}{\cpmaxpar}{s_2}{\cpfuncnn{r}{R}{\cpundig}{\cpundig}}
 \cppromoter{\cpfunc{s}{R}}
 
 \cprule{s_2}{\cpfuncnn{r}{R}{\_}{\_}}{\cpmaxpar}{s_3}{}
@@ -534,21 +548,22 @@ Consider \cref{rules:cps:sortmultisetrange} and the example in \cref{tab:cps:sor
 
 % \cprule{s_3}{\cpfunc{r}{R}}{\cpmaxpar}{s_4}{\cpfuncnn{r}{R}{\cpundig}{\cpundig}}
 
-\cprule{s_3}{\cpfunc{r}{Y}\{\,\}\{\,\}}{\cpmaxpar}{s_4}{\cpfunc{r}{Y}\{\cpundig\}\{\cpundig\}}
+\cprule[rules:cps:sortmultisetrange:3]{s_3}{\cpfunc{r}{Y}\{\,\}\{\,\}}{\cpmaxpar}{s_4}{\cpfunc{r}{Y}\{\cpundig\}\{\cpundig\}}
 \cppromoter{\cpfunc{s}{X}}
 \cppromoter{X \subsetneq Y}
 
-\cprule{s_4}{\cpfuncnnms{r}{R}{X}{\,}}{\cpmaxpar}{s_5}{\cpfuncnnms{r}{R}{X}{\cpundig}}
+\cprule[rules:cps:sortmultisetrange:4]{s_4}{\cpfuncnnms{r}{R}{X}{\,}}{\cpmaxpar}{s_5}{\cpfuncnnms{r}{R}{X}{\cpundig}}
 \cppromoter{\cpfunc{s}{R}}
 
 \end{cpruleset}
 \caption{\label{rules:cps:sortmultisetrange}\Gls{ruleset} to sort the elements of a multiset into indexed ranges}
 \end{cprulesetfloat}
 
-\begin{table} \centering
+\begin{table}[htbp]
+\centering
   \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
     1 & \(\cpfuncnn{r}{2}{1}{1}\), \(\cpfuncnn{r}{2}{1}{1}\), \(\cpfuncnn{r}{3}{1}{1}\), \(\cpfuncnn{r}{5}{1}{1}\), \(\cpfuncnn{r}{5}{1}{1}\), \(\cpfuncnn{r}{6}{1}{1}\),\\& \(\cpfuncnn{r}{6}{1}{1}\), \(\cpfuncnn{r}{6}{1}{1}\), \(\cpfuncnn{r}{7}{1}{1}\)\\ \hline
     
     2 & \(\cpfuncnn{r}{2}{1}{1}\), \sout{\(\cpfuncnn{r}{2}{1}{1}\)}, \(\cpfuncnn{r}{3}{1}{1}\), \(\cpfuncnn{r}{5}{1}{1}\), \sout{\(\cpfuncnn{r}{5}{1}{1}\)}, \(\cpfuncnn{r}{6}{1}{1}\),\\& \sout{\(\cpfuncnn{r}{6}{1}{1}\)}, \sout{\(\cpfuncnn{r}{6}{1}{1}\)}, \(\cpfuncnn{r}{7}{1}{1}\)\\ \hline
@@ -601,7 +616,7 @@ Consider \cref{rules:cps:sortmultisetrange} and the example in \cref{tab:cps:sor
 % \caption{\label{objs:cps:sortmultisetrange:4} Objects inside a \gls{tlc} initially containing set \(S_2\), after step 1 of \cref{rules:cps:sortmultisetrange}.}
 % \end{cpobjectsfloat}
 
-In this example, 2s are in the index range \([1,3)\), 3s are in \([3,4)\), 5s are in \([4,6)\), 6s are in \([6,9)\) and 7s are in \([9,10)\).  This process can also sort all sets that \cref{sec:cps:sortsets} can sort (rules 1 and 3 here are closely equivalent to those rules), but the current approach includes unnecessary extra information -- every listed range would be only one step wide, so on set \(S_1\) the final result would be \(\cpfuncnn{r}{2}{1}{1}, \cpfuncnn{r}{3}{2}{2},\dots\), i.e. 2: \([1,2)\), 3: \([2,3) \dots\) -- and requires two unnecessary extra steps.
+In this example, 2s are in the index range \([1,3)\), 3s are in \([3,4)\), 5s are in \([4,6)\), 6s are in \([6,9)\) and 7s are in \([9,10)\).  This process can also sort all sets that \cref{sec:cps:sortsets} can sort (rules \cpruleref*{rules:cps:sortmultisetrange:1} and \cpruleref*{rules:cps:sortmultisetrange:3} here are closely equivalent to those rules), but the current approach includes unnecessary extra information -- every listed range would be only one step wide, so on set \(S_1\) the final result would be \(\cpfuncnn{r}{2}{1}{1}, \cpfuncnn{r}{3}{2}{2},\dots\), \ie{} 2: \([1,2)\), 3: \([2,3) \dots\) -- and require two unnecessary extra steps.
 
 %-----------------------------------------
 \subsubsection{Sorting Multisets with Unique Identifiers --- O\((1)\)}\label{sec:cps:sortmultisetid}
@@ -612,16 +627,14 @@ Sorting a multiset, when accompanied by unique identifiers for every element, re
 \end{proposition}
 
 \begin{proof}
-Consider \cref{rules:cps:sortmultisetid} and the example in \cref{tab:cps:sortmultisetid}.  This \gls{ruleset} is an extension of the rules found in \cref{sec:cps:sortsets}.  Those rules work only for sets and fail in the presence of more than one of a given element.  In effect, the rules seek to impose a \emph{strict} total ordering and contemplate only the situation where each element in the set is strictly greater than or less than another element.  Suppose there \emph{is} some additional information on each element available, such as a unique, comparable identifier for each element in the multiset. In that case, this can be used to `break ties' between elements of equal value.  In this case, the use of one extra rule suffices to impose a strict total ordering on every element and sort the multiset consistently.  These additional identifiers, included as the first value in \(s\) objects, must themselves be comparable, however.
+Consider \cref{rules:cps:sortmultisetid} and the example in \cref{tab:cps:sortmultisetid}.  This \gls{ruleset} is an extension of the rules found in \cref{sec:cps:sortsets}.  Those rules work only for sets and fail in the presence of more than one of a given element.  In effect, \cref{sec:cps:sortsets} seeks to impose a \emph{strict} total ordering and contemplates only the situation where each element in the set is strictly greater than or less than another element (as guaranteed by the definition of a set).  Suppose there \emph{is} some additional information on each element available, in the form of a unique, comparable identifier for each element in the multiset. This can be used to `break ties' between elements of equal value.  In this case, the use of one extra rule suffices to impose a strict total ordering on every element and sort the multiset consistently.  These additional identifiers, included as the first value in \(s\) objects, must themselves be comparable, however.
 \end{proof}
 
-An example of the described unique identifiers can be found in \cref{sec:medianfilter}, where additional information is available based on the origin of each element in the multiset.
-
-It is as yet unclear how to introduce a strict total ordering, as required to sort elements into specific indices, with \gls{cps} rules when some elements are effectively indistinguishable.  The ranges approach of \cref{sec:cps:sortmultisetrange} sidesteps this issue by collapsing elements of equal value into one ordered term.
-
+An example of the described unique identifiers can be found in \vref{sec:medianfilter}, where additional information is available based on the origin of each element in the multiset.
 
 % \cpresetrulenumber
-\begin{cprulesetfloat} \begin{cpruleset}
+\begin{cprulesetfloat}
+\begin{cpruleset}
 \cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncnn{r}{I}{U}{\cpundig}}
 \cppromoter{\cpfuncn{s}{I}{U}}
 
@@ -636,10 +649,11 @@ It is as yet unclear how to introduce a strict total ordering, as required to so
 \caption{\label{rules:cps:sortmultisetid}\Gls{ruleset} to sort the elements of a multiset, when each element has an accompanying unique comparable identifier}
 \end{cprulesetfloat}
 
-\begin{table} \centering
+\begin{table}[htbp]
+\centering
    \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
     0 & \(\cpfuncn{s}{8}{2}\), \(\cpfuncn{s}{3}{2}\), \(\cpfuncn{s}{7}{3}\), \(\cpfuncn{s}{5}{5}\), \(\cpfuncn{s}{1}{5}\), \(\cpfuncn{s}{6}{6}\), \(\cpfuncn{s}{2}{6}\), \(\cpfuncn{s}{9}{6}\), \(\cpfuncn{s}{4}{7}\)\\ \hline
     
     1 & \(\cpfuncn{s}{8}{2}\), \(\cpfuncn{s}{3}{2}\), \(\cpfuncn{s}{7}{3}\), \(\cpfuncn{s}{5}{5}\), \(\cpfuncn{s}{1}{5}\), \(\cpfuncn{s}{6}{6}\), \(\cpfuncn{s}{2}{6}\), \(\cpfuncn{s}{9}{6}\), \(\cpfuncn{s}{4}{7}\),\\& \(\cpfuncnn{r}{8}{2}{1}\), \(\cpfuncnn{r}{3}{2}{1}\), \(\cpfuncnn{r}{7}{3}{1}\), \(\cpfuncnn{r}{5}{5}{1}\), \(\cpfuncnn{r}{1}{5}{1}\), \(\cpfuncnn{r}{6}{6}{1}\),\\& \(\cpfuncnn{r}{2}{6}{1}\), \(\cpfuncnn{r}{9}{6}{1}\), \(\cpfuncnn{r}{4}{7}{1}\)\\ \hline
@@ -652,13 +666,15 @@ It is as yet unclear how to introduce a strict total ordering, as required to so
 \caption[Example evolution of \cref{rules:cps:sortmultisetid}]{\label{tab:cps:sortmultisetid}Example evolution of \cref{rules:cps:sortmultisetid} starting on a modified version of multiset \(S_2\), where each element has been assigned a random unique identifier}
 \end{table}
 
+It is as yet unclear how to introduce a strict total ordering, as required to sort elements into specific indices, with \gls{cps} rules when some elements are effectively indistinguishable.  The ranges approach of \cref{sec:cps:sortmultisetrange} sidesteps this issue by collapsing elements of equal value into one ordered term.
+
 %-------------------------------------------------------
 \subsection{Selection}\label{sec:cps:selection}
 %-------------------------------------------------------
 
-In this \namecref{sec:cps:selection}, assume that there is already a term \(\cpfunc{n}{N}\), where \(N\) is the position in the ordered list desired, i.e., it denotes the \(n^{\text{th}}\) element.  For the examples, it is assumed to be \(\cpfunc{n}{3}\).  Each of these \glspl{ruleset} uses the corresponding sorting procedure of \cref{sec:cps:sorting} and then applies a final selection rule to pick the desired element.  Thus, each \gls{ruleset} requires \(\textsc{sort} + 1\) steps.
+In this \namecref{sec:cps:selection}, assume that there is already a term \(\cpfunc{n}{N}\), where \(N\) is the position in the ordered list desired, \ie{} it denotes the \(n^{\text{th}}\) element.  For the examples, it is assumed to be \(\cpfunc{n}{3}\).  Each of these \glspl{ruleset} uses the corresponding sorting procedure of \cref{sec:cps:sorting} and then applies a final selection rule to pick the desired element.  Thus, each \gls{ruleset} requires \(\textsc{sort} + 1\) steps.
 
-For simplicity, none of the below systems consider the case when the requested index is outside the range of possible indices for the elements, i.e. when the requested \(N\) is less than one or greater than the magnitude of the (multi)set.
+For simplicity, none of the below systems consider the case when the requested index is outside the range of possible indices for the elements, \ie{} when the requested \(N\) is less than one or greater than the magnitude of the multiset.
 
 %-----------------------------------------
 \subsubsection{Selection from Sets --- O\((1)\)}\label{sec:cps:selectsets}
@@ -689,10 +705,11 @@ Consider \cref{rules:cps:selectsets} and the example in \cref{tab:cps:selectsets
 \caption{\label{rules:cps:selectsets}\Gls{ruleset} to select the \(n^{\text{th}}\) element in a set}
 \end{cprulesetfloat}
 
-\begin{table} \centering
+\begin{table}[htbp]
+\centering
    \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
     1 & \(\cpfunc{n}{3}\), \(\cpfuncn{t}{2}{1}\), \(\cpfuncn{t}{3}{1}\), \(\cpfuncn{t}{5}{1}\), \(\cpfuncn{t}{6}{1}\), \(\cpfuncn{t}{7}{1}\)\\ \hline
     
     2 & \(\cpfunc{n}{3}\), \(\cpfuncn{t}{2}{1}\), \(\mathbf{\cpfuncn{t}{3}{2}}\), \(\mathbf{\cpfuncn{t}{5}{3}}\), \(\mathbf{\cpfuncn{t}{6}{4}}\), \(\mathbf{\cpfuncn{t}{7}{5}}\)\\ \hline
@@ -712,7 +729,7 @@ Selecting the \(n^{\text{th}}\) element from a multiset in terms of numerical or
 \end{proposition}
 
 \begin{proof}
-Consider \cref{rules:cps:selectmultisetrange} and the example in \cref{tab:cps:selectmultisetrange}.  Selection from a multiset after sorting it into ranges is also a straightforward process, requiring just one extra step and rule.  The rule itself is less clear than the equivalent for \cref{rules:cps:selectsets}, however.  In particular, comparing \(n\) to the stored ranges requires more variables to make the proper comparison.  The key to rule 5 is that while each of the variables \(L\) and \(M\) may potentially be unified in multiple ways, only one unification will match an actual range term \(t\).  
+Consider \cref{rules:cps:selectmultisetrange} and the example in \cref{tab:cps:selectmultisetrange}.  Selection from a multiset after sorting it into ranges is also a straightforward process, requiring just one extra step and rule.  The rule itself is less clear than the equivalent for \cref{rules:cps:selectsets}, however.  In particular, comparing \(n\) to the stored ranges requires more variables to make the proper comparison.  The key to \cpruleref{rules:cps:selectmultisetrange:5} is that while each of the variables \(L\) and \(M\) may potentially be unified in multiple ways, only one unification will match an actual range term \(t\).  
 \end{proof}
 
 % \cpresetrulenumber
@@ -731,7 +748,7 @@ Consider \cref{rules:cps:selectmultisetrange} and the example in \cref{tab:cps:s
 \cprule{s_4}{\cpfuncnnms{t}{T}{X}{\,}}{\cpmaxpar}{s_5}{\cpfuncnnms{t}{T}{X}{\cpundig}}
 \cppromoter{\cpfunc{s}{T}}
 
-\cprule{s_5}{}{\cponce}{s_6}{\cpfunc{r}{T}}
+\cprule[rules:cps:selectmultisetrange:5]{s_5}{}{\cponce}{s_6}{\cpfunc{r}{T}}
 \cppromoter{\cpfuncnn{t}{T}{L}{L\cpundig M\_}}
 \cppromoter{\cpfunc{n}{LM}}
 
@@ -739,10 +756,11 @@ Consider \cref{rules:cps:selectmultisetrange} and the example in \cref{tab:cps:s
 \caption{\label{rules:cps:selectmultisetrange}\Gls{ruleset} to sort a multiset into indexed ranges, then select the \(n^{\text{th}}\) element}
 \end{cprulesetfloat}
 
-\begin{table} \centering
+\begin{table}[htbp]
+\centering
    \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
     1 & \(\cpfunc{n}{3}\), \(\cpfuncnn{t}{2}{1}{1}\), \(\cpfuncnn{t}{2}{1}{1}\), \(\cpfuncnn{t}{3}{1}{1}\), \(\cpfuncnn{t}{5}{1}{1}\), \(\cpfuncnn{t}{5}{1}{1}\), \(\cpfuncnn{t}{6}{1}{1}\),\\& \(\cpfuncnn{t}{6}{1}{1}\), \(\cpfuncnn{t}{6}{1}{1}\), \(\cpfuncnn{t}{7}{1}{1}\)\\ \hline
     
     2 & \(\cpfunc{n}{3}\), \(\cpfuncnn{t}{2}{1}{1}\), \sout{\(\cpfuncnn{t}{2}{1}{1}\)}, \(\cpfuncnn{t}{3}{1}{1}\), \(\cpfuncnn{t}{5}{1}{1}\), \sout{\(\cpfuncnn{t}{5}{1}{1}\)}, \(\cpfuncnn{t}{6}{1}{1}\),\\& \sout{\(\cpfuncnn{t}{6}{1}{1}\)}, \sout{\(\cpfuncnn{t}{6}{1}{1}\)}, \(\cpfuncnn{t}{7}{1}{1}\)\\ \hline
@@ -762,9 +780,17 @@ Consider \cref{rules:cps:selectmultisetrange} and the example in \cref{tab:cps:s
 
 To complement \cref{tab:cps:selectmultisetrange}'s example, consider the application of rule 5 in the case of multiset \(S_2\) when \(N = 1\), \(N = 3\) and \(N = 7\), alternately.  Recall that the correct ranges for \(S_2\) are:  2, [1,3); 3, [3,4); 5, [4,6); 6, [6,9); and 7, [9,10).
 
-\paragraph{\(\mathbf{N = 1}\):}  Here, either \(L = 1, M = 0\) or \(L = 0, M = 1\).  There will never be a term \(t\) which holds 0 for the lower index, so the latter unification can be ruled out at once.  Thus, the lower index \emph{must} be 1.  This, of course, matches with the term \(\cpfuncnn{t}{2}{1}{3}\), and \(L + M + 1 = 1 + 0 + 1 \geq 2\), which fits with the 3 stored in the upper index.  Thus, the valid result is \(\cpfunc{r}{2}\).
+% \paragraph{\(\mathbf{N = 1}\):}  Here, either \(L = 1, M = 0\) or \(L = 0, M = 1\).  There will never be a term \(t\) which holds 0 for the lower index, so the latter unification can be ruled out at once.  Thus, the lower index \emph{must} be 1.  This, of course, matches with the term \(\cpfuncnn{t}{2}{1}{3}\), and \(L + M + 1 = 1 + 0 + 1 \geq 2\), which fits with the 3 stored in the upper index.  Thus, the valid result is \(\cpfunc{r}{2}\).
 
-\paragraph{\(\mathbf{N = 3}\):}  The possible unifications here are \(L = 3, M = 0\), \(L = 2, M = 1\), \(L = 1, M = 2\) and \(L = 0, M = 3\).  There are no \(t\) terms with a lower index of 2 or 0, so the unifications where \(L = 2\) or \(L = 0\) cannot apply.  In all cases, the upper index must be \emph{at least} one greater than the \(N\) value because the upper indices are exclusive, so here it must be greater than or equal to four.  If \(L = 1\), there is no term \(t\) with the corresponding lower and upper indices, so only \(L = 3\) is still a valid unification here.
+% \paragraph{\(\mathbf{N = 3}\):}  The possible unifications here are \(L = 3, M = 0\), \(L = 2, M = 1\), \(L = 1, M = 2\) and \(L = 0, M = 3\).  There are no \(t\) terms with a lower index of 2 or 0, so the unifications where \(L = 2\) or \(L = 0\) cannot apply.  In all cases, the upper index must be \emph{at least} one greater than the \(N\) value because the upper indices are exclusive, so here it must be greater than or equal to four.  If \(L = 1\), there is no term \(t\) with the corresponding lower and upper indices, so only \(L = 3\) is still a valid unification here.
+
+% When \(L = 3\), and thus the lower index is three, there is indeed a range with the upper index of four.   Hence it is a valid unification in the context of multiset \(S_2\).  Therefore, the result will be \(\cpfunc{r}{3}\).
+
+% \paragraph{\(\mathbf{N = 7}\):}  Much like the other two cases, while there are a multitude of possible unifications, the upper index must be at least eight, so the lower three ranges are ineligible.  Conversely, the uppermost range does not start until index nine.  \(L = 6\) fits with the correct range of [6,9), however.  Therefore, the correct answer of \(\cpfunc{r}{6}\) is returned.
+
+\paragraph{\(\mathbf{N = 1}\):}  Here, either \(L,M = 1,0\) or \(L,M = 0,1\).  There will never be a term \(t\) which holds \(0\) for the lower index, so the latter unification can be ruled out at once.  Thus, the lower index \emph{must} be \(1\).  This, of course, matches with the term \(\cpfuncnn{t}{2}{1}{3}\), and \(L + M + 1 = 1 + 0 + 1 \geq 2\), which fits with the \(3\) stored in the upper index.  Thus, the valid result is \(\cpfunc{r}{2}\).
+
+\paragraph{\(\mathbf{N = 3}\):}  The possible unifications here are \(L,M = 3,0\); \(L,M = 2,1\); \(L,M = 1,2\); and \(L,M = 0,3\).  There are no \(t\) terms with a lower index of \(2\) or \(0\), so the unifications where \(L = 2\) or \(L = 0\) cannot apply.  In all cases, the upper index must be \emph{at least} one greater than the \(N\) value because the upper indices are exclusive, so here it must be greater than or equal to four.  If \(L = 1\), there is no term \(t\) with the corresponding lower and upper indices, so only \(L = 3\) is still a valid unification here.
 
 When \(L = 3\), and thus the lower index is three, there is indeed a range with the upper index of four.   Hence it is a valid unification in the context of multiset \(S_2\).  Therefore, the result will be \(\cpfunc{r}{3}\).
 
@@ -779,7 +805,7 @@ Selecting the \(n^{\text{th}}\) element from a multiset in terms of numerical or
 \end{proposition}
 
 \begin{proof}
-Consider \cref{rules:cps:selectmultisetid} and the example in \cref{tab:cps:selectmultisetid}.  When the extra unique identifiers are available, indexed selection from a multiset is also straightforward. As with \cref{sec:cps:selectsets}, almost all the work is performed by the sorting rules of \cref{sec:cps:sortmultisetid}, and a trivial extra selection step is all that is needed.
+Consider \cref{rules:cps:selectmultisetid} and the example in \cref{tab:cps:selectmultisetid}.  When the extra unique identifiers are available, indexed selection from a multiset is also straightforward. As with \cref{sec:cps:selectsets}, almost all the work is performed by the sorting rules of \cref{sec:cps:sortmultisetid}, and a trivial selection step is all extra that is needed.
 \end{proof}
 
 % \cpresetrulenumber
@@ -802,10 +828,10 @@ Consider \cref{rules:cps:selectmultisetid} and the example in \cref{tab:cps:sele
 \caption{\label{rules:cps:selectmultisetid}\Gls{ruleset} to select the \(n^{\text{th}}\) element in a multiset when each element has an accompanying unique, comparable identifier}
 \end{cprulesetfloat}
 
-\begin{table} \centering
+\begin{table}[htbp] \centering
    \begin{tabular}{|r|l|}
     \hline
-    \textbf{Step} & \textbf{New, Modified or Deleted Objects} \\ \hline
+    \textbf{Step} & \textbf{New, Modified \& Deleted Objects} \\ \hline
     0 & \(\cpfunc{n}{3}\), \(\cpfuncn{s}{8}{2}\), \(\cpfuncn{s}{3}{2}\), \(\cpfuncn{s}{7}{3}\), \(\cpfuncn{s}{5}{5}\), \(\cpfuncn{s}{1}{5}\), \(\cpfuncn{s}{6}{6}\), \(\cpfuncn{s}{2}{6}\), \(\cpfuncn{s}{9}{6}\),\\& \(\cpfuncn{s}{4}{7}\)\\ \hline
     
     1 & \(\cpfunc{n}{3}\), \(\cpfuncn{s}{8}{2}\), \(\cpfuncn{s}{3}{2}\), \(\cpfuncn{s}{7}{3}\), \(\cpfuncn{s}{5}{5}\), \(\cpfuncn{s}{1}{5}\), \(\cpfuncn{s}{6}{6}\), \(\cpfuncn{s}{2}{6}\), \(\cpfuncn{s}{9}{6}\),\\& \(\cpfuncn{s}{4}{7}\), \(\cpfuncnn{t}{8}{2}{1}\), \(\cpfuncnn{t}{3}{2}{1}\), \(\cpfuncnn{t}{7}{3}{1}\), \(\cpfuncnn{t}{5}{5}{1}\), \(\cpfuncnn{t}{1}{5}{1}\), \(\cpfuncnn{t}{6}{6}{1}\),\\& \(\cpfuncnn{t}{2}{6}{1}\), \(\cpfuncnn{t}{9}{6}{1}\), \(\cpfuncnn{t}{4}{7}{1}\)\\ \hline
@@ -848,7 +874,7 @@ Direct consequence of \crefrange{prop:cps:min}{prop:cps:selectmultisetid}.
 
 \Cref{tab:cps:summary} further summarises the tabulated measurements of the different statistical operations, listing the name of each, its containing section, and the number of rules and steps it requires.
 
-\begin{table} \centering
+\begin{table}[htbp] \centering
    \begin{tabular}{|l|l|l|l|}
     \hline
     \textbf{Problem} & \textbf{Section} & \textbf{\# of} & \textbf{\# of}\\&& \textbf{rules} & \textbf{steps}\\ \hline
@@ -869,17 +895,17 @@ Direct consequence of \crefrange{prop:cps:min}{prop:cps:selectmultisetid}.
 \caption[Listing of various statistical operations in \gls{cps}]{\label{tab:cps:summary}Tabular listing of the various statistical operations in \gls{cps} presented here, the section in which they are described, and the (fixed) number of rules and steps each one requires.}
 \end{table}
 
-Importantly, \emph{none} of these \glspl{ruleset} are uniform or semi-uniform families.  That is, they do not need any form of customisation to a particular problem, nor do they rely on any form of precomputation whatsoever.  All these \glspl{ruleset} can be re-used and combined as is (modulo the appropriate renaming of functors) --- as shown in, e.g., \cref{rules:cps:mode} and \cref{rules:cps:selectmultisetrange}.  Their only dependence is on matching the rules with the types of container terms used to store the numbers to use.
+Importantly, \emph{none} of these \glspl{ruleset} are uniform or semi-uniform families.  That is, they do not need any form of customisation to a particular problem, nor do they rely on any form of precomputation whatsoever.  All these \glspl{ruleset} can be re-used and combined as is (modulo the appropriate renaming of functors) --- as shown in, \eg{} \cref{rules:cps:mode} and \cref{rules:cps:selectmultisetrange}.  Their only dependence is on matching the rules with the types of container terms used to store the numbers.
 
 %-------------------------------------------------------
 \subsection{Comparing the \glsfmttext{cps} \Glsfmtplural{ruleset} to Other P systems Rules for Sorting}
 %-------------------------------------------------------
 
-\citeauthor{Ceterchi2010} gave an overview of approaches to sorting in \gls{ps} at the time of their writing \cite{Ceterchi2010}.  They discussed approaches such as Bead Sorting \cite{Arulanandham2002}, which uses a \gls{tlps} and is founded on imitating the concept of an abacus which has been turned on its side, with beads falling towards the bottom due to gravity; Communicative Sorting \cite[Sec. 5.2]{Alhazov2007} which moves numbers between membranes in a \gls{clps}, such that at the end of the system's evolution, the numbers are sorted in ascending order from the outermost to innermost membranes; and sorting by ``carving'' \cite{Alhazov2007}, where objects in a system are iteratively removed or replaced, and the point where a particular object type is exhausted is taken as a signal that a number has been sorted.  \citeauthor{Maeda2014} also present an approach to sorting in Enzymatic Numerical \gls{ps} \cite{Maeda2014}, making use of implementations of logical operations described earlier in the paper.
+\citeauthor{Ceterchi2010} gave an overview of approaches to sorting in \gls{ps} at the time of their writing \cite{Ceterchi2010}.  They discussed approaches such as Bead Sorting \cite{Arulanandham2002}, which uses a \gls{tlps} and is founded on imitating the concept of an abacus which has been turned on its side, with beads falling towards the bottom due to gravity; Communicative Sorting \cite[Sec. 5.2]{Alhazov2007} which moves numbers between membranes in a \gls{clps}, such that at the end of the system's evolution, the numbers are sorted in ascending order from the outermost to innermost membranes; and sorting by ``carving'' \cite{Alhazov2007}, where objects in a system are iteratively removed or replaced, and the point where a particular object type is exhausted is taken as a signal that a number has been sorted.  \citeauthor{Maeda2014} also present an approach to sorting in Enzymatic Numerical \gls{ps} \cite{Maeda2014}, making use of implementations of logical operations described earlier in that paper.
 
 In all these instances, the best results had a linear time complexity in either the number of elements in the multiset to sort, or the size of the largest element.  More recent work on sorting in \gls{ps} has included \cite{Gheorghe2017,Metta2015,Yan2019}.  The best time complexity among the procedures described there comes from \cite[Sec. 3.3]{Gheorghe2017}, which describes a method to sort in constant time (three steps).  \citeauthor{Yan2019} \cite{Yan2019} implemented a parallel quicksort which has a O\((\log n)\) complexity, where \(n\) is the number of elements to sort.  \citeauthor{Metta2015} \cite{Metta2015} do not appear to analyse the time complexity of their systems, but as one of them implements bitonic sort, the best result is likely again O\((\log n)\).
 
-On only the measure of time complexity, \cref{sec:cps:sorting} improves on all but \cite{Gheorghe2017}.  \citeauthor{Gheorghe2017} comment, however, that their fastest sorting method relies on ``some precomputed resources of size O\((n^2)\).''  Furthermore, \cite{Gheorghe2017}'s other system with lesser dependencies still needs to customise its \gls{ruleset} for the numbers to be sorted.  None of the systems presented in \cref{sec:cps:stats} rely on any precomputation; every one works for all well-specified problems of any size without alterations or customisations.  By using the benefits of \gls{cps}, all the systems in \cref{sec:cps:sorting} avoid this and use fixed-size \glspl{ruleset} for all multisets.
+On the measure of time complexity only, \cref{sec:cps:sorting} improves on all but \cite{Gheorghe2017}.  \citeauthor{Gheorghe2017} comment, however, that their fastest sorting method relies on ``some precomputed resources of size O\((n^2)\).''  Furthermore, \cite{Gheorghe2017}'s other system with lesser dependencies still needs to customise its \gls{ruleset} for the numbers to be sorted.  None of the systems presented in \cref{sec:cps:stats} rely on any precomputation; every one works for all well-specified problems of any size without alterations or customisations.  By using the benefits of \gls{cps}, all the systems in \cref{sec:cps:sorting} avoid this and use fixed-size \glspl{ruleset} for all multisets.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

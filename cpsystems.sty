@@ -85,6 +85,15 @@ placement={htbp},]
 \newcommand*{\cpinhibitor}[1]{
 \cpsystems@cpprominhi{\neg}{#1}
 }
+
+\newcommand*{\cpoutsymbol}[2]{
+    \cpsystems@perfunangles{#1}\downarrow_{#2}
+}
+
+\newcommand{\cpoutsymbolall}[1]{
+    \cpsystems@perfunangles{#1}\downarrow_{\forall}
+}
+
 \newcommand{\cpsend}[2]{
     \cpsystems@basecpsendrecv{#1}{#2}{!}
 }
