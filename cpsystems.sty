@@ -32,12 +32,12 @@ rulesets, following Nicolescu's standard style]
 \RequirePackage{perfectcut}
 \RequirePackage[user]{zref}
 \DeclareFloatingEnvironment[name=Ruleset,
-listname={List of cP~systems Rulesets},within=chapter,
-placement={htbp},]
+listname={List of cP~Systems Rulesets},within=chapter,
+placement={thbp},]
 {cprulesetfloat}
 \DeclareFloatingEnvironment[name=Objects Group,
-listname={List of cP~systems Objects Groups},within=chapter,
-placement={htbp},]
+listname={List of cP~Systems Objects Groups},within=chapter,
+placement={thbp},]
 {cpobjectsfloat}
 \newenvironment{cpruleset}
 {\begin{framed}\begin{adjustwidth}{-1.0em}{-1.0em}
@@ -51,9 +51,9 @@ placement={htbp},]
 {\end{array}\]\end{adjustwidth}\end{framed}
 \setcounter{cpsystems@RuleNumAlt}{\value{cpsystems@RuleNum}}}
 \newenvironment{cpobjects}{\begin{framed}}{\end{framed}}
-\newcommand{\cptuple}[7]{
+\newcommand*{\cptuple}[7]{
     \[
-        \cpfunc{\Pi_{#1}}{#2, #3, #4, #5, #6, #7}
+        \cpfunc{\Pi^{\text{cP}}_{\text{#1}}}{#2, #3, #4, #5, #6, #7}
     \]
 }
 \newcommand*{\cptupletemplate}{
@@ -170,8 +170,15 @@ placement={htbp},]
 \newcommand*{\cpdiscard}{\_}
 \AfterPreamble{
     \ifdef{\crefname}
-        {\crefname{cprulesetfloat}{ruleset}{rulesets}
-        \crefname{cpobjectsfloat}{objects group}{objects groups}}
+        {%
+        \if@cref@capitalise
+            \crefname{cprulesetfloat}{Ruleset}{Rulesets}%
+            \crefname{cpobjectsfloat}{Objects Group}{Objects Groups}%
+        \else
+            \crefname{cprulesetfloat}{ruleset}{rulesets}%
+            \crefname{cpobjectsfloat}{objects group}{objects groups}%
+        \fi
+        }
     {}
 }
 \newcounter{cpsystems@RuleNum}[cprulesetfloat]

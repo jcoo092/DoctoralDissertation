@@ -71,7 +71,7 @@
 \setheaderspaces{*}{2\baselineskip}{*}
 \setmarginnotes{3mm}{3cm}{6pt}
 \checkandfixthelayout
-\fixpdflayout
+% \fixpdflayout
 
 % Typeface: leave the author to choose
 
@@ -164,7 +164,8 @@
 	
 	\clearpage
 	\killtitle
-	\mainmatter
+% 	\mainmatter
+    % \frontmatter
 }
 
 % Command for dedication page
@@ -179,24 +180,24 @@
 \vspace*{\fill}
 }
 
-% % line spacing
-% \renewcommand\mainmatter{
-% 	\ifUa@doublesp
-%   \DoubleSpacing%
-% \else\ifUa@singlesp
-%   \SingleSpacing%
-% \else
+% line spacing
+\renewcommand\mainmatter{
+	\ifUa@doublesp
+  \DoubleSpacing%
+\else\ifUa@singlesp
+  \SingleSpacing%
+\else
   \OnehalfSpacing
-% \fi%
-% \fi
-% % \pagenumbering{arabic}
-% % \setcounter{page}{0}
-% }
+\fi%
+\fi
+\pagenumbering{arabic}
+\setcounter{page}{0}
+}
 
-% \renewcommand\backmatter{
-% 	\clearpage
+\renewcommand\backmatter{
+	\clearpage
 % 	\setcounter{page}{0}
-% }
+}
 
 \frenchspacing
 

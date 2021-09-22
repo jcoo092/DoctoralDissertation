@@ -1,4 +1,4 @@
-\section{\label{sec:tsp:algohpp}\glsentrytext{cps} Hamiltonian Path and Cycle Algorithms}
+\section{\glsentrytext{cps} Hamiltonian Path and Cycle Algorithms}\label{sec:tsp:algohpp}
 This \namecref{sec:tsp:algohpp} discusses only digraphs, since all undirected graphs can be represented quite simply as a directed graph with arcs in both directions simulating edges --- this is in fact how undirected graphs are represented in the below algorithm.
 
 \subsection{Formal System Definition}
@@ -9,7 +9,7 @@ Following the 6-tuple description style of \cref{sec:cps:formaldescriptions}:  \
 
 \cptuple{HCP}{\cpset{1}}{\cpset{e, f, h, p, p', r, s, t, u, v, z}}{\cpset{E \cup \cpset{v}}}{\text{\cref{ruleset:tsp:hcp}}}{\cpset{s_1, s_2, s_3, s_4}}{s_1}
 
-\subsection{\label{sec:tsp:hpp}\Glsfmtlong{hpp-glossary}}
+\subsection{\Glsfmtlong{hpp-glossary}}\label{sec:tsp:hpp}
 
 The algorithm follows a simple approach, essentially a simple maximally parallel breadth-first search of the digraph.  It starts with a top-level cell enclosed by the skin membrane, and populated with subcells describing the problem digraph (recall that subcells in \gls{cps} are the namesake complex objects).  From there, a starting vertex of the problem digraph is randomly selected, and the top-level cell is then populated with the other initial required subcells.  The evolution of the system then proceeds synchronously level-by-level through the different potential paths of the cycle by creating new subcells encoding the digraph traversals up to that point, expanding all possible paths from a given vertex which exclude any of the previously visited vertices.  The algorithm requires a fixed set of \textbf{only four rules}, presented in \cref{ruleset:tsp:hpp}.
 
@@ -81,10 +81,6 @@ The major changes to this from the \gls{hpp} algorithm are the addition of an \(
         
         \cprule{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{\cpempty} \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}{+}{s_3}{\cpfunc{z}{\cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}}
         \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \; \cpfunc{t}{R}}}
-        
-        % \cprule{s_2}{}{+}{s_2}{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{Z} \; \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}}
-        % \cppromoter{\cpfunc{s}{\cpfunc{r}{R} \; \cpfunc{u}{\cpfunc{v}{T} Z} \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}
-        % \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \; \cpfunc{t}{T}}}
         
         \cprule{s_2}{}{+}{s_2}{\cpfunc*[\bigg]{s}{\cpfunc{r}{R} \; \cpfunc{u}{Z} &\\&&&& \quad \; \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}}
         \cppromoter{\cpfunc*[\Big]{s}{\cpfunc{r}{R} \; \cpfunc{u}{\cpfunc{v}{T} Z} &\\&&&& \qquad\enskip \; \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}}}

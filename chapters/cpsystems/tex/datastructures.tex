@@ -1,5 +1,5 @@
 %-----------------------------------------------------------------------------------
-\section{Data structures in \glsentrytext{cps}}\label{sec:cps:datastructures}
+\section{Data Structures in \glsfmtname{cps}}\label{sec:cps:datastructures}
 %-----------------------------------------------------------------------------------
 
 This \namecref{sec:cps:datastructures} sketches the design of some high-level data structures, 
@@ -8,10 +8,8 @@ programming languages:
 numbers, relations, functions, associative arrays, lists, trees, strings, 
 together with alternative, more readable notations.
 
-% \medskip
-% \noindent
 %-------------------------------------------------------
-\subsection{\label{sec:cps:natnums}Natural numbers}
+\subsection{\label{sec:cps:natnums}Natural Numbers}
 %-------------------------------------------------------
 Natural numbers can be represented via \emph{multisets} containing repeated occurrences of the \emph{same} atom.
 For example, considering that \(\cpundig\) represents an ad hoc unary digit, 
@@ -48,16 +46,14 @@ Here follows a list of simple arithmetic expressions, assignments, and compariso
 \noindent
 `Strictly less than' (\(<\)) requires the extra \(1\), because \(Y\) can match on \(\cpempty\).
 
-\subsubsection{Less than and greater than in promoters and inhibitors}
+\subsubsection{Less-than and Greater-than in Promoters and Inhibitors}
 
-\begin{anfxnote}
-Compare variables in those using set operations.
-\end{anfxnote}
+When dealing with natural numbers\footnote{In fact, strictly speaking, this applies to any rule dealing with only a single type of atom.  By far the most common instance of that in practice is natural numbers, however.} in rules it is possible to enforce `greater than' and `less than' relationships between variables through the use of sub-multiset specifications in promoters and inhibitors.  For instance, to state that variable \(A\) must be less than or equal to variable \(B\), \ie{} \(A \leq B\), one may write: \(|~ A \subseteq B\).  Or, to state that \(B\) must be strictly less than \(C\), \ie{} \(B < C\), one may write: \(|~ B \subsetneq C\).
 
-% \medskip
-% \noindent
+These relations hold because all natural numbers are represented by repeated uses of the same object -- the unary digit \(\cpundig\) -- and fewer copies of the same object are always a sub-multiset of the greater multiset.  The use of this is similar to the equality condition introduced in \cref{sec:cps:prominhi}, but works only for variables representing numbers, whereas the equality condition applies to all variables. 
+
 %-------------------------------------------------------
-\subsection{Relations and functions}
+\subsection{Relations and Functions}
 %-------------------------------------------------------
 Consider the \emph{binary relation} \(r\), as defined by: 
 \(r = \{ (a, b),\, (b, c),\, (a, d),\, (d, c) \}\) (which has a diamond-shaped graph). 
@@ -75,10 +71,8 @@ one may also use the succinct abbreviation \(f[a] = b\).
 
 In this context, the \(\rightleftarrows\) and \(\mapsto\) operators are considered to have a high associative priority, so the enclosing brackets are primarily used to increase readability.
 
-% \medskip
-% \noindent
 %-------------------------------------------------------
-\subsection{Associative arrays}
+\subsection{Associative Arrays}
 %-------------------------------------------------------
 Consider the \emph{associative array} \(x\), 
 with the following key-value mappings (\ie{} functional relation): 
@@ -89,8 +83,6 @@ where \adhoc{} atoms \(\kappa\) and \(\upsilon\) introduce keys and values (resp
 This too may be aliased by the more expressive notation
 \(\{ \cpundig \stackrel{x}\mapsto a\), \(\cpundig^3 \stackrel{x}\mapsto c\), \(\cpundig^7 \stackrel{x}\mapsto g \}\).
 
-% \medskip
-% \noindent
 %-------------------------------------------------------
 \subsection{\label{sec:cps:lists}Lists}
 %-------------------------------------------------------
@@ -105,8 +97,6 @@ This may be aliased by the more expressive equivalent notation
 where operator \(\mid\) separates the head and the tail of the list.
 The notation \(\cpfunc{z}{|}\) is shorthand for \(\cpfunc{z}{\cpfunc{\gamma}{\,}}\) and indicates an empty list, \(z\).
 
-% \medskip
-% \noindent
 %-------------------------------------------------------
 \subsection{Trees}
 %-------------------------------------------------------
@@ -122,8 +112,6 @@ Tree \(z\) can be represented by the complex symbol
 \(\cpfunc{z}{a ~ \cpfunc{\phi}{b} ~ \cpfunc{\psi}{c ~ \cpfunc{\phi}{d} ~ \cpfunc{\psi}{e}}}\), 
 where \adhoc{} atoms \(\phi, \psi\) introduce left and right subtrees, respectively.
 
-% \medskip
-% \noindent
 %-------------------------------------------------------
 \subsection{Strings}
 %-------------------------------------------------------

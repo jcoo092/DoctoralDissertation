@@ -16,10 +16,9 @@ To demonstrate the operation of the \gls{cps} algorithm in a 3-colouring context
     \label{fig:gcol:examplegraphnosol}
 \end{figure}
 
-\subsection{Successful example}
+\subsection{Successful Example}
 
-For the graph in \cref{fig:gcol:examplegraph}, begin with a single \gls{tlc} situated in the environment and in state \(s_1\).  From the hypothetical set of nodes \(V = \{1, 2, 3, 4, 5\}\),  derive the functor \(V' = \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}~\cpfunc{n}{5}}\), and the set of objects \[ 
-E' = \cpset{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}},~\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{5}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}},~\cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}}}
+For the graph in \cref{fig:gcol:examplegraph}, begin with a single \gls{tlc} situated in the environment and in state \(s_1\).  From the hypothetical set of nodes \(V = \{1, 2, 3, 4, 5\}\),  derive the functor \[V' = \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}~\cpfunc{n}{5}},\] and the set of objects \[E' = \cpset{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}},~\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{5}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}},~\cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}}}
 ,\] representing the edges of the graph, as well as the set of colour objects \(K' = \cpset{\cpfunc{k}{r},~\cpfunc{k}{g},~\cpfunc{k}{b}}\), in this case representing the colours red, green and blue.  These sets of objects are all immediately within the \gls{tlc}, along with \(\cpfunc{s}{1}\) to select node 1 at the beginning of the process, as shown in \cref{objs:gcol:obj1}.
 
 This beginning state, except for the choice of node label inside the \(s\) object, is mandatory, but all following discussion in this subsection is merely one possible execution, due to the non-deterministic selection of colours that occurs during application of \cpruleref{rule:gcol:rules:init} and \cpruleref{rule:gcol:rules:endsucc}.
@@ -109,7 +108,6 @@ Step 5 proceeds analogously.  At the end of step 5 a number of \(b\) objects whi
 \begin{cpobjectsfloat}
 \begin{cpobjects}
 
-% \begin{gather*}
     \cpobjectsline{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \dots \cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}} \quad \cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b}}
     
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{4} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{3} \, \cpfunc{c}{r}}~\cpfunc{v}{\cpempty}}}
@@ -121,26 +119,23 @@ Step 5 proceeds analogously.  At the end of step 5 a number of \(b\) objects whi
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{b}}~\cpfunc{m}{\cpfunc{n}{3} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{4} \, \cpfunc{c}{r}}~\cpfunc{v}{\cpempty}}}
     
     \cpobjectsline{\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{b}}~\cpfunc{m}{\cpfunc{n}{3} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{g}}~\cpfunc{m}{\cpfunc{n}{4} \, \cpfunc{c}{r}}~\cpfunc{v}{\cpempty}}}
-% \end{gather*}
 \end{cpobjects}
 \caption{\label{objs:gcol:obj6}Set of objects inside the \gls{tlc} after the fifth step for \cref{fig:gcol:examplegraph}.}
 \end{cpobjectsfloat}
 
 % ------------------------------------------------
 
-\subsection{\label{sec:gcol:examplefail}Failing example}
+\subsection{\label{sec:gcol:examplefail}Failing Example}
 This \namecref{sec:gcol:examplefail} steps through the execution of the algorithm when there is no possible valid 3-colouring solution, using the graph depicted in \cref{fig:gcol:examplegraphnosol}.  The system begins with the objects depicted in \cref{objs:gcol:objn1}.
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
 
-% \begin{gather*}
     \cpobjectsline{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}} \; \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{3}} \; \cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{4}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}} \; \cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}} \; \cpfunc{e}{\cpfunc{n}{3} \, \cpfunc{n}{4}}}
     
     \cpobjectsline{\cpfunc{k}{r} \, \cpfunc{k}{g} \, \cpfunc{k}{b} \quad \cpfunc{s}{1}}
     
     \cpobjectsline{\cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}}}
-% \end{gather*}
 \end{cpobjects}
 \caption{\label{objs:gcol:objn1}Initial set of objects inside the \gls{tlc} for \cref{fig:gcol:examplegraphnosol}.}
 \end{cpobjectsfloat}

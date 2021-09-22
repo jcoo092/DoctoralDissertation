@@ -1,9 +1,6 @@
-% \documentclass[11pt,partial]{aucklandthesis}
-%
-% \documentclass[newzealand,10pt,partial,draft,doublespace]{aucklandthesis}
-% \documentclass[newzealand,10pt,partial,draft,onehalfspace]{aucklandthesis}
-\documentclass[newzealand,10pt,partial,onehalfspace]{aucklandthesis}
-% \documentclass[newzealand,10pt,partial]{aucklandthesis}
+\documentclass[newzealand,10pt,partial,draft,onehalfspace]{aucklandthesis}
+% \documentclass[newzealand,10pt,partial,onehalfspace]{aucklandthesis}
+% \documentclass[newzealand,10pt,partial,onehalfspace,examcopy]{aucklandthesis}
 %
 % This is a template for University of Auckland theses.
 %
@@ -21,8 +18,12 @@
 
 % \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
 
 %%%% Packages introduced by me, not included with the template
+
+\counterwithin{figure}{chapter}
+\counterwithin{table}{chapter}
 
 \usepackage{babel}
 \usepackage[UKenglish,abbreviations,xfrench,xlatin]{foreign}
@@ -30,7 +31,7 @@
 \usepackage[normalem]{ulem}
 \usepackage{amsmath,amssymb,cpsystems,nmp,url,xcolor}
 \usepackage{subcaption}
-\usepackage{listings,minted,alltt}
+\usepackage{listings,minted,alltt,pdfpages}
 
 \lstset{frame=single}
 \lstset{mathescape=true,escapechar=\#}
@@ -40,8 +41,8 @@
 \usepackage{csquotes}
 \usepackage[defblank]{paralist}
 
-\usepackage[binary-units]{siunitx}
-\usepackage{threeparttable} % look at removing this --- it was only introduced to make the G Col Rep stuff build
+\usepackage{siunitx}
+% \usepackage{threeparttable} % look at removing this --- it was only introduced to make the G Col Rep stuff build
 \usepackage{fixme}
 \fxusetheme{color}
 
@@ -61,7 +62,7 @@
 
 % Readability options
 %
-\usepackage{booktabs} % for table rules
+% \usepackage{booktabs} % for table rules
 \usepackage{microtype} % for improved justification
 
 \usepackage{graphicx} % for inserting graphics files
@@ -74,7 +75,7 @@
 % The below was taken from https://tex.stackexchange.com/a/82224 to get rid of some warnings with pgfplots when running in draft mode
 \pgfkeys{/pgf/images/include external/.code=\includegraphics{#1}}
 
-\tikzexternalize
+\tikzexternalize[optimize command away=\includepdf]
 
 % Typeface options — choose one if desired
 % or choose a different typeface to accommmodate character sets
@@ -143,8 +144,6 @@
 	\addbibresource{bib/g-col.bib}
 	\addbibresource{bib/nmp.bib}
 
-% bibliography{bibliography1.bib, bibliography2.bib} % Specify bibliography files 
-
 % The below was copied verbatim from https://tex.stackexchange.com/a/154875 on 9 December 2019, and then modified to reverse the ordering of the URL and DOI fields.  The purpose of it is to suppress the use of the URL field if the DOI field is defined - thus avoiding the many instances where the URL is printed, but is just a link to the DOI (besides which, in the PDF the DOI becomes a link to the DOI site).  It seems to work for my purposes.
 \DeclareSourcemap{
   \maps[datatype=bibtex]{
@@ -159,11 +158,11 @@
 \usepackage[hidelinks]{hyperref} % for formatting web addresses and other URLs
 \urlstyle{same} % try also tt, sf if this option doesn't produce clear enough output
 
-\usepackage[nameinlink]{cleveref} % Placed after hyperref in accordance with the documentation
+\usepackage[capitalise]{cleveref} % Placed after hyperref in accordance with the documentation
 
 %%% All the glossaries stuff was put here, since the Glossaries documentation says it should be used after hyperref.
 
-\usepackage[acronym,]{glossaries-extra}
+\usepackage[acronym]{glossaries-extra}
 \setabbreviationstyle[acronym]{long-short}
 \makeglossaries
 
@@ -173,11 +172,7 @@
 
 \loadglsentries{tex/glossary}
 
-% \includeonly{chapters/cpsystems/cpsystems}
-% \includeonly{chapters/litreview/litreview}
-
 \begin{document}
-\pagenumbering{roman}
 \frontmatter
 
 % ====================================================
@@ -188,17 +183,19 @@
 % which is counted but not numbered
 %
 % ====================================================
-
 % Specify the title page content
 \title{Highly Concurrent Solutions to Graph and Image Processing Problems}
-\subtitle{Modelled for shared-memory scenarios in \gls{cps} and code \\ {\small v0.2.7 compiled on \today}}
+\subtitle{{\small v0.4.1 compiled on \today}}
 \author{James Cooper}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
 \degreecompletionyear{2021}
 
+\pagenumbering{gobble}
 % Print the title page
 \maketitle
+% \frontmatter
+\pagenumbering{roman}
 
 % Abstract, up to 350 words
 \include{tex/abstract} % it's in a separate file
@@ -213,13 +210,18 @@
 % Contents, lists of tables and figures
 \settocdepth{subsection} % choose chapter, section, subsection 
 \cleardoublepage\tableofcontents
+\cleardoublepage\listoffixmes
 \cleardoublepage\listoffigures
 \cleardoublepage\listoftables
 \cleardoublepage\listofcprulesetfloats
 \cleardoublepage\listofcpobjectsfloats
-\cleardoublepage\listoffixmes
 \cleardoublepage\printglossary
 \cleardoublepage\printglossary[type=\acronymtype]
+
+\includepdf{coauthorship_forms/coauthorship_form_HPP_TSP_signed.pdf}
+\includepdf{coauthorship_forms/coauthorship_form_GCOL_signed.pdf}
+\includepdf{coauthorship_forms/co_authorship_form_cp_systems_stats_signed.pdf}
+\includepdf{coauthorship_forms/co_authorship_form_nmp_signed.pdf}
 
 % ====================================================
 %
@@ -234,7 +236,14 @@
 %
 % ====================================================
 
+% \mainmatter
+
+% The below is direct from https://tex.stackexchange.com/a/615994/113430
 \mainmatter
+\makeatletter
+\@mainmattertrue
+\makeatother
+\setcounter{secnumdepth}{\value{maxsecnumdepth}}
 
 \glsresetall
 \include{tex/intro}
@@ -250,12 +259,6 @@
 \include{chapters/medianfilter/median}
 \glsresetall
 \include{chapters/nmp/nmp}
-% \glsresetall
-% \chapter{\texorpdfstring{\acrlong{bp}}{Belief Propagation} for \texorpdfstring{\gls{sm}}{Stereo Matching}}
-% The \gls{bp}-specific stuff that builds on the \gls{nmp} work goes here.
-% \input{chapters/litreview/sm}
-% \glsresetall
-% \include{tex/discussion}
 \glsresetall
 \include{tex/conclusion}
 
@@ -268,15 +271,13 @@
 %
 % ====================================================
 
+\backmatter
+
 \cleardoublepage % start afresh on a new page
-% \setcounter{page}{1} % re-sets the page counter
 
 % \appendixpage* % makes a page to mark beginning of appendices -- currently there are no appendices
 % \input{appendix1}
 
 \printbibliography[title={Works Cited}, heading=bibintoc]
-
-% \cleardoublepage
-% Put an index here?
 
 \end{document}

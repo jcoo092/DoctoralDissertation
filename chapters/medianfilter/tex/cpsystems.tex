@@ -1,12 +1,16 @@
-\section{Median Filtering with \glsentrytext{cps}}\label{sec:medianfilter}
+\section{Median Filtering with \glsfmtname{cps}}\label{sec:medianfilter}
 
-Each pixel in the image is assigned a corresponding \gls{cps} \gls{tlc}, similar to the \glspl{pe} of \cref{chap:nmp}.  Each \gls{tlc} communicates with its neighbours over channels using antiport rules to build a list of all the pixel values in the immediate vicinity, then performs median selection to find the median value and stores it as the final result in a term \(r\).  The windows used to define the neighbourhoods are assumed to be square and centred around the filtered pixel. The rules assume destructive filtering, \ie{} the operation is performed only once, and nothing besides the final result needs to be kept.
+\begin{anfxerror}
+Need to include an algorithm listing how the median filtering stuff works
+\end{anfxerror}
+
+Each pixel in the image is assigned a corresponding \gls{cps} \gls{tlc}.  Each \gls{tlc} communicates with its neighbours over channels using antiport rules to build a list of all the pixel values in the immediate vicinity, then performs median selection to find the median value and stores it as the final result in a term \(r\).  The windows used to define the neighbourhoods are assumed to be square and centred around the filtered pixel. The rules used here assume destructive filtering, \ie{} the operation is performed only once, and nothing besides the final result needs to be kept.
 
 Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}{2} \, \cpfunc{n}{3} \ldots}\) listing the pixel's neighbours; the pixel's own value \(\cpfunc{b}{B}\); and an empty \(\cpfunc{c}{0}\) which will count how many messages have been received from neighbours and processed.   Compound \(s\) terms (see \vref{sec:cps:compoundterms}) are used to hold the messages received from neighbours, which firstly hold a number denoting the neighbour, then the value received. Similar \(t\) terms replicate the information in the \(s\) terms, but with an extra index on the end to store their ordering indices when sorting.
 
-\Cref{ruleset:medianfilter} sets out the rules, building on the selection rules of \vref{rules:cps:selectmultisetid} in \cref{sec:cps:selectmultisetid}.  They are integrated with the counting rules of \vref{rules:cps:countelems} in \cref{sec:cps:countelems} to find the median index.
+\Cref{ruleset:medianfilter} sets out the rules, building on the selection rules of \vref{rules:median:selectmultisetid} in \cref{sec:median:selectmultisetid}.  They are integrated with the counting rules of \vref{rules:median:countelems} in \cref{sec:median:countelems} to find the median index.
 
-\subsection{Description of rules}
+\subsection{Description of Rules}
 
 \begin{cprulesetfloat}
 \begin{cpruleset}
@@ -38,13 +42,13 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
 \begin{enumerate}
     \item Receive, through antiport exchange, messages from every connected neighbour and store the values received while sending the current pixel's value back.
     \item Stores the pixel's own value in the \(s\) functor alongside the messages received from neighbours, since it is also one of the values to consider here.  This runs once messages have been received from all neighbours.
-    \item Performs ceiling division by two on the total count of messages received.  The number computed is the midpoint of the count of stored values.  Division by two as a special case does not require an additional rule, unlike for the general case, as seen when computing the mean in \vref{sec:cps:mean}.  When the dividend is an even number, there is no remainder.  When the dividend is an odd number, the single \(\cpundig\) remainder works appropriately to round the result to ceiling division.
+    \item Performs ceiling division by two on the total count of messages received.  The number computed is the midpoint of the count of stored values.  Division by two as a special case does not require an additional rule, unlike for the general case, as seen when computing the mean in \vref{sec:median:mean}.  When the dividend is an even number, there is no remainder.  When the dividend is an odd number, the single \(\cpundig\) remainder works appropriately to round the result to ceiling division.
     \item Along with \cpruleref{rule:medianfilter:diffidx}, this carries out the central part of the median filtering process.  All \(t\) terms are compared against all \(s\) terms, and a copy of the unary digit is added to one or the other of them in the index (final) value.  This rule works for when the stored values from each neighbour are different, and thus for each pair, one is strictly greater than the other.
     \item Along with \cpruleref{rule:medianfilter:lessthan}, this carries out the central part of the median filtering process.  All \(t\) terms are compared against all \(s\) terms, and a copy of the unary digit is added to one or the other of them in the index (final) value.  There is no guarantee in general that there will not be more than one instance of the same value.  For current purposes, a strict total ordering can be imposed by using the label of the neighbour which sent the value.  Every stored value has a unique label (from a given pixel's perspective) for its originating pixel.  In the case of equal values, the value received from the neighbour with the greater ID gains the unary digit.  This effectively reimposes a strict total ordering on the values, and means that one can be selected correctly as the median.
     \item Take the accumulated terms \(t\) from rules \cpruleref*{rule:medianfilter:lessthan} and \cpruleref*{rule:medianfilter:diffidx} and select one of them with an ordering index matching half the number of messages received (computed by \cpruleref{rule:medianfilter:halve}).  The value stored in that term is the median.  This value is copied to an \(r\) object to supply the final result, ending the \gls{tlc}'s evolution.
 \end{enumerate}
 
-\subsection{Definition of terms}
+\subsection{Definition of Terms}
 \paragraph{Atoms}
 \begin{description}
 \cptermdef{\cpundig}{\gls{cps} unary digit (see \vref{sec:cps:natnums}).}
@@ -73,7 +77,7 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{\glsentrytext{cps} Example}
+\section{\glsfmtname{cps} Example}
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
@@ -122,7 +126,7 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
 \caption{\label{objs:medianfilter:ex5}Objects inside an arbitrary \gls{tlc} at the end of step 5 of the median filtering process.}
 \end{cpobjectsfloat}
 
-Assume that an arbitrary exemplar pixel has four neighbours, represented in \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4}}\), and its value is 6, \(\cpfunc{b}{6}\).  The objects present in the \gls{tlc} at the end of every step are listed in \crefrange{objs:medianfilter:ex0}{objs:medianfilter:ex5}, following the format of the examples in \vref{sec:cps:stats}.  When \cpruleref{rule:medianfilter:antiport} is applied, the pixel gains four new \(s\) and four new \(t\) functors, \(\cpfuncn{s}{2}{8}\) \& \(\cpfuncnn{t}{2}{8}{1}\), \(\cpfuncn{s}{3}{3}\) \& \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncn{s}{4}{6}\) \& \(\cpfuncnn{t}{4}{6}{1}\), \(\cpfuncn{s}{5}{3}\) \& \(\cpfuncnn{t}{5}{3}{1}\).  \(\cpfunc{c}{0}\) becomes \(\cpfunc{c}{4}\).  \cpRuleref{rule:medianfilter:storeown} adds \(\cpfuncn{s}{1}{6}\) \& \(\cpfuncnn{t}{1}{6}{1}\), and \(\cpfunc{c}{4}\) becomes \(\cpfunc{c}{5}\).
+Assume that an arbitrary exemplar pixel has four neighbours, represented in \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4}}\), and its value is 6, \(\cpfunc{b}{6}\).  The objects present in the \gls{tlc} at the end of every step are listed in \crefrange{objs:medianfilter:ex0}{objs:medianfilter:ex5}, following the format of the examples in \vref{sec:median:stats}.  When \cpruleref{rule:medianfilter:antiport} is applied, the pixel gains four new \(s\) and four new \(t\) functors, \(\cpfuncn{s}{2}{8}\) \& \(\cpfuncnn{t}{2}{8}{1}\), \(\cpfuncn{s}{3}{3}\) \& \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncn{s}{4}{6}\) \& \(\cpfuncnn{t}{4}{6}{1}\), \(\cpfuncn{s}{5}{3}\) \& \(\cpfuncnn{t}{5}{3}{1}\).  \(\cpfunc{c}{0}\) becomes \(\cpfunc{c}{4}\).  \cpRuleref{rule:medianfilter:storeown} adds \(\cpfuncn{s}{1}{6}\) \& \(\cpfuncnn{t}{1}{6}{1}\), and \(\cpfunc{c}{4}\) becomes \(\cpfunc{c}{5}\).
 
 Rules \cpruleref*{rule:medianfilter:halve}, \cpruleref*{rule:medianfilter:lessthan}, and \cpruleref*{rule:medianfilter:diffidx} all now execute at the same step.  \cpRuleref{rule:medianfilter:halve} divides \(c\) by 2, creating \(\cpfunc{c}{3}\).  \cpRuleref{rule:medianfilter:lessthan} compares the \(s\) and \(t\) terms where the pixel (central) value is different, while \cpruleref{rule:medianfilter:diffidx} compares the \(s\) and \(t\) terms where the pixel value is the same.  The operation of \cpruleref{rule:medianfilter:lessthan} alone would produce \(\cpfuncnn{t}{1}{6}{3}\), \(\cpfuncnn{t}{2}{8}{5}\), \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncnn{t}{4}{6}{3}\) and \(\cpfuncnn{t}{5}{3}{1}\).  This is insufficient to choose the median.
 

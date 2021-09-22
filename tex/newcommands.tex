@@ -10,7 +10,7 @@
     {
         text={#2},
         long={#3},
-        name={\glsentrylong{#1-glossary} (\glsentrytext{#1-glossary})},
+        name={\Glsentrylong{#1-glossary} (\glsentrytext{#1-glossary})},
         description={#4},
         sort={#3}
     }
@@ -30,17 +30,6 @@
 %%%%  These ones are used in the NMP stuff %%%%
 %%%%  (Should probably just be eliminated now...)  %%%%
 
-% \newcommand*{\cpvv}[3]{\cpfuncnn{v}{#1}{#2}{#3}}
-% \newcommand*{\cpvvbf}[3]{\cpfuncnn{\mathbf{v}}{#1}{#2}{#3}}
-
-% \newcommand*{\cpvw}[3]{\cpfuncnn{w}{#1}{#2}{#3}}
-% \newcommand*{\cpvwbf}[3]{\cpfuncnn{\mathbf{w}}{#1}{#2}{#3}}
-
-% \newcommand*{\cpvq}[2]{\cpfuncn{v}{#1}{#2}}
-% \newcommand*{\cpvqbf}[2]{\cpfuncn{\mathbf{v}}{#1}{#2}}
-
-% \newcommand*{\cpvqw}[2]{\cpfuncn{w}{#1}{#2}}
-
 \newcommand*{\cpvv}[3]{\cpfuncnn{v}{#1}{#2}{#3}}
 \newcommand*{\cpvvbf}[3]{\cpfuncnn{\mathbf{v}}{#1}{#2}{#3}}
 
@@ -55,32 +44,21 @@
 %%%%%%%%%%%%% Theorem declarations %%%%%%%%%%%%%%%%%%
 
 \newtheorem{theorem}{Theorem}[chapter]
-% \newcommand{\theoremautorefname}{Theorem}
 \newtheorem{proposition}[theorem]{Proposition}
-% \newcommand{\propositionautorefname}{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
-% \newcommand{\lemmaautorefname}{Lemma}
 \newtheorem{conjecture}[theorem]{Conjecture}
-% \newcommand{\conjectureautorefname}{Conjecture}
 \crefname{conjecture}{conjecture}{conjectures}
 % \begin{anfxerror}
 % Need to remember to come back to this one and set it appropriately - I don't think it should be following the standard newtheorem style
 % \end{anfxerror}
 \newtheorem{remark}[theorem]{Remark}
-% \newcommand{\remarkautorefname}{Remark}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%  Random other shorthands  %%%%%%%%%%%%%%%%%%%%%%%
-% \newcommand*{\etc}{\textit{et cetera.}}
 
 \newcommand*{\csharp}{C\nolinebreak\hspace{-.05em}\raisebox{.3ex}{\tiny{\textbf{\#}}}}
 \newcommand*{\fsharp}{F\nolinebreak\hspace{-.05em}\raisebox{.3ex}{\tiny{\textbf{\#}}}}
 
 \newcommand*{\bigoh}[1]{O(\ensuremath{#1})}
-
-\newcommand*{\maxpar}{maximally-parallel}
-
-% \crefname{cprulesetfloat}{ruleset}{rulesets}
-% \crefname{cpobjectsfloat}{objects group}{objects groups}

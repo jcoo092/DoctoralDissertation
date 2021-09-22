@@ -1,5 +1,5 @@
 %-----------------------------------------------------------------------------------
-\section{Complex symbols as subcells}
+\section{Complex Symbols as Subcells}
 %-----------------------------------------------------------------------------------
 
 \emph{Complex symbols} or \emph{subcells}, 
@@ -22,7 +22,6 @@ The basic vocabulary consists of atoms and \emph{variables}, collectively known 
     \bnfprod*{symbol}{\bnfpn{atom} \bnfor \bnfpn{variable} \bnfor \bnfpn{term}}\\
     \bnfprod*{term}{\bnfpn{functor} \bnfsp \bnfts{`('} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`)'}}\\
     \bnfprod*{functor}{\bnfpn{atom}}\\
-    % \bnfprod*{argument}{\bnfes \bnfor \bnfts{(} \bnfsp \bnfpn{symbol} \bnfsp \bnfts{)} \bnfts{+}}
     \bnfprod*{argument}{\bnfes \bnfor \bnfsp \bnfpn{symbol} \bnfsp \bnfts{+}}
 \end{bnf*}
 \end{small}
@@ -62,8 +61,6 @@ by removing inner \(\cpempty\)'s as explicit references to the empty multiset,
 In \emph{concrete} models, cells contain ground symbols only.
 Rules may, however, contain \emph{any} kind of symbols, atoms, variables, and terms (whether ground or not).
 
-% \medskip
-% \noindent
 %-------------------------------------------------------
 \subsection{\label{sec:cps:unification}Unification} 
 %-------------------------------------------------------
@@ -96,10 +93,8 @@ For example:
 \(X, Y = \cpempty, df\); \(X, Y = df, \cpempty\); \(X, Y = d, f\); \(X, Y = f, d\). 
 \end{itemize}
 
-% \iffalse
-% \noindent
 %-----------------------------------------
-\subsubsection{Performance note.}
+\subsubsection{Performance Note}
 %-----------------------------------------
 If the rules avoid any matching non-determinism, 
 this proposal should not affect the performance of \gls{ps} simulators running on existing machines.
@@ -110,6 +105,5 @@ Prolog unification algorithms can run in \(O(n g(n))\) steps,
 where \(g\) is the inverse Ackermann function.
 This conjecture must be proven, though, 
 as the novel presence of multisets may affect the performance.
-% \fi
 
 % -------------------------------------------------

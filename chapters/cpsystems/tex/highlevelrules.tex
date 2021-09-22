@@ -1,10 +1,9 @@
 %-----------------------------------------------------------------------------------
-\section{High-level or generic rules}
+\section{High-level or Generic Rules}
 %-----------------------------------------------------------------------------------
 
-% \noindent
 %-------------------------------------------------------
-\subsection{\label{sec:cps:genericrules}Generic rules format}
+\subsection{\label{sec:cps:genericrules}Generic Rules Format}
 %-------------------------------------------------------
 Consider rules of the following \emph{generic} format 
 (called generic because it defines templates involving variables):
@@ -33,18 +32,9 @@ indicates the application mode, discussed further in \cref{sec:cps:applicationmo
 
 \smallskip
 \item \textit{out-symbols} are sent to the cell's structural neighbours at the end of the step.
-% These symbols are enclosed in round parentheses that indicate 
 These symbols are enclosed in angle brackets that indicate 
 their \fxerror{Should this be moved to an ``intra-\gls{tlc} messaging'' section?}{destinations}, abbreviated above as \(\delta\). 
 The most usual scenarios include: 
-
-% \begin{itemize}
-% \item \((a)\downarrow_i\) indicates that \(a\) is sent over outgoing arc \(i\) (unicast); 
-
-% \item \((a)\downarrow_{i,j}\) indicates that \(a\) is sent over outgoing arcs \(i\) and \(j\)(multicast); 
-
-% \item \((a)\downarrow_\forall\) indicates that \(a\) is sent over all outgoing arcs (broadcast). 
-% \end{itemize}
 
 \begin{itemize}
 \item \(\cpoutsymbol{a}{i}\) indicates that \(a\) is sent over outgoing arc \(i\) (unicast); 
@@ -57,10 +47,8 @@ The most usual scenarios include:
 All symbols sent via one \emph{generic rule} to the same destination form one single \emph{message}, and they travel together as one single block (even if the generic rule is applied in mode \(\cpmaxpar\)).
 \end{itemize}
 
-% \smallskip
-% \noindent
 %-------------------------------------------------------
-\subsection{Pattern matching}
+\subsection{Pattern Matching}
 %-------------------------------------------------------
 \fxerror{Should this be combined with the unification section above?}{Rules are matched against cell contents using the aforementioned \emph{pattern matching},
 which involves the rule's \emph{\gls{lhs}}, promoters and inhibitors.}
@@ -92,10 +80,8 @@ the rule's \gls{rhs} gives the \emph{new content}: \\
 \(\cpfunc{v}{a} ~ \cpfunc{n}{b \, \cpfunc{\phi}{d} \, \cpfunc{\psi}{c}} ~ \cpfunc{v}{e}\)
 \end{itemize}
 
-% \smallskip
-% \noindent
 %-------------------------------------------------------
-\subsection{\label{sec:cps:prominhi}Promoters and inhibitors}
+\subsection{\label{sec:cps:prominhi}Promoters and Inhibitors}
 %-------------------------------------------------------
 
 Promoters are objects that \emph{must} be present within the cell for the rule to be applicable but are \emph{not} destroyed by the rule.  Conversely, inhibitors are objects that \emph{must not} be present for the rule to be applicable, although the rule may create them.  If promoters are present, they are denoted following a \(|\) per promoter, and inhibitors by \(\neg\), \eg{} \(|\,\cpfunc{a}{A}\) or \(\neg\,\cpfunc{b}{B}\).  Inhibitors and promoters are traditionally written below the main rule body, but this is not strictly required.
@@ -147,11 +133,8 @@ Unification (2b) fails the inhibitor test because it generates all three followi
 (2b1) \(X, Y = cc, \cpempty\); (2b2) \(X, Y = \cpempty, cc\); (2b3) \(X, Y = c, c\); 
 and there \emph{is} a cell term corresponding to (2b3), \(\cpfunc{a}{c}\).
 
-% \smallskip
-% \noindent
-% \subsection{Application modes -- \(\cponce\) and \(\cpmaxpar\).}
 %-------------------------------------------------------
-\subsection{\label{sec:cps:applicationmodes}Application modes: exactly-once and maximally-parallel}
+\subsection{\label{sec:cps:applicationmodes}Application Modes: Exactly-once and Maximally-parallel}
 %-------------------------------------------------------
 To explain the two rule application modes, \(\cponce\) and \(\cpmaxpar\) -- referred to as \emph{exactly-once} and \emph{maximally-parallel} respectively -- consider a cell, \(\sigma\), containing three counter-like complex symbols,
 \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^3}\),
@@ -192,8 +175,6 @@ Semantically, the \(\cpmaxpar\) mode is equivalent to a virtual sequential \text
 
 Like most other \gls{ps} variants, \gls{cps} ordinarily evolve synchronously in a stepwise fashion following an implicit global clock.  Rules are applied based on whether the available multiset(s) within the system match the rules' \gls{lhs} and promoters, and not the inhibitors.  The consumption of removed objects plus the creation of new objects happens instantaneously at the end of a step.
 
-% \smallskip
-% \noindent
 %-------------------------------------------------------
 \subsection{Benefits}
 %-------------------------------------------------------
@@ -204,10 +185,8 @@ This type of generic rules allows
 independent of the size of the problem and the number of cells in the system (often \emph{impossible} with only atomic symbols).
 \end{inparaenum}
 
-% \smallskip
-% \noindent
 %-------------------------------------------------------
-\subsection{Special cases}
+\subsection{Special Cases}
 %-------------------------------------------------------
 Simple scenarios involving generic rules are sometimes 
 semantically equivalent to sets of nongeneric rules defined via bounded loops.
@@ -226,13 +205,39 @@ s_1 ~ a_{i,j} ~ \rightarrow s_2 ~ b_i ~ c_j, ~ \forall i \in [1,n], j \in [1,m].
 However, unification is a much more powerful concept, 
 which cannot be reduced generally to simple bounded loops.
 
-% \smallskip
-% \noindent
 %-------------------------------------------------------
-\subsection{Synchronous vs asynchronous}
+\subsection{\label{sec:cps:syncasync}Synchronous vs Asynchronous}
 %-------------------------------------------------------
+% \gls{cps}' models do not make any \emph{syntactic} difference between synchronous and asynchronous scenarios;
+% this is strictly a \emph{runtime} assumption~\cite{Nicolescu2012}.
+% Any model can run on both the synchronous and asynchronous runtime ``engines'',
+% albeit the results may differ.
+% The asynchronous model conceptually closely matches the standard definition of asynchronicity used in distributed computing \cite{Balanescu2011,Nicolescu2014}, and \emph{not} the definition of asynchronicity followed in \cite{Cavaliere2009,Frisco2012,Song2013} and related.  This asynchronous concept differs from the synchronous one primarily in three key respects:
+% \begin{inparaenum}[(1)]
+% \item There is \emph{no} concept of a global clock.  Each step for a given \gls{tlc} begins after an arbitrary delay;
+% \item Each step for a \gls{tlc} takes zero time.  That is, `internal' evolution of the \gls{tlc} is instantaneous, once the step has begun after the aforementioned delay;
+% \item Messages sent between \glspl{tlc} via channels take a random non-zero length of time to travel along the channel.
+% \end{inparaenum}
+
+% \citeauthor{Fokkink2013} says of asynchronous communications: \textcquote[][p.~7]{Fokkink2013}{\textelp{} that sending and receiving a message are distinct events at the sending and receiving \textdel{process}\textins{\glspl{tlc}}, respectively. The delay of a message in a channel is arbitrary but finite.}
+
+% \begin{anfxerror}{Still need to tidy up this section!}
+% Include a definition of asynchronous from distributed computing — probably hunt for something in Lynch's book.
+% \end{anfxerror}
+
 \gls{cps}' models do not make any \emph{syntactic} difference between synchronous and asynchronous scenarios;
 this is strictly a \emph{runtime} assumption~\cite{Nicolescu2012}.
 Any model can run on both the synchronous and asynchronous runtime ``engines'',
 albeit the results may differ.
-The asynchronous model matches closely the standard definition of asynchronicity used in distributed algorithms, but this \namecref{chap:cpsystems} does not follow this topic further.
+The asynchronous model conceptually closely matches the standard definition of asynchronicity used in distributed computing \cite{Balanescu2011,Nicolescu2014}, and \emph{not} the definition of asynchronicity followed in \cite{Cavaliere2009,Frisco2012,Song2013} and related.  This asynchronous concept differs from the synchronous one primarily in three key respects:
+\begin{inparaenum}[(1)]
+\item There is \emph{no} concept of a global clock.  Each step for a given \gls{tlc} begins after an arbitrary delay;
+\item Each step for a \gls{tlc} takes zero time.  That is, `internal' evolution of the \gls{tlc} is instantaneous, once the step has begun after the aforementioned delay;
+\item Messages sent between \glspl{tlc} via channels take a random non-zero length of time to travel along the channel.
+\end{inparaenum}
+
+\citeauthor{Fokkink2013} says of asynchronous communications: \textcquote[][p.~7]{Fokkink2013}{\textelp{} that sending and receiving a message are distinct events at the sending and receiving \textdel{process}\textins{\glspl{tlc}}, respectively. The delay of a message in a channel is arbitrary but finite.}
+
+\begin{anfxerror}{Still need to tidy up this section!}
+Include a definition of asynchronous from distributed computing — probably hunt for something in Lynch's book.
+\end{anfxerror}

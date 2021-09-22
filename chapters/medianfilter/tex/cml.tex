@@ -10,8 +10,6 @@ All three algorithms were benchmarked using a variety of image and window sizes.
 
 \begin{table}
 \centering
-\caption{List of pixel counts for each image used}
-\label{tab:median:pixelcounts}
 \begin{tabular}{@{}lccc@{}}
 \toprule
 \textbf{Image} & \multicolumn{1}{c}{\textbf{Width (px)}} & \multicolumn{1}{c}{\textbf{Height (px)}} & \multicolumn{1}{c}{\textbf{Total pixels (px)}} \\ \midrule
@@ -20,9 +18,11 @@ peppers                            & 512                                     & 5
 small                              & 640                                     & 426                                      & 272,640                                        \\
 medium                             & 1280                                    & 853                                      & 1,091,840                                      \\ \bottomrule
 \end{tabular}
+\caption{List of pixel counts for each image used}
+\label{tab:median:pixelcounts}
 \end{table}
 
-\subsection{Operation of algorithms}
+\subsection{Operation of Algorithms}
 The naïve algorithm used a simple nested \texttt{for loop} approach.  For every pixel in the image, an array was declared with length equal to the total size of the window, and then nested \texttt{for loop}s spanning that size were used to iterate over the pixels in the window and collect their intensity values into the array.  Each array was then processed to determine the median, with the result returned as the value for that pixel in the new image.
 
 The Bräunl-inspired algorithm used here does not precisely match that of \cite{Braunl2001}, primarily because it was unclear how boundary conditions were handled there, but also because the book's algorithm assumed a 3×3 window.  It sits roughly between the other two approaches, in that it simply reads the value of neighbouring horizontal pixels from an array then sends that list to its vertical neighbours to combine and find the median.  This functionality was replicated in the implementation insofar as possible, but the book's algorithm assumes the use of the domain-specific language Parallax, which automatically operates on whole images.
@@ -45,8 +45,6 @@ To provide a rough estimate of the effects of the median filtering, a copy of ea
 
 \begin{table}
 \centering
-\caption[Mean runtimes for each algorithm for the `very small' image]{Mean runtimes for each algorithm by window size for the `very small' image}
-\label{tab:median:verysmall}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Mean time for each window size (ms)}} \\
@@ -55,12 +53,12 @@ Naïve                         & 1.623    & 3.983     & 7.578     & 12.483    & 
 Bräunl                        & 5.462    & 10.195    & 15.973    & 22.807    & 31.843   \\
 \gls{cml}                           & 50.588   & 118.463   & 212.817   & 299.339   & 510.526  \\ \bottomrule
 \end{tabular}
+\caption[Mean runtimes for each algorithm for the `very small' image]{Mean runtimes for each algorithm by window size for the `very small' image}
+\label{tab:median:verysmall}
 \end{table}
 
 \begin{table}
 \centering
-\caption[Mean runtimes for each algorithm for the `peppers' image]{
-\label{tab:median:peppers}Mean runtimes for each algorithm by window size for the `peppers' image}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Mean time for each window size (ms)}}  \\
@@ -69,6 +67,8 @@ Naïve                         & 36.474  & 77.122    & 144.854   & 232.750   & 3
 Bräunl                        & 108.436 & 206.336   & 296.717   & 463.857   & 592.056    \\
 \gls{cml}                           & 791.285 & 2,333.317 & 4,452.903 & 7,533.048 & 11,237.458 \\ \bottomrule
 \end{tabular}
+\caption[Mean runtimes for each algorithm for the `peppers' image]{
+\label{tab:median:peppers}Mean runtimes for each algorithm by window size for the `peppers' image}
 \end{table}
 
 \begin{table}
@@ -103,8 +103,6 @@ Bräunl                                 & 589.431
 
 \begin{table}
 \centering
-\caption[Ratios runtime for the Bräunl algorithm vs the naïve algorithm]{Ratios of length of runtime for the Bräunl algorithm compared to the naïve algorithm for the same image and window sizes}
-\label{tab:median:ratbraun}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
 \textbf{Image} & \multicolumn{5}{c}{\textbf{Window Size}} \\
@@ -114,6 +112,8 @@ peppers        & 2.98   & 2.68   & 2.05   & 2.00     & 1.62  \\
 small          & 3.32   & 2.86   & 2.21   & 2.04  & 1.83  \\
 medium         & 4.51   & 3.12   & 2.61   & 2.15  & 1.80   \\ \bottomrule
 \end{tabular}
+\caption[Ratios runtime for the Bräunl algorithm vs the naïve algorithm]{Ratios of length of runtime for the Bräunl algorithm compared to the naïve algorithm for the same image and window sizes}
+\label{tab:median:ratbraun}
 \end{table}
 
 \begin{table}
@@ -183,7 +183,7 @@ Naïve	11	very-small	18.933	0.123	0.115	18.896	18.823	1	0	1718.75	187.5	-	23.9
 \centering
 \begin{tikzpicture}
 \begin{semilogyaxis}[
-	xlabel=Window Size,
+	xlabel={Window Size},
     ylabel=Mean Runtime (ms),
     legend pos=north west,
     %xmin=3,
@@ -381,7 +381,7 @@ Naïve	11	medium	1361.629	27.108	31.217	1350.193	1344.088	1	0	131000	4000	1000	1
 
 \begin{table}
 \centering
-\caption[Peak signal-to-noise for the very small image]{Peak signal-to-noise ratio for the very small image (measured in decibels)}
+\caption[Peak signal-to-noise for the very small image]{Peak signal-to-noise ratio for the very small image (measured in \unit{\decibel})}
 \label{tab:median:psnrvsmall}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
@@ -395,7 +395,7 @@ Naïve                                  & \textbf{27.03} & 21.74          & 18.5
 
 \begin{table}
 \centering
-\caption[Peak signal-to-noise for the peppers image]{Peak signal-to-noise ratio for the peppers image (measured in decibels)}
+\caption[Peak signal-to-noise for the peppers image]{Peak signal-to-noise ratio for the peppers image (measured in \unit{\decibel})}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Window size}}                                          \\
@@ -409,7 +409,7 @@ Naïve                                  & \textbf{32.79} & \textbf{31.25} & \tex
 
 \begin{table}
 \centering
-\caption[Peak signal-to-noise for the small image]{Peak signal-to-noise ratio for the small image (measured in decibels)}
+\caption[Peak signal-to-noise for the small image]{Peak signal-to-noise ratio for the small image (measured in \unit{\decibel})}
 \label{tab:median:psnrsmall}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
@@ -423,7 +423,7 @@ Naïve                                  & \textbf{37.83} & \textbf{34.31} & \tex
 
 \begin{table}
 \centering
-\caption[Peak signal-to-noise for the medium image]{Peak signal-to-noise ratio for the medium image (measured in decibels)}
+\caption[Peak signal-to-noise for the medium image]{Peak signal-to-noise ratio for the medium image (measured in \unit{\decibel})}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Window size}}                                           \\
@@ -451,7 +451,6 @@ Basic profiling of the \gls{cml}-based implementation appears to show that more 
 
 \Glspl{mwt} are generally relatively simplistic processes, typically consisting simply of combining values from the pixel array, and which can be programmed in a straightforward fashion.  More sophisticated programming techniques may simply `get in the way' and introduce unnecessary overheads, which appears to have happened here.  Furthermore, the \gls{medianfilter} can largely be broken down into arithmetic and logical operations amenable to vectorisation (\eg{} \cite{Sanchez2012,Perreault2007}), which the \gls{cml} approach currently ignores entirely.
 
-% \subsection{Threats to validity}
 \subsection{Experimental Limitations}
 There are two identifiable threats to validity, both regarding the `quality' of the programming involved.  .NET Core, as a widely used open-source compiler and runtime system, and which has likely had millions of man-hours invested in it, is presumably of high quality and fast in most cases.  That is not necessarily the case with \hopac{}.  While it is open source, and moderately well-known in the \fsharp{} community, the amount of time spent on optimising it is likely nowhere close to that spent on .NET Core.  Consequently, \hopac{} itself may present significant bottlenecks while performing the \gls{mwt}.
 

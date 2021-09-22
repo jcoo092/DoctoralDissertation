@@ -1,11 +1,15 @@
-\section{\label{sec:nmp:pespecific}\texorpdfstring{\Glsentrylong{pe}}{Proxel}-specific asynchronous messaging}
+\section{\label{sec:nmp:pespecific}Processing Element-specific Asynchronous Messaging}
 % \cpresetrulenumber
 
-This \namecref{sec:nmp:pespecific} presents a variant of the above system where the rules are applied in a \gls{pe}-specific manner and the \glspl{pe} run \emph{asynchronously} \cite{Balanescu2011,Nicolescu2014} (the concept of asynchronicity used here is different to that of \cite{Cavaliere2009,Frisco2012,Song2013} and related) so that the steps of one \gls{pe} do not necessarily occur contemporaneously with those of another.\footnote{In this form, \gls{nmp} shares some obvious similarities with the Actor model (\cref{subsec:lr:actors}) and Communicating Sequential Processes (\cref{subsec:lr:csp}).}  
+This \namecref{sec:nmp:pespecific} presents a variant of the above system where the rules are applied in a \gls{pe}-specific manner and the \glspl{pe} run \emph{asynchronously} \cite{Balanescu2011,Nicolescu2014}, so that the steps of one \gls{pe} do not necessarily occur contemporaneously with those of another.\footnote{In this form, \gls{nmp} shares some obvious similarities with \Gls{csp} (\cref{subsec:lr:csp}), \Glspl{actor} (\cref{subsec:lr:actors}) and \Glspl{pram} (\cref{sec:lr:othermodels}).}  
 
 There is no longer a single state spanning the entire system.  Instead, each \gls{pe} has its own state dictating its operation individually.  The same conceptual phases are kept, though the \gls{oq} and \gls{nm} phases are combined because they now may occur interleaved.  During the \gls{oq} \& \gls{nm} phase, each \gls{pe} independently works through a series of \label{pg:nmp:rounds}\emph{rounds}, following the typical idea of a round in theoretical asynchronous systems:  The \gls{pe} receives one or more messages, processes the received messages and updates its internal data, then sends out new messages based on the results.
 
-The most significant change from \cref{sec:nmp:systemwide} is perhaps the use of \emph{receipt tokens}.  Receipt tokens show that the \gls{pe} has received a message from a particular neighbour since the last time messages were sent.  This is vital to ensure that the correct number of messages are sent, and sent only after receiving appropriate messages from other neighbours.  Initialisation of the \glspl{pe} also differs slightly from \cref{sec:nmp:systemwide}.  Along with the channels, each \gls{pe} also starts with an adjacency list object, \(\cpfunc{a}{A}\), which holds a copy of the atoms for each neighbour/channel.
+The most significant change from \cref{sec:nmp:systemwide} is the use of \emph{receipt tokens} and \emph{generation counts}.  Receipt tokens show that the \gls{pe} has received a message from a particular neighbour since the last time messages were sent.  This is vital to ensure that the correct number of messages are sent, and sent only after receiving appropriate messages from other neighbours.
+
+In the \gls{gs} system, the received messages used to update the outgoing messages could always be assumed to have been sent during the same round as each other.  This is not the case under the asynchronous system, where a message may be sent out (and thus received) as soon as the necessary input messages have been received.  This has the potential to messages being used out-of-order, where a message from what would have been an earlier `round' is re-used inappropriately.  Thus, these messages are now tagged with a round number, termed here a \emph{generation} because each outgoing message is essentially the direct progeny of the messages received at the last generation.
+
+The other change of note is that initialisation of the \glspl{pe} also differs slightly from \cref{sec:nmp:systemwide}.  Along with the channels, each \gls{pe} also starts with an adjacency list object, \(\cpfunc{a}{A}\), which holds a copy of the atoms for each neighbour/channel.
 
 \begin{figure}
     \centering
@@ -160,7 +164,7 @@ Per the tuple definition from \cref{sec:cps:formaldescriptions}:
         \cprule[rule:nmp:proxspec:end]{s_8}{\cprecv{\cpfunc{z}{Z}}{o}}{\cpundig}{s_9}{\cpsend{\cpfunc{z}{Z}}{e}}
         
     \end{cpruleset}
-    \caption[\Gls{ruleset} for the \glsentrytext{fne} \glsentrytext{pe}-specific asynchronous \glsentrytext{nmp} system, for an inner \glsentrytext{pe}]{\label{ruleset:nmp:proxspec}\Gls{ruleset} for the \gls{fne} \gls{pe}-specific asynchronous \gls{nmp} system, for an inner \gls{pe} (\ie{} one not on the border) and using an oracle to compute the data for outgoing messages}
+    \caption[\Gls{ruleset} for the \glsfmttext{fne} \glsxtrshort{pe}-specific asynchronous \glsfmttext{nmp} system, for an inner \glsxtrshort{pe}]{\label{ruleset:nmp:proxspec}\Gls{ruleset} for the \gls{fne} \gls{pe}-specific asynchronous \gls{nmp} system, for an inner \gls{pe} (\ie{} one not on the border) and using an oracle to compute the data for outgoing messages}
 \end{cprulesetfloat}
 
 \begin{enumerate}
@@ -208,7 +212,7 @@ The same as in \cref{sec:nmp:systemwide}.
     \cptermdef{s_9}{Equivalent to state \(s_7\) in \cref{sec:nmp:systemwide}.}
 \end{description}
 
-\subsection{\label{sec:nmp:ruleslessthanfour}Rules for \glsentrytext{fne} \glsentrytext{pe}s with fewer than four neighbours}
+\subsection{\label{sec:nmp:ruleslessthanfour}Rules for \glsfmtname{fne} \Glsfmtshortpl{pe} with Fewer Than Four Neighbours}
 
 \Cref{ruleset:nmp:proxspec} considers only the case where a \gls{pe} has exactly four neighbours.  This does not work correctly for those \glspl{pe} with three neighbours (\ie{} on the grid border, but not in a corner) or two neighbours (\ie{} in a grid corner).  The only adjustment necessary to handle these edge cases is to change the number of neighbours considered, specifically in \cpruleref{rule:nmp:proxspec:makews}.
 

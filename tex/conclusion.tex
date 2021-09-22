@@ -1,37 +1,91 @@
-\chapter{Conclusion}
+\chapter{\label{chap:conc}Conclusion}
 
-\fxerror{Need to write a proper conclusion}{I did some stuff!}
+% \section{Summary}
+% \fxerror{Need to write a proper conclusion}{I did some stuff!}
+As suggested by the title, this dissertation has focused on highly concurrent solutions to computing problems.  These are, broadly, considered to be challenging problems (in the exact case at least) for modern computers, but the high levels of concurrency -- combined with taking advantage of the unbounded memory space of \gls{mc} -- can significantly reduce the time complexity of them.  Each solution requires either constant time, or linear time dependent on a core aspect of the problem.
+
+The specific problems addressed were:
+\begin{inparaenum}[(1)]
+\item The Hamiltonian Path/Cycle Problem and \gls{tsp};
+\item The \gls{gcp};
+\item Image \gls{medianfilter}ing; and,
+\item \gls{nmp}.
+\end{inparaenum}
+The first three are well-known problems with histories stretching back decades.  The last, \gls{nmp}, is (to the best of the author's knowledge) newly abstracted out from \gls{lbp}, initially motivated by attempts to model in \gls{cps} a pre-existing algorithm to perform \gls{lbp} for \gls{sm}.
+
+The \glspl{ruleset} for the first three problems require \emph{no} customisation or adjustment for a given problem.  They only require that the problem to be solved is adequately specified, and the rules handle everything from there.  This is unlike solutions seen often in other forms of \gls{ps}, where a uniform or semi-uniform family of rules is defined, requiring some (potentially significant) level of pre-processing before the \glspl{ps} is applied to find the solution.  Even in the case of \gls{fne} \gls{nmp}, the level of customisation is limited to assigning a reduced \gls{ruleset} derived from the base one to the \gls{pe} with fewer than four neighbours, \ie{} those on the edge or in the corner of the grid.
+
+The various systems presented were investigated experimentally, using a variety of approaches.  Direct translations of the \gls{tsp} algorithm were implemented in three different programming languages, namely \fsharp{}, Erlang and Prolog.  All three worked well for small graphs, but quickly grew to consume more memory than the test system had available.  The Prolog implementation was notable, however, for being an extremely close match to the specified \gls{cps} \gls{ruleset}, requiring only 17 lines (including whitespace) to specify the complete system.
+
+The algorithm to solve the \gls{gcp} was translated into a communicative system using an implementation of \gls{cml}, Hopac in \fsharp{}.  While the implementation worked well, it also highlighted the fact that there was, in fact, relatively little communication involved, and the system had more in common with the \gls{tsp} implementation than first presumed.  Comparing the results from the simulation on various graphs against using an earlier \gls{skps} solution on \gls{mecosim} suggested that -- as largely expected due to the nature of the \adhoc{} vs general simulations (see \vref{sec:lr:simulators}) -- the \gls{cps} performed better.  Doing so also revealed a curious behaviour of \gls{mecosim}, where two almost-identical graphs produced wildly different runtime characteristics, though this was not investigated further.
+
+Building atop the overview of \gls{cps} provided in \cref{chap:cpsystems}, \glspl{ruleset} to perform a variety of statistical operations were detailed in \cref{chap:median}.  All of these rulesets have a constant time complexity, \ie{} they are \bigoh{1}.  They also can be used as primitives and composed together to create further operations, as demonstrated in \eg{} \cref{sec:median:mean,sec:median:mode,sec:median:selection}.  The practical application and combination of these rules was then demonstrated by defining a ruleset to perform \gls{medianfilter}ing on a grid representing an image.  Different approaches to implementing the \gls{medianfilter}, including one based on communicative pixels like with the \gls{cps} solution using \gls{cml}, were experimented with.  In this instance, the \gls{cml} implementation performed much worse overall than the other two styles, both in terms of running time and clarity of code --- at least when running on a conventional CPU.
+
+While the development of \gls{nmp} in \cref{chap:nmp} was initially based on attempting to model \gls{lbp} in \gls{cps}, the \gls{nmp} variants presented generalise beyond \gls{lbp}.  In particular, \cref{chap:nmp} presented a generic framework for the messaging aspect, but did not prescribe the internal computations each \gls{pe} should perform.  Instead, an oracle was substituted to stand in for that part of the process, with the intention that the oracle be replaced as appropriate for a given problem.  The distinguishing characteristic of \gls{nmp} compared to other messaging schemes is that each message a \gls{pe} sends to a given neighbour depends upon the messages received from each of the other neighbours.  The initial focus of the work was on deriving the asynchronous variant from the original \gls{gs} approach, and the \gls{ls} arose naturally out of this effort.
+
+The difference between each of the \gls{gs}, \gls{ls} and asynchronous \gls{nmp} variants is when a \emph{round} begins and ends for them, \ie{} when they prepare and send new messages based on the messages received earlier.  The \gls{gs} variant waits until every \gls{pe} in the lattice has received all of its incoming messages for the next generation before moving to preparing and sending new ones.  The \gls{ls} variant makes each \gls{pe} wait until it has received all of its messages for the next generation, but without regard to the status of other \glspl{pe}.  Lastly, the asynchronous variant waits only until it has received the necessary messages to compute the next outgoing message, rather than waiting until it has received all messages of a given generation.
+
+The asynchronous variant in particular was analysed and its behaviour explored.  It was demonstrated that the asynchronous variant sends the same number of messages as the \gls{gs} variant, using information that is at least as recent due to \emph{generational confluence}.  The spread of `influence' from a centre \gls{pe} to others on a grid was also visualised, under differing communications channel conditions and using different formulae to update the messages.
+
+Empirical testing of a simulation of the asynchronous variant in a \gls{fne} grid configuration confirmed that it had the expected messaging behaviour.  Moreover, detailed simulations of each variant showed that the \gls{ls} variant (very nearly) always outperforms the \gls{gs} variant -- typically by a factor of approximately 5-13\%, with the difference typically becoming larger as the size of the lattice and number of processors available both increase -- with no change in the final computed results, while the asynchronous variant is almost always faster again, often by a factor of approximately 10\% compared to the \gls{ls} variant.  The final results computed by it also tend to be extremely similar to the other two variants.
+
+% \begin{anfxerror}
+% Monkey face
+% \end{anfxerror}
+
+\section{Contributions}
+This work makes the following main contributions:
+
+\begin{itemize}
+    \item It provides in \cref{chap:cpsystems} an extensive overview of \gls{cps} as it stands at the time of writing.  This is believed to be the most comprehensive summary to date.
+    \item In \cref{chap:tsp} it presents solutions to the Hamiltonian Path and Cycle Problems, which each require a total of \(n + 2\) steps, where \(n\) is the number of nodes in the graph, with the former needing three \gls{cps} rules and the latter four.  Furthermore, it also builds on the \gls{hcp} solution to solve the Travelling Salesman Problem, requiring only one more step and one more rule than the \gls{hcp}'s solution.  No earlier linear time solution to the \gls{tsp} is known.
+    \item \Cref{chap:gcol} presents a solution the \gls{gcp}, which finds a valid colouring (or declares no valid colouring is possible) using only six rules, with a worst-case time complexity linear to the size of the graph.  Importantly, it works with \emph{any} number of colours, instead of the usual fixed number studied by most of the literature.
+    \item \Glspl{ruleset} for many standard statistical operations on numerical multisets in \gls{cps} were provided in \cref{chap:median}.  These included:
+    \begin{inparaenum}[(i)]
+        \item finding the minimum and maximum;
+        \item counting the number of elements, and counting the frequency of each distinct element;
+        \item finding the sum, mean, and mode;
+        \item sorting; and,
+        \item selecting the \(n^{\text{th}}\) element from a set.
+    \end{inparaenum}
+    All of these besides the minimum and maximum are not known to have been presented earlier.  The application of these rules to the \gls{medianfilter} is also thought to be \fxerror{Is this actually true?}{the first time this particular image operation has been modelled in any form of \gls{ps}.}
+    \item Building on \cref{chap:median}, and taking heavy inspiration from \gls{lbp}, \cref{chap:nmp} investigated message passing between individual \glspl{pe} on a lattice, when each message sent out depends on the messages last received from every neighbour of the preparing \gls{pe} apart from the intended recipient of the current message --- which was termed here ``\glsxtrlong{nmp}''.  Rulesets for \gls{gs}, \gls{ls} and asynchronous messaging approaches were provided.  To the best of the author's knowledge, this is the first time this type of message passing has been modelled directly according to the conceptual \gls{nmp} principles of message passing between \glspl{pe}, as opposed to other more simplistic approaches.  Importantly, this approach is also more general, as it can adapt to any form of connectivity on the lattice, beyond a grid, simply by adjusting the connections between \glspl{pe} appropriately.
+    \item Empirical results assessing the systems described above, implemented to run on relatively common modern computer hardware, are provided.  These results have explored various approaches to translating \gls{cps} to run on said hardware, with varying results.
+\end{itemize}
 
 \section{Future Directions}
 
-\begin{anfxwarning}{Where should this go?}
-    Similar material is also covered in the discussion chapter.  Should much of the below be shifted into there?  Alternatively, should much of the stuff from the discussion chapter move to here?  Should there even be a discussion chapter?
-\end{anfxwarning}
+While this dissertation has explored new areas, it has also pointed to worthwhile future work for \gls{cps}, and creating successful implementations of high concurrency solutions to problems.  A number of the most promising lines of enquiry are described below.
 
-A major theme of this dissertation has been exploiting large-scale parallelism, and concurrency more broadly, to reduce the time complexity of solutions to problems.  Practical implementations of those solutions sometimes provide no measurable benefit over traditional approaches, however.  Developing the capacity to simulate \gls{cps} further, in particular developing more advanced techniques for translating \gls{cps} rules to efficient parallel code, should be a priority if the benefits of \gls{cps} are to be realised.
+% \begin{anfxwarning}{Where should this go?}
+%     Similar material is also covered in the discussion chapter.  Should much of the below be shifted into there?  Alternatively, should much of the stuff from the discussion chapter move to here?  Should there even be a discussion chapter?
+% \end{anfxwarning}
 
-\begin{anfxerror}
-A big challenge to the above is that many of the approaches described in this dissertation assume unbounded near-instantaneous memory, \emph{and} an unbounded number of available processors.
-\end{anfxerror}
+% \begin{anfxwarning}
+% A major theme of this dissertation has been exploiting large-scale parallelism, and concurrency more broadly, to reduce the time complexity of solutions to problems.  Practical implementations of those solutions sometimes provide no measurable benefit over traditional approaches, however.  Developing the capacity to simulate \gls{cps} further, in particular developing more advanced techniques for translating \gls{cps} rules to efficient parallel code, should be a priority if the benefits of \gls{cps} are to be realised.
+% \end{anfxwarning}
+
+% \begin{anfxerror}
+% A big challenge to the above is that many of the approaches described in this dissertation assume unbounded near-instantaneous memory, \emph{and} an unbounded number of available processors.
+% \end{anfxerror}
 
 % \subsection{\glsentrytext{cml}}
 % \Gls{cml} seems like the obvious approach to take from here.\footnote{In fact, considerable time and effort was spent on attempting to identify a suitable \gls{cml} implementation to use for just this purpose.  Unfortunately, in the end, it was found that there was not currently a usable \gls{cml} implementation with appropriate performance available at this time.}
 
-\subsection{`Faked' message passing in shared memory}
+% \subsection{`Faked' Message Passing in Shared Memory}
+% \begin{anfxnote}
+% Roughly, most of the message passing involved here is largely, in effect, just handing around pointers to memory locations.  It would seem that the message passing itself places some overhead in the way of that.  Could there be some way to fake the message passing, so that to the program's writer it looks like an actual message passing implementation, but in reality it is just doing normal updates on mutable memory?  This \emph{might} enable the best of both worlds -- programming the algorithms according to their theory, but running in a highly efficient fashion `under-the-hood'.
+% \end{anfxnote}
 
-\begin{anfxnote}
-Roughly, most of the message passing involved here is largely, in effect, just handing around pointers to memory locations.  It would seem that the message passing itself places some overhead in the way of that.  Could there be some way to fake the message passing, so that to the program's writer it looks like an actual message passing implementation, but in reality it is just doing normal updates on mutable memory?  This \emph{might} enable the best of both worlds -- programming the algorithms according to their theory, but running in a highly efficient fashion `under-the-hood'.
-\end{anfxnote}
+% \fxwarning*{\ }{None of the below were investigated further, due to a lack of time, but they are obvious next steps to look at.}
 
-\fxwarning*{\ }{None of the below were investigated further, due to a lack of time, but they are obvious next steps to look at.}
+% \begin{anfxnote}
+% It is not too clear how to achieve this (if it is indeed possible), but Rust would appear to be a good language to target for it.  Rust is fairly high-performance by default and enables quite a lot of low-level memory manipulation.  Moreover, its move semantics pretty much fit exactly to the concepts used here, and, on the face of it, its macro system would appear to be a convenient way to abstract over many of the details and provide a message passing façade, while actually doing efficient operations behind that.
+% \end{anfxnote}
 
-\begin{anfxnote}
-It is not too clear how to achieve this (if it is indeed possible), but Rust would appear to be a good language to target for it.  Rust is fairly high-performance by default and enables quite a lot of low-level memory manipulation.  Moreover, its move semantics pretty much fit exactly to the concepts used here, and, on the face of it, its macro system would appear to be a convenient way to abstract over many of the details and provide a message passing façade, while actually doing efficient operations behind that.
-\end{anfxnote}
+% \fxwarning*{Look up}{Extended Dataflow Actors?  Or is it Extended Dataflow Architecture?}
 
-\fxwarning*{Look up}{Extended Dataflow Actors?  Or is it Extended Dataflow Architecture?}
-
-\fxerror*{Not entirely sure BSP is relevant here}{See also the Bulk Synchronous Parallel approach.}
+% \fxerror*{Not entirely sure BSP is relevant here}{See also the Bulk Synchronous Parallel approach.}
 
 % It looks like the C++ \texttt{mess} library is intended to be exactly this sort of thing:  \url{https://github.com/LouisCharlesC/mess}.  The developer seems to say that the user gets to write their program in a message-passing fashion, but mess does some clever meta-programming so that there ends up being zero overhead in the end.  Also, absolutely \emph{must} address Halide, and explain why it wasn't pursued here.  Otherwise, that'll be the elephant in the room.
 
@@ -43,38 +97,56 @@ It is not too clear how to achieve this (if it is indeed possible), but Rust wou
 
 % https://link.springer.com/chapter/10.1007/3-540-63697-8_82
 
-\subsection{Other hardware}
-This work focused on CPU-based systems, largely excluding other hardware.  If used well, all three of \glspl{gpu}, \glspl{fpga} and \glspl{dsp} have potential to perform vastly more computations per second, suggesting that a high-performance message passing-based system would do well to use them.  In each case, however, they do not work in quite the same way as CPUs, meaning that programming them is not necessarily straightforward, especially when trying to achieve a programming style that differs to their default.%  As described in \fxwarning*{insert the appropriate cross-reference}{the literature review chapter}, fast \gls{gpu} implementations of \gls{bp} have been created, suggesting that message passing on a \gls{gpu} is entirely plausible.
+\subsection{Alternative Hardware}
+This work focused on CPU-based systems, largely excluding other hardware.  Fundamentally, there is a mismatch between current (\circa{} 2021) CPUs and the underlying concept of \gls{cps}.  Specifically, current CPUs provide a handful of high-powered processors (typically somewhere between 4 and 12 cores), while \gls{cps} essentially assumes the presence of an unbounded number of ``smaller'' processors.  This incongruence between the model and the hardware inevitably means that attempting to use the latter to simulate the former will lead to imperfect results.  Other hardware should be explored if the full power of \gls{cps} (and indeed \gls{ps} in general) is to be realised. %  If used well, all three of \glspl{gpu}, \glspl{fpga} and \glspl{dsp} have potential to perform vastly more computations per second, suggesting that a high-performance message passing-based system would do well to use them.  In each case, however, they do not work in quite the same way as CPUs, meaning that programming them is not necessarily straightforward, especially when trying to achieve a programming style that differs to their default.%  As described in \fxwarning*{insert the appropriate cross-reference}{the literature review chapter}, fast \gls{gpu} implementations of \gls{bp} have been created, suggesting that message passing on a \gls{gpu} is entirely plausible.
 
-It would appear worthwhile to investigate how to implement a high-performance message passing system atop these hardware alternatives, due to the potential for many more computations per second.  Even better would be to create a heterogeneous system which can take full advantage of the strengths of each hardware type, while overcoming its weaknesses.  Precisely how to achieve efficient implementations on them is unknown.  The fact that OpenCL \fxerror[inline]{[ref]} (and, to some extent at least, OpenACC \fxerror[inline]{[ref]}) can be compiled from the same base code to different devices makes it an obvious starting point.   \fxerror{Note to self}{There has already been at least one publication on implementing \glspl{actor} in OpenCL \fxerror[inline]{[ref]}, suggesting it is possible -- though how well synchronous message passing will work as compared to asynchronous remains to be seen.}
 
-\begin{anfxnote}
-The use of Full/Empty bits looks highly promising for making message passing more efficient.  It doesn't seem to have any real support in mainstream/commodity hardware, however.  There were Intel's TGX instructions, but they have been taken out of processors again.
-\end{anfxnote}
+Given that this sounds remarkably close to the Single-Instruction Multiple-Thread (see \cite[Ch. 4.4.1]{Hennessy2012}) nature of modern \gls{gpgpu}, it would seem that \glspl{gpu} represent a clear next step for developing simulations further.  It is not yet apparent, however, how best to unify execution of \gls{cps} rules with the operation of \glspl{gpu}.  Further work is required in this space to find an optimal strategy --- although there is also almost certainly more efficiency yet to be extracted from CPUs.  Given that it can be used fairly directly for both CPUs and \glspl{gpu}, targeting translation of \gls{cps} rules to OpenCL may prove fruitful.
+
+\Gls{mc} overall also fundamentally assumes that the processors involved operate differently from current electronic computers.  Modern electronic computers assume that the processor and the memory are distinct, and that data and instructions are shuttled back and forth between the two.\footnote{Indeed, making efficient use of the memory hierarchy tends to be critical to achieving high performance in modern application development.}  All the major forms of \gls{ps}, however, assume essentially that the memory storage \emph{is} the processor, be they membranes, cells, neurons or \glspl{tlc}.  This differing theoretical operation suggests that non-standard hardware, such as logic modules and associative memory, may support \gls{mc} much better.  Investigating this alternative hardware thus appears to be an important line of future research.
+
+% It would appear worthwhile to investigate how to implement a high-performance message passing system atop these hardware alternatives, due to the potential for many more computations per second.  Even better would be to create a heterogeneous system which can take full advantage of the strengths of each hardware type, while overcoming its weaknesses.  Precisely how to achieve efficient implementations on them is unknown.  The fact that OpenCL \fxerror[inline]{[ref]} (and, to some extent at least, OpenACC \fxerror[inline]{[ref]}) can be compiled from the same base code to different devices makes it an obvious starting point.%   \fxerror{Note to self}{There has already been at least one publication on implementing \glspl{actor} in OpenCL \fxerror[inline]{[ref]}, suggesting it is possible -- though how well synchronous message passing will work as compared to asynchronous remains to be seen.}
+
+
+% \begin{anfxnote}
+% The use of Full/Empty bits looks highly promising for making message passing more efficient.  It doesn't seem to have any real support in mainstream/commodity hardware, however.  There were Intel's TGX instructions, but they have been taken out of processors again.
+% \end{anfxnote}
 
 % \fxwarning{For future reference}{See also \url{https://hastlayer.com/} -- they seem to say that they do relevant stuff on FPGAs.  Interestingly, they also do unums/posits, apparently.}
 
 \subsection{Universal Numbers}
-\begin{anfxnote}
-The \gls{cps} work kinda ignored non-integer numbers, which in real practice is quite a glaring omission.  Investigating modelling IEEE-754 floating point (and/or the fixed-point version), as well as Gufstafson's unums/posits, would be another good step to take.
-\end{anfxnote}
+% \begin{anfxnote}
+% The \gls{cps} work kinda ignored non-integer numbers, which in real practice is quite a glaring omission.  Investigating modelling IEEE-754 floating point (and/or the fixed-point version), as well as Gufstafson's unums/posits, would be another good step to take.
+% \end{anfxnote}
+
+The solutions and systems described in this work, when performing numerical tasks, always assumed the exclusive use of natural numbers.  For many tasks, this is adequate, but many other tasks require a workable approximation of real numbers, both positive and negative.  Currently, there is no well-defined method for representing and using arbitrary real numbers in most forms of \gls{ps}, including \gls{cps}.  If \gls{cps} is to be used to solve a broader range of problems, eventually some form of representation for real numbers will be required.
+
+There seem to be two leading candidates for such representations:  simulating IEEE-754 floating-point numbers \cite{ieee754}, which are widely supported by most modern hardware;  or, using the concept of \emph{universal numbers (unums)} advanced more recently by \citeauthor{Gustafson2017} \cite{Gustafson2017}.  Systematising working representations of one or the other seems likely to be highly beneficial to solving future problems.  On the surface, at least, unums appear to be a better operative fit with \gls{cps}, and so perhaps should be explored first.  IEEE-754 floating-point numbers are much better supported in current computer hardware, however.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{\nameref{chap:tsp}}
+% \subsection{\nameref{chap:tsp}}
+\subsection{Unification}
 % One-way multiset unification occurs frequently in \gls{cps}, with unification being used in every rule presented above.  \fxerror*{Isn't this what Yezhou's paper \cite{Liu2021} covers?}{An efficient algorithm to perform this task would be highly beneficial for creating useful simulations of systems (we are not aware of an efficient algorithm in the case of multisets).}  For example, our simulations of the \gls{tsp} algorithm written in functional programming languages (see \cref{sec:tsp:simulation}) regularly simply iterate over all relevant objects in the system, even though frequently most will be of little use in a given function call, and so the simulations could benefit from improved unification in practice.
 
 % We would like to further develop the capacity to simulate \gls{cps}, in particular developing more advanced techniques for translating \gls{cps} rules to efficient parallel code.  Work down this avenue has not begun as yet, however.
 
-One-way multiset unification occurs frequently in \gls{cps}, with unification being used in every rule presented above.  An efficient algorithm to perform this task would be highly beneficial for creating useful simulations of systems.  For example, the simulations of the \gls{tsp} algorithm written in functional programming languages (see \vref{sec:tsp:simulation}) regularly simply iterate over all relevant objects in the system, even though frequently most will be of little use in a given function call, and so the simulations could benefit from improved unification in practice.  At the time \cref{chap:tsp} was completed, no efficient algorithm for this task was known, but more recently \citeauthor{Liu2021} published \citetitle{Liu2021} \cite{Liu2021}.  The \gls{tsp} simulations should be revisited in light of this development.
+One-way multiset unification occurs frequently in \gls{cps}, with unification used in almost every rule presented \crefrange{chap:tsp}{chap:nmp}.  An efficient algorithm to perform this task would be highly beneficial for creating useful simulations of systems.  For example, the simulations of the \gls{tsp} algorithm written in functional programming languages (see \vref{sec:tsp:simulation}) regularly simply iterate over all relevant objects in the system, even though frequently most will be of little use in a given function call, and so the simulations could benefit from improved unification in practice.  At the time \cref{chap:tsp} was completed, no efficient algorithm for this task was known, but more recently \citeauthor{Liu2021} published \citetitle{Liu2021} \cite{Liu2021}.  Given that they hew most closely to a direct translation from \gls{cps}, the \gls{tsp} simulations especially should be revisited in light of this development.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{\nameref{chap:median}}
+% \subsection{\nameref{chap:gcol}}
+% \begin{anfxerror}{GCol future work}
+% What should I say about the \gls{gcp}?
+% \end{anfxerror}
 
-The median filter algorithm investigated was pretty much the most basic one possible.  The experiment should be extended to cover more complicated algorithms that perform better at reconstructing the image.  These may be better suited to a message-passing approach compared to a na\"ive one than the basic method.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Future work should explore \gls{cml} as applied to other computer vision algorithms, especially those which can naturally be characterised in terms of message passing, or which use more complex data types.  Other \gls{cml} implementations beyond the one used here should be tested too, as it is not clear how much the problems experienced by this \gls{cml} program may stem from the implementation of the \gls{cml} library used.
+% \subsection{\nameref{chap:median}}
+
+% The median filter algorithm investigated was pretty much the most basic one possible.  The experiment should be extended to cover more complicated algorithms that perform better at reconstructing the image.  These may be better suited to a message-passing approach compared to a na\"ive one than the basic method.
+
+% Future work should explore \gls{cml} as applied to other computer vision algorithms, especially those which can naturally be characterised in terms of message passing, or which use more complex data types.  Other \gls{cml} implementations beyond the one used here should be tested too, as it is not clear how much the problems experienced by this \gls{cml} program may stem from the implementation of the \gls{cml} library used.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -88,3 +160,9 @@ Furthermore, at present, it is implicitly assumed that every \gls{pe} remains ac
 % We also have yet to examine the systems with respect to communication complexity measures such as those found in \cite{Juayong2020}.  The precise results presented there are not directly applicable to this work, given the use of different P~systems models, but the underlying concepts appear directly relevant.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \subsection{Further Empirical Investigation}
+
+\begin{anfxerror}{Further Empirical Investigation}
+Can I think of anything else to talk about in terms of more experiments to do?
+\end{anfxerror}

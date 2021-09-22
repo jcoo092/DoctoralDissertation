@@ -1,11 +1,11 @@
-\section{\label{sec:gcol:cpsys}\glsfmttext{cps} solution to the \glsfmtlong{gcp-glossary}}
+\section{\label{sec:gcol:cpsys}\glsfmtname{cps} Solution to the \glsfmtlong{gcp-glossary}}
 In the \gls{cml} simulation of the problem, most of the work, in fact, is performed by the instantiation of new objects, rather than communication.  Thus, the problem appears to be an excellent fit to the pre-existing formulation of \gls{cps} \cite{Nicolescu2018}.
 
 This solution assumes a graph with at most one edge between nodes (\ie{}. there are not two or more edges between the same two nodes), and that there are no edges leading from a node back to itself.  Further, it takes as given inputs to the process conceptual finite sets \(V \subset \mathbb{N}\) representing the nodes of the graph\footnote{In fact, any finite set of arbitrary symbols could be used, but this discussion is restricted to the natural numbers for ease of reading.}; \(E \subseteq \{(i,j)~|~i, j \in V, i \neq j \}\) representing the edges of the graph; and \(K\) representing the chosen colours, where \(K\) contains whatever representation of the desired colours is considered appropriate.
 
 Based on these definitions, for the purposes of the remainder of this \namecref{chap:gcol}, \(|K|\) is defined to be the number of colours used in the current problem, \(|V|\) the number of nodes in the graph under consideration for the current problem and \(|E|\) the number of edges in the graph.
 
-\subsection{Pseudocode for the \glsfmtname{cps} algorithm}
+\subsection{Pseudocode for the \glsfmtname{cps} Algorithm}
 The logical operation of the system, as carried out using the rules described in detail at \cref{sec:gcol:rules}, can be demonstrated with a pseudocode representation, as shown in \cref{code:gcol:graphcol}.
 
 \begin{algorithm}
@@ -44,18 +44,18 @@ The logical operation of the system, as carried out using the rules described in
 \caption[Pseudocode representation of the algorithm performed by the \glspl{cps} rules in \cref{ruleset:gcol:rules}]{\label{code:gcol:graphcol}Pseudocode representation of the algorithm performed by the \glspl{cps} rules in \cref{ruleset:gcol:rules}.  This employs a doubly defined tail-recursive function approach, where the algorithm begins with the upper function supplied only with the details of the graph and colours, but uses the lower function with further arguments to perform most of the processing.}
 \end{algorithm}
 
-In our notation, \(m\) is a partial functional relation to \texttt{Dom}(m); \texttt{Dom}(m) is a partial spanning tree over the graph; \((x, c) \in m\) if and only if \(c\) is the colour of node \(x\);  and \(B\) is the set of all partial functional relations built up so far.
+In this notation, \(m\) is a partial functional relation to \texttt{Dom}(m); \texttt{Dom}(m) is a partial spanning tree over the graph; \((x, c) \in m\) if and only if \(c\) is the colour of node \(x\);  and \(B\) is the set of all partial functional relations built up so far.
 
 The system works by starting with the colours and graph under consideration, then building up, in a maximally-parallel fashion, a collection of objects which represent all validly coloured partial spanning trees of the graph.  Eventually, once full spanning trees have been constructed, one is chosen at random and its colouring output to the environment.  Or, if no valid colouring is possible, the system will detect that by the complete absence of any partial spanning tree, and signal to the environment that no appropriate colouring is possible.  The conceptual spanning trees are built following all possible tree edges, but checking that all new frond edges do not invalidate the colouring.
 
 Note that while this algorithm is guaranteed to return a valid colouring if one is possible, there is \emph{no} guarantee as to precisely which valid colouring will be selected.  This \namecref{sec:gcol:cpsys} assumes that all potential colourings are equally desirable, and makes no provision for specifying that certain nodes must be coloured from a subset of the available colours.
 
-\subsection{\label{sec:gcol:sysinit}\glsfmtplural{cps} Initialisation}
+\subsection{\label{sec:gcol:sysinit}cP System Initialisation}
 System construction begins with a \gls{tlc} containing the functor \(V' = \cpset{\cpfunc{v}{\cpfunc{n}{i}} ~|~i \in V}\), which contains the labels of the nodes in \(V\); a set \(E' \subseteq \cpset{\cpfunc{e}{\cpfunc{n}{i} \, \cpfunc{n}{j}} ~|~(i,j) \in E}\) representing the edges of the graph; a starting node \(\cpfunc{s}{h}\) where \(h \in V\) is an arbitrary node label; and a set \(K' = \cpset{\cpfunc{k}{\kappa} ~|~ \kappa \in K}\) of  the potential colours.  In the case of the three-colour problem, it might look like \(K' = \cpset{\cpfunc{k}{r}, \cpfunc{k}{g}, \cpfunc{k}{b}}\). Using separate colour symbols in this fashion means that the algorithm can operate as a \(|K|\)-colour problem, without any other modification.
 
 While colours are represented here as separate symbols for legibility, they can, in fact, be represented equivalently by natural numbers because each colour symbol is contained within a \(k\) functor --- one simply need fill each functor with the appropriate number of the counting symbol to represent the desired different colours.  E.g. \(r\) might be represented by one copy of the unary digit, \(\cpundig\), \(g\) by two and \(b\) by three, \ie{}. \(r = \cpfunc{k}{\cpundig}\), \(g = \cpfunc{k}{\cpundig^2}\) and \(b = \cpfunc{k}{\cpundig^3}\).  The same is true of the edges.  This means that, in fact, the system requires no extra symbols in its alphabet to represent the colours and edges of a given problem --- it merely re-uses atoms (see further in \cref{sec:gcol:notation}).
 
-\subsection{\label{sec:gcol:notation}\glsfmtplural{cps} Notation}
+\subsection{\label{sec:gcol:notation}cP System Notation}
 
 In accordance with the \gls{cps} definition of \cref{sec:cps:formaldescriptions}, the \gls{gcp} \glspl{cps} can be formalised as \cptuple{g-col}{\cpset{\sigma_1}}{\cpset{b, c, e,\allowbreak i,\allowbreak m,\allowbreak n, s, v, k, \cpundig}}{\cpset{O_1}}{\cref{ruleset:gcol:rules}}{\cpset{s_1, s_2, s_3, s_4}}{s_1} where: \(\sigma_1\) is the single \gls{tlc} of the system and \(O_1 = \cpset{\cpfunc{s}{h}} \cup V' \allowbreak \cup E' \allowbreak \cup K'\) is the multiset of initial objects contained within \(\sigma_1\), where \(h\) is an arbitrary member of \(V\).
 
@@ -87,7 +87,7 @@ In accordance with the \gls{cps} definition of \cref{sec:cps:formaldescriptions}
 
 The rules are presented in \cref{ruleset:gcol:rules}.  The solution consists of six rules, which are invariant to the graph under consideration, and are listed in \emph{weak priority order}.  They are explained below:
 
-\subsubsection{Description of rules}
+\subsubsection{Description of Rules}
 
 \begin{enumerate}
 \item This rule begins system evolution.  It converts the setup functor \(v\) into a functor \bo{}, which is used further to instantiate new objects with the possible colourings of the system.  It merely selects the node specified by the supplied \(s\) term, and assigns a colour at random.
@@ -110,7 +110,7 @@ The operation of this rule occurs implicitly in the pseudocode, and does not hav
 
 \end{enumerate}
 
-\subsubsection{Definition of terms}
+\subsubsection{Definition of Terms}
 \paragraph{Atoms}
 \begin{description}
 \cptermdef{\cpempty}{The standard \gls{cps} ``empty'' term symbol.}
@@ -259,35 +259,54 @@ and \cref{eq:gcol:w} to
     S = |K| + |E| + \sum_{b \in B}s_b(b) + 1
 \end{equation}
 
-\subsection{Comparison with the \texorpdfstring{\glsxtrlong{skps}}{Simple Kernel P systems} solution}
+\subsection{Comparison with the Simple Kernel P Systems Solution}
 The \gls{cps} solution requires only five rules, which are \emph{invariant} to the problem graph under study, as opposed to defining a family of rules that are customised to the graph at hand.  Likewise for the alphabet.  The alphabet consists of only 9 functors and the \gls{cps} `empty' atom (\(\cpempty\)), but with the nesting of atoms and functors these combine into further forms.  As the semantic meaning of each never changes, this does not add a great deal of complexity.  The \gls{cps} solution requires roughly equivalent starting objects to the \gls{skps} solution.
 
+% \begin{table}
+% \begin{threeparttable}
+% \centering
+% \caption{\glsxtrlong{skps} vs. \gls{cps}}
+% \label{tab:gcol:skpcomp}
+% \begin{tabular}{@{}lcc@{}}
+% \toprule
+% Type/specification                & \gls{skps}        & \gls{cps} \\ \midrule
+% Alphabet                          & \(|V|(|V|-1)/2 + 7|V| + 10\) & \(10\)         \\
+% Rules                             & \(2|V|~\&~2|V| + 7\)       & 6          \\
+% Max. \# of subcompartments & \(3^|V| + 1\)             & N/A\tnote{a}          \\
+% Number of steps                   & \(2|V| + 3\)             & \(\leq |V| + 1\)         \\ \bottomrule
+% \end{tabular}%
+% \begin{tablenotes}
+% \item[a] \gls{cps} do not have a concept of subcompartments in the same way as \gls{skps}.  This distinction is discussed in \cref{sec:gcol:diffsubcomp}.
+% \end{tablenotes}
+% \end{threeparttable}
+% \end{table}
+
 \begin{table}
-\begin{threeparttable}
+% \begin{threeparttable}
 \centering
-\caption{\glsxtrlong{skps} vs. \gls{cps}}
-\label{tab:gcol:skpcomp}
 \begin{tabular}{@{}lcc@{}}
 \toprule
 Type/specification                & \gls{skps}        & \gls{cps} \\ \midrule
 Alphabet                          & \(|V|(|V|-1)/2 + 7|V| + 10\) & \(10\)         \\
 Rules                             & \(2|V|~\&~2|V| + 7\)       & 6          \\
-Max. \# of subcompartments & \(3^|V| + 1\)             & N/A\tnote{a}          \\
+Max. \# of subcompartments & \(3^|V| + 1\)             & N/A          \\
 Number of steps                   & \(2|V| + 3\)             & \(\leq |V| + 1\)         \\ \bottomrule
 \end{tabular}%
-\begin{tablenotes}
-\item[a] \gls{cps} do not have a concept of subcompartments in the same way as \gls{skps}.  This distinction is discussed in \cref{sec:gcol:diffsubcomp}.
-\end{tablenotes}
-\end{threeparttable}
+% \begin{tablenotes}
+% \item[a] .
+% \end{tablenotes}
+% \end{threeparttable}
+\caption{\glsxtrlong{skps} vs. \gls{cps}.  \gls{cps} do not have a concept of subcompartments in the same way as \gls{skps}, and thus has no entry for the maximum number of subcompartments.  This distinction is discussed in \cref{sec:gcol:diffsubcomp}}
+\label{tab:gcol:skpcomp}
 \end{table}
 
 
 \Cref{tab:gcol:skpcomp} provides a comparison of the \gls{skps} solution presented in \cite{Gheorghe2013} compared with the solution presented above, and is based upon Table 1 in \cite{Gheorghe2013}.  
 
-\subsubsection{\label{sec:gcol:diffsubcomp}Differing concepts of subcompartments}
+\subsubsection{\label{sec:gcol:diffsubcomp}Differing Concepts of Subcompartments}
 Atoms are simple objects, but one could perhaps argue that functors should be regarded as somewhere between full subcompartments and simple objects because they are non-atomic and can potentially hold objects (including other functors) within themselves.  The key difference between subcompartments and functors is that the former have rules of their own and typically evolve separately to their containing compartment, whereas the latter have \emph{no} computing/evolutionary power of their own, and are simply nested objects operated upon by their \gls{tlc}'s rules.  A subcompartment could potentially have all its parent compartments removed and still function as though it now has the skin membrane, but not so functors.  This means that \gls{cps} does not have a concept of subcompartments completely comparable to \gls{skps}'s, with instead the functors in use being closer to normal inanimate objects.
 
-\subsubsection{Rules length}
+\subsubsection{Rules Length}
 The `price' for reducing the number of rules and symbols involved in the system is arguably making the rules themselves more complex.\footnote{Though, arguably, these rules to be fairly easy to understand nevertheless --- they are simply longer and involve more symbols than those of other systems.}  Much the same as the \gls{skps}~system in \cite{Gheorghe2013} allows for a \enquote{more succinct (in terms of number of rules, objects, number of cells and execution steps)} specification than an earlier \gls{tlps} from \cite{Diaz-Pernil2008} ``at the expense of a greater length of the rules,'' so too does the \glspl{cps} again allow for a more compact solution to the problem in exchange for longer rules.
 
 If one chooses to exclude the guards specified, then the longest rule in \cite{Gheorghe2013} has a length of \(5\).  Including the guards, however, (which seems more realistic), then the longest \gls{skps} rule has a length of \(3 + 3|V|(|V| - 1)/2\) while the longest rule in \cref{ruleset:gcol:rules}, \cpruleref{rule:gcol:rules:loop}, has a \emph{fixed} length of 14, determined by counting the number of distinct atoms, functors and variables that appear in it.  This is regarded as an acceptable price to pay, considering what this enables the system to achieve otherwise.  Which style is most appropriate fundamentally depends on the specifics of a given situation, and the relative costs of the alphabet size, rule length etc. in implementing a system in a chosen form.

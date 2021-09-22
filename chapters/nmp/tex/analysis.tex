@@ -1,10 +1,10 @@
-\section{\label{sec:nmp:analysis}Asynchronous system analysis}
+\section{\label{sec:nmp:analysis}Asynchronous System Analysis}
 
 This \namecref{sec:nmp:analysis} examines and analyses the asynchronous \gls{pe}-specific system of \cref{sec:nmp:pespecific}.  Firstly, it describes and proves several properties about the system, in particular, that the asynchronous system exchanges precisely the same number of \gls{nm} messages as the \gls{gs} system of \cref{sec:nmp:systemwide}.  Then, it states three conjectures about the system, yet to be proven or disproven mathematically, before examining the asynchronous system's complexity from the standpoint of the rules and symbols used.  Lastly, the \namecref{sec:nmp:analysis} discusses some visualisations of the propagation of ``influence'' from one \gls{pe} in a \gls{fne} grid to others, over multiple steps.
 
 Recall that the fundamental difference between in behaviour between the \gls{gs}, \gls{ls} and asynchronous variants is the timing of when they send out new messages relating to when they have received messages for the previous generation.  Under the \gls{gs} approach, \emph{every} \gls{pe} waits until every other \gls{pe} has received all incoming messages before progressing.  Following the \gls{ls} methodology, each \gls{pe} waits until it has received all of its due incoming messages before proceeding, \emph{but without regard} to any other \gls{pe}.  Lastly, for the asynchronous variant, a \gls{pe} waits only until it has received the \(n - 1\) required messages from the other neighbours of generation \(g\) before sending the appropriate generation \(g + 1\) message to the \(n^\text{th}\) neighbour.
 
-\subsection{\label{sec:nmp:msgprops}Messaging properties and behaviours}
+\subsection{\label{sec:nmp:msgprops}Messaging Properties and Behaviours}
 
 Consider a cell (\gls{pe}) $\pi_0$ in the asynchronous framework of \cref{sec:nmp:pespecific},
 where the maximum generation count is $I$, set by the environment via $\cpfunc{i}{I}$.
@@ -204,7 +204,7 @@ This proves part (\ref{enumitem:nmp:analysis:-1:2}) of the hypothesis.
 
 \end{remark}
 
-\subsection{Generational confluence}
+\subsection{Generational Confluence}
 The asynchronous system is \emph{not} (necessarily) confluent.  Messages may be received in such an order that the contents of some messages might not be used in the preparation of new messages, since two messages potentially can be received from one neighbour between receipts from a different neighbour.  Nevertheless, for a \gls{pe} to send a message for generation \(g + 1\) to neighbour \(k\), it must have received messages for \emph{at least} generation \(g\) from all other neighbours.  Therefore, no input data will be `out-of-date'.  This concept is given the name \emph{generational confluence}.
 
 \begin{conjecture}\label{conj:nmp:1}
@@ -225,13 +225,13 @@ The requirement for a \gls{pe} to have received messages from every other neighb
 
 This reasoning gives rise to the intuition in \cref{prop:nmp:3}.  If one of the \glspl{pe} stops sending messages but has not yet reached its maximum generation, the neighbouring \glspl{pe} will successively be unable to send further messages themselves, which will ripple across the lattice and eventually prevent farther \glspl{pe} from sending further messages as well.  Until the ripple has progressed across the lattice, however, the more remote \glspl{pe} may still send new messages.  Therefore, in all cases where two \glspl{pe} have a path between them, there is an inter-dependency, albeit in some cases far removed.  As yet, no suitable and convincing formal proof of this idea has been found.
 
-\subsection{Rule and symbol complexity}
+\subsection{Rule and Symbol Complexity}
 Overall, the rule and symbol complexity of the system is relatively low, but given that some elements of any specific \gls{nmp} process are abstracted away (\eg{} the oracle), this is likely an underestimate for a given final implementation.
 
-\subsubsection{Rule complexity}
+\subsubsection{Rule Complexity}
 The total system requires 12 rules.  Two for the initialisation phase, eight for the joint \gls{nm} \& \gls{oq} phases -- only two directly involve interaction with the oracle, but others prepare for said interaction -- and two for the finalisation phase.  The two rules that involve direct interaction with the oracle, rules \cpruleref*{rule:nmp:proxspec:sendtooracle} and \cpruleref*{rule:nmp:proxspec:recvfromoracle}, will normally be replaced with an arbitrary new \gls{ruleset}, however.  Thus, it can be said that there are 10 rules relating to the structure and process for \gls{nmp}, and two stub rules which stand in for a more complex process.
 
-\subsubsection{Symbol complexity}
+\subsubsection{Symbol Complexity}
 Across all 12 rules, three atoms, eight functors, and nine states are used.  This gives a total symbol complexity of 20 distinct symbols.  As with the rule complexity, there likely will be more symbols used when the \gls{oq} phase is expanded to encompass a desired computation process.
 
 \subsection{Visualisations}
@@ -241,7 +241,7 @@ Each sequence was generated using a script by computing values over the grid at 
 
 Each of the sequences uses a different method for computing the values present in a given square, and so depicts a different aspect of the spread of the `influence' of the initial data in the centre \gls{pe}.  The approach used here was effectively the \gls{ls} variant, but the results apply equally to the variants.
 
-\subsubsection{Maximum over messages received and internal datum}
+\subsubsection{Maximum Over Messages Received and Internal Datum}
 \begin{figure}
     \centering
     \subcaptionbox{Round 0}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/maxpdatum/nodelay/maxWithPDatum_no_delays_four_generations_round_0.pdf}}
@@ -291,7 +291,7 @@ What might happen if there is a systematic delay in only one direction, and thus
     \label{fig:nmp:maxpdatumdelayswestonly}
 \end{figure}
 
-\subsubsection{Maximum over messages received}
+\subsubsection{Maximum Over Messages Received}
 \begin{figure}
     \centering
     \subcaptionbox{Round 0}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/max/nodelay/max_no_delay_four_generations_round_0.pdf}}
@@ -305,7 +305,7 @@ What might happen if there is a systematic delay in only one direction, and thus
 
 The sequence in \cref{fig:nmp:max} was produced by using the maximum of the messages received from the other neighbours when computing the new outgoing messages for each \gls{pe}.\footnote{Given that both systems only have two values for each cell and updates to a given cell are based on values in surrounding ones, it does not seem coincidental that this progression bears some resemblance to Conway's Game of Life.}  As with the sequence in \cref{fig:nmp:maxpdatum}, the spread of the influence from the centre \gls{pe} moves outward, similar to an expanding `+' shape.  Notably, however, points in the grid (except the centre \gls{pe} for one round) oscillate between the minimum and the maximum, showing that the influence from the centre \gls{pe} is only relevant for every second message update computation.  Felzenzswalb \& Huttenlocher \cite{Felzenszwalb2006} noticed this oscillating behaviour and used it to halve the number of computations required to produce the same results in their improved \gls{bp} \gls{sm} implementation.
 
-\subsubsection{Mean over messages received}
+\subsubsection{Mean Over Messages Received}
 \begin{figure}
     \centering
     \subcaptionbox{Round 0}{\includegraphics[width=0.19\textwidth]{chapters/nmp/images/grids/mean/nodelay/mean_no_delay_four_generations_round_0.pdf}}

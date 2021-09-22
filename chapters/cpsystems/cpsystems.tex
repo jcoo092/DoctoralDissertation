@@ -1,17 +1,34 @@
 \chapter{\label{chap:cpsystems}\glsentrytext{cps}: \glsentrytext{ps} with Complex Symbols}
-\fxerror*{Expand/explain}{\cite{Nicolescu2014b,Nicolescu2017}}
 
-\gls{cps} is another variant of \gls{ps}, developed by Nicolescu and collaborators in the early 2010s \fxerror[inline]{[ref]} and complementary to the classic trinity of \gls{clps} \cite{Paun2000}, \gls{tlps} \cite{Martin-Vide2003}, and \gls{snps} \cite{Ionescu2006}.  It is largely based on \gls{clps} in that the core unit of it is the \emph{\gls{tlc}}, which is arranged as a nested tree structure and arguably can be seen, to some extent at least, as a higher-level abstraction over \gls{clps} \cite{Nicolescu2018}.  It can also incorporate elements of \gls{tlps}, in that \gls{cps} includes concepts of channels and message passing between \glspl{tlc} \cite{Henderson2019}, with an arbitrary number of these cells in the environment.  
+\gls{cps} is another variant of \gls{ps}, developed by Nicolescu and collaborators in the early 2010s and complementary to the classic trinity of \gls{clps} \cite{Paun2000}, \gls{tlps} \cite{Martin-Vide2003}, and \gls{snps} \cite{Ionescu2006}.  It is largely based on \gls{clps} in that the core unit of it is the \emph{\gls{tlc}}, which is arranged as a nested tree structure and arguably can be seen, to some extent at least, as a higher-level abstraction over \gls{clps} \cite{Nicolescu2018}.  It can also incorporate elements of \gls{tlps}, in that \gls{cps} includes concepts of channels and message passing between \glspl{tlc} \cite{Henderson2019}, with an arbitrary number of these cells in the environment.  
 
 A key difference from \gls{clps} and \gls{tlps}, however, is that in \gls{cps} \emph{only} the \glspl{tlc} have accompanying rules.  All subcells are merely inert symbolic objects operated upon by the \gls{tlc}'s rules.  These subcells are represented as labelled multisets within the \glspl{tlc}.  \citeauthor{Nicolescu2014a} demonstrated that not only is \gls{cps} capable of performing the same tasks as other \gls{ps} variants, but it also can be used to model standard computer programs \cite{Nicolescu2014a}.
 
-The principal advantage of \gls{cps} over traditional \gls{clps} is a simplification in the specification of complete systems to solve a given problem.  \Gls{clps} (as well as \gls{tlps} and \gls{snps}) typically require the definition of a uniform or semi-uniform family of \glspl{ruleset} customised to the specific instance of the problem at hand, whereas \gls{cps} normally requires only the definition of a fixed (usually much shorter) set of rules that cover all possible instances. As a result, only inputs to the system need to vary to solve different instances of the problem, \eg{} in \cref{chap:tsp} just five fixed rules are necessary to solve any instance of the \gls{tsp}, requiring only customisation of the input objects (in that case, elements describing the vertices and arcs of the digraph).
+A significant advantage of \gls{cps} over traditional \gls{clps} is a simplification in the specification of complete systems to solve a given problem.  \Gls{clps} (as well as \gls{tlps} and \gls{snps}) typically require the definition of a uniform or semi-uniform family of \glspl{ruleset} customised to the specific instance of the problem at hand, whereas \gls{cps} normally requires only the definition of a fixed (usually much shorter) set of rules that cover all possible instances. As a result, only inputs to the system need to vary to solve different instances of the problem, \eg{} in \cref{chap:tsp} just five fixed rules are necessary to solve any instance of the \gls{tsp}, requiring only customisation of the input objects (in that case, elements describing the vertices and arcs of the digraph).
+
+The other key advantages of \gls{cps} are:
+\begin{inparaenum}[a)]
+\item that it often permits fairly direct, intelligible and brief translations into modern programming languages --- this is experimented with in various ways and with various languages throughout this dissertation;
+\item and, that there appears to be great potential for highly efficient implementations of \gls{cps} algorithms for non-traditional hardware.
+\end{inparaenum}
+
 
 This \namecref{chap:cpsystems} provides an overview of \gls{cps}.  Further presentation of \gls{cps} has appeared most recently in \cite{Nicolescu2018,Henderson2019,Henderson2020,Liu2020,Liu2021}, and it is recommended that the interested reader peruse those too.  While \gls{cps} is transitively bio-inspired through its basis in \gls{ps}, it has not been developed to simulate or model real-world biology.  Instead, it is intended as a useful theoretical model for computation.
 
-\begin{anfxwarning}
+\begin{anfxwarning}{Grammar}
 Really need to include a formal BNF grammar somewhere in here.
 \end{anfxwarning}
+
+% --------------------------------------------------
+\section{A Partial History of \glsfmtname{cps}}
+
+Since its inception, \gls{cps} has been studied and applied to various problems in Computer Science.  Indeed, it originated from the desire to find more expressive ways to present solutions to problems using \gls{mc}.  The root of \gls{cps}'s evolution perhaps took seed in \cite{Balanescu2011}, which defined and used higher-level rules that can be seen as the progenitor of the style of rules characteristic of \gls{cps} today (see \cref{sec:cps:genericrules}).  This was followed by \cite{Nicolescu2012}, where the variations upon more traditional \gls{ps} were further developed when considering parallel and distributed algorithms in \gls{mc}.
+
+A systematic formalisation of this emerging new \gls{ps} variant was given in \cite{Nicolescu2014a}, which outlined the original basis of some aspects of \gls{cps} described in this \namecref{chap:cpsystems}.  Published contemporaneously with \cite{Nicolescu2014a} was \cite{Nicolescu2014}, which used \gls{cps} to demonstrate an effective implementation of \citeauthor{Guo1989}'s algorithm for image `skeletonisation' \cite{Guo1989}.
+
+Subsequently, \gls{cps} was applied to a variety of problems, including a structured grid algorithm for region growing in greyscale images \cite{Nicolescu2015}; Byzantine Agreement \cite{Nicolescu2017}; and finding the most common words in a text corpus \cite{Nicolescu2018a}.  Throughout these, \gls{cps} was further refined and propounded.  These new developments were combined and summarised in \cite{Nicolescu2018}, which provided a central reference for the now-crystallised \gls{cps} variant on \gls{ps}.
+
+Further developments have followed recently, describing \Glspl{actor} in \gls{cps} \cite{Henderson2019};  solving a PSPACE-complete problem in linear time using \gls{cps} \cite{Henderson2020}; formal verification of \gls{cps} \cite{Liu2020,Liu2021a}; comparing Water Computing with \gls{cps} \cite{Henderson2021}; and an efficient algorithm for carrying out unification \cite{Liu2021} (see \cref{sec:cps:unification}), a missing piece of the puzzle regarding practical implementations.
 
 % --------------------------------------------------
 
@@ -22,7 +39,6 @@ Really need to include a formal BNF grammar somewhere in here.
 \input{chapters/cpsystems/tex/intertlcmessaging}
 \input{chapters/cpsystems/tex/indexedterms}
 \input{chapters/cpsystems/tex/datastructures}
-\input{chapters/cpsystems/tex/statistics}
 
 
 
