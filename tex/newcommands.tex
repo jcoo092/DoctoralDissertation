@@ -5,12 +5,22 @@
 % #4 - Description
 \newcommand{\newdefacr}[4]
 {
-    % Glossary entry
+    % % Glossary entry
+    % \newglossaryentry{#1-glossary}
+    % {
+    %     text={#2},
+    %     long={#3},
+    %     name={\glsentrylong{#1-glossary} (\glsentrytext{#1-glossary})},
+    %     description={#4},
+    %     sort={#3}
+    % }
+    
+        % Glossary entry
     \newglossaryentry{#1-glossary}
     {
         text={#2},
         long={#3},
-        name={\Glsentrylong{#1-glossary} (\glsentrytext{#1-glossary})},
+        name={\glsentrytext{#1-glossary} (\glsentrylong{#1-glossary})},
         description={#4},
         sort={#3}
     }

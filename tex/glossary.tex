@@ -3,31 +3,31 @@
 % Acronyms (sorted in alphabetical order by their label, rather than their full definition)
 
 %% A-M
-\newacronym{bp}{BP}{Belief~Propagation}
-\newacronym{cp}{CP}{Concurrent~Propagation}
+\newacronym{bp}{BP}{belief~propagation}
+\newacronym{cp}{CP}{concurrent~propagation}
 \newacronym{csp}{CSP}{Communicating Sequential Processes}
-\newacronym{dpsm}{DPSM}{Dynamic~Programming \gls{sm}}
-\newacronym{dsp}{DSP}{Digital Signal Processor}
-\newacronym{fpga}{FPGA}{Field-Programmable Gate Array}
-\newacronym{fps}{FPS}{Frames per Second}
-\newacronym{gpu}{GPU}{Graphics Processing Unit}
-\newacronym{gpgpu}{GPGPU}{General-purpose \gls{gpu}}
-\newacronym{lbp}{LBP}{Loopy Belief~Propagation}
-\newacronym{mpbsm}{MPBSM}{Message Passing-Based \gls{sm}}
+\newacronym{dpsm}{DPSM}{dynamic~programming \gls{sm}}
+\newacronym{dsp}{DSP}{digital signal processor}
+\newacronym{fpga}{FPGA}{field-programmable gate array}
+\newacronym{fps}{FPS}{frames per second}
+\newacronym{gpu}{GPU}{graphics processing unit}
+\newacronym{gpgpu}{GPGPU}{general-purpose \gls{gpu}}
+\newacronym{lbp}{LBP}{loopy belief~propagation}
+\newacronym{mpbsm}{MPBSM}{message passing-based \gls{sm}}
 \newacronym{mpi}{MPI}{Message Passing Interface}
-\newacronym{mrf}{MRF}{Markov Random Field}
-\newacronym{mwt}{MWT}{Moving Window Transform}
+\newacronym{mrf}{MRF}{Markov random field}
+\newacronym{mwt}{MWT}{moving window transform}
 
 %% N-Z
-\newacronym{ndcsm}{NDCSM}{Noise-Driven Concurrent \gls{sm}}
+\newacronym{ndcsm}{NDCSM}{noise-driven concurrent \gls{sm}}
 \newacronym{nm}{NM}{neighbourhood messaging}
 \newacronym{nmp}{NMP}{neighbourhood message passing}
 \newacronym{oq}{OQ}{oracle query}
 \newacronym{pe}{proxel}{processing element}
 \newacronym{pram}{PRAM}{Parallel Random Access Machine}
-\newacronym{sad}{SAD}{Sum of Absolute Differences}
+\newacronym{sad}{SAD}{sum of absolute differences}
 \newacronym{skps}{SKPS}{Simple Kernel P~systems}
-\newacronym{ssd}{SSD}{Sum of Squared Differences}
+\newacronym{ssd}{SSD}{sum of squared differences}
 
 % Combo glossary & acronyms
 
@@ -42,7 +42,7 @@
 
 % N - Z
 \newdefacr{rhs}{RHS}{right-hand side}{A part of the definition of a \gls{cps} rule.  It is the list of terms which are created by the rule's application, and appear in the relevant cell at the end of the step.}
-\newdefacr{sgm}{SGM}{Semi-global~Matching}{A Stereo Matching algorithm introduced by Hirschmüller that, as the name suggests, sits somewhere between traditional global and local Stereo Matching Algorithms.  This provides advantages in that retains much of the speed advantage of local algorithms, while also receiving much of the benefit derived from taking into consideration a larger part of the total input images.}
+\newdefacr{sgm}{SGM}{semi-global~matching}{A Stereo Matching algorithm introduced by Hirschmüller that, as the name suggests, sits somewhere between traditional global and local Stereo Matching Algorithms.  This provides advantages in that retains much of the speed advantage of local algorithms, while also receiving much of the benefit derived from taking into consideration a larger part of the total input images.}
 \newdefacr{tsp}{TSP}{Travelling Salesman Problem}{An extension of the \glsdesc{hcp}.  Here, the edges between nodes have weights, and the goal of the problem is to find a minimum weight Hamiltonian cycle on the graph.}
 
 % Glossary Entries
@@ -53,7 +53,7 @@
 \newglossaryentry{clps}{text={cell-like P~systems},name={Cell-like P~Systems},description={The original \gls{ps} variant first proposed by Gheorghe Păun, based on the operation of chemicals inside biological cells.  The main characteristic of cell-like P~systems is that the chemicals are represented by a potentially-infinite variety of atomic objects, and are contained within one or more membranes.  Every cell-like P~system has an outermost membrane, the \emph{skin membrane} which separates the cell from the \emph{environment}, and may have more membranes inside itself.  These latter membranes are nested in such a fashion that they resemble a graphical tree.  Each membrane has a separate \gls{ruleset}, though the \glspl{ruleset} are not necessarily unique.  Rules may create and remove chemicals based on the presence (or absence) or other chemicals inside a membrane, and also send chemicals to an inner \emph{child} membrane, or to an outer \emph{parent} membrane.  Perhaps due to it being the original variant (and thus pre-dating the term ``cell-like P systems''), some forms of P~systems which could be regarded as cell-like are not necessarily labelled as such, \eg{} P~systems with active membranes.}}
 \newglossaryentry{cps}{text={cP~systems},name={cP~Systems},description={A variant of \gls{ps} created by Radu Nicolescu.  The main point of difference between cP~systems and other variants is that cP~systems is, in general, `higher-level'.  That is, instead of specifying (semi-)uniform families of rules customised to each specific problem of a given type, cP~systems \glspl{ruleset} typically cover through the use of variables all possible problem specifications without customisation ahead-of-time.  Instead, the cP~systems `runtime' performs unification over the variables.  Furthermore, only the \glspl{tlc} have associated rules, and all other terms contained within are merely inert objects.  See also \cref{chap:cpsystems}.},plural={cP~system}}
 \newglossaryentry{disparity}{text={disparity},name={Disparity},description={The shift, measured as a number of pixels, of a point in one stereo image to its location in the other image.  When combined with information about the cameras used to capture the images which is derived from calibration, the measured disparity is used to estimate the distance from the cameras to the point in the scene.  Disparity is often also referred to as `parallax'.}}
-\newglossaryentry{disparitymap}{text={disparity map},name={Disparity map},description={An output array/image (often just using a single channel of 8- or 16-bit integers) which encodes the final estimated disparities for every pixel in the input images.  The range of values in a disparity map itself is restricted to range of possible disparities used in the \gls{sm} algorithm.  It is common, however, to adjust the disparity map in some fashion to make differences in disparity estimates more visible through techniques such as histogram equalisation.  Most published figures of disparity maps will have had such an adjustment applied to make them more useful.  Disparity maps are sometimes also referred to as `digital parallax maps.'}}
+\newglossaryentry{disparitymap}{text={disparity map},name={Disparity Map},description={An output array/image (often just using a single channel of 8- or 16-bit integers) which encodes the final estimated disparities for every pixel in the input images.  The range of values in a disparity map itself is restricted to range of possible disparities used in the \gls{sm} algorithm.  It is common, however, to adjust the disparity map in some fashion to make differences in disparity estimates more visible through techniques such as histogram equalisation.  Most published figures of disparity maps will have had such an adjustment applied to make them more useful.  Disparity maps are sometimes also referred to as `digital parallax maps.'}}
 \newglossaryentry{fne}{description={The `standard' neighbourhood arrangement in situations such as \glsxtrlong{bp}.  When used in reference to a grid, it typically means the other locations in the grid immediately to the left, right, above and below.},text={four-neighbourhood},name={Four-neighbourhood}}
 \newglossaryentry{gs}{description={In the context of \glsxtrlong{nmp}, this refers to an approach to messaging whereby the entire lattice waits until every \glsxtrshort{pe} in the lattice has finished its messaging for a given generation before proceeding to the next generation.},text={globally-synchronous},name={Globally-synchronous}}
 \newglossaryentry{ls}{description={In the context of \glsxtrlong{nmp}, this refers to an approach to messaging whereby the every \glsxtrshort{pe} in the lattice waits until it has received \emph{all} messages pertaining to one generation before accepting any messages pertaining to a subsequent generation.},text={locally-synchronous},name={Locally-synchronous}}
@@ -69,4 +69,4 @@
 \newglossaryentry{sm}{text={stereo~matching},name={Stereo~Matching},description={A family of methods to match points from different images of the same scene to estimate the distance from the capturing cameras to objects in the scene.}}
 \newglossaryentry{snps}{text={spiking neural P~systems},name={Spiking Neural P~Systems},description={One of the three main \gls{ps} variants in common use today.  Whereas \gls{clps} is based on intra-cellular chemical interactions, and \gls{tlps} on inter-cellular interactions, spiking neural P~systems is explicitly based on the idea of neurons in the brain interacting via synapses.  In principle, the communication-based nature of spiking neural P~systems makes it closer to \gls{tlps} than \gls{clps}, but unlike those two it uses only a single object in its alphabet, the spike.  This difference can make solutions to some problems more complex, but has the advantage that it makes it (comparatively) easy to implement those solutions with linear algebra operations.}}
 \newglossaryentry{tlc}{text={top-level cell},name={Top-level Cell},description={The processing units of \gls{cps}, loosely equivalent to the skin membrane of other P~systems variants.  These are the only objects in the system which have rules and are `active'.  Generally, all other objects present in a system except channels are found inside a top-level cell.}}
-\newglossaryentry{tlps}{text={tissue-like P~systems},name={Tissue-like P~Systems},description={Tissue-like P~systems is one of the oldest \gls{ps} variants, especially of those still in common use, and is based on the transmission of chemicals between cells via channels in biological tissue (rather than movement of chemicals through membranes within a cell like \gls{clps}).  A notable aspect of tissue-like P~systems is that they often include no ability for the cells to process their own contents.  Instead, all computation arises as a consequence of the communication.  Arguably, tissue-like P~systems is better suited to modelling distributed-memory or message-passing based computations than \gls{clps}, whereas \gls{clps} is better for shared-memory-style scenarios.}}
+\newglossaryentry{tlps}{text={tissue-like P~systems},name={Tissue-like P~Systems},description={Tissue-like P~systems is one of the oldest \gls{ps} variants, especially of those still in common use, and is based on the transmission of chemicals between cells via channels in biological tissue (rather than movement of chemicals through membranes within a cell like \gls{clps}).  A notable aspect of tissue-like P~systems is that they often include no ability for the cells to process their own contents.  Instead, all computation arises as a consequence of the communication.  Arguably, tissue-like P~systems is better suited to modelling distributed-memory or message-passing based computations than \gls{clps}, whereas \gls{clps} is better for shared-memory-style scenarios.},plural={tissue-like P~system}}

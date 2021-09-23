@@ -1,6 +1,6 @@
 \chapter{Introduction}
 
-\pagenumbering{arabic}
+% \pagenumbering{arabic}
 
 \begin{anfxwarning}{What goes in the intro?}
 From \url{https://abacus.bates.edu/~ganderso/biology/resources/writing/HTWsections.html}:  ``the Introduction must answer the questions, "What was I studying? Why was it an important question? What did we know about it before I did this study? How will this study advance our knowledge?"''
@@ -86,7 +86,7 @@ This dissertation proceeds as follows: \Cref{chap:lr} summarises some alternativ
 \Crefrange{chap:tsp}{chap:median} each investigate one or more problems exhibiting significant potential for concurrency.  Specifically: \cref{chap:tsp} focuses on the \gls{hpp}, \gls{hcp} and \gls{tsp} \cite{Applegate2006,Cook2012}; \cref{chap:gcol} on the \gls{gcp} \cite{Lewis2016}; and, \cref{chap:median} on the \gls{medianfilter}, a \gls{mwt} operation performed in image processing \cite{Fisher2016,Gimelfarb2018}.  In each of these chapters, the problem has first been modelled using \gls{cps}, with one or more \glspl{ruleset} developed and analysed, providing a highly concurrent solution to the problem.  Then, the \gls{cps} approach has been investigated empirically, using one or more computer programs.  These programs validated the correctness of the \gls{cps} \glspl{ruleset}.  They also sometimes highlight interesting aspects of either the problem or the proposed \gls{cps} solution.
 
 Finally, \cref{chap:nmp} explores the idea of \gls{nmp}.  %on \gls{nmp}, \fxerror{Finish describing NMP}{a problem where...}.
-Originally motivated by \gls{lbp} \cite{Sun2003,Felzenszwalb2006,Felzenszwalb2011} as used in \gls{sm} \cite{Sinha2020,Tippetts2016,Scharstein2002}, this \namecref{chap:nmp} investigates the situation where individual logical \glspl{pe} are arranged in a lattice and exchange messages as part of computing the solution to a given problem, but every \gls{pe} can only send a message to each connected neighbouring \gls{pe} \emph{after} it has received messages from every other one of its neighbours.  There are two main phases of the core computation process for \gls{nmp}:
+Originally motivated by \gls{lbp} \cite{Sun2003,Felzenszwalb2006,Felzenszwalb2011} as used in \gls{sm} \cite{Sinha2020,Tippetts2016,Scharstein2002}, this \lcnamecref{chap:nmp} investigates the situation where individual logical \glspl{pe} are arranged in a lattice and exchange messages as part of computing the solution to a given problem, but every \gls{pe} can only send a message to each connected neighbouring \gls{pe} \emph{after} it has received messages from every other one of its neighbours.  There are two main phases of the core computation process for \gls{nmp}:
 \begin{inparaenum}[a)]
 \item inter-\gls{pe} communications between neighbours via message passing; and
 \item intra-\gls{pe} computations to update internal data and produce new messages.

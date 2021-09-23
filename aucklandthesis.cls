@@ -191,7 +191,7 @@
 \fi%
 \fi
 \pagenumbering{arabic}
-\setcounter{page}{0}
+% \setcounter{page}{0}
 }
 
 \renewcommand\backmatter{

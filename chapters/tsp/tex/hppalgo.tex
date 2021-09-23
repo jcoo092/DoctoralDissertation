@@ -1,5 +1,5 @@
 \section{\glsentrytext{cps} Hamiltonian Path and Cycle Algorithms}\label{sec:tsp:algohpp}
-This \namecref{sec:tsp:algohpp} discusses only digraphs, since all undirected graphs can be represented quite simply as a directed graph with arcs in both directions simulating edges --- this is in fact how undirected graphs are represented in the below algorithm.
+This \lcnamecref{sec:tsp:algohpp} discusses only digraphs, since all undirected graphs can be represented quite simply as a directed graph with arcs in both directions simulating edges --- this is in fact how undirected graphs are represented in the below algorithm.
 
 \subsection{Formal System Definition}
 
@@ -100,7 +100,7 @@ The major changes to this from the \gls{hpp} algorithm are the addition of an \(
     \item This rule is new to this \gls{ruleset}.  When the \(s\) terms have emptied their \(u\) subcells, every vertex on the graph has been explored, and every \(p\) subcell contains a Hamiltonian Path.  To make those paths Hamiltonian Cycles, another final arc traversal back to the origin vertex is required.  This rule generates \(z\) terms where there is an arc in the digraph from the last vertex on the path back to said origin vertex (stored in an \(r\) subcell in each \(s\) term).  The final Hamiltonian Cycle is selected from one of those \(z\) terms.
     \item Almost identical to rule 3 in \cref{ruleset:tsp:hpp}.  The only difference is that here the rule accounts for the additional presence of \(r\) subcells inside the \(s\) subcells.
     \item Identical to rule 4 in \cref{ruleset:tsp:hpp}.
-    \item Similar to rule 2 in \cref{ruleset:tsp:hpp}.  This rule selects a path from a \(z\) object instead an \(s\) object, but still represents the end of the \gls{tlc}'s evolution.
+    \item Similar to rule 2 in \cref{ruleset:tsp:hpp}.  This rule selects a path from a \(z\) object instead of an \(s\) object, but still represents the end of the \gls{tlc}'s evolution.
 \end{enumerate}
 
 \subsubsection{Definition of terms}

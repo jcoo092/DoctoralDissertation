@@ -26,7 +26,7 @@ In all cases, the rules are written so that the final result is found in one or 
 The below states the rules and steps necessary to find the minimum and maximum of a multiset.  A more comprehensive discussion (from which the following are derived) of these operations can be found in \cite{Cooper2019,Nicolescu2018}.
 
 %-----------------------------------------
-\subsubsection{Minimum --- \bigoh(1)}\label{sec:median:min}
+\subsubsection{Minimum --- \bigoh{1}}\label{sec:median:min}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:min}
@@ -57,7 +57,7 @@ Consider \cref{rules:median:min} and the example in \cref{tab:median:min}.  The 
 \end{table}
 
 %-----------------------------------------
-\subsubsection{\label{sec:median:max}Maximum --- \bigoh(1)}
+\subsubsection{\label{sec:median:max}Maximum --- \bigoh{1}}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:max}
@@ -96,7 +96,7 @@ Consider \cref{rules:median:max} and the example in \cref{tab:median:max}.  The 
 %-------------------------------------------------------
 
 %-----------------------------------------
-\subsubsection{Counting Elements --- \bigoh(1)}\label{sec:median:countelems}
+\subsubsection{Counting Elements --- \bigoh{1}}\label{sec:median:countelems}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:countelems}
@@ -131,7 +131,7 @@ Consider \cref{rules:median:countelems} and the example in \cref{tab:median:coun
 \end{table}
 
 %-----------------------------------------
-\subsubsection{Counting Frequency of Elements --- \bigoh(1)}\label{sec:median:countfreq}
+\subsubsection{Counting Frequency of Elements --- \bigoh{1}}\label{sec:median:countfreq}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:countfreq}
@@ -177,7 +177,7 @@ Consider \cref{rules:median:countfreq} and the example in \cref{tab:median:count
 %-------------------------------------------------------
 
 %-----------------------------------------
-\subsubsection{Sum --- \bigoh(1)}\label{sec:median:sum}
+\subsubsection{Sum --- \bigoh{1}}\label{sec:median:sum}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:sum}
@@ -209,7 +209,7 @@ Consider \cref{rules:median:sum} and the example in \cref{tab:median:sum}.  Thes
 \end{table}
 
 %-----------------------------------------
-\subsubsection{Mean --- \bigoh(1)}\label{sec:median:mean}
+\subsubsection{Mean --- \bigoh{1}}\label{sec:median:mean}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:mean}
@@ -255,7 +255,7 @@ Consider \cref{rules:median:mean} and the example in \cref{tab:median:mean}.  Co
 Rules \cpruleref*{rules:median:mean:4} and \cpruleref*{rules:median:mean:5} perform ceiling integer division.  \cpRuleref{rules:median:mean:4} removes \(C\) copies of the unary digit from \(r\) and adds one copy back to it.  This is repeated as many times as possible, given the number of digits available.  What is left in \(r\) at the end of the step is, in effect, the quotient plus the remainder.  In this example, with a count of nine and a sum of forty-two, the removal can be applied four times, for a total of thirty-six unary digits removed.  Five more are added at the end of the step, meaning a total of eleven remains.  This is not the correct result of ceiling integer division but is the correct quotient (5) plus the remainder (6).  Thus, another copy of the total is kept and divided, without the quotient added back in.  This leaves \cpruleref{rules:median:mean:5} to compute the correct final result by deducting the remainder from the combined quotient and remainder.
 
 %-----------------------------------------
-\subsubsection{Mode --- \bigoh(1)}  \label{sec:median:mode}
+\subsubsection{Mode --- \bigoh{1}}  \label{sec:median:mode}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:mode}
@@ -318,7 +318,7 @@ For example, in the context of \(S_2\), this will be
 \Cref{sec:median:sortsets} \& \cref{sec:median:sortmultisetid} associate each element with the index individually, while \cref{sec:median:sortmultisetrange} groups identical multiset elements into ranges spanning the correct indices.
 
 %-----------------------------------------
-\subsubsection{Sorting Sets --- \bigoh(1)}  \label{sec:median:sortsets}
+\subsubsection{Sorting Sets --- \bigoh{1}}  \label{sec:median:sortsets}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:sortsets}
@@ -354,7 +354,7 @@ Consider \cref{rules:median:sortsets} and the example in \cref{tab:median:sortse
 \end{table}
 
 %-----------------------------------------
-\subsubsection{Sorting Multisets into Ranges --- \bigoh(1)}\label{sec:median:sortmultisetrange}
+\subsubsection{Sorting Multisets into Ranges --- \bigoh{1}}\label{sec:median:sortmultisetrange}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:sortmultisetrange}
@@ -404,7 +404,7 @@ Consider \cref{rules:median:sortmultisetrange} and the example in \cref{tab:medi
 In this example, 2s are in the index range \([1,3)\), 3s are in \([3,4)\), 5s are in \([4,6)\), 6s are in \([6,9)\) and 7s are in \([9,10)\).  This process can also sort all sets that \cref{sec:median:sortsets} can sort (rules \cpruleref*{rules:median:sortmultisetrange:1} and \cpruleref*{rules:median:sortmultisetrange:3} here are closely equivalent to those rules), but the current approach includes unnecessary extra information -- every listed range would be only one step wide, so on set \(S_1\) the final result would be \(\cpfuncnn{r}{2}{1}{1}, \cpfuncnn{r}{3}{2}{2},\dots\), \ie{} 2: \([1,2)\), 3: \([2,3) \dots\) -- and require two unnecessary extra steps.
 
 %-----------------------------------------
-\subsubsection{Sorting Multisets with Unique Identifiers --- \bigoh(1)}\label{sec:median:sortmultisetid}
+\subsubsection{Sorting Multisets with Unique Identifiers --- \bigoh{1}}\label{sec:median:sortmultisetid}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:sortmultisetid}
@@ -456,12 +456,12 @@ It is as yet unclear how to introduce a strict total ordering, as required to so
 \subsection{Selection}\label{sec:median:selection}
 %-------------------------------------------------------
 
-In this \namecref{sec:median:selection}, assume that there is already a term \(\cpfunc{n}{N}\), where \(N\) is the position in the ordered list desired, \ie{} it denotes the \(n^{\text{th}}\) element.  For the examples, it is assumed to be \(\cpfunc{n}{3}\).  Each of these \glspl{ruleset} uses the corresponding sorting procedure of \cref{sec:median:sorting} and then applies a final selection rule to pick the desired element.  Thus, each \gls{ruleset} requires \(\textsc{sort} + 1\) steps.
+In this \lcnamecref{sec:median:selection}, assume that there is already a term \(\cpfunc{n}{N}\), where \(N\) is the position in the ordered list desired, \ie{} it denotes the \(n^{\text{th}}\) element.  For the examples, it is assumed to be \(\cpfunc{n}{3}\).  Each of these \glspl{ruleset} uses the corresponding sorting procedure of \cref{sec:median:sorting} and then applies a final selection rule to pick the desired element.  Thus, each \gls{ruleset} requires \(\textsc{sort} + 1\) steps.
 
 For simplicity, none of the below systems consider the case when the requested index is outside the range of possible indices for the elements, \ie{} when the requested \(N\) is less than one or greater than the magnitude of the multiset.
 
 %-----------------------------------------
-\subsubsection{Selection from Sets --- \bigoh(1)}\label{sec:median:selectsets}
+\subsubsection{Selection from Sets --- \bigoh{1}}\label{sec:median:selectsets}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:selectsets}
@@ -504,7 +504,7 @@ Consider \cref{rules:median:selectsets} and the example in \cref{tab:median:sele
 \end{table}
 
 %-----------------------------------------
-\subsubsection{Selection from Multisets, After Sorting into Ranges --- \bigoh(1)}\label{sec:median:selectmultisetrange}
+\subsubsection{Selection from Multisets, After Sorting into Ranges --- \bigoh{1}}\label{sec:median:selectmultisetrange}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:selectmultisetrange}
@@ -567,7 +567,7 @@ When \(L = 3\), and thus the lower index is three, there is indeed a range with 
 \paragraph{\(\mathbf{N = 7}\):}  Much like the other two cases, while there are a multitude of possible unifications, the upper index must be at least eight, so the lower three ranges are ineligible.  Conversely, the uppermost range does not start until index nine.  \(L = 6\) fits with the correct range of [6,9), however.  Therefore, the correct answer of \(\cpfunc{r}{6}\) is returned.
 
 %-----------------------------------------
-\subsubsection{Selection from Multisets with Unique Identifiers for each Element --- \bigoh(1)}\label{sec:median:selectmultisetid}
+\subsubsection{Selection from Multisets with Unique Identifiers for each Element --- \bigoh{1}}\label{sec:median:selectmultisetid}
 %-----------------------------------------
 
 \begin{proposition}\label{prop:median:selectmultisetid}
@@ -620,7 +620,7 @@ Consider \cref{rules:median:selectmultisetid} and the example in \cref{tab:media
 %-------------------------------------------------------
 
 \begin{theorem}
-The following fundamental statistical operations on numerical sets and multisets each need a constant number of steps and so have a time complexity \bigoh(1) in \gls{cps}:
+The following fundamental statistical operations on numerical sets and multisets each need a constant number of steps and so have a time complexity \bigoh{1} in \gls{cps}:
 \begin{itemize}
     \item Finding the minimum and maximum elements.
     \item Determining the overall number and counting the frequency of elements.
