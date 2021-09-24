@@ -1,0 +1,99 @@
+%-------------------------------------------------------
+\section{\label{sec:back:syncasync}Synchronous vs Asynchronous}
+%-------------------------------------------------------
+
+% \gls{cps} models do not make any \emph{syntactic} difference between synchronous and asynchronous scenarios;
+% this is strictly a \emph{runtime} assumption~\cite{Nicolescu2012}.
+% Any model can run on both the synchronous and asynchronous runtime ``engines'', albeit the results may differ.
+% The concepts of synchronous and asynchronous here are those of the standard timing models in distributed algorithms \cite{Lynch1996}.
+% These apply only to messaging between processes.  For systems with only a single process, there is no meaningful difference.  A lone process will continue evolving without messaging until the system halts (if ever).
+
+% \gls{cps} models do not make any \emph{syntactic} difference between synchronous and asynchronous scenarios;
+% this is strictly a \emph{runtime} assumption~\cite{Nicolescu2012}.
+Any communicating computational model can run on both the synchronous and asynchronous runtime ``engines'', albeit the results may differ.
+The concepts of synchronous and asynchronous here are those of the standard timing models in distributed algorithms \cite{Lynch1996}.
+These apply only to messaging between processes.  For systems with only a single process, there is no meaningful difference.  A lone process will continue evolving without messaging until the system halts (if ever).
+
+For more on the topics discussed in this \lcnamecref{sec:back:syncasync}, the interested reader is referred to \cite{Fokkink2013,Lynch1996,Tel2000}.
+
+\subsection{Rounds}
+Under both synchronous and asynchronous scenarios, all processes work in \emph{rounds} (sometimes also referred to as ``macro-steps'').  A round consists of three repeating sequential sub-steps:
+\begin{enumerate}
+    \item \emph{Receive}:  receive one or more incoming messages
+    \item \emph{Process}:  perform any requisite local computations, and update the local state
+    \item \emph{Send}:  send out new messages as appropriate based on the processing from the previous step
+\end{enumerate}
+
+As alluded to above, if there is only a single process, then it will essentially always remain in the process sub-step, until reaching a point where it stops evolving entirely.  The concept of rounds is superfluous in this situation.  Using or forgoing rounds can be a by-product of the specified \gls{ruleset}.  If there are no rules involving inter-process communication, then the process never enters the send or receive sub-steps.
+
+\subsection{Synchronous}
+Under the synchronous model, all processes evolve in lock-step.  They may carry out the sub-steps at different speeds, but begin and end rounds together.  When considering timing of messaging, there are two standard approaches:  to consider the processing sub-step as taking one time unit and the transit time (\ie{} the time between when the message is sent by the sender and when it is received by the recipient) taking zero time units; or, to consider the processing sub-step as taking zero time units and the transit time taking one time unit.
+
+\subsection{Asynchronous}
+Under the asynchronous model, there is (unsurprisingly) no natural synchronisation between processes.  All processes proceed through the sub-steps at their own pace.  The processing sub-step is considered to take zero time units, and transit times are considered to take any number of time units --- or, alternatively, while processing remains as taking zero time units, transit times take somewhere between zero and one (inclusive) time units.  This makes the second synchronous approach a special case of the asynchronous approach.  The asynchronous model is similar to the theoretical \gls{actor} model.
+
+\subsection{Non-determinism}
+In general, and as with \gls{mc} generally, both scenarios are non-deterministic.  This fact is most obvious in the asynchronous scenario, when messages can arrive at any arbitrary time, but even the synchronous scenario may necessitate non-deterministic choices at times.  \Eg{} when there is a choice between possible unifications, as in \cref{sec:cps:unification}; or, when there are multiple messages in a channel's bag which match the pattern of the receiving process's receipt rule but only one is to be selected,\footnote{Channels are not naturally \gls{fifo} in \gls{cps}.  See \vref{sec:cps:intertlcmess} for more.} likely because the relevant rule runs in \(\cponce\) mode.
+
+If complete determinism is required, it must be carefully built into the system's ruleset.  Determinism in the final result only is known as \emph{confluence}.  This means that, while different evolutions of the system may lead to different intermediate states, the final result computed will always be the same.
+
+\subsection{Echo}
+To illustrate the difference between the synchronous and asynchronous scenarios, consider the illustrations in \cref{fig:cps:echosync,fig:cps:echoasync}.  The Echo algorithm \cite[Ch.~4.3]{Fokkink2013} is used to establish a spanning tree over a graph of nodes/processes, in this case rooted at node 1.  The algorithm works in two phases.  It starts in phase one with an initiator node sending out a message to each of its neighbours.  Each of those recipients then marks the sender as its parent, and in turn sends a phase one message to every other one of its neighbours, then waits to receive a phase one message from each of those other neighbours.  This pattern repeats across the graph.  Once the response phase one messages are received, each node then sends a response phase two message back to its parent.  This carries on until finally the initiator receives the phase two messages back from its neighbours.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Round Zero}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/sync/notext_f0_0.pdf}}
+    \subcaptionbox{Round One}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/sync/notext_f0_1.pdf}}
+    \subcaptionbox{Round Two}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/sync/notext_f0_2.pdf}}
+    \subcaptionbox{Round Three}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/sync/notext_f0_3.pdf}}
+    % \subcaptionbox{Round Four}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/sync/notext_f0_4.pdf}}
+    \caption{Progression of the synchronous echo algorithm, starting from round zero before any messages are sent.  Arrows in red mean phase one messages, while arrows in blue mean phase two messages.}
+    \label{fig:cps:echosync}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Round Zero}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_0.pdf}}
+    \subcaptionbox{Round One}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_1.pdf}}
+    \subcaptionbox{Round Two}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_2.pdf}}
+    \subcaptionbox{Round Three}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_3.pdf}}
+    \subcaptionbox{Round Four}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_4.pdf}}
+    \subcaptionbox{Round Five}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_5.pdf}}
+    % \subcaptionbox{Round Six}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_6.pdf}}
+    % \subcaptionbox{Round Seven}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_7.pdf}}
+    % \subcaptionbox{Round Eight}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_8.pdf}}
+    % \subcaptionbox{Round Nine}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_9.pdf}}
+    % \caption{Progression of the asynchronous echo algorithm, starting from round zero before any messages are sent.  Arrows in red mean phase one messages, while arrows in blue mean phase two messages.  Despite node 1 being the initiator node, node 4 considers node 3 to be its parent because it first receives a phase one message from node 3.}
+    % \label{fig:cps:echoasync}
+% \end{figure}
+
+% \begin{figure}\ContinuedFloat
+%     \centering
+    % \subcaptionbox{Round Zero}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_0.pdf}}
+    % \subcaptionbox{Round One}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_1.pdf}}
+    % \subcaptionbox{Round Two}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_2.pdf}}
+    % \subcaptionbox{Round Three}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_3.pdf}}
+    % \subcaptionbox{Round Four}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_4.pdf}}
+    % \subcaptionbox{Round Five}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_5.pdf}}
+    \subcaptionbox{Round Six}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_6.pdf}}
+    \subcaptionbox{Round Seven}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_7.pdf}}
+    \subcaptionbox{Round Eight}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_8.pdf}}
+    % \subcaptionbox{Round Nine}{\includegraphics[width=0.32\textwidth]{chapters/litreview/images/echo/async/notext_f0_9.pdf}}
+    % \caption{Progression of the asynchronous echo algorithm (cont.), starting from round zero before any messages are sent.  Arrows in red mean phase one messages, while arrows in blue mean phase two messages.  Despite node 1 being the initiator node, node 4 considers node 3 to be its parent because it first receives a phase one message from node 3.}
+    % \label{fig:cps:echoasync}
+    \caption{Progression of the asynchronous echo algorithm, starting from round zero before any messages are sent.  Arrows in red mean phase one messages, while arrows in blue mean phase two messages.  Despite node 1 being the initiator node, node 4 considers node 3 to be its parent because it first receives a phase one message from node 3.}
+    \label{fig:cps:echoasync}
+\end{figure}
+
+In the synchronous case, all messages sent out are received simultaneously, and all nodes proceed through their rounds together.  In the asynchronous case, however, messages may arrive at arbitrary times, and nodes proceed through their rounds entirely independently of one another.  They react to messages as they arrive, and might do nothing for a time while other nodes are working if no new messages arrive during that time.  Depending on communications topology and speeds, it is possible for the incoming message from a neighbour to arrive simultaneously with the sending of the outgoing message, or potentially even before the first node has had a chance to send its message.
+
+% The asynchronous model conceptually closely matches the standard definition of asynchronicity used in distributed computing \cite{Balanescu2011,Nicolescu2014}, and \emph{not} the definition of asynchronicity followed in \cite{Cavaliere2009,Frisco2012,Song2013} and related.  This asynchronous concept differs from the synchronous one primarily in three key respects:
+% \begin{inparaenum}[(1)]
+% \item There is \emph{no} concept of a global clock.  Each step for a given process begins after an arbitrary delay;
+% \item Each step for a process takes zero time.  That is, `internal' evolution of the process is instantaneous, once the step has begun after the aforementioned delay;
+% \item Messages sent between processes via channels take a random non-zero length of time to travel along the channel.
+% \end{inparaenum}
+
+% \begin{anfxwarning}
+% What of the usual \gls{ps} global synchronous clock?
+% \end{anfxwarning}

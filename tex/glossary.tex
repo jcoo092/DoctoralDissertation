@@ -5,9 +5,10 @@
 %% A-M
 \newacronym{bp}{BP}{belief~propagation}
 \newacronym{cp}{CP}{concurrent~propagation}
-\newacronym{csp}{CSP}{Communicating Sequential Processes}
+\newacronym{csp}{CSP}{communicating sequential processes}
 \newacronym{dpsm}{DPSM}{dynamic~programming \gls{sm}}
 \newacronym{dsp}{DSP}{digital signal processor}
+\newacronym{fifo}{FIFO}{first-in-first-out}
 \newacronym{fpga}{FPGA}{field-programmable gate array}
 \newacronym{fps}{FPS}{frames per second}
 \newacronym{gpu}{GPU}{graphics processing unit}
@@ -24,7 +25,7 @@
 \newacronym{nmp}{NMP}{neighbourhood message passing}
 \newacronym{oq}{OQ}{oracle query}
 \newacronym{pe}{proxel}{processing element}
-\newacronym{pram}{PRAM}{Parallel Random Access Machine}
+\newacronym{pram}{PRAM}{parallel random access machine}
 \newacronym{sad}{SAD}{sum of absolute differences}
 \newacronym{skps}{SKPS}{Simple Kernel P~systems}
 \newacronym{ssd}{SSD}{sum of squared differences}
@@ -42,7 +43,7 @@
 
 % N - Z
 \newdefacr{rhs}{RHS}{right-hand side}{A part of the definition of a \gls{cps} rule.  It is the list of terms which are created by the rule's application, and appear in the relevant cell at the end of the step.}
-\newdefacr{sgm}{SGM}{semi-global~matching}{A Stereo Matching algorithm introduced by Hirschmüller that, as the name suggests, sits somewhere between traditional global and local Stereo Matching Algorithms.  This provides advantages in that retains much of the speed advantage of local algorithms, while also receiving much of the benefit derived from taking into consideration a larger part of the total input images.}
+\newdefacr{sgm}{SGM}{semi-global~matching}{Semi-global~matching is a \gls{sm} algorithm introduced by Hirschmüller that, as the name suggests, sits somewhere between traditional global and local \gls{sm} Algorithms.  This provides advantages in that retains much of the speed advantage of local algorithms, while also receiving much of the benefit derived from taking into consideration a larger part of the total input images.}
 \newdefacr{tsp}{TSP}{Travelling Salesman Problem}{An extension of the \glsdesc{hcp}.  Here, the edges between nodes have weights, and the goal of the problem is to find a minimum weight Hamiltonian cycle on the graph.}
 
 % Glossary Entries
@@ -67,6 +68,6 @@
 \newglossaryentry{plingua}{name={P-Lingua}, description={A plain-text markup language used to represent \gls{ps} specifications in computer files readable by both humans and computers.}}
 \newglossaryentry{ruleset}{text={ruleset},name={Ruleset},description={The rules associated with a particular delineated region in a given P~systems variant.  \Eg{} in the case of \gls{clps}, this region is a membrane;  for \gls{tlps} it is a cell;  for \gls{snps} it is a neuron; and for \gls{cps} it is a \gls{tlc}.}}
 \newglossaryentry{sm}{text={stereo~matching},name={Stereo~Matching},description={A family of methods to match points from different images of the same scene to estimate the distance from the capturing cameras to objects in the scene.}}
-\newglossaryentry{snps}{text={spiking neural P~systems},name={Spiking Neural P~Systems},description={One of the three main \gls{ps} variants in common use today.  Whereas \gls{clps} is based on intra-cellular chemical interactions, and \gls{tlps} on inter-cellular interactions, spiking neural P~systems is explicitly based on the idea of neurons in the brain interacting via synapses.  In principle, the communication-based nature of spiking neural P~systems makes it closer to \gls{tlps} than \gls{clps}, but unlike those two it uses only a single object in its alphabet, the spike.  This difference can make solutions to some problems more complex, but has the advantage that it makes it (comparatively) easy to implement those solutions with linear algebra operations.}}
+\newglossaryentry{snps}{text={spiking neural P~systems},name={Spiking Neural P~Systems},description={Spiking neural P~systems is one of the three main \gls{ps} variants in common use today, and was introduced most recently.  Whereas \gls{clps} is based on intra-cellular chemical interactions, and \gls{tlps} on inter-cellular interactions, spiking neural P~systems is explicitly based on the idea of neurons in the brain interacting via synapses.  In principle, the communication-based nature of spiking neural P~systems makes it closer to \gls{tlps} than \gls{clps}, but unlike those two it uses only a single object in its alphabet, the spike.  This difference can make solutions to some problems more complex, but has the advantage that it makes it (comparatively) easy to implement those solutions with linear algebra operations.}}
 \newglossaryentry{tlc}{text={top-level cell},name={Top-level Cell},description={The processing units of \gls{cps}, loosely equivalent to the skin membrane of other P~systems variants.  These are the only objects in the system which have rules and are `active'.  Generally, all other objects present in a system except channels are found inside a top-level cell.}}
 \newglossaryentry{tlps}{text={tissue-like P~systems},name={Tissue-like P~Systems},description={Tissue-like P~systems is one of the oldest \gls{ps} variants, especially of those still in common use, and is based on the transmission of chemicals between cells via channels in biological tissue (rather than movement of chemicals through membranes within a cell like \gls{clps}).  A notable aspect of tissue-like P~systems is that they often include no ability for the cells to process their own contents.  Instead, all computation arises as a consequence of the communication.  Arguably, tissue-like P~systems is better suited to modelling distributed-memory or message-passing based computations than \gls{clps}, whereas \gls{clps} is better for shared-memory-style scenarios.},plural={tissue-like P~system}}

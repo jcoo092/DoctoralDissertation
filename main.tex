@@ -1,6 +1,11 @@
 % \documentclass[newzealand,10pt,partial,draft,onehalfspace]{aucklandthesis}
 % \documentclass[newzealand,10pt,partial,onehalfspace]{aucklandthesis}
-\documentclass[newzealand,10pt,partial,onehalfspace,examcopy]{aucklandthesis}
+\documentclass[newzealand,10pt,partial,onehalfspace,examcopy,final]{aucklandthesis}
+
+\makeatletter
+\renewcommand\@pnumwidth{0.65cm}
+\makeatother
+
 %
 % This is a template for University of Auckland theses.
 %
@@ -182,7 +187,7 @@
 % ====================================================
 % Specify the title page content
 \title{Highly Concurrent Solutions to Graph and Image Processing Problems}
-\subtitle{{\small v0.4.4 compiled on \today}}
+\subtitle{{\small v0.4.7 compiled on \today}}
 \author{James Cooper}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
@@ -252,7 +257,7 @@ Include definitions of promoter and inhibitor in the glossary?
 \glsresetall
 \include{tex/intro}
 \glsresetall
-\include{chapters/litreview/litreview}
+\include{chapters/background/background}
 \glsresetall
 \include{chapters/cpsystems/cpsystems}
 \glsresetall

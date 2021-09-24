@@ -488,7 +488,7 @@ The Hamming distance gives a clear indication of the proportion of the grid whic
 
 \Crefrange{tab:nmp:diffs8cores}{tab:nmp:diffs48cores} show the results of computing the absolute differences, both as their sums, and those sums as a percentage of the grid-wide sum of final \gls{pe} values from the \gls{gs}/\gls{ls} processing.  The latter metric conveys the overall magnitude of difference in results.  The results demonstrate that the difference is less than 2\% in all cases, and usually less than one-hundredth of 1\% on larger grids --- supporting \cref{conj:nmp:1}.  This also appears to provide some evidence for \cref{conj:nmp:2}.  It seems unlikely that a difference of under 1\% will have much impact on the `quality' of the final results.
 
-\subsection{Progressive Completion of \Glsfmtshortpl{pe}}
+\subsection{Progressive Completion of Proxels}
 Conceivably, in some problem domains, valuable information can be gleaned from a partially completed \gls{nmp} process.  With the \gls{ls} and asynchronous variants, given that each \gls{pe} runs independently, they will not necessarily all finish simultaneously.
 
 The \gls{ls} and asynchronous variants provide each \gls{pe} with a greater ability to act as and when appropriate to them, and as shown in \cref{sec:nmp:timingexp} also tend to complete the entire process more quickly.  These factors combined suggest that some \glspl{pe} will complete their respective duties long before the grid as a whole has reached the end.  If so, then problems in the aforementioned domains perhaps do not need to wait until the entire grid has finished before using the computed information or prompting some action.
