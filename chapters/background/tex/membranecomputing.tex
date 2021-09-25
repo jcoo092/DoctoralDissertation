@@ -5,7 +5,7 @@
 \citeauthor{Paun2002} describes \gls{mc} as:
 \blockcquote[][p.~VII]{Paun2002}{Membrane computing is a branch of natural computing which abstracts from the structure and the functioning of living cells. In the basic model, the membrane systems -- also called P systems -- are distributed parallel computing devices, processing multisets of objects, synchronously, in the compartments delimited by a membrane structure. The objects, which correspond to chemicals evolving in the compartments of a cell, can also pass through membranes. The membranes form a hierarchical structure --- they can be dissolved, divided, created, and their permeability can be modified. A sequence of transitions between configurations of a system forms a computation. The result of a halting computation is the number of objects present at the end of the computation in a specified membrane, called the output membrane. The objects can also have a structure of their own that can be described by strings over a given alphabet of basic molecules - then the result of a computation is a set of strings.}
 
-\begin{anfxerror}
+\begin{anfxerror}{P systems Diagram?}
 Include a copy of the membrane layout diagram from Paun?
 \end{anfxerror}
 
@@ -31,8 +31,8 @@ These two features mean that \gls{ps} have unbounded space and processing capaci
 
 Nevertheless, modelling a problem in \gls{mc} can lead to new insights or improved formulations of solutions, as occurs in \cref{chap:nmp}.  For example, in \cite{GimelFarb2013a} (building on \cite{Gimelfarb2011}) \citeauthor{GimelFarb2013a} describe how formulating Symmetric Dynamic Programming \gls{sm} in terms of \gls{ps} led to finding a bug in the implementation, \textcquote[][p.~24]{GimelFarb2013a}{but also (and what is much more important) refactor this algorithm, based on our cell structure.  The result is a more robust and flexible version, which allows us to fine tune its parameters and enhance its capabilities, without rewriting it from scratch.}  Furthermore, as reported in \cite{Nicolescu2014b}, this exercise led directly to the creation of a new \gls{sm} algorithm, Concurrent Propagation \cite{Gimelfarb2012}.  \citeauthor{Pang2018} \cite{Pang2018} also claim significant benefits from modelling certain problems in a novel variant of Enzymatic Numerical \gls{ps} \cite{Pavel2010}, but it is unclear how much of the stated benefit compared to their baseline implementation arises instead from the use of a \gls{gpu}.
 
-\begin{anfxerror}
-Need to include sections describing the general procession of a \gls{mc} system, e.g. that there are rules, and things evolve synchronously in steps, etc.  Also, need to include a description of ``top-down weak-priority order''.
+\begin{anfxerror}{Finish 'em!}
+Need to finish the below subsection...
 \end{anfxerror}
 
 \subsection{Objects, Rules and Steps}

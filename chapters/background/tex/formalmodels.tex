@@ -4,7 +4,7 @@
 
 The models briefly reviewed in this \lcnamecref{sec:back:formalmodels} are just a small sample of the formal models for computation that have been devised.  An important aspect of each of the ones mentioned below is that they explicitly deal with concurrency in some fashion, thus meriting their (brief) discussion.  Ultimately, \gls{mc} is used as the model of choice for the remainder of the dissertation after this \lcnamecref{chap:back}, but it undoubtedly has been influenced by, or developed contemporaneously with, each of the below.  Indeed, close study of each model inevitably reveals commonalities between them.
 
-\subsection{\label{subsec:back:csp}\Glsfmtlong{csp}}
+\subsection{\label{subsec:back:csp}Communicating Sequential Processes}
 
 \emph{\Gls{csp}} is a \emph{process algebra} and abstract model of concurrent computation put forward by Hoare \cite{Hoare1985,Roscoe2011}.  A typical sequential computation is represented by a \emph{process}.  Processes' \textcquote[][p.~478]{Roscoe2011}{behaviour is described in terms of the occurrence and availability of abstract entities called \textit{events}}.  Should more than one event be available simultaneously for a given process, then one will be chosen non-deterministically.  This choice is internal to the process, and not influenced by, or visible to, other processes.
 

@@ -1,7 +1,7 @@
 \section{Median Filtering with \glsfmtname{cps}}\label{sec:medianfilter}
 
-\begin{anfxerror}
-Need to include an algorithm listing how the median filtering stuff works
+\begin{anfxerror}{Include algo environment}
+Need to include an algorithm listing how the \gls{medianfilter}ing stuff works
 \end{anfxerror}
 
 Each pixel in the image is assigned a corresponding \gls{cps} \gls{tlc}.  Each \gls{tlc} communicates with its neighbours over channels using antiport rules to build a list of all the pixel values in the immediate vicinity, then performs median selection to find the median value and stores it as the final result in a term \(r\).  The windows used to define the neighbourhoods are assumed to be square and centred around the filtered pixel. The rules used here assume destructive filtering, \ie{} the operation is performed only once, and nothing besides the final result needs to be kept.
@@ -43,8 +43,8 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
     \item Receive, through antiport exchange, messages from every connected neighbour and store the values received while sending the current pixel's value back.
     \item Stores the pixel's own value in the \(s\) functor alongside the messages received from neighbours, since it is also one of the values to consider here.  This runs once messages have been received from all neighbours.
     \item Performs ceiling division by two on the total count of messages received.  The number computed is the midpoint of the count of stored values.  Division by two as a special case does not require an additional rule, unlike for the general case, as seen when computing the mean in \vref{sec:median:mean}.  When the dividend is an even number, there is no remainder.  When the dividend is an odd number, the single \(\cpundig\) remainder works appropriately to round the result to ceiling division.
-    \item Along with \cpruleref{rule:medianfilter:diffidx}, this carries out the central part of the median filtering process.  All \(t\) terms are compared against all \(s\) terms, and a copy of the unary digit is added to one or the other of them in the index (final) value.  This rule works for when the stored values from each neighbour are different, and thus for each pair, one is strictly greater than the other.
-    \item Along with \cpruleref{rule:medianfilter:lessthan}, this carries out the central part of the median filtering process.  All \(t\) terms are compared against all \(s\) terms, and a copy of the unary digit is added to one or the other of them in the index (final) value.  There is no guarantee in general that there will not be more than one instance of the same value.  For current purposes, a strict total ordering can be imposed by using the label of the neighbour which sent the value.  Every stored value has a unique label (from a given pixel's perspective) for its originating pixel.  In the case of equal values, the value received from the neighbour with the greater ID gains the unary digit.  This effectively reimposes a strict total ordering on the values, and means that one can be selected correctly as the median.
+    \item Along with \cpruleref{rule:medianfilter:diffidx}, this carries out the central part of the \gls{medianfilter}ing process.  All \(t\) terms are compared against all \(s\) terms, and a copy of the unary digit is added to one or the other of them in the index (final) value.  This rule works for when the stored values from each neighbour are different, and thus for each pair, one is strictly greater than the other.
+    \item Along with \cpruleref{rule:medianfilter:lessthan}, this carries out the central part of the \gls{medianfilter}ing process.  All \(t\) terms are compared against all \(s\) terms, and a copy of the unary digit is added to one or the other of them in the index (final) value.  There is no guarantee in general that there will not be more than one instance of the same value.  For current purposes, a strict total ordering can be imposed by using the label of the neighbour which sent the value.  Every stored value has a unique label (from a given pixel's perspective) for its originating pixel.  In the case of equal values, the value received from the neighbour with the greater ID gains the unary digit.  This effectively reimposes a strict total ordering on the values, and means that one can be selected correctly as the median.
     \item Take the accumulated terms \(t\) from rules \cpruleref*{rule:medianfilter:lessthan} and \cpruleref*{rule:medianfilter:diffidx} and select one of them with an ordering index matching half the number of messages received (computed by \cpruleref{rule:medianfilter:halve}).  The value stored in that term is the median.  This value is copied to an \(r\) object to supply the final result, ending the \gls{tlc}'s evolution.
 \end{enumerate}
 
@@ -57,7 +57,7 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
 \paragraph{Functors}
 \begin{description}
 \cptermdef{a}{Adjacency list term.  Holds a set of \(n\) terms with the current pixel's names for each of its neighbours.}
-\cptermdef{b}{Pixel value.  Holds the current pixel's own value, to exchange with neighbours and consider later in the median filtering process.}
+\cptermdef{b}{Pixel value.  Holds the current pixel's own value, to exchange with neighbours and consider later in the \gls{medianfilter}ing process.}
 \cptermdef{c}{Neighbour counter.  Holds a count of the neighbours messages have been exchanged with, which is later halved to find the median ordered index.}
 \cptermdef{e}{Communication terms.  The pixel's own value is sent to its neighbours inside one of these, and likewise the pixel receives its neighbours values in them too.}
 \cptermdef{n}{Neighbour label.  Holds the current pixel's label for a particular neighbour.}
@@ -83,7 +83,7 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
 \begin{cpobjects}
 \cpobjectsline{\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4}} \quad \cpfunc{b}{6} \quad \cpfunc{c}{0}}
 \end{cpobjects}
-\caption{\label{objs:medianfilter:ex0}Objects inside an arbitrary \gls{tlc} at the end of step 0 of the median filtering process.}
+\caption{\label{objs:medianfilter:ex0}Objects inside an arbitrary \gls{tlc} at the end of step 0 of the \gls{medianfilter}ing process.}
 \end{cpobjectsfloat}
 
 \begin{cpobjectsfloat}
@@ -91,7 +91,7 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
 \cpobjectsline{\mathbf{\cpfunc{a}{\cpempty}} \quad \cpfunc{b}{6} \quad \mathbf{\cpfunc{c}{4}} \quad \cpfuncn{s}{2}{8} \; \cpfuncn{s}{3}{3} \; \cpfuncn{s}{4}{6} \; \cpfuncn{s}{5}{3}}
 \cpobjectsline{\cpfuncnn{t}{2}{8}{1} \; \cpfuncnn{t}{3}{3}{1} \; \cpfuncnn{t}{4}{6}{1} \; \cpfuncnn{t}{5}{3}{1}}
 \end{cpobjects}
-\caption{\label{objs:medianfilter:ex1}Objects inside an arbitrary \gls{tlc} at the end of step 1 of the median filtering process.}
+\caption{\label{objs:medianfilter:ex1}Objects inside an arbitrary \gls{tlc} at the end of step 1 of the \gls{medianfilter}ing process.}
 \end{cpobjectsfloat}
 
 \begin{cpobjectsfloat}
@@ -99,7 +99,7 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
 \cpobjectsline{\mathbf{\cpfunc{c}{5}} \quad \cpfuncn{s}{1}{6} \; \cpfuncn{s}{2}{8} \; \cpfuncn{s}{3}{3} \; \cpfuncn{s}{4}{6} \; \cpfuncn{s}{5}{3}}
 \cpobjectsline{\cpfuncnn{t}{1}{6}{1} \; \cpfuncnn{t}{2}{8}{1} \; \cpfuncnn{t}{3}{3}{1} \; \cpfuncnn{t}{4}{6}{1} \; \cpfuncnn{t}{5}{3}{1}}
 \end{cpobjects}
-\caption{\label{objs:medianfilter:ex2}Objects inside an arbitrary \gls{tlc} at the end of step 2 of the median filtering process.}
+\caption{\label{objs:medianfilter:ex2}Objects inside an arbitrary \gls{tlc} at the end of step 2 of the \gls{medianfilter}ing process.}
 \end{cpobjectsfloat}
 
 \begin{cpobjectsfloat}
@@ -107,7 +107,7 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
 \cpobjectsline{\mathbf{\cpfunc{c}{3}} \quad \cpfuncn{s}{1}{6} \; \cpfuncn{s}{2}{8} \; \cpfuncn{s}{3}{3} \; \cpfuncn{s}{4}{6} \; \cpfuncn{s}{5}{3}}
 \cpobjectsline{\mathbf{\cpfuncnn{t}{1}{6}{3}} \; \mathbf{\cpfuncnn{t}{2}{8}{5}} \; \cpfuncnn{t}{3}{3}{1} \; \mathbf{\cpfuncnn{t}{4}{6}{3}} \; \cpfuncnn{t}{5}{3}{1}}
 \end{cpobjects}
-\caption{\label{objs:medianfilter:ex3}Objects inside an arbitrary \gls{tlc} at the end of step 3 of the median filtering process.}
+\caption{\label{objs:medianfilter:ex3}Objects inside an arbitrary \gls{tlc} at the end of step 3 of the \gls{medianfilter}ing process.}
 \end{cpobjectsfloat}
 
 \begin{cpobjectsfloat}
@@ -115,7 +115,7 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
 \cpobjectsline{\cpfunc{c}{3} \quad \cpfuncn{s}{1}{6} \; \cpfuncn{s}{2}{8} \; \cpfuncn{s}{3}{3} \; \cpfuncn{s}{4}{6} \; \cpfuncn{s}{5}{3}}
 \cpobjectsline{\cpfuncnn{t}{1}{6}{3} \; \cpfuncnn{t}{2}{8}{5} \; \cpfuncnn{t}{3}{3}{1} \; \mathbf{\cpfuncnn{t}{4}{6}{4}} \; \mathbf{\cpfuncnn{t}{5}{3}{2}}}
 \end{cpobjects}
-\caption{\label{objs:medianfilter:ex4}Objects inside an arbitrary \gls{tlc} at the end of step 4 of the median filtering process.}
+\caption{\label{objs:medianfilter:ex4}Objects inside an arbitrary \gls{tlc} at the end of step 4 of the \gls{medianfilter}ing process.}
 \end{cpobjectsfloat}
 
 \begin{cpobjectsfloat}
@@ -123,7 +123,7 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
 \cpobjectsline{\mathbf{\cpfunc{r}{6}} \cpfunc{c}{3} \quad \cpfuncn{s}{1}{6} \; \cpfuncn{s}{2}{8} \; \cpfuncn{s}{3}{3} \; \cpfuncn{s}{4}{6} \; \cpfuncn{s}{5}{3}}
 \cpobjectsline{\cpfuncnn{t}{1}{6}{3} \; \cpfuncnn{t}{2}{8}{5} \; \cpfuncnn{t}{3}{3}{1} \; \mathbf{\cpfuncnn{t}{4}{6}{4}} \; \mathbf{\cpfuncnn{t}{5}{3}{2}}}
 \end{cpobjects}
-\caption{\label{objs:medianfilter:ex5}Objects inside an arbitrary \gls{tlc} at the end of step 5 of the median filtering process.}
+\caption{\label{objs:medianfilter:ex5}Objects inside an arbitrary \gls{tlc} at the end of step 5 of the \gls{medianfilter}ing process.}
 \end{cpobjectsfloat}
 
 Assume that an arbitrary exemplar pixel has four neighbours, represented in \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4}}\), and its value is 6, \(\cpfunc{b}{6}\).  The objects present in the \gls{tlc} at the end of every step are listed in \crefrange{objs:medianfilter:ex0}{objs:medianfilter:ex5}, following the format of the examples in \vref{sec:median:stats}.  When \cpruleref{rule:medianfilter:antiport} is applied, the pixel gains four new \(s\) and four new \(t\) functors, \(\cpfuncn{s}{2}{8}\) \& \(\cpfuncnn{t}{2}{8}{1}\), \(\cpfuncn{s}{3}{3}\) \& \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncn{s}{4}{6}\) \& \(\cpfuncnn{t}{4}{6}{1}\), \(\cpfuncn{s}{5}{3}\) \& \(\cpfuncnn{t}{5}{3}{1}\).  \(\cpfunc{c}{0}\) becomes \(\cpfunc{c}{4}\).  \cpRuleref{rule:medianfilter:storeown} adds \(\cpfuncn{s}{1}{6}\) \& \(\cpfuncnn{t}{1}{6}{1}\), and \(\cpfunc{c}{4}\) becomes \(\cpfunc{c}{5}\).

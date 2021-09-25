@@ -6,22 +6,22 @@ Recall that the fundamental difference in behaviour between the \gls{gs}, \gls{l
 
 \subsection{\label{sec:nmp:msgprops}Messaging Properties and Behaviours}
 
-Consider a cell (\gls{pe}) $\pi_0$ in the asynchronous framework of \cref{sec:nmp:pespecific},
+Consider a \gls{pe} $\pi_0$ in the asynchronous framework of \cref{sec:nmp:pespecific},
 where the maximum generation count is $I$, set by the environment via $\cpfunc{i}{I}$.
 Without loss of generality, 
 we consider only a \gls{fne} system and
-assume that $\pi_0$ is a non-border/non-corner cell with four neighbours, 
+assume that $\pi_0$ is a non-border/non-corner \gls{pe} with four neighbours, 
 $\pi_k$, accessible via channels labelled by $k \in \{ 1, 2, 3, 4 \}$. 
 
 \begin{lemma}\label{lemma:nmp:-0}
     For any $k \in \{ 1, 2, 3, 4 \}$, after each round except the last,
-    cell $\pi_0$ contains exactly one $k$-tagged value $\cpvv{k}{\cpdiscard}{\cpdiscard}$, 
+    \gls{pe} $\pi_0$ contains exactly one $k$-tagged value $\cpvv{k}{\cpdiscard}{\cpdiscard}$, 
     which is accepted from channel $k$ 
     --- except the first round, when that value $v$ comes from the environment channel $e$.
 \end{lemma}
 
 \begin{proof}
-    By \cpruleref{rule:nmp:proxspec:recvinputs}, cell $\pi_0$ starts by accepting a value $\cpvv{k}{0}{\cpdiscard}$, from the environment channel $e$.
+    By \cpruleref{rule:nmp:proxspec:recvinputs}, \gls{pe} $\pi_0$ starts by accepting a value $\cpvv{k}{0}{\cpdiscard}$, from the environment channel $e$.
     \cpRuleref{rule:nmp:proxspec:recvfromneighs} gives the only possibility of obtaining another $k$-tagged value, by replacing the current value $v$ with another value $v'$, accepted from channel $k$.
 \end{proof}
 
@@ -40,24 +40,24 @@ $\pi_k$, accessible via channels labelled by $k \in \{ 1, 2, 3, 4 \}$.
 \end{proof}
 
 \begin{remark}\label{remark:nmp:-1}
-The conclusion of \cref{lemma:nmp:-1} will hold even in the hypothetical case that cell $\pi_k$ would be allowed to send multiple copies of the same message $v$. 
+The conclusion of \cref{lemma:nmp:-1} will hold even in the hypothetical case that \gls{pe} $\pi_k$ would be allowed to send multiple copies of the same message $v$. 
 Only the first received copy will be accepted, and the rest will be ignored,
 courtesy of \cpruleref{rule:nmp:proxspec:recvfromneighs}. However, this is not the case, as excess \(w\) \gls{oq} messages are deleted by \cpruleref{rule:nmp:proxspec:uniq}. 
 \end{remark}
 
 \begin{lemma}\label{lemma:nmp:-2}
-    For any $k \in \{ 1, 2, 3, 4 \}$, if channels are reliable and cell $\pi_k$ sends a sequence of messages that reach $\pi_0$ as $\cpvv{k}{g}{\cpdiscard}$, $g \in [1,I]$, 
+    For any $k \in \{ 1, 2, 3, 4 \}$, if channels are reliable and \gls{pe} $\pi_k$ sends a sequence of messages that reach $\pi_0$ as $\cpvv{k}{g}{\cpdiscard}$, $g \in [1,I]$, 
     then $\pi_0$ accepts all these values in the order of their increasing generation numbers.
 \end{lemma}
 
 \begin{proof}
-    Channels are reliable, so no message is lost. Channels in \gls{cps} are not inherently FIFO, but cell $\pi_0$ will still pick messages with increasing generation numbers, by \cref{lemma:nmp:-1}.
+    Channels are reliable, so no message is lost. Channels in \gls{cps} are not inherently \gls{fifo}, but \gls{pe} $\pi_0$ will still pick messages with increasing generation numbers, by \cref{lemma:nmp:-1}.
     As defined by the async version of the model, any messages arriving out-of-order are not lost, but stored in a multiset at the end of the channel
     and will be picked when their time comes.
 \end{proof}
 
 \begin{lemma}\label{lemma:nmp:-3}
-    For any $k \in \{ 1, 2, 3, 4 \}$, and $g \in [1, I]$: cell $\pi_0$ sends one generation $g$ value $v$ over channel $k$, if and only if $\pi_0$ has received three generation $g-1$ values $v$ from three distinct channels $k' \in 
+    For any $k \in \{ 1, 2, 3, 4 \}$, and $g \in [1, I]$: \gls{pe} $\pi_0$ sends one generation $g$ value $v$ over channel $k$, if and only if $\pi_0$ has received three generation $g-1$ values $v$ from three distinct channels $k' \in 
     \{ 1, 2, 3, 4 \} \setminus \{ k \}$.
 \end{lemma}
 
@@ -68,7 +68,7 @@ courtesy of \cpruleref{rule:nmp:proxspec:recvfromneighs}. However, this is not t
     $\cpvv{k_1}{g_1}{d_1}$, $\cpvv{k_2}{g_2}{d_2}$, $\cpvv{k_3}{g_3}{d_3}$, 
     where $g_1 = g-1$, $g_2, g_3 \geq g_1$, and $k, k_1, k_2, k_3$ are all distinct.
     By \cref{lemma:nmp:-2}, $\pi_0$ must have also received two generation $g-1$ values $v$, from $k_2$ and $k_3$.
-    Thus, cell $\pi_0$ has received three values $\cpvv{k_1}{g-1}{d_1}$, $\cpvv{k_2}{g-1}{\cpdiscard}$, $\cpvv{k_3}{g-1}{\cpdiscard}$.
+    Thus, \gls{pe} $\pi_0$ has received three values $\cpvv{k_1}{g-1}{d_1}$, $\cpvv{k_2}{g-1}{\cpdiscard}$, $\cpvv{k_3}{g-1}{\cpdiscard}$.
     
     \textbf{If}. Assume that $\pi_0$ accepts three values $\cpvv{k_1}{g'}{d_1}$, $\cpvv{k_2}{g'}{\cpdiscard}$, $\cpvv{k_3}{g'}{\cpdiscard}$, where $g' = g - 1 \geq 0$. These values need not arrive at the same round. Without loss of generality, assume that $\pi_0$ has just received the first value, $\cpvv{k_1}{g'}{d_1}$, while the other values may have been received and even updated already, 
     $\cpvv{k_2}{g'+h_2}{d_2}$, $\cpvv{k_3}{g'+h_3}{d_3}$, $h_2, h_3 \geq 0$.
@@ -92,14 +92,14 @@ courtesy of \cpruleref{rule:nmp:proxspec:recvfromneighs}. However, this is not t
 \end{theorem}
 
 \begin{proof}
-By bounded induction on $g$. Base case: $g = 0$. By \cpruleref{rule:nmp:proxspec:recvinputs}, cell $\pi_0$ receives \emph{four} $k$-tagged generation $g$ values -- one for each $k \in \{ 1, 2, 3, 4 \}$ -- from the environment channel $e$ (acting on behalf of its neighbour channels). By \cref{lemma:nmp:-3}, applied \emph{four} times, $\pi_0$ sends out \emph{four} generation $g+1$ values $v$, one over each channel $k$.
+By bounded induction on $g$. Base case: $g = 0$. By \cpruleref{rule:nmp:proxspec:recvinputs}, \gls{pe} $\pi_0$ receives \emph{four} $k$-tagged generation $g$ values -- one for each $k \in \{ 1, 2, 3, 4 \}$ -- from the environment channel $e$ (acting on behalf of its neighbour channels). By \cref{lemma:nmp:-3}, applied \emph{four} times, $\pi_0$ sends out \emph{four} generation $g+1$ values $v$, one over each channel $k$.
 
 Induction step: assume that the induction hypothesis holds for 
 $g \in [0, I)$, and we prove that it still holds for $g+1$.
-The induction hypothesis holds for all cells, 
+The induction hypothesis holds for all \glspl{pe}, 
 including $\pi_0$ and $\pi_k$. 
-% Thus, by part (ii), each cell $\pi_k$ sends a generation $g+1$ value $v$,
-Thus, by part (\ref{enumitem:nmp:analysis:-1:2}), each cell $\pi_k$ sends a generation $g+1$ value $v$, 
+% Thus, by part (ii), each \gls{pe} $\pi_k$ sends a generation $g+1$ value $v$,
+Thus, by part (\ref{enumitem:nmp:analysis:-1:2}), each \gls{pe} $\pi_k$ sends a generation $g+1$ value $v$, 
 which is further received by $\pi_0$, as $\cpvv{k}{g+1}{\cpdiscard}$.
 This proves part (\ref{enumitem:nmp:analysis:-1:1}) of the induction step.
 
@@ -118,7 +118,7 @@ This proves part (\ref{enumitem:nmp:analysis:-1:2}) of the hypothesis.
 \end{proof}
 
 \begin{theorem}\label{theorem:nmp:-3}
-    For each cell $\pi_0$, the neighbourhood (inter-cell) messaging loop stops after receiving the last generation $I$ value.
+    For each \gls{pe} $\pi_0$, the neighbourhood (inter-\gls{pe}) messaging loop stops after receiving the last generation $I$ value.
 \end{theorem}
 
 \begin{proof}
@@ -127,7 +127,7 @@ This proves part (\ref{enumitem:nmp:analysis:-1:2}) of the hypothesis.
 
 \begin{theorem}\label{theorem:nmp:-4}
     For the asynchronous system in \cref{sec:nmp:pespecific}, 
-    each cell (\gls{pe}) sends and receives the same number of messages as in the \gls{gs} system in \cref{sec:nmp:systemwide} and the \gls{ls} system in \cref{sec:nmp:localsync}.   
+    each \gls{pe} sends and receives the same number of messages as in the \gls{gs} system in \cref{sec:nmp:systemwide} and the \gls{ls} system in \cref{sec:nmp:localsync}.   
     Thus, the system as a whole uses the same number of messages.
 \end{theorem}
 
@@ -137,7 +137,7 @@ This proves part (\ref{enumitem:nmp:analysis:-1:2}) of the hypothesis.
 
 \begin{remark}\label{remark:nmp:-2}
     The evolution of the asynchronous version can be suggestively summarised by
-    analysing the following four typical cases of cell $\pi_0$ snapshots,
+    analysing the following four typical cases of \gls{pe} $\pi_0$ snapshots,
     which focus on the received values having the \emph{least generation number}, here indicated by $g$.
     Note that each star (*) indicates the channel of the incoming value 
     that triggers the sending of a generation $g+1$ message, 
@@ -221,7 +221,7 @@ Determining the truth or falsity of \cref{conj:nmp:1,conj:nmp:2} is still an ope
     No matter the approach to \gls{nmp} employed, the most generations any given \gls{pe} may be ahead of any other \gls{pe} on the lattice depends on their distance from each other, as measured by the smallest number of intermediate \glspl{pe} along any path between the two.
 \end{proposition}
 
-The requirement for a \gls{pe} to have received messages from every other neighbour before preparing a message to send to the final neighbour means that, at a certain point, a \gls{pe} transitively depends on its neighbours' neighbours in an ever-expanding radius.  A given \gls{pe} cannot send a new message to neighbour 4 until it has received messages from neighbours 1-3.  In turn, neighbour 4 cannot send messages to any of its other neighbours besides the original \gls{pe} until it has received the next message from the original \gls{pe}.  The same then applies to those neighbours of the original \gls{pe}'s neighbour 4, \etc{}.
+The requirement for a \gls{pe} to have received messages from every other neighbour before preparing a message to send to the final neighbour means that, at a certain point, a \gls{pe} transitively depends on its neighbours' neighbours in an ever-expanding radius.  A given \gls{pe} cannot send a new message to neighbour 4 until it has received messages from neighbours 1-3.  In turn, neighbour 4 cannot send messages to any of its other neighbours besides the original \gls{pe} until it has received the next message from the original \gls{pe}.  The same then applies to those neighbours of the original \gls{pe}'s neighbour 4, \etc{}
 
 This reasoning gives rise to the intuition in \cref{prop:nmp:3}.  If one of the \glspl{pe} stops sending messages but has not yet reached its maximum generation, the neighbouring \glspl{pe} will successively be unable to send further messages themselves, which will ripple across the lattice and eventually prevent farther \glspl{pe} from sending further messages as well.  Until the ripple has progressed across the lattice, however, the more remote \glspl{pe} may still send new messages.  Therefore, in all cases where two \glspl{pe} have a path between them, there is an inter-dependency, albeit in some cases far removed.  As yet, no suitable and convincing formal proof of this idea has been found.
 
@@ -303,7 +303,7 @@ What might happen if there is a systematic delay in only one direction, and thus
     \label{fig:nmp:max}
 \end{figure}
 
-The sequence in \cref{fig:nmp:max} was produced by using the maximum of the messages received from the other neighbours when computing the new outgoing messages for each \gls{pe}.\footnote{Given that both systems only have two values for each cell and updates to a given cell are based on values in surrounding ones, it does not seem coincidental that this progression bears some resemblance to Conway's Game of Life.}  As with the sequence in \cref{fig:nmp:maxpdatum}, the spread of the influence from the centre \gls{pe} moves outward, similar to an expanding `+' shape.  Notably, however, points in the grid (except the centre \gls{pe} for one round) oscillate between the minimum and the maximum, showing that the influence from the centre \gls{pe} is only relevant for every second message update computation.  Felzenzswalb \& Huttenlocher \cite{Felzenszwalb2006} noticed this oscillating behaviour and used it to halve the number of computations required to produce the same results in their improved \gls{bp} \gls{sm} implementation.
+The sequence in \cref{fig:nmp:max} was produced by using the maximum of the messages received from the other neighbours when computing the new outgoing messages for each \gls{pe}.\footnote{Given that both systems only have two values for each \gls{pe} and updates to a given \gls{pe} are based on values in surrounding ones, it does not seem coincidental that this progression bears some resemblance to Conway's Game of Life.}  As with the sequence in \cref{fig:nmp:maxpdatum}, the spread of the influence from the centre \gls{pe} moves outward, similar to an expanding `+' shape.  Notably, however, points in the grid (except the centre \gls{pe} for one round) oscillate between the minimum and the maximum, showing that the influence from the centre \gls{pe} is only relevant for every second message update computation.  \citeauthor{Felzenszwalb2006} \cite{Felzenszwalb2006} noticed this oscillating behaviour and used it to halve the number of computations required to produce the same results in their improved \gls{bp} \gls{sm} implementation.
 
 \subsubsection{Mean Over Messages Received}
 \begin{figure}

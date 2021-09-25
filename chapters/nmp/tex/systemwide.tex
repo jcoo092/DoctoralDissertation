@@ -2,7 +2,7 @@
 
 \cpresetrulenumber
 
-This \lcnamecref{sec:nmp:systemwide} presents the first \gls{nmp} variant, wherein the entire system evolves as one, and every \gls{pe} executes the same rule(s) simultaneously.  For the entirety of this \lcnamecref{chap:nmp}, assume that all \glspl{pe}, channels, the oracle, and environment behave correctly and follow their respective protocols, without faults, corruptions, lost messages, \etc{}  This significantly simplifies the presented systems by allowing the elision of error handling concepts and describing only the intended operation.
+This \lcnamecref{sec:nmp:systemwide} presents the first \gls{nmp} variant, wherein the entire system evolves as one, and every \gls{pe} executes the same rule(s) simultaneously.  For the entirety of this \lcnamecref{chap:nmp}, assume that all \glspl{pe}, channels, the oracle (\(o\)), and environment (\(e\)) behave correctly and follow their respective protocols, without faults, corruptions, lost messages, \etc{}  This significantly simplifies the presented systems by allowing the omission of error handling concepts and describing only the intended operation.
 
 \begin{figure}
     \centering
@@ -15,7 +15,7 @@ The layout of the system, from the perspective of an arbitrary \gls{pe}, is depi
 
 In the current approach, each \gls{pe} has \emph{no} direct knowledge of its neighbouring \glspl{pe}.  Instead, it interacts with channels that connect on the other end to those neighbours; the channels interpose between the \glspl{pe}.  Furthermore, each label for a neighbour in a given \gls{pe} is \emph{not} the system's ID for that neighbour, but the \gls{pe}'s label for a connecting channel endpoint.  Nevertheless, as a shortcut, \glspl{pe} will simply be referred to as communicating with their neighbours.  Messages exchanged by \glspl{pe} may be referred to as \emph{\gls{nm} messages}, while messages exchanged with the oracle may be referred to as \emph{\gls{oq} messages}.
 
-In the \gls{gs} version, the entire system evolves in lock-step, and thus is always in the same phase and \gls{cps} state.  This follows a basic process, consisting of four conceptually distinct phases, the middle two of which may be repeated.  Specifically, the system proceeds as follows (the rules are listed in \cref{ruleset:nmp:systemwide} and explained in \cref{sec:nmp:systemwide:rulesdesc}):
+In the \gls{gs} version, the entire system evolves in lock-step, and thus is always in the same phase and \gls{cps} state.  This follows a basic process, consisting of four conceptually distinct phases, the middle two of which may be repeated.  Specifically, the system proceeds as follows (the rules are listed in \vref{ruleset:nmp:systemwide} and explained in \vref{sec:nmp:systemwide:rulesdesc}):
 
 \begin{enumerate}
     \item\label{enumitem:nmp:init} Initialisation (rules \cpruleref*{rule:nmp:systemwide:recvcounter} \& \cpruleref*{rule:nmp:systemwide:recvinput})
@@ -79,7 +79,7 @@ Recall from \cref{sec:cps:formaldescriptions} that a given \gls{cps} implementat
 
 \cptuple{\text{NMP-GS}}{\cpset{\sigma_1, \dots, \sigma_{\text{max}}}}{A}{\cpset{\emptyset \, | \, t \in T}}{\text{\cref{ruleset:nmp:systemwide}}}{\cpset{s_1, s_2, s_3, s_4, s_5, s_6, s_7}}{s_1}
 
-\(T\) is a set of top-level cells, each representing a single \gls{pe}, numbered from one to the total size of the lattice.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is the set of all terms defined in \cref{sec:nmp:systemwide:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is empty barring appropriate channel endpoints.
+\(T\) is a set of \glspl{tlc}, each representing a single \gls{pe}, numbered from one to the total size of the lattice.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is the set of all terms defined in \cref{sec:nmp:systemwide:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is empty barring appropriate channel endpoints.
 
 \subsection{\label{sec:nmp:systemwide:rulesdesc}Description of Rules}
 
@@ -146,7 +146,7 @@ Recall from \cref{sec:cps:formaldescriptions} that a given \gls{cps} implementat
 \paragraph{Functors}
 \begin{description}
     \cptermdef{i}{A generation counter.  Used to count the number of generations of \gls{nm} remaining before moving to the finalisation phase.}
-    \cptermdef{v}{The \(v\) compound terms described in \cref{sec:cps:compoundterms}, which serve as \gls{nm} messages, \emph{except} here the generation counter is elided because it is unneeded --- the \(i\) counter serves the same purpose.}
+    \cptermdef{v}{The \(v\) compound terms described in \cref{sec:cps:compoundterms}, which serve as \gls{nm} messages, \emph{except} here the generation counter is omitted because it is unneeded --- the \(i\) counter serves the same purpose.}
     \cptermdef{w}{The same as the \(v\) terms, but used as messages to the oracle for \gls{oq}.}
     \cptermdef{w'}{The same as the above \(w\) objects, but marked to indicate to the oracle that they are to be used for finalisation rather than \gls{oq}.}
     \cptermdef{z}{Final output functor.  Holds the value that is sent to the environment at the last step.}

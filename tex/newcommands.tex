@@ -3,15 +3,16 @@
 % #2 - Short e.g. API
 % #3 - Full name e.g. Application Programming Interface
 % #4 - Description
-\newcommand{\newdefacr}[4]
+\newcommand{\newdefacr}[5]
 {
     % % Glossary entry
     % \newglossaryentry{#1-glossary}
     % {
     %     text={#2},
     %     long={#3},
+    %     name={#4}, (the one to appear in titles and the glossary)
     %     name={\glsentrylong{#1-glossary} (\glsentrytext{#1-glossary})},
-    %     description={#4},
+    %     description={#5},
     %     sort={#3}
     % }
     
@@ -20,8 +21,9 @@
     {
         text={#2},
         long={#3},
-        name={\glsentrytext{#1-glossary} (\glsentrylong{#1-glossary})},
-        description={#4},
+        % name={\glsentrytext{#1-glossary} (\glsentrylong{#1-glossary})},
+        name={#4},
+        description={#5},
         sort={#3}
     }
 
@@ -31,7 +33,7 @@
         type=\acronymtype,
         name={\glsentrytext{#1-glossary}}, % Short
         description={\glsentrylong{#1-glossary}}, % Full name
-        first={\glsentryname{#1-glossary}\glsadd{#1-glossary}},
+        first={\glsentrylong{#1-glossary} (\glsentrytext{#1-glossary})\glsadd{#1-glossary}},
         see=[Glossary:]{#1-glossary}, % Reference to corresponding glossary entry
         sort={#2}
     }
