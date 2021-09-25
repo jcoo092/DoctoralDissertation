@@ -39,3 +39,85 @@ It may be helpful in some circumstances, however, to simulate the nature of a bl
 The overall effect of using the unique state is that it ensures no other rule may be used inside a particular \gls{tlc} at a given step.  Effectively, the \gls{tlc} becomes quiescent until another \gls{tlc} makes an appropriate offer to send a message to the first cell.  At that point, one or more messages are exchanged as appropriate, and the receiving \gls{tlc} returns to its standard processing otherwise.  This is used in \cref{sec:nmp:pespecific} (rules 9 \& 10 in \vref{ruleset:nmp:proxspec}).
 
 % -------------------------------------------------
+
+%-------------------------------------------------------
+\subsection{\label{sec:cps:syncasync}Synchronous vs Asynchronous Messaging in \glsfmtname{cps}}
+%-------------------------------------------------------
+% % \gls{cps}' models do not make any \emph{syntactic} difference between synchronous and asynchronous scenarios;
+% % this is strictly a \emph{runtime} assumption~\cite{Nicolescu2012}.
+% % Any model can run on both the synchronous and asynchronous runtime ``engines'',
+% % albeit the results may differ.
+% % The asynchronous model conceptually closely matches the standard definition of asynchronicity used in distributed computing \cite{Balanescu2011,Nicolescu2014}, and \emph{not} the definition of asynchronicity followed in \cite{Cavaliere2009,Frisco2012,Song2013} and related.  This asynchronous concept differs from the synchronous one primarily in three key respects:
+% % \begin{inparaenum}[(1)]
+% % \item There is \emph{no} concept of a global clock.  Each step for a given \gls{tlc} begins after an arbitrary delay;
+% % \item Each step for a \gls{tlc} takes zero time.  That is, `internal' evolution of the \gls{tlc} is instantaneous, once the step has begun after the aforementioned delay;
+% % \item Messages sent between \glspl{tlc} via channels take a random non-zero length of time to travel along the channel.
+% % \end{inparaenum}
+
+% % \citeauthor{Fokkink2013} says of asynchronous communications: \textcquote[][p.~7]{Fokkink2013}{\textelp{} that sending and receiving a message are distinct events at the sending and receiving \textdel{process}\textins{\glspl{tlc}}, respectively. The delay of a message in a channel is arbitrary but finite.}
+
+% % \begin{anfxerror}{Still need to tidy up this section!}
+% % Include a definition of asynchronous from distributed computing — probably hunt for something in Lynch's book.
+% % \end{anfxerror}
+
+% \gls{cps}' models do not make any \emph{syntactic} difference between synchronous and asynchronous scenarios;
+% this is strictly a \emph{runtime} assumption~\cite{Nicolescu2012}.
+% Any model can run on both the synchronous and asynchronous runtime ``engines'',
+% albeit the results may differ.
+% The asynchronous model conceptually closely matches the standard definition of asynchronicity used in distributed computing \cite{Balanescu2011,Nicolescu2014}, and \emph{not} the definition of asynchronicity followed in \cite{Cavaliere2009,Frisco2012,Song2013} and related.  This asynchronous concept differs from the synchronous one primarily in three key respects:
+% \begin{inparaenum}[(1)]
+% \item There is \emph{no} concept of a global clock.  Each step for a given \gls{tlc} begins after an arbitrary delay;
+% \item Each step for a \gls{tlc} takes zero time.  That is, `internal' evolution of the \gls{tlc} is instantaneous, once the step has begun after the aforementioned delay;
+% \item Messages sent between \glspl{tlc} via channels take a random non-zero length of time to travel along the channel.
+% \end{inparaenum}
+
+% \citeauthor{Fokkink2013} says of asynchronous communications: \textcquote[][p.~7]{Fokkink2013}{\textelp{} that sending and receiving a message are distinct events at the sending and receiving \textdel{process}\textins{\glspl{tlc}}, respectively. The delay of a message in a channel is arbitrary but finite.}
+
+% \begin{anfxerror}{Still need to tidy up this section!}
+% Include a definition of asynchronous from distributed computing — probably hunt for something in Lynch's book.
+% \end{anfxerror}
+
+\gls{cps} models do not make any \emph{syntactic} difference between synchronous and asynchronous messaging (\cref{sec:back:syncasync}) scenarios;
+this is strictly a \emph{runtime} assumption~\cite{Nicolescu2012}.
+Any model can run on both the synchronous and asynchronous runtime ``engines'', albeit the results may differ.  All \glspl{tlc} still follow the same global clock for each step, but the start and end of their rounds may differ under asynchronicity, due to varying arrival times of messages on channels.
+% This specifically applies to messaging between \glspl{tlc}.  For systems with only a single \gls{tlc}, there is no meaningful difference.
+% The concepts of synchronous and asynchronous here are those of the standard timing models in distributed computing.
+
+% \paragraph{Rounds}
+% Under both synchronous and asynchronous scenarios, all \glspl{tlc} work in \emph{rounds} (sometimes also referred to as ``macro-steps'').  A round consists of three repeating sequential sub-steps:
+% \begin{enumerate}
+%     \item \emph{Receive}:  receive one or more incoming messages
+%     \item \emph{Process}:  perform any requisite local computations, and update the local state
+%     \item \emph{Send}:  send out new messages as appropriate based on the processing from the previous step
+% \end{enumerate}
+
+% \paragraph{Synchronous Messaging}
+% Under the synchronous model, all \glspl{tlc} evolve in lock-step.  They may carry out the sub-steps at different speeds, but begin and end rounds together.  All messages take one step to be placed into the relevant channel, and either reach the bag at the other end, or the waiting \gls{tlc} if it is engaged in a blocking wait.   %When considering timing of messaging, there are two standard approaches:  to consider the processing sub-step as taking one time unit and the transit time (\ie{} the time between when the message is sent by the sender and when it is received by the recipient) taking zero time units; or, to consider the processing sub-step as taking zero time units and the transit time taking one time unit.%  The synchronous model shares some similarities with, but is \emph{not} logically equivalent to \gls{csp} or \gls{pram}.
+
+% \paragraph{Asynchronous Messaging}
+% Under the asynchronous model, there is (unsurprisingly) no natural synchronisation between \glspl{tlc}.  All \glspl{tlc} proceed through the sub-steps at their own pace.  Moreover, %  The processing sub-step is considered to take zero time units, and transit times are considered to take any number of time units.  Alternatively, while processing remains as taking zero time units, transit times take somewhere between zero and one (inclusive) time units.  This makes the second synchronous approach a special case of the asynchronous approach.  The asynchronous model is similar to the theoretical \gls{actor} model.
+
+\paragraph{Non-determinism}
+In general, and as with \gls{mc} generally, both scenarios are non-deterministic.  If complete determinism is required, it must be carefully built into the system's \gls{ruleset}.  This fact is most obvious in the asynchronous scenario, when messages can arrive at any arbitrary time, but even the synchronous scenario may necessitate non-deterministic choices at times. \Eg{} when there is a choice between possible
+unifications, as in \cref{sec:cps:unification}; or, when there are multiple messages in a channel’s bag
+which match the pattern of the receiving \gls{tlc}’s receipt rule but because the relevant rule runs in \(\cponce\) mode only one is to be selected.
+
+Determinism in the final result only is known as \emph{confluence}.  This means that, while different evolutions of the system may lead to different intermediate states, the final result computed will always be the same.  Confluence too must be built into the \gls{ruleset} if it is required.
+
+% \paragraph{Echo}
+% To illustrate the difference between the synchronous and asynchronous scenarios, consider the illustrations in [echo figures].  The Echo algorithm is used to establish a spanning tree over a graph of nodes/\glspl{tlc}, in this case rooted at node 1.
+
+% In the synchronous case, all messages sent out are received simultaneously, and all nodes proceed through their rounds together.  In the asynchronous case, however, messages may arrive at arbitrary times, and nodes proceed through their rounds entirely independently of one another.  They react to messages as they arrive, and might do nothing for a time while other nodes are working if no new messages arrive during that time.
+
+% The asynchronous model conceptually closely matches the standard definition of asynchronicity used in distributed computing \cite{Balanescu2011,Nicolescu2014}, and \emph{not} the definition of asynchronicity followed in \cite{Cavaliere2009,Frisco2012,Song2013} and related.  This asynchronous concept differs from the synchronous one primarily in three key respects:
+% \begin{inparaenum}[(1)]
+% \item There is \emph{no} concept of a global clock.  Each step for a given \gls{tlc} begins after an arbitrary delay;
+% \item Each step for a \gls{tlc} takes zero time.  That is, `internal' evolution of the \gls{tlc} is instantaneous, once the step has begun after the aforementioned delay;
+% \item Messages sent between \glspl{tlc} via channels take a random non-zero length of time to travel along the channel.
+% \end{inparaenum}
+
+% For more on the topics discussed in this \lcnamecref{sec:cps:syncasync}, the interested reader is referred \fxerror{Need citations for Lynch and Tel}{to} \cite{Fokkink2013}.
+
+% \begin{anfxwarning}
+% What of the usual \gls{ps} global synchronous clock?
+% \end{anfxwarning}
