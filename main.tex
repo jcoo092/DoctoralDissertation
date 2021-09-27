@@ -1,6 +1,6 @@
-% \documentclass[newzealand,10pt,partial,draft,onehalfspace]{aucklandthesis}
+\documentclass[newzealand,10pt,partial,draft,onehalfspace]{aucklandthesis}
 % \documentclass[newzealand,10pt,partial,onehalfspace]{aucklandthesis}
-\documentclass[newzealand,10pt,partial,onehalfspace,examcopy,final]{aucklandthesis}
+% \documentclass[newzealand,10pt,partial,onehalfspace,examcopy,final]{aucklandthesis}
 
 \makeatletter
 \renewcommand\@pnumwidth{0.77cm}
@@ -77,7 +77,9 @@
 % The below was taken from https://tex.stackexchange.com/a/82224 to get rid of some warnings with pgfplots when running in draft mode
 \pgfkeys{/pgf/images/include external/.code=\includegraphics{#1}}
 
+% \tikzexternalize[optimize=false]
 \tikzexternalize[optimize command away=\includepdf]
+% \tikzexternalize
 
 % Typeface options — choose one if desired
 % or choose a different typeface to accommmodate character sets
@@ -187,7 +189,7 @@
 % ====================================================
 % Specify the title page content
 \title{Highly Concurrent Solutions to Graph and Image Processing Problems}
-\subtitle{{\small v0.5.0 compiled on \today}}
+\subtitle{{\small v0.5.1 compiled on \today}}
 \author{James Cooper}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
