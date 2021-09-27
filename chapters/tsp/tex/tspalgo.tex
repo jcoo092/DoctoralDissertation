@@ -36,7 +36,7 @@ Again the algorithm requires five rules, presented in \cref{ruleset:tsp:tsp}.  T
     \caption[\Gls{ruleset} for the \glsentrylong{tsp-glossary}]{\label{ruleset:tsp:tsp}\Gls{ruleset} for our \gls{tsp} \gls{cps} algorithm.}
 \end{cprulesetfloat}
 
-The \(e\) subcells store the cost of traversing an arc in the digraph with a new \(c\) subcell.  The costs are extracted from the \(e\) subcells via pattern-matching, and accumulated in the \(s\) subcells through addition.  Otherwise, the first four rules are substantively unchanged from those presented in \cref{ruleset:tsp:hcp}.  \cpRuleref{rule:tsp:tsp:min}, however, has been more notably modified, in that it now includes an \gls{inhibitor} as a condition, as well as the promoter.  The \gls{inhibitor} acts to ensure that the path chosen is truly one of minimum cost, in accordance with the process described in \cref{sec:median:min}.
+The \(e\) subcells store the cost of traversing an arc in the digraph with a new \(c\) subcell.  The costs are extracted from the \(e\) subcells via pattern-matching, and accumulated in the \(s\) subcells through addition.  Otherwise, the first four rules are substantively unchanged from those presented in \cref{ruleset:tsp:hcp}.  \cpRuleref{rule:tsp:tsp:min}, however, has been more notably modified, in that it now includes an \gls{inhibitor} as a condition, as well as the \gls{promoter}.  The \gls{inhibitor} acts to ensure that the path chosen is truly one of minimum cost, in accordance with the process described in \cref{sec:median:min}.
 
 The time complexity of this algorithm remains unchanged, as it merely expands the space complexity slightly.  Thus, the time complexity can still be summarised as Proposition \ref{prop:tsp:tspruntime}:
 
