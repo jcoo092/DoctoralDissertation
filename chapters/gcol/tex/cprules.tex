@@ -1,4 +1,4 @@
-\section{\label{sec:gcol:cpsys}\glsfmtname{cps} Solution to the \glsfmtlong{gcp-glossary}}
+\section{\label{sec:gcol:cpsys}\glsfmtname{cps} Solution to the \glsfmtname{gcp-glossary}}
 In the \gls{cml} simulation of the problem, most of the work, in fact, is performed by the instantiation of new objects, rather than communication.  Thus, the problem appears to be an excellent fit to the pre-existing formulation of \gls{cps} \cite{Nicolescu2018}.
 
 This solution assumes a graph with at most one edge between nodes (\ie{}. there are not two or more edges between the same two nodes), and that there are no edges leading from a node back to itself.  Further, it takes as given inputs to the process conceptual finite sets \(V \subset \mathbb{N}\) representing the nodes of the graph\footnote{In fact, any finite set of arbitrary symbols could be used, but this discussion is restricted to the natural numbers for ease of reading.}; \(E \subseteq \{(i,j)~|~i, j \in V, i \neq j \}\) representing the edges of the graph; and \(K\) representing the chosen colours, where \(K\) contains whatever representation of the desired colours is considered appropriate.

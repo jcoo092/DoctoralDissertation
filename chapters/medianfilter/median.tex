@@ -3,6 +3,34 @@
 
 \input{chapters/medianfilter/tex/intro}
 \input{chapters/medianfilter/tex/statistics}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{anfxerror}{Rejig this}
+Need to blend this bit into the rest of the chapter somehow.
+\end{anfxerror}
+
+\section{\label{subsec:imgprocpsys}Image Processing and Computer Vision in \glsfmtname{ps}}
+\begin{anfxwarning}{Some citations to include}
+\cite{Zhang2012,Yuan2019}
+\end{anfxwarning}
+
+Perhaps owing to the potentially unbounded space and parallelism capacity of \gls{ps}, combined with the embarrassingly parallel nature of many tasks in Image Processing \& Computer Vision, the latter have proved to be fertile ground for the former, although not every publication puts its model to the test with a computerised simulation, or if it does, the authors may only provide scant details \cite{Diaz-Pernil2019}.
+
+\citeauthor{Christinal2011} \cite{Christinal2011} described a family of \gls{tlps} to perform region-based segmentation of both 2D and 3D images.  Despite their family of systems requiring only two cells, it also needed custom rule sets based on the size of the images as well as the number of colours present, with a number of rules per set proportional to the same measurements.  The paper showed the results of simulating the system, but provides no details on performance.
+
+\citeauthor{Diaz-Pernil2013} \cite{Diaz-Pernil2013} commented that \enquote{\textelp{} commonly \textins{a} parallel algorithm needs to be re-designed with only slight references to the \textins{sequential original}.  \textelp{} the design of a new parallel implementation not inspired by the sequential one allows \textelp{} the proposal of new creative solutions.}  They then demonstrated this fact by designing a new edge detection and segmentation algorithm named `A Graphical P (AGP) segmentator', inspired by the Sobel operator (see \eg{} \cite{Nixon2012}) and using the segmentation method from \cite{Christinal2011}, which they modelled in \gls{tlps}.  The authors implemented their new algorithm on a \gls{gpu} and compared it with an implementation of the \numproduct{3x3} and \numproduct{5x5} Sobel operators, finding that theirs had near-identical runtimes but superior edge detection capabilities.
+
+\citeauthor{Diaz-Pernil2013a} \cite{Diaz-Pernil2013a} further explored modelling classic image processing techniques by implementing \citeauthor{Guo1989}'s binary image skeletonisation technique \cite{Guo1989} with \gls{snps}.  The overall system's rules templates are reasonably simple, but include references to a set \(\mathit{DEL}\) (used as a lookup to determine whether a cell should turn white or stay black) which does not appear to be modelled inside the system, meaning that it is not self-contained.  The authors simulated this system on a \gls{gpu}, but found that their implementation was upwards of twice as slow as another pre-existing implementation.  Confusingly, however, they state that one of the reasons for this is \enquote{that the use of an alphabet with only one object, the spike \(a\), does not fit in the GPU architecture}.  This statement is perplexing, given that spikes can easily be represented as simple integers.  The authors also commented that the synchronous nature of the model is unrealistic, and imposing a global clock upon the system can be problematic.
+
+\citeauthor{Nicolescu2014} \cite{Nicolescu2014} alternatively applied \gls{cps} to image skeletonisation based on \citeauthor{Guo1989}'s technique \cite{Guo1989}, presenting three forms of a solution: Synchronous versions that use multiple or a single cell (essentially the latter replicates the former via the use of sub-membranes), and an asynchronous multi-cell version.  The asynchronous version no longer assumes that all messages are passed between cells simultaneously and instantaneously, compensating for this by increasing the number of messages used.  This form, while arguably more realistic to modern computers, requires a greater message complexity. A simplified \Gls{actor}-model-based (see \cref{subsec:back:actors}) implementation using \fsharp{}'s \texttt{MailboxProcessor} \cite[ch.~11]{Syme2015a} was presented, but no results from running it were reported.
+
+\citeauthor{Nicolescu2015} \cite{Nicolescu2015} further applied \gls{cps} to seeded region growing of greyscale images.  The described system used a two-level approach, based on the `Structured Grid Dwarf' of the 13 Berkeley Dwarves \cite{Asanovic2006}, where the image was divided into rectangular blocks of multiple pixels.  Each block was modelled with a single cell, inter-block processing was carried out via message passing, and intra-block processing was performed by typical object evolution.  It was again suggested that this would fit well to the \Gls{actor} model.
+
+\citeauthor{Diaz-Pernil2016} \cite{Diaz-Pernil2016} built upon the AGP segmentator algorithm to create a version that works with RGB images rather than greyscale and applied it to a common medical Computer Vision task, isolating the `optic disc' in images of the inner eye.  Along with this, they used the skeletonisation algorithm from \cite{Diaz-Pernil2013a} and a number of other steps not based on \gls{ps} to produce a complete imaging pipeline.  The authors implemented this on a \gls{gpu}, and found that their system was both more accurate and faster than previous systems.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \input{chapters/medianfilter/tex/cpsystems}
 \input{chapters/medianfilter/tex/cml}
 

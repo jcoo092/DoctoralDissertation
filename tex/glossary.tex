@@ -8,6 +8,7 @@
 \newacronym{csp}{CSP}{communicating sequential processes}
 \newacronym{dpsm}{DPSM}{dynamic~programming \gls{sm}}
 \newacronym{dsp}{DSP}{digital signal processor}
+\newacronym{enps}{ENPS}{enzymatic numerical P~systems}
 \newacronym{fifo}{FIFO}{first-in-first-out}
 \newacronym{fpga}{FPGA}{field-programmable gate array}
 \newacronym{fps}{FPS}{frames per second}
@@ -27,7 +28,7 @@
 \newacronym{pe}{proxel}{processing element}
 \newacronym{pram}{PRAM}{parallel random access machine}
 \newacronym{sad}{SAD}{sum of absolute differences}
-\newacronym{skps}{SKPS}{Simple Kernel P~systems}
+\newacronym{skps}{SKPS}{simple kernel P~systems}
 \newacronym{ssd}{SSD}{sum of squared differences}
 
 % Combo glossary & acronyms
@@ -57,6 +58,7 @@
 \newglossaryentry{disparitymap}{text={disparity map},name={Disparity Map},description={An output array/image (often just using a single channel of 8- or 16-bit integers) which encodes the final estimated disparities for every pixel in the input images.  The range of values in a disparity map itself is restricted to range of possible disparities used in the \gls{sm} algorithm.  It is common, however, to adjust the disparity map in some fashion to make differences in disparity estimates more visible through techniques such as histogram equalisation.  Most published figures of disparity maps will have had such an adjustment applied to make them more useful.  Disparity maps are sometimes also referred to as `digital parallax maps.'}}
 \newglossaryentry{fne}{description={The `standard' neighbourhood arrangement in situations such as \glsxtrlong{bp}.  When used in reference to a grid, it typically means the other locations in the grid immediately to the left, right, above and below.},text={four-neighbourhood},name={Four-neighbourhood}}
 \newglossaryentry{gs}{description={In the context of \glsxtrlong{nmp}, this refers to an approach to messaging whereby the entire lattice waits until every \glsxtrshort{pe} in the lattice has finished its messaging for a given generation before proceeding to the next generation.},text={globally-synchronous},name={Globally-synchronous}}
+\newglossaryentry{inhibitor}{name={Inhibitor},text={inhibitor},description={In \gls{cps}, an inhibitor on a rule denotes an object which \emph{must not} be present in the relevant \gls{tlc} for the rule to be applicable.}}
 \newglossaryentry{ls}{description={In the context of \glsxtrlong{nmp}, this refers to an approach to messaging whereby the every \glsxtrshort{pe} in the lattice waits until it has received \emph{all} messages pertaining to one generation before accepting any messages pertaining to a subsequent generation.},text={locally-synchronous},name={Locally-synchronous}}
 \newglossaryentry{mc}{text={membrane computing},name={Membrane Computing},description={A computational model inspired by the functioning of biological systems, specifically the interactions of chemicals inside the membranes of a biological cell.  The terms Membrane Computing and P systems are frequently used interchangeably.}}
 \newglossaryentry{ms}{text={micro-surgery},name={Micro-surgery},description={An alternative operation that can be performed on \gls{cps}' compound terms.  Instead of each rule application seizing control of the entire term, it merely takes hold of a subset of the terms contents.  A major benefit of this is to enable arithmetic on numeric multisets that would ordinarily require iterations to instead complete in a single step.},plural={micro-surgeries}}
@@ -64,6 +66,7 @@
 \newglossaryentry{medianfilter}{text={median filter},name={Median Filter},description={An image processing technique often used to remove `salt \& pepper' noise from images.  Every pixel's value is updated to the median value of it and its neighbours, in a given neighbourhood.  It is an embarassingly-parallel problem in that each pixel in the image can compute its median without relying on other pixels' results, so long as it can observe their current value.  The necessity for performing selecting, however, means that it is non-trivial to implement a fast median filter.  It does not easily reduce to basic arithmetic operations only.}}
 
 %% N-Z
+\newglossaryentry{promoter}{name={Promoter},text={promoter},description={In \gls{cps}, a promoter on a rule denotes an object which \emph{must} be present in the relevant \gls{tlc} for the rule to be applicable, but which is \emph{not} consumed or deleted by the rule.}}
 \newglossaryentry{ps}{name={P~Systems},see={mc},text={P~systems},description={An alternative name for \gls{mc}.},plural={P~system},}
 \newglossaryentry{plingua}{name={P-Lingua}, description={A plain-text markup language used to represent \gls{ps} specifications in computer files readable by both humans and computers.}}
 \newglossaryentry{ruleset}{text={ruleset},name={Ruleset},description={The rules associated with a particular delineated region in a given P~systems variant.  \Eg{} in the case of \gls{clps}, this region is a membrane;  for \gls{tlps} it is a cell;  for \gls{snps} it is a neuron; and for \gls{cps} it is a \gls{tlc}.}}

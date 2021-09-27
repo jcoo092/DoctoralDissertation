@@ -50,9 +50,6 @@
 
 \usepackage[altpo]{backnaur}
 
-% Introduced to make the NMP paper stuff build
-\usepackage[ruled,vlined,linesnumbered,nofillcomment]{algorithm2e}
-
 \usepackage{morewrites}
 \usepackage{amsthm}
 \theoremstyle{plain}
@@ -64,7 +61,6 @@
 
 % Readability options
 %
-% \usepackage{booktabs} % for table rules
 \usepackage{microtype} % for improved justification
 
 \usepackage{graphicx} % for inserting graphics files
@@ -124,6 +120,8 @@
 % \usepackage[nottoc]{tocbibind} % Controls the table of contents
 %   nottoc: don't list table of contents inside itself
 %   section: go as far as section-level headings
+
+\usepackage[ruled,vlined,linesnumbered,nofillcomment]{algorithm2e}
 
 % Automated bibliography
 %
@@ -189,7 +187,7 @@
 % ====================================================
 % Specify the title page content
 \title{Highly Concurrent Solutions to Graph and Image Processing Problems}
-\subtitle{{\small v0.5.1 compiled on \today}}
+\subtitle{{\small v0.5.2 compiled on \today}}
 \author{James Cooper}
 \degreesought{Doctor of Philosophy} 
 \degreediscipline{Computer Science}
@@ -217,6 +215,7 @@
 \cleardoublepage\listoffixmes
 \cleardoublepage\listoffigures
 \cleardoublepage\listoftables
+% \cleardoublepage\listofalgorithms
 \cleardoublepage\listofcprulesetfloats
 \cleardoublepage\listofcpobjectsfloats
 \cleardoublepage\printglossary
@@ -258,6 +257,7 @@ Include definitions of promoter and inhibitor in the glossary?
     \item promoter
     \item inhibitor
     \item antiport
+    \item compartment
 \end{itemize}
 \end{anfxwarning}
 
