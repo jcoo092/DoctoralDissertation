@@ -12,23 +12,23 @@ In presenting their algorithm to solve the \gls{tsp}, some papers have assumed t
 \noindent
 where \(A_{\mathit{TSP}} = \cpset{c, c', e, f, h, p, p', r, s, t, u, v, z}\).
 
-Again the algorithm requires five rules, presented in \cref{ruleset:tsp:tsp}.  The only differences between the rules in \cref{ruleset:tsp:tsp} and \cref{ruleset:tsp:hcp} are the addition of a weight/cost component to the \(e\) and \(s\) subcells, the tracking of costs throughout the process, and the inhibitor added to rule 5, which ensures that the chosen path has minimum cost.
+Again the algorithm requires five rules, presented in \cref{ruleset:tsp:tsp}.  The only differences between the rules in \cref{ruleset:tsp:tsp} and \cref{ruleset:tsp:hcp} are the addition of a weight/cost component to the \(e\) and \(s\) subcells, the tracking of costs throughout the process, and the \gls{inhibitor} added to \cpruleref{rule:tsp:tsp:min}, which ensures that the chosen path has minimum cost.
 
 \begin{cprulesetfloat}
     \begin{cpruleset}
         
-        \cprule{s_1}{\cpfunc{v}{\cpfunc{v}{R} Y}}{1}{s_2}{\cpfunc*[\Big]{s}{\cpfunc{r}{R} \, \cpfunc{u}{Y}  &\\&&&& \, \quad \cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpempty}}\, \cpfunc{c}{\cpempty}}}
+        \cprule[rule:tsp:tsp:start]{s_1}{\cpfunc{v}{\cpfunc{v}{R} Y}}{1}{s_2}{\cpfunc*[\Big]{s}{\cpfunc{r}{R} \, \cpfunc{u}{Y}  &\\&&&& \, \quad \cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpempty}}\, \cpfunc{c}{\cpempty}}}
         
-        \cprule{s_2}{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{\cpempty} \, \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}} \, \cpfunc{c}{C}}}{+}{s_3}{\cpfunc*[\bigg]{z}{\cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} &\\&&&& \, \quad \cpfunc{c}{CW}}}
+        \cprule[rule:tsp:tsp:makezs]{s_2}{\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{\cpempty} \, \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}} \, \cpfunc{c}{C}}}{+}{s_3}{\cpfunc*[\bigg]{z}{\cpfunc{p}{\cpfunc{h}{R} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} &\\&&&& \, \quad \cpfunc{c}{CW}}}
         \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \, \cpfunc{t}{R} \, \cpfunc{c}{W}}}
         
-        \cprule{s_2}{}{+}{s_2}{\cpfunc*[\bigg]{s}{\cpfunc{r}{R} \, \cpfunc{u}{Z} \, &\\&&&& \quad  \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} &\\&&&& \, \quad  \cpfunc{c}{CW}}}
+        \cprule[rule:tsp:tsp:explore]{s_2}{}{+}{s_2}{\cpfunc*[\bigg]{s}{\cpfunc{r}{R} \, \cpfunc{u}{Z} \, &\\&&&& \quad  \cpfunc{p}{\cpfunc{h}{T} \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}}} &\\&&&& \, \quad  \cpfunc{c}{CW}}}
         \cppromoter{\cpfunc*[\Big]{s}{\cpfunc{r}{R} \, \cpfunc{u}{\cpfunc{v}{T} Z} &\\&&&& \, \quad\enskip  \cpfunc{p}{\cpfunc{h}{F} \cpfunc{p}{P}} \, \cpfunc{c}{C}}}
         \cppromoter{\cpfunc{e}{\cpfunc{f}{F} \, \cpfunc{t}{T} \, \cpfunc{c}{W}}}
         
-        \cprule{s_2}{\cpfunc{s}{\_}}{+}{s_2}{}
+        \cprule[rule:tsp:tsp:clean]{s_2}{\cpfunc{s}{\_}}{+}{s_2}{}
         
-        \cprule{s_3}{}{1}{s_4}{\cpfunc{p'}{P} \, \cpfunc{c'}{C \cpundig W}}
+        \cprule[rule:tsp:tsp:min]{s_3}{}{1}{s_4}{\cpfunc{p'}{P} \, \cpfunc{c'}{C \cpundig W}}
         \cppromoter{\cpfunc{z}{\cpfunc{p}{P} \, \cpfunc{c}{C \cpundig W}}}
         \cpinhibitor{\cpfunc{z}{\cpfunc{p}{\_} \, \cpfunc{c}{C}}}
         
@@ -36,7 +36,7 @@ Again the algorithm requires five rules, presented in \cref{ruleset:tsp:tsp}.  T
     \caption[\Gls{ruleset} for the \glsentrylong{tsp-glossary}]{\label{ruleset:tsp:tsp}\Gls{ruleset} for our \gls{tsp} \gls{cps} algorithm.}
 \end{cprulesetfloat}
 
-The \(e\) subcells store the cost of traversing an arc in the digraph with a new \(c\) subcell.  The costs are extracted from the \(e\) subcells via pattern-matching, and accumulated in the \(s\) subcells through addition.  Otherwise, the first four rules are substantively unchanged from those presented in \cref{ruleset:tsp:hcp}.  Rule 5, however, has been more notably modified, in that it now includes an inhibitor as a condition, as well as the promoter.  The inhibitor acts to ensure that the path chosen is truly one of minimum cost, in accordance with the process described in \cref{sec:median:min}.
+The \(e\) subcells store the cost of traversing an arc in the digraph with a new \(c\) subcell.  The costs are extracted from the \(e\) subcells via pattern-matching, and accumulated in the \(s\) subcells through addition.  Otherwise, the first four rules are substantively unchanged from those presented in \cref{ruleset:tsp:hcp}.  \cpRuleref{rule:tsp:tsp:min}, however, has been more notably modified, in that it now includes an \gls{inhibitor} as a condition, as well as the promoter.  The \gls{inhibitor} acts to ensure that the path chosen is truly one of minimum cost, in accordance with the process described in \cref{sec:median:min}.
 
 The time complexity of this algorithm remains unchanged, as it merely expands the space complexity slightly.  Thus, the time complexity can still be summarised as Proposition \ref{prop:tsp:tspruntime}:
 

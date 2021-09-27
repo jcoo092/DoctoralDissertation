@@ -512,7 +512,7 @@ Selecting the \(n^{\text{th}}\) element from a multiset in terms of numerical or
 \end{proposition}
 
 \begin{proof}
-Consider \cref{rules:median:selectmultisetrange} and the example in \cref{tab:median:selectmultisetrange}.  Selection from a multiset after sorting it into ranges is also a straightforward process, requiring just one extra step and rule.  The rule itself is less clear than the equivalent for \cref{rules:median:selectsets}, however.  In particular, comparing \(n\) to the stored ranges requires more variables to make the proper comparison.  The key to \cpruleref{rules:median:selectmultisetrange:5} is that while each of the variables \(L\) and \(M\) may potentially be unified in multiple ways, only one unification will match an actual range term \(t\).  
+Consider \cref{rules:median:selectmultisetrange} and the example in \cref{tab:median:selectmultisetrange}.  Selection from a multiset after sorting it into ranges is also a straightforward process, requiring just one extra step and rule.  The rule itself is less clear than the equivalent for \cref{rules:median:selectsets}, however.  In particular, comparing \(n\) to the stored ranges requires more variables to make the proper comparison.  The key to \cpruleref{rule:median:selectmultisetrange:5} is that while each of the variables \(L\) and \(M\) may potentially be unified in multiple ways, only one unification will match an actual range term \(t\).  
 \end{proof}
 
 \begin{cprulesetfloat}
@@ -530,7 +530,7 @@ Consider \cref{rules:median:selectmultisetrange} and the example in \cref{tab:me
 \cprule{s_4}{\cpfuncnnms{t}{T}{X}{\,}}{\cpmaxpar}{s_5}{\cpfuncnnms{t}{T}{X}{\cpundig}}
 \cppromoter{\cpfunc{s}{T}}
 
-\cprule[rules:median:selectmultisetrange:5]{s_5}{}{\cponce}{s_6}{\cpfunc{r}{T}}
+\cprule[rule:median:selectmultisetrange:5]{s_5}{}{\cponce}{s_6}{\cpfunc{r}{T}}
 \cppromoter{\cpfuncnn{t}{T}{L}{L\cpundig M\_}}
 \cppromoter{\cpfunc{n}{LM}}
 
@@ -556,7 +556,7 @@ Consider \cref{rules:median:selectmultisetrange} and the example in \cref{tab:me
 \caption[Example evolution of \cref{rules:median:selectmultisetrange}]{\label{tab:median:selectmultisetrange}Example evolution of \cref{rules:median:selectmultisetrange} starting on multiset \(S_2\)}
 \end{table}
 
-To complement \cref{tab:median:selectmultisetrange}'s example, consider the application of rule 5 in the case of multiset \(S_2\) when \(N = 1\), \(N = 3\) and \(N = 7\), alternately.  Recall that the correct ranges for \(S_2\) are:  2, [1,3); 3, [3,4); 5, [4,6); 6, [6,9); and 7, [9,10).
+To complement \cref{tab:median:selectmultisetrange}'s example, consider the application of \cpruleref{rule:median:selectmultisetrange:5} in the case of multiset \(S_2\) when \(N = 1\), \(N = 3\) and \(N = 7\), alternately.  Recall that the correct ranges for \(S_2\) are:  2, [1,3); 3, [3,4); 5, [4,6); 6, [6,9); and 7, [9,10).
 
 \paragraph{\(\mathbf{N = 1}\):}  Here, either \(L,M = 1,0\) or \(L,M = 0,1\).  There will never be a term \(t\) which holds \(0\) for the lower index, so the latter unification can be ruled out at once.  Thus, the lower index \emph{must} be \(1\).  This, of course, matches with the term \(\cpfuncnn{t}{2}{1}{3}\), and \(L + M + 1 = 1 + 0 + 1 \geq 2\), which fits with the \(3\) stored in the upper index.  Thus, the valid result is \(\cpfunc{r}{2}\).
 

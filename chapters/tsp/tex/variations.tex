@@ -1,20 +1,20 @@
 \section{\label{sec:tsp:variations}Variations on the Algorithms}
 \Cref{sec:tsp:algohpp,sec:tsp:algotsp} presented algorithms to find a single Hamiltonian Path or Cycle, with minimum cost in the case of a weighted digraph (\ie{} the \gls{tsp}).  With minimal modifications, however, other results may be obtained from the algorithm, such as using a specific starting vertex or generating all possible paths/cycles.
 
-To use a specific vertex as the starting point of the algorithm, rule 1 may be skipped by starting the system in state \(s_2\), with an \(s\) subcell containing the chosen vertex as the head of the \(p\) subcell supplied to the \gls{tlc}.
+To use a specific vertex as the starting point of the algorithm, \cpruleref{rule:tsp:tsp:start} may be skipped by starting the system in state \(s_2\), with an \(s\) subcell containing the chosen vertex as the head of the \(p\) subcell supplied to the \gls{tlc}.
 
-For the \gls{hcp} and \gls{tsp}, rule 5 could be applied in maximally-parallel mode without any other changes to produce all possible Hamiltonian Cycles (with minimum cost for the \gls{tsp}).  This results in the output into the \gls{tlc} of multiple \(p'\) subcells, to be handled further as appropriate.  Likewise for each problem, if maximally-parallel mode is used on rule 1, then the paths/cycles starting at every vertex will be generated.  All these potentially have the effect of increasing the space complexity of the system, which is not an issue for \gls{ps} with their infinite available space, but may impact software simulations.
+For the \gls{hcp} and \gls{tsp}, \cpruleref{rule:tsp:tsp:min} could be applied in maximally-parallel mode without any other changes to produce all possible Hamiltonian Cycles (with minimum cost for the \gls{tsp}).  This results in the output into the \gls{tlc} of multiple \(p'\) subcells, to be handled further as appropriate.  Likewise for each problem, if maximally-parallel mode is used on \cpruleref{rule:tsp:tsp:start}, then the paths/cycles starting at every vertex will be generated.  All these potentially have the effect of increasing the space complexity of the system, which is not an issue for \gls{ps} with their infinite available space, but may impact software simulations.
 
-\Cref{sec:tsp:algotsp} assumed that all arc weights are strictly positive integers.  Weights of zero can be accommodated relatively easily.  Should every possible cycle have a minimum weight of at least 1, then no changes are needed.  If it is possible for there to be a cycle with a total weight of zero, then a sixth rule must be introduced, before the current rule 5, which in turn becomes rule 6.  This new rule 5 simply detects a minimum of zero.  The new rules are shown in \cref{rules:tsp:minzerorules}.
+\Cref{sec:tsp:algotsp} assumed that all arc weights are strictly positive integers.  Weights of zero can be accommodated relatively easily.  Should every possible cycle have a minimum weight of at least 1, then no changes are needed.  If it is possible for there to be a cycle with a total weight of zero, then a sixth rule must be introduced, before the current \cpruleref{rule:tsp:tsp:min}, which in turn becomes \cpruleref{rule:tsp:minzerorules:min}.  This new \cpruleref{rule:tsp:minzerorules:zero} simply detects a minimum of zero.  The new rules are shown in \cref{rules:tsp:minzerorules}.
 
 \cpchangerulenumber{4}
 
 \begin{cprulesetfloat}
 \begin{cpruleset}
-    \cprule{s_3}{}{1}{s_4}{\cpfunc{p'}{P} \; \cpfunc{c'}{\cpempty}}
+    \cprule[rule:tsp:minzerorules:zero]{s_3}{}{1}{s_4}{\cpfunc{p'}{P} \; \cpfunc{c'}{\cpempty}}
     \cppromoter{\cpfunc{z}{\cpfunc{p}{P} \, \cpfunc{c}{\cpempty}}}
     
-    \cprule{s_3}{}{1}{s_4}{\cpfunc{p'}{P} \; \cpfunc{c'}{C \cpundig W}}
+    \cprule[rule:tsp:minzerorules:min]{s_3}{}{1}{s_4}{\cpfunc{p'}{P} \; \cpfunc{c'}{C \cpundig W}}
     \cppromoter{\cpfunc{z}{\cpfunc{p}{P} \, \cpfunc{c}{C \cpundig W}}}
     \cpinhibitor{\cpfunc{z}{\cpfunc{p}{\_} \, \cpfunc{c}{C}}}
     

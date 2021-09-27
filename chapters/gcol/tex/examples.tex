@@ -35,7 +35,7 @@ From this starting state, \cpruleref{rule:gcol:rules:init} is applied, choosing 
 
 At the next step, \cpruleref{rule:gcol:rules:endsucc} is checked but found inapplicable, as at this point the \(v\) object inside the only \(b\) object will \emph{not} be empty, instead containing \(\cpfunc{v}{\cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4} \, \cpfunc{n}{5}}\).  \cpRuleref{rule:gcol:rules:loop}, conversely, is applicable and thus can generate further new \(b\) objects.  In this instance, two edges exist from node 1 to other nodes (2 and 5 specifically), meaning that both choices can apply, generating new \(b\) objects containing the legal  colourings.  Both nodes are chosen to connect to, but there are only two other possible colourings to choose here, as red is currently blocked due to it being selected for the first \(b\) object.  This leads to the creation of four (two colours times two nodes) new \(b\) objects \(\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}\allowbreak ~\cpfunc{m}{\cpfunc{n}{2} \, \cpfunc{c}{g}}\allowbreak ~\cpfunc{v}{\cpfunc{n}{3}~ \cpfunc{n}{4}~ \cpfunc{n}{5}}}\), \(\cpfunc{b}{\cpfunc{m}{\cpfunc{n}{1} \, \cpfunc{c}{r}}\allowbreak ~\cpfunc{m}{\cpfunc{n}{5} \, \cpfunc{c}{b}}\allowbreak ~\cpfunc{v}{\cpfunc{n}{2}~ \cpfunc{n}{3}~ \cpfunc{n}{4}}}\) etc.
 
-Simultaneously, \cpruleref{rule:gcol:rules:loopclean} is applied to sweep away the pre-existing initial \(b\) object.  \cpRuleref{rule:gcol:rules:endfail} is not applicable because a state transition to state \(s_2\) has already been selected by application of rules 3 and 4, and thus a transition to state \(s_4\) is invalid.  \Cref{objs:gcol:obj2} lists the objects in the \gls{tlc} at the end of this step.
+Simultaneously, \cpruleref{rule:gcol:rules:loopclean} is applied to sweep away the pre-existing initial \(b\) object.  \cpRuleref{rule:gcol:rules:endfail} is not applicable because a state transition to state \(s_2\) has already been selected by application of rules \cpruleref*{rule:gcol:rules:loop} and \cpruleref*{rule:gcol:rules:loopclean}, and thus a transition to state \(s_4\) is invalid.  \Cref{objs:gcol:obj2} lists the objects in the \gls{tlc} at the end of this step.
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
@@ -82,7 +82,7 @@ The next step proceeds almost identically to the previous one, except that there
 \caption[Set of objects inside the \gls{tlc} after the third step for the \gls{gcp} \gls{cps} solution]{\label{objs:gcol:obj3}Set of objects inside the \gls{tlc} after the third step for \cref{fig:gcol:examplegraph}.  There will be some identical objects here which have been created independently.}
 \end{cpobjectsfloat}
 
-At the fourth step, many further objects are created, some of which are listed in \cref{objs:gcol:obj4}.  The key difference between this step and the previous one is that the final inhibitor on \cpruleref{rule:gcol:rules:loop} plays a much greater role.  At this step, many of the potential instantiations of new node and colouration selections will include conflicts between the newly selected node and colour, and one or more of the node and colour selections made earlier.  The final inhibitor prevents instantiation of these choices, avoiding threats to correctness.  An alternative solution to the problem would be to include another following step, where those invalid instantiations are detected and removed, but the inhibitor makes this unnecessary.  
+At the fourth step, many further objects are created, some of which are listed in \cref{objs:gcol:obj4}.  The key difference between this step and the previous one is that the final \gls{inhibitor} on \cpruleref{rule:gcol:rules:loop} plays a much greater role.  At this step, many of the potential instantiations of new node and colouration selections will include conflicts between the newly selected node and colour, and one or more of the node and colour selections made earlier.  The final \gls{inhibitor} prevents instantiation of these choices, avoiding threats to correctness.  An alternative solution to the problem would be to include another following step, where those invalid instantiations are detected and removed, but the \gls{inhibitor} makes this unnecessary.  
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
@@ -173,7 +173,7 @@ After the first step, the application of \cpruleref{rule:gcol:rules:init}, the o
 \caption{\label{objs:gcol:objn3}Set of objects inside the \gls{tlc} at the end of step 2, for \cref{fig:gcol:examplegraphnosol}.}
 \end{cpobjectsfloat}
 
-\Cref{objs:gcol:objn4} shows the objects in the \gls{tlc} at the end of step three.  This proceeds in much the same fashion as the previous step, but fully half of the potential instantiations from \cpruleref{rule:gcol:rules:loop} are avoided by the rule's final inhibitor, due to inescapable colouration conflicts.
+\Cref{objs:gcol:objn4} shows the objects in the \gls{tlc} at the end of step three.  This proceeds in much the same fashion as the previous step, but fully half of the potential instantiations from \cpruleref{rule:gcol:rules:loop} are avoided by the rule's final \gls{inhibitor}, due to inescapable colouration conflicts.
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
