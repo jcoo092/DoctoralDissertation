@@ -6,8 +6,6 @@ An implementation of the basic \gls{medianfilter} was created in \fsharp{}, usin
 
 \fsharp{} was chosen because of the easy availability of a ready-to-use \gls{cml} library, as well as its relative similarity to the original Standard ML host language.  Of particular note is that the original \gls{cml} implementation assumed the presence of garbage collection, which Hopac also follows.  Faster versions of the other algorithm variants likely could have been implemented in other languages such as C/C++ (perhaps using Halide \cite{Ragan-Kelley2017}), Fortran or Rust, but \fsharp{} was used for all three to retain consistency and comparability.  
 
-% All three algorithms were benchmarked using a variety of image and window sizes.  Window sizes of 3×3, 5×5, 7×7, 9×9 and 11×11 were measured.  The images used ranged in size from 15 kilopixels to 1.09 megapixels, as detailed in \Cref{tab:median:pixelcounts}.  Larger image sizes were initially attempted, but some runs of the algorithms proved to be prohibitively slow, and so they were abandoned.  Time spent on loading the images from disk and converting them to greyscale was excluded from the benchmarking, so that only the time spent processing them with each algorithm was measured.  The benchmarks were all run using .NET Core 2.1.4 with the 64-bit RyuJit compiler, on a desktop computer with a quad-core Intel i7-7700 processor running at 3.6GHz and 16GB of RAM.
-
 All three algorithms were benchmarked using a variety of image and window sizes.  Window sizes of \numproduct{3 x 3}, \numproduct{5 x 5}, \numproduct{7 x 7}, \numproduct{9 x 9} and \numproduct{11 x 11} were measured.  The images used ranged in size from 15 kilopixels to 1.09 megapixels, as detailed in \Cref{tab:median:pixelcounts}.  Larger image sizes were initially attempted, but some runs of the algorithms proved to be prohibitively slow, and so they were abandoned.  Time spent on loading the images from disk and converting them to greyscale was excluded from the benchmarking, so that only the time spent processing them with each algorithm was measured.  The benchmarks were all run using .NET Core 2.1.4 with the 64-bit RyuJit compiler, on a desktop computer with a quad-core Intel i7-7700 processor running at \qty{3.6}{\giga\hertz} and \qty{16}{\giga\byte} of RAM.
 
 \begin{table}
@@ -188,9 +186,6 @@ Naïve	11	very-small	18.933	0.123	0.115	18.896	18.823	1	0	1718.75	187.5	-	23.9
 	xlabel={Window Size},
     ylabel=Mean Runtime (ms),
     legend pos=north west,
-    %xmin=3,
-    %xmax=11,
-    %minor x tick num=2,
     xtick=data
 ]
 	\addplot [mark=x,blue] table [x=windowSize,y=Mean]{
@@ -233,9 +228,6 @@ Naïve	11	peppers_gray	371.789	17.122	50.485	345.788	313.159	1	0	32000	1000	1000
 	xlabel=Window Size,
     ylabel=Mean Runtime (ms),
     legend pos=north west,
-    %xmin=3,
-    %xmax=11,
-    %minor x tick num=2,
     xtick=data
 ]
 	\addplot [mark=x,blue] table [x=windowSize,y=Mean]{
@@ -279,9 +271,6 @@ Naïve	11	small	343.286	1.710	1.600	342.643	341.541	1	0	33000	1000	1000	261.29
 	xlabel=Window Size,
     ylabel=Mean Runtime (ms),
     legend pos=north west,
-    %xmin=3,
-    %xmax=11,
-    %minor x tick num=2,
     xtick=data
 ]
 	\addplot [mark=x,blue] table [x=windowSize,y=Mean]{
@@ -324,9 +313,6 @@ Naïve	11	medium	1361.629	27.108	31.217	1350.193	1344.088	1	0	131000	4000	1000	1
 	xlabel=Window Size,
     ylabel=Mean Runtime (ms),
     legend pos=north west,
-    %xmin=3,
-    %xmax=11,
-    %minor x tick num=2,
     xtick=data
 ]
 	\addplot [mark=x,blue] table [x=windowSize,y=Mean]{

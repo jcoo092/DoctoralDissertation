@@ -4,9 +4,7 @@
 
 \subsection{The \glsfmtname{hcp-glossary}}
 
-% The \gls{hpp}/\gls{hcp} has been examined before through the lens of \gls{ps}, with different variants of \gls{ps} used such as \gls{tlps} \cite{Martin-Vide2003}, \gls{ps} with active membranes \cite{Pan2006,Song2013}, Recogniser \gls{ps} \cite{Chen2009}, Asynchronous \gls{ps} \cite{Tagawa2012} and \gls{snps} \cite{Xue2013}.  \citeauthor{Jimenez2003} used the \gls{hpp} as an example computation when discussing complexity classes in \gls{ps} \cite{Jimenez2003}.  In fact, it was demonstrated relatively early in the history of \gls{ps} that some variants at least could be used to solve the \gls{hpp} in linear time \cite{Mutyam2001}.  This last approach, using \gls{ps} with membrane creation, is arguably the closest to the approach used in this \lcnamecref{chap:tsp}, which involves the repeated instantiation of subcells.
-
-The \gls{hpp} \& \gls{hcp} have been examined before through the lens of \gls{ps}.  In fact, it was demonstrated relatively early in the history of \gls{ps} that some variants could be used to solve the \gls{hpp} in linear time \cite{Mutyam2001}.  \citeauthor{Jimenez2003} used the \gls{hpp} as an example computation when discussing complexity classes in \gls{ps} \cite{Jimenez2003}.  %  This approach, using \gls{clps} with membrane creation, is arguably the closest to the approach used in this \lcnamecref{chap:tsp}, which involves the repeated instantiation of subcells.
+The \gls{hpp} \& \gls{hcp} have been examined before through the lens of \gls{ps}.  In fact, it was demonstrated relatively early in the history of \gls{ps} that some variants could be used to solve the \gls{hpp} in linear time \cite{Mutyam2001}.  \citeauthor{Jimenez2003} used the \gls{hpp} as an example computation when discussing complexity classes in \gls{ps} \cite{Jimenez2003}. 
 Other work has used various types of \gls{ps} used such as \gls{tlps} \cite{Martin-Vide2003}, \gls{clps} with active membranes \cite{Pan2006,Chen2009}, timed \gls{ps} \cite{Song2013}, \gls{clps} with symport/antiport rules \cite{Orellana-Martin2019a}, ``asynchronous'' \gls{ps} \cite{Tagawa2012} (using a different concept of asynchrony than \cref{sec:back:syncasync}) and \gls{snps} \cite{Xue2013}.
 
 \begin{table}
@@ -15,11 +13,8 @@ Other work has used various types of \gls{ps} used such as \gls{tlps} \cite{Mart
 \toprule
 \textbf{Algorithm} & \begin{tabular}[c]{@{}l@{}}\textbf{P systems}\\\textbf{type}\end{tabular} & \begin{tabular}[c]{@{}c@{}}\textbf{Num. of}\\\textbf{ rules}\end{tabular} & \begin{tabular}[c]{@{}c@{}}\textbf{Size of}\\\textbf{alphabet}\end{tabular} & \begin{tabular}[c]{@{}c@{}}\textbf{Time}\\\textbf{complexity}\end{tabular}  \\ 
 \midrule
-% \cite{Chen2009} & \gls{clps} & 15 & 17 & \bigoh{n^2}\\
-% \cite{Guo2017} & \gls{clps} & 56 & 13 & \bigoh{n^2}\\
 \cite{Orellana-Martin2019a} & \gls{clps} & 51 & 29 & \bigoh{n^3}\\
 \cite{Tagawa2012} & asynchronous \gls{ps} & 8 & 10 & \bigoh{n^2}\\
-% \cite{Zhang2019} & \gls{snps} & 4 & 1 & \bigoh{n}\\
 This work & \gls{cps} & 5 & 11 & \bigoh{n}\\
 \bottomrule
 \end{tabular}
@@ -67,22 +62,7 @@ Overall, most other work on the \gls{hpp} and \gls{hcp} has focused only on the 
 
 \subsection{The \glsfmtname{tsp-glossary}}
 
-% \begin{table}[htb]
-% \centering
-% \caption{Comparison of known exact \gls{ps} solutions to the \gls{tsp}}
-% \label{tab:tsp:algocomp}
-% \setlength{\tabcolsep}{5pt}
-% \begin{tabular}{@{}lcc@{}}
-% \toprule
-% \textbf{Algorithm}  & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}c@{}}Num. of\\  rules\end{tabular}}} & \multicolumn{1}{l}{\textbf{\begin{tabular}[c]{@{}c@{}}Run time\\  order\end{tabular}}} \\ \midrule
-% Guo \& Dai \cite{Guo2017}          & $\sim$50                                   & \bigoh{n^2}                                         \\
-% Cooper \& Nicolescu & 5                                          & \bigoh{n}                                          \\ \bottomrule
-% \end{tabular}
-% \end{table}
-
-% \usepackage{booktabs}
-
-A small amount of work has been done on the \gls{tsp} from the perspective of \gls{mc}, beginning with the work of \citeauthor{Nishida2006} \cite{Nishida2006}, who used a combination of a membrane structure and pre-existing methods to search for an approximate solution in a space of solutions to the \gls{tsp} for a given digraph.  Others built on this approach by integrating techniques such as Genetic Algorithms \cite{Manalastas2013,He2014}, Ant Colony Optimisation \cite{Zhang2011} and Active Evolution \cite{Song2015}, along with more complex approaches for multiple salesman problems \cite{He2015}.%  A paper by \citeauthor{Chen2011} \cite{Chen2011} was apparently also written on the topic, but no copy could be located.
+A small amount of work has been done on the \gls{tsp} from the perspective of \gls{mc}, beginning with the work of \citeauthor{Nishida2006} \cite{Nishida2006}, who used a combination of a membrane structure and pre-existing methods to search for an approximate solution in a space of solutions to the \gls{tsp} for a given digraph.  Others built on this approach by integrating techniques such as Genetic Algorithms \cite{Manalastas2013,He2014}, Ant Colony Optimisation \cite{Zhang2011} and Active Evolution \cite{Song2015}, along with more complex approaches for multiple salesman problems \cite{He2015}.
 
 Surprisingly, however, given the multitude of solutions demonstrated for the \gls{hcp}, all these \gls{tsp} papers have been written from the perspective of approximate solutions to the \gls{tsp}.  They typically take an approach of using membranes to divide up the search space of potential solutions, whilst applying other pre-existing techniques to the process.  These papers have used membranes to structure a search space, but arguably have not fully embraced the \gls{ps} model, \eg{} none of them have specified typical \gls{ps} rewriting rules, instead applying other techniques within the subcells, and using \gls{ps} rules only to move potential solutions between cells.  Thus, it is challenging to compare them directly with \gls{mc}-only solutions.  The work by \citeauthor{Guo2017} \cite{Guo2017} is the first known solution to use only \gls{ps}.
 
@@ -94,7 +74,6 @@ Surprisingly, however, given the multitude of solutions demonstrated for the \gl
 \midrule
 \cite{Aman2021} & \gls{tlps} & 1 & 8 & \bigoh{n}\\
 \cite{Guo2017} & \gls{clps} & 56 & 13 & \bigoh{n^2}\\
-% \cite{Orellana-Martin2019a} & \gls{clps} & 51 & 29 & \bigoh{n^3}\\
 \cite{Zhang2019} & \gls{snps} & 4 & 1 & \bigoh{n}\\
 This work & \gls{cps} & 5 & 13 & \bigoh{n}\\
 \bottomrule
@@ -103,20 +82,13 @@ This work & \gls{cps} & 5 & 13 & \bigoh{n}\\
 \label{tab:tsp:algocomp}
 \end{table}
 
-% \Cref{tab:tsp:algocomp} summarises key measures about each of the other papers on solving the \gls{tsp} with \gls{mc} that are discussed below.  It includes only those which work wholly in \gls{mc} because it is unclear how to make a meaningful comparison with those which use a hybrid approach, \eg{} \cite{Nishida2006}.  Other systems all require some degree of customisation based on the problem at hand, generally parameterized over the number of nodes or edges in the graph, making it difficult to provide a precise count of the number of rules and alphabet size (or even the time complexity) if the authors themselves have not done so.  That does imply, however, that the true numbers of distinct rules and objects required are generally polynomial, not fixed.  The number of rules and the alphabet size in the table are taken from the distinct rule and symbol definitions listed, \ie{} they are usually \emph{classes} of rule or symbol requiring instantiations based on the problem.  This means that \emph{for all other systems besides the current \glspl{cps}, these are underestimates}.  Both measures have been counted on a good-faith best-effort basis from the included system definitions.
-
 \Cref{tab:tsp:algocomp} summarises key measures about each of the other papers on solving the \gls{tsp} with \gls{mc} that are discussed below.  It includes only those which work wholly in \gls{mc} because it is unclear how to make a meaningful comparison with those which use a hybrid approach, \eg{} \cite{Nishida2006}.  Other systems all require some degree of customisation based on the problem at hand, generally parameterized over the number of nodes or edges in the graph, making it difficult to provide a precise estimate of the number of rules and alphabet size (or even the time complexity).  That does imply, however, that the true numbers of distinct rules and objects required are generally polynomial, not fixed.  This means that \emph{for all other systems besides the current \glspl{cps}, these are underestimates}.  The number of rules and the alphabet size in the \cref{tab:tsp:algocomp} are taken from the distinct rule and symbol definitions listed in each paper.  Both measures have been counted on a good-faith best-effort basis from the included system definitions.
-
-%  \Eg{} in \cite{Orellana-Martin2019a}, \citeauthor{Orellana-Martin2019a} do examine the rule and symbol complexity, finding that both the number of rules and alphabet size on the order of \(\Theta(n^6)\).  Likewise, \cite{Zhang2019} is stated as having an alphabet size of one (the spike), but information is encoded in the labels of the neurons yet excluded from the alphabet, while labels are explicitly included with the \gls{cps} solution.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In \cite{Guo2017} -- the original inspiration for this \lcnamecref{chap:tsp} -- \citeauthor{Guo2017} specify a \gls{clps} that builds an exploration tree starting from the root node, conceptually very similar to \cref{fig:tsp:utree,fig:tsp:dtree}.  In fact, the most significant difference between this work and \cite{Guo2017} is the number of rules and number of distinct symbols used.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \citeauthor{Aman2021} \cite{Aman2021} define \gls{tlps} with costs, where there is a cost associated to the channels between cells, and use it to solve the \gls{tsp}.
-% \citeauthor{Aman2021} also provide a working implementation of their system using the Priced-Time Maude rewriting engine \cite{Bendiksen2009}.  They comment: \blockquote{By \textdel{providing an implementation of}\textelp{using} tissue P systems with costs in Priced-Timed Maude, it is unnecessary to create the exponential space by means of the rules of P systems \textins{as is done in \cref{sec:tsp:algotsp}}, but just describe how the objects can move non-deterministically through \textdel{synapses}\textelp{channels}.  The exponential space of configurations is created by running the Priced-Timed Maude tool, that is also used to filter the final configurations and provide the desired solutions (if they exist).}
 
 \citeauthor{Aman2021} \cite{Aman2021} define \gls{tlps} with costs, where there is a cost associated to the channels between cells, and use it to solve the \gls{tsp}.
 \citeauthor{Aman2021} also provide a working implementation of their system using the Priced-Time Maude rewriting engine \cite{Bendiksen2009}.  They comment: \blockquote{By \textelp{using} tissue P systems with costs in Priced-Timed Maude, it is unnecessary to create the exponential space by means of the rules of P systems \textins{as is done in \cref{sec:tsp:algotsp}}, but just describe how the objects can move non-deterministically through \textelp{channels}.  The exponential space of configurations is created by \textelp{} the Priced-Timed Maude tool, that is also used to filter the final configurations and provide the desired solutions (if they exist).}

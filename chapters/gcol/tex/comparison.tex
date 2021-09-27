@@ -5,27 +5,7 @@ There have been a small number of papers address the \gls{gcp}.  Many of those, 
 \subsection{\label{sec:gcol:skpcomp}Comparison with the Simple Kernel P Systems Solution}
 The \gls{cps} solution requires only five rules, which are \emph{invariant} to the problem graph under study, as opposed to defining a family of rules that are customised to the graph at hand.  Likewise for the alphabet.  The alphabet consists of only 9 functors and the \gls{cps} `empty' atom (\(\cpempty\)), but with the nesting of atoms and functors these combine into further forms.  As the semantic meaning of each never changes, this does not add a great deal of complexity.  The \gls{cps} solution requires roughly equivalent starting objects to the \gls{skps} solution.
 
-% \begin{table}
-% \begin{threeparttable}
-% \centering
-% \caption{\glsxtrlong{skps} vs. \gls{cps}}
-% \label{tab:gcol:skpcomp}
-% \begin{tabular}{@{}lcc@{}}
-% \toprule
-% Type/specification                & \gls{skps}        & \gls{cps} \\ \midrule
-% Alphabet                          & \(|V|(|V|-1)/2 + 7|V| + 10\) & \(10\)         \\
-% Rules                             & \(2|V|~\&~2|V| + 7\)       & 6          \\
-% Max. \# of subcompartments & \(3^|V| + 1\)             & N/A\tnote{a}          \\
-% Number of steps                   & \(2|V| + 3\)             & \(\leq |V| + 1\)         \\ \bottomrule
-% \end{tabular}%
-% \begin{tablenotes}
-% \item[a] \gls{cps} do not have a concept of subcompartments in the same way as \gls{skps}.  This distinction is discussed in \cref{sec:gcol:diffsubcomp}.
-% \end{tablenotes}
-% \end{threeparttable}
-% \end{table}
-
 \begin{table}
-% \begin{threeparttable}
 \centering
 \begin{tabular}{@{}lcc@{}}
 \toprule
@@ -35,14 +15,9 @@ Rules                             & \(2|V|~\&~2|V| + 7\)       & 6          \\
 Max. \# of subcompartments & \(3^|V| + 1\)             & N/A          \\
 Number of steps                   & \(2|V| + 3\)             & \(\leq |V| + 1\)         \\ \bottomrule
 \end{tabular}%
-% \begin{tablenotes}
-% \item[a] .
-% \end{tablenotes}
-% \end{threeparttable}
-\caption{\glsxtrlong{skps} vs. \gls{cps}.  \gls{cps} do not have a concept of subcompartments in the same way as \gls{skps}, and thus has no entry for the maximum number of subcompartments.  This distinction is discussed in \cref{sec:gcol:diffsubcomp}}
+\caption[\glsxtrlong{skps} vs. \gls{cps} comparison]{\glsxtrlong{skps} vs. \gls{cps}.  \gls{cps} do not have a concept of subcompartments in the same way as \gls{skps}, and thus has no entry for the maximum number of subcompartments.  This distinction is discussed in \cref{sec:gcol:diffsubcomp}}
 \label{tab:gcol:skpcomp}
 \end{table}
-
 
 \Cref{tab:gcol:skpcomp} provides a comparison of the \gls{skps} solution presented in \cite{Gheorghe2013} compared with the solution presented above, and is based upon Table 1 in \cite{Gheorghe2013}.  
 
@@ -66,7 +41,6 @@ While there have been a reasonable number of publications discussing the 3-colou
 \toprule
 \textbf{Algorithm} & \begin{tabular}[c]{@{}l@{}}\textbf{P systems}\\\textbf{type}\end{tabular} & \begin{tabular}[c]{@{}c@{}}\textbf{Num. of}\\\textbf{rules}\end{tabular} & \begin{tabular}[c]{@{}c@{}}\textbf{Size of}\\\textbf{alphabet}\end{tabular} & \begin{tabular}[c]{@{}c@{}}\textbf{Time}\\\textbf{complexity}\end{tabular}  \\ 
 \midrule
-% \cite{Andreu-Guzman2020} &  &  &  & \bigoh{}\\
 \cite{Gheorghe2013} & \gls{skps} & 10 & 14 & \bigoh{n}\\
 \cite{Tanaka2012} & asynchronous \gls{ps} & 23 & 13 & \bigoh{n^2}\\
 \cite{Umetsu2019} & asynchronous \gls{ps} & 28 & 15 & \bigoh{n^2}\\
@@ -84,7 +58,7 @@ The \(k\)-colouring variant is used for \cref{tab:gcol:gcolalgocomp}, as it is c
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\citeauthor{Umetsu2019} \cite{Umetsu2019} build on \cite{Tanaka2012}'s asynchronous \glspl{ps} to find the minimum colouring for a graph.  They state that they use the ``branch and bound'' technique to assist in the exploration of the graph, saying \textcquote[][p.~242]{Umetsu2019}{If \textelp{} adjacent vertices have the same color, the partial color assignment of vertices is discarded as a bounding operation.}  This is the same principle as the \gls{compartment} pruning used in \cref{sec:gcol:cml}.  The main advance of this work over \cite{Tanaka2012} seems to be that it should have a (potentially much) smaller memory requirement for practical simulations.  %The overall approach is relatively similar \cref{sec:gcol:cml}, with an extra step at the end to select a colouring using the minimum number of colours, similar to the end of the \gls{tsp} solution in \cref{sec:tsp:algotsp}.
+\citeauthor{Umetsu2019} \cite{Umetsu2019} build on \cite{Tanaka2012}'s asynchronous \glspl{ps} to find the minimum colouring for a graph.  They state that they use the ``branch and bound'' technique to assist in the exploration of the graph, saying \textcquote[][p.~242]{Umetsu2019}{If \textelp{} adjacent vertices have the same color, the partial color assignment of vertices is discarded as a bounding operation.}  This is the same principle as the \gls{compartment} pruning used in \cref{sec:gcol:cml}.  The main advance of this work over \cite{Tanaka2012} seems to be that it should have a (potentially much) smaller memory requirement for practical simulations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
