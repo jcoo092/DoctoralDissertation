@@ -9,8 +9,8 @@ Recall that the fundamental difference in behaviour between the \gls{gs}, \gls{l
 Consider a \gls{pe} $\pi_0$ in the asynchronous framework of \cref{sec:nmp:pespecific},
 where the maximum generation count is $I$, set by the environment via $\cpfunc{i}{I}$.
 Without loss of generality, 
-we consider only a \gls{fne} system and
-assume that $\pi_0$ is a non-border/non-corner \gls{pe} with four neighbours, 
+this \lcnamecref{sec:nmp:msgprops} considers only a \gls{fne} system and
+assumes that $\pi_0$ is a non-border/non-corner \gls{pe} with four neighbours, 
 $\pi_k$, accessible via channels labelled by $k \in \{ 1, 2, 3, 4 \}$. 
 
 \begin{lemma}\label{lemma:nmp:-0}
@@ -95,7 +95,7 @@ courtesy of \cpruleref{rule:nmp:proxspec:recvfromneighs}. However, this is not t
 By bounded induction on $g$. Base case: $g = 0$. By \cpruleref{rule:nmp:proxspec:recvinputs}, \gls{pe} $\pi_0$ receives \emph{four} $k$-tagged generation $g$ values -- one for each $k \in \{ 1, 2, 3, 4 \}$ -- from the environment channel $e$ (acting on behalf of its neighbour channels). By \cref{lemma:nmp:-3}, applied \emph{four} times, $\pi_0$ sends out \emph{four} generation $g+1$ values $v$, one over each channel $k$.
 
 Induction step: assume that the induction hypothesis holds for 
-$g \in [0, I)$, and we prove that it still holds for $g+1$.
+$g \in [0, I)$, and this step proves that it still holds for $g+1$.
 The induction hypothesis holds for all \glspl{pe}, 
 including $\pi_0$ and $\pi_k$. 
 % Thus, by part (ii), each \gls{pe} $\pi_k$ sends a generation $g+1$ value $v$,
@@ -200,7 +200,7 @@ This proves part (\ref{enumitem:nmp:analysis:-1:2}) of the hypothesis.
     \end{enumerate}    
     
     Note also that, at the outset of cases (1,2,3), no other messages for generation $g+1$ will have been sent yet because too few messages at generation $g$ have been received. 
-    These notes may be used to create alternate proofs of our main results.
+    These notes may be used to create alternate proofs of the main results.
 
 \end{remark}
 

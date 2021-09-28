@@ -10,10 +10,11 @@ The logical operation of the system, as carried out using the rules described in
 
 \begin{algorithm}
 \DontPrintSemicolon
+\SetKwFor{pFor}{parallel for}{do}{endfor}
 \SetKwFunction{Choose}{choose}
 \SetKwFunction{Dom}{Dom}
 \SetKwFunction{Graphcolouring}{Graph Colouring}
-\KwIn{\(V\), \(E\), \(K\)}
+\KwIn{Set of vertices \(V\), set of edges \(E\), set of colours \(K\)}
 \KwOut{A valid colouring, or an indication no valid colouring is possible}
 \Begin{
 \Choose{\(s \in V\), \(c \in K\)}\;
@@ -22,15 +23,15 @@ The logical operation of the system, as carried out using the rules described in
 
 \hrulefill
 
-\KwIn{\(V\), \(E\), \(K\), \(B\)}
-\KwOut{A valid colouring, or an indication no valid colouring is possible}
+\KwIn{Set of vertices \(V\), set of edges \(E\), set of colours \(K\), set of sets of partial colourings \(B\)}
+\KwOut{A valid colouring \(m\), or an indication no valid colouring is possible}
 \Begin{
 \If{\label{li:gcol:iflgreaterthanv} \(V = \emptyset\)} {
     \Choose{\(m \in B\)}\;
     \KwRet{\(m\)}    \label{li:gcol:returnsuccess}
 }
 \(B' \gets \emptyset\)\;
-\For{ \(m \in B,~x \in \Dom{m},~y \in V \setminus \Dom{m},~ d \in K \)}{    \label{li:gcol:makebstart}
+\pFor{ \(m \in B,~x \in \Dom{m},~y \in V \setminus \Dom{m},~ d \in K \)}{    \label{li:gcol:makebstart}
     \If{\((x,y) \in E ~ \land \not\exists(x',y) \in E,~(x',d) \in m\)}{
         \(B' \gets B' \cup \{m \cup \{ (y,d) \} \}\)\;   \label{li:gcol:makebfinish}
     }
@@ -55,9 +56,9 @@ System construction begins with a \gls{tlc} containing the functor \(V' = \cpset
 
 While colours are represented here as separate symbols for legibility, they can, in fact, be represented equivalently by natural numbers because each colour symbol is contained within a \(k\) functor --- one simply need fill each functor with the appropriate number of the counting symbol to represent the desired different colours.  E.g. \(r\) might be represented by one copy of the unary digit, \(\cpundig\), \(g\) by two and \(b\) by three, \ie{}. \(r = \cpfunc{k}{\cpundig}\), \(g = \cpfunc{k}{\cpundig^2}\) and \(b = \cpfunc{k}{\cpundig^3}\).  The same is true of the edges.  This means that, in fact, the system requires no extra symbols in its alphabet to represent the colours and edges of a given problem --- it merely re-uses atoms (see further in \cref{sec:gcol:notation}).
 
-\subsection{\label{sec:gcol:notation}cP System Notation}
+\subsection{\label{sec:gcol:notation}cP System Definition}
 
-In accordance with the \gls{cps} definition of \cref{sec:cps:formaldescriptions}, the \gls{gcp} \glspl{cps} can be formalised as \cptuple{g-col}{\cpset{\sigma_1}}{\cpset{b, c, e,\allowbreak i,\allowbreak m,\allowbreak n, s, v, k, \cpundig}}{\cpset{O_1}}{\cref{ruleset:gcol:rules}}{\cpset{s_1, s_2, s_3, s_4}}{s_1} where: \(\sigma_1\) is the single \gls{tlc} of the system and \(O_1 = \cpset{\cpfunc{s}{h}} \cup V' \allowbreak \cup E' \allowbreak \cup K'\) is the multiset of initial objects contained within \(\sigma_1\), where \(h\) is an arbitrary member of \(V\).
+In accordance with the \gls{cps} formal notation of \cref{sec:cps:formaldescriptions}, the \gls{gcp} \glspl{cps} can be formalised as \cptuple{G-Col}{\cpset{\sigma_1}}{\cpset{b, c, e,\allowbreak i,\allowbreak m,\allowbreak n, s, v, k, \cpundig}}{\cpset{O_1}}{\cref{ruleset:gcol:rules}}{\cpset{s_1, s_2, s_3, s_4}}{s_1} where: \(\sigma_1\) is the single \gls{tlc} of the system and \(O_1 = \cpset{\cpfunc{s}{h}} \cup V' \allowbreak \cup E' \allowbreak \cup K'\) is the multiset of initial objects contained within \(\sigma_1\), where \(h\) is an arbitrary member of \(V\).
 
 
 \subsection{\label{sec:gcol:rules}Rules}

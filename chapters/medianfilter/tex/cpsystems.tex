@@ -1,8 +1,120 @@
 \section{Median Filtering with \glsfmtname{cps}}\label{sec:medianfilter}
 
-\begin{anfxerror}{Include algo environment}
-Need to include an algorithm listing how the \gls{medianfilter}ing stuff works
-\end{anfxerror}
+\begin{algorithm}
+\DontPrintSemicolon
+\SetKwFunction{KwChoose}{choose}
+\SetKwFor{pForEach}{parallel foreach}{do}{endfch}
+\SetKwBlock{Loop}{loop:}{}
+\SetKw{KwOr}{or}
+\SetKw{KwAnd}{and}
+% \SetKw{KwGoto}{goto}
+\KwIn{Pixel with adjacency set \(A\), own value \(b\)}
+\KwOut{Final median result, \(r\)}
+\Begin{
+    \tcc{
+    \(a \Leftarrow \langle b \rangle\) denotes receiving object \(a\) on channel \(b\)\newline
+    \(c \Rightarrow \langle d \rangle\) denotes sending object \(c\) on channel \(d\)
+    }\;
+    
+    \(S \gets \emptyset\), \(T \gets \emptyset\), \(c' \gets 0\)\;
+    \;
+    
+    \tcc{Message Exchange}
+    \pForEach{\(n \in A\)}{
+        \(b \Rightarrow \langle n \rangle\)\;
+        \(e \Leftarrow \langle b \rangle\)\;
+        \(S \gets S \cup s[n + 1][e]\)\;
+        \(T \gets T \cup t[n + 1][e][1]\)\;
+        \(c' \gets c' + 1\)\;
+    }\;
+    
+    \tcc{Include Own Value}
+    \(S \gets S \cup s[1][b]\)\;
+    \(T \gets T \cup t[1][b][1]\)\;
+    \(c' \gets c' + 1\)\;
+    \;
+    
+    \tcc{Compute Median Index}
+    \(c' \gets \left\lceil \frac{c'}{2} \right\rceil\)\;
+    \;
+    
+    \tcc{Count Smaller Values}
+    \pForEach{\(t \in T\)}{
+        \pForEach{\(s \in S\)}{
+            \If{\(s[\cpdiscard][e] < t[\cpdiscard][e]\)}{
+                \(t[\cpdiscard][c] \gets t[\cpdiscard][c] + 1\)\;
+            }
+        }
+    }\;
+    
+    \tcc{Count Smaller Labels}
+    \pForEach{\(t \in T\)}{
+        \pForEach{\(s \in S\)}{
+            \If{\(s[i][e] = t[j][e]\) \KwAnd \(i < j\)}{
+                \(t[j][c] \gets t[j][c] + 1\)\;
+            }
+        }
+    }\;
+    
+    \tcc{Select Median}
+    \(r \gets \KwChoose(t[c][e] \in T \; | \; t[c] = c')\)\;
+    \Return \(r\)\;
+    
+    % \(R \gets \emptyset\)\;
+    % \(i \Leftarrow \langle e \rangle\)\;
+    
+    % \tcc*[l]{* assume environment \(e\) sends all of these now}
+    % \pForEach{\((x, 0, d) \Leftarrow \langle e \rangle\)}{
+    %     \(v[x] \gets (0,d)\)\;
+    %     \(R \gets R \cup \{x\}\)
+    % }
+    
+    % \;\tcc{\Glsentrylong{oq} \emph{and} \Glsentrylong{nm}}
+    
+    % \Loop{
+    %     \(W \gets \emptyset\)\;
+        
+    %     \pForEach{\((x,y,z,w) \in\) \Perm{\(A\)}}{
+    %         \If{\(x \in R\) \KwAnd \(v[x].g < i\) \KwAnd \(v[x].g \leq v[y].g\) \KwAnd \(v[x].g \leq v[z].g\)}{
+    %             \(W \gets W \cup (w,v[x].g+1, v[x].d \cup v[y].d \cup v[z].d))\)\label{line:nmp:rule3}
+    %         }
+    %     }
+        
+    %     \If{\(W \not= \emptyset\)}{
+    %         \(W \gets\) \Uniq{\(W\)} \tcc*[l]{Multiset to set}
+    %         \;
+    %         \lpForEach{\((w, g, d) \in W\)}{\((w, g, d) \Rightarrow \langle o \rangle\)}
+    %         \tcc*[l]{** assume oracle \(o\) returns all required messages}
+            
+    %         \lpForEach{\((w, g, d) \Leftarrow \langle o \rangle\)}{\((w, g, d) \Rightarrow \langle w \rangle\)}
+    %         \(W \gets \emptyset\)
+    %     }
+        
+    %     \(R \gets \emptyset\)\;
+    %     \;
+    %     \(b \gets\) \texttt{true}
+        
+    %     \lpForEach{\(x \in A\)}{\lIf*{\(v[x].g < i\)}{\(b \gets\) \texttt{false}}}
+    %     \lIf{b}{\KwGoto break}\;
+        
+    %     \While{\(|R| = 0\)}{\label{line:nmp:recvwhile}
+    %         \pForEach{\((x, g, d) \Leftarrow A\)}{\label{line:nmp:recvfor}
+    %             \(v[x] \gets (g,d)\)\;
+    %             \(R \gets R \cup \{x\}\)\;
+    %         }
+    %     }
+    %     \KwGoto loop\;
+    % }
+    % \AlCapSty{\AlCapFnt break:}\;
+    
+    % \;\tcc{Finalisation}
+    
+    % \lpForEach{\(x \in A\)}{\(v[x] \Rightarrow \langle o \rangle\)}
+    % \(z \Leftarrow \langle o \rangle\)\;
+    % \(z \Rightarrow \langle e \rangle\)
+}
+\caption{\label{alg:median:median}Pseudocode description of the \gls{medianfilter} process for an individual ``pixel'' \gls{tlc}}
+\end{algorithm}
 
 Each pixel in the image is assigned a corresponding \gls{cps} \gls{tlc}.  Each \gls{tlc} communicates with its neighbours over channels using antiport rules to build a list of all the pixel values in the immediate vicinity, then performs median selection to find the median value and stores it as the final result in a term \(r\).  The windows used to define the neighbourhoods are assumed to be square and centred around the filtered pixel. The rules used here assume destructive filtering, \ie{} the operation is performed only once, and nothing besides the final result needs to be kept.
 

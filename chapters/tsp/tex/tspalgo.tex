@@ -12,6 +12,60 @@ In presenting their algorithm to solve the \gls{tsp}, some papers have assumed t
 \noindent
 where \(A_{\mathit{TSP}} = \cpset{c, c', e, f, h, p, p', r, s, t, u, v, z}\).
 
+\begin{algorithm}
+\DontPrintSemicolon
+\SetKwFunction{Uniq}{uniq}
+\SetKwFor{pForEach}{parallel foreach}{do}{endfch}
+% \SetKwBlock{Loop}{loop:}{}
+\SetKw{KwAnd}{and}
+\SetKw{KwCons}{cons}
+\SetKw{KwChoose}{choose}
+\KwIn{Set \(E\) of edge subcells with costs, vertices \(V\)}
+\KwOut{A minimum-cost Hamiltonian cycle \(p'\)}
+\Begin{
+    
+    \tcc{Initialisation}
+    \(r \gets \KwChoose(v \in V)\)\;
+    \(S \gets s, S' \gets \emptyset\)\;
+    \(s[r] \gets r\), \(s[u] \gets \KwCons(r,\cpempty)\), \(s[v] \gets (V \setminus u)\), \(V \gets \emptyset\)\;
+    \;
+    
+    \tcc{Exploration}
+    \While{\(\exists s[u] \neq \emptyset\)}{
+        \pForEach{\(s \in S\)}{
+            \If{\(\exists e[f][t][w]\) \KwAnd \(t \in s[u]\) \KwAnd \(s[p].\mathit{head} = f\)}{
+                \(s' \gets s\)\;
+                \(s'[p] \gets \KwCons(t, s[p])\)\;
+                \(s'[u] \gets s[u] \setminus t\)\;
+                \(s'[c] \gets s'[c] + w\)\;
+                \(S' \gets S' \cup s'\)
+            }
+        }
+        
+        \(S \gets S'\), \(S' \gets \emptyset\)\;
+    }
+    \;
+    
+    \tcc{Cycle Construction}
+    \(Z \gets \emptyset\)\;
+    
+    \pForEach{\(s \in S\)}{
+        \If{\(s[p].\mathit{head} = r\)}{
+            % \(z \gets s\)\;
+            \(Z \gets Z \cup s\)
+        }
+    }
+    \;
+    
+    \tcc{Minimum Cycle Selection}
+    % \(z' \gets \KwChoose(z \in Z)\)\;
+    \(z' \gets \argmin_{z \in Z} z[w]\)\;
+    \(p' \gets z'[p]\), \(c' \gets z'[w]\)\;
+    \Return \(p'\), \(c'\)
+}
+\caption{\label{alg:tsp:tsp}Pseudocode description of the \gls{cps} solution to the \gls{tsp}}
+\end{algorithm}
+
 Again the algorithm requires five rules, presented in \cref{ruleset:tsp:tsp}.  The only differences between the rules in \cref{ruleset:tsp:tsp} and \cref{ruleset:tsp:hcp} are the addition of a weight/cost component to the \(e\) and \(s\) subcells, the tracking of costs throughout the process, and the \gls{inhibitor} added to \cpruleref{rule:tsp:tsp:min}, which ensures that the chosen path has minimum cost.
 
 \begin{cprulesetfloat}
@@ -33,7 +87,7 @@ Again the algorithm requires five rules, presented in \cref{ruleset:tsp:tsp}.  T
         \cpinhibitor{\cpfunc{z}{\cpfunc{p}{\_} \, \cpfunc{c}{C}}}
         
     \end{cpruleset}
-    \caption[\Gls{ruleset} for the \glsentrylong{tsp-glossary}]{\label{ruleset:tsp:tsp}\Gls{ruleset} for our \gls{tsp} \gls{cps} algorithm.}
+    \caption[\Gls{ruleset} for the \glsentrylong{tsp-glossary}]{\label{ruleset:tsp:tsp}\Gls{ruleset} for the \gls{tsp} \gls{cps} algorithm.}
 \end{cprulesetfloat}
 
 The \(e\) subcells store the cost of traversing an arc in the digraph with a new \(c\) subcell.  The costs are extracted from the \(e\) subcells via pattern-matching, and accumulated in the \(s\) subcells through addition.  Otherwise, the first four rules are substantively unchanged from those presented in \cref{ruleset:tsp:hcp}.  \cpRuleref{rule:tsp:tsp:min}, however, has been more notably modified, in that it now includes an \gls{inhibitor} as a condition, as well as the \gls{promoter}.  The \gls{inhibitor} acts to ensure that the path chosen is truly one of minimum cost, in accordance with the process described in \cref{sec:median:min}.

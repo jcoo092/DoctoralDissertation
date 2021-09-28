@@ -126,7 +126,7 @@ The algorithm follows a simple approach, essentially a simple maximally parallel
     \(p' \gets s'[p]\)\;
     \Return \(p'\)
 }
-\caption{\label{alg:tsp:hpp}Pseudocode description of the \gls{cps} solution to the \glsfmttext{hpp-glossary}}
+\caption{\label{alg:tsp:hpp}Pseudocode description of the \gls{cps} solution to the \gls{hpp}}
 \end{algorithm}
 
 At the beginning of the computation, assume an elementary cell with the skin membrane, and that the set \(E\) of subcells of the form \(E = \cpset{\cpfunc{e}{\cpfunc{f}{i} \, \cpfunc{t}{j}} ~ | ~ i,j \in \mathbb{N}, ~ i \neq j}\) encoding the arcs of the problem digraph is already present inside the skin membrane.  Subcell \(e\) represents an arc; \(f\) the origin vertex; and \(t\) the destination vertex.  Assume further that the subcell \(\cpfunc{v}{\cpfunc{v}{X}, \, \cpfunc{v}{Y} \dots}\), listing the vertices of the problem digraph, is present.  This could be derived from the subcells in \(E\) if required, though.  The system begins in state \(s_1\).
@@ -146,7 +146,7 @@ At the beginning of the computation, assume an elementary cell with the skin mem
         
         \cprule[rule:tsp:hpp:clean]{s_2}{\cpfunc{s}{\cpdiscard}}{+}{s_2}{}
     \end{cpruleset}
-    \caption[\Gls{ruleset} for the \glsentrylong{hpp-glossary}]{\label{ruleset:tsp:hpp}\Gls{ruleset} for our \gls{hpp} \gls{cps} algorithm.}
+    \caption[\Gls{ruleset} for the \glsentrylong{hpp-glossary}]{\label{ruleset:tsp:hpp}\Gls{ruleset} for the \gls{hpp} \gls{cps} algorithm.}
 \end{cprulesetfloat}
 
 \begin{enumerate}
@@ -238,7 +238,7 @@ Finding a Hamiltonian cycle requires an expansion of the algorithm, specifically
     \(p' \gets z'[p]\)\;
     \Return \(p'\)
 }
-\caption{\label{alg:tsp:hcp}Pseudocode description of the \gls{cps} solution to the \glsfmttext{hcp-glossary}}
+\caption{\label{alg:tsp:hcp}Pseudocode description of the \gls{cps} solution to the \gls{hcp}}
 \end{algorithm}
 
 The major changes to this from the \gls{hpp} algorithm are the addition of an \(r\) subcell to every \(s\) subcell, the change of \cpruleref{rule:tsp:hpp:finish} and the addition of a \cpruleref{rule:tsp:hcp:finish}. The \(r\) subcell stores a vertex -- the \(R\) selected in \cpruleref{rule:tsp:hcp:start} -- to keep track of the starting point of the cycle, where the cycle will also have to end.  This is used by the new \cpruleref{rule:tsp:hcp:makezs}, which instead of outputting a randomly selected path, constructs new \(z\) subcells out of the \(s\) subcells.  These new subcells contain the full path of the cycle, but are only instantiated if there is an \(e\) subcell representing an arc on the graph from the final vertex on the path back to the origin vertex \(R\), by the action of the \gls{promoter}.  Finally, \cpruleref{rule:tsp:hcp:finish} selects at random from one of these new \(z\) subcells and outputs a final path subcell \(p'\).  \cpRuleref{rule:tsp:hcp:finish} runs in exactly-once mode.  Application of this rule takes one step, and the system ends in state \(s_4\), which represents the new termination point of the evolution of the system.
@@ -263,7 +263,7 @@ The major changes to this from the \gls{hpp} algorithm are the addition of an \(
         \cppromoter{\cpfunc{z}{\cpfunc{p}{P}}}
         
     \end{cpruleset}
-    \caption[\Gls{ruleset} for the \glsentrylong{hcp-glossary}]{\label{ruleset:tsp:hcp}\Gls{ruleset} for our \gls{hcp} \gls{cps} algorithm.}
+    \caption[\Gls{ruleset} for the \glsentrylong{hcp-glossary}]{\label{ruleset:tsp:hcp}\Gls{ruleset} for the \gls{hcp} \gls{cps} algorithm.}
 \end{cprulesetfloat}
 
 \begin{enumerate}
