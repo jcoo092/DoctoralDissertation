@@ -1,7 +1,7 @@
 \section{\glsentrytext{cps} Hamiltonian Path and Cycle Algorithms}\label{sec:tsp:algohpp}
 This \lcnamecref{sec:tsp:algohpp} discusses only digraphs, since all undirected graphs can be represented quite simply as a directed graph with arcs in both directions simulating edges --- this is in fact how undirected graphs are represented in the below algorithm.
 
-\subsection{Formal System Definition}
+\subsection{Formal System Definitions}
 
 Following the 6-tuple description style of \cref{sec:cps:formaldescriptions}:  \(T = \{1\}\), \ie{} the entire system consists of only one \gls{tlc}.  \(A_{HPP} = \cpset{e, f, h, p, p', s, t, u, v}\), \(A_{HCP} = A_{HPP} \cup \cpset{r, z}\).  \(O = E \cup \cpset{\cpfunc{v}{V}}\) (\(E\) is described further in \cref{sec:tsp:hpp}).  For the \gls{hpp}, \(R\) is the rules in \cref{ruleset:tsp:hpp}, and for the \gls{hcp} it is \cref{ruleset:tsp:hcp}.  For the \gls{hpp} \(S_{HPP} = \cpset{s_1, s_2, s_3}\) and for the \gls{hcp} \(S_{HCP} = S_{HPP} \cup \cpset{s_4}\), and for both \(\Bar{s} = s_1\).
 
@@ -12,6 +12,170 @@ Following the 6-tuple description style of \cref{sec:cps:formaldescriptions}:  \
 \subsection{\Glsfmtname{hpp-glossary}}\label{sec:tsp:hpp}
 
 The algorithm follows a simple approach, essentially a simple maximally parallel breadth-first search of the digraph.  It starts with a \gls{tlc} enclosed by the skin membrane, and populated with subcells describing the problem digraph (recall that subcells in \gls{cps} are the namesake complex objects).  From there, a starting vertex of the problem digraph is randomly selected, and the \gls{tlc} is then populated with the other initial required subcells.  The evolution of the system then proceeds synchronously level-by-level through the different potential paths of the cycle by creating new subcells encoding the digraph traversals up to that point, expanding all possible paths from a given vertex which exclude any of the previously visited vertices.  The algorithm requires a fixed set of \textbf{only four rules}, presented in \cref{ruleset:tsp:hpp}.
+
+% \begin{algorithm}
+% \DontPrintSemicolon
+% \SetKwFunction{Uniq}{uniq}
+% \SetKwFunction{Perm}{permutations}
+% \SetKwFor{pForEach}{parallel foreach}{do}{endfch}
+% \SetKwBlock{Loop}{loop:}{}
+% \SetKw{KwOr}{or}
+% \SetKw{KwAnd}{and}
+% \SetKw{KwGoto}{goto}
+% \KwIn{Adjacency set \(A = \{1,2,3,4\}\)}
+% \KwOut{Final result, \(z\), sent to environment \(e\)}
+% \Begin{
+%     \tcc{
+%     \(a \Leftarrow \langle b \rangle\) denotes receiving object \(a\) on channel \(b\)\newline
+%     \(c \Rightarrow \langle d \rangle\) denotes sending object \(c\) on channel \(d\)
+%     }\;
+    
+%     \tcc{Initialisation}
+%     \(R \gets \emptyset\)\;
+%     \(i \Leftarrow \langle e \rangle\)\;
+    
+%     \tcc*[l]{* assume environment \(e\) sends all of these now}
+%     \pForEach{\((x, 0, d) \Leftarrow \langle e \rangle\)}{
+%         \(v[x] \gets (0,d)\)\;
+%         \(R \gets R \cup \{x\}\)
+%     }
+    
+%     \;\tcc{\Glsentrylong{oq} \emph{and} \Glsentrylong{nm}}
+    
+%     \Loop{
+%         \(W \gets \emptyset\)\;
+        
+%         \pForEach{\((x,y,z,w) \in\) \Perm{\(A\)}}{
+%             \If{\(x \in R\) \KwAnd \(v[x].g < i\) \KwAnd \(v[x].g \leq v[y].g\) \KwAnd \(v[x].g \leq v[z].g\)}{
+%                 \(W \gets W \cup (w,v[x].g+1, v[x].d \cup v[y].d \cup v[z].d))\)\label{line:nmp:rule3}
+%             }
+%         }
+        
+%         \If{\(W \not= \emptyset\)}{
+%             \(W \gets\) \Uniq{\(W\)} \tcc*[l]{Multiset to set}
+%             \;
+%             \lpForEach{\((w, g, d) \in W\)}{\((w, g, d) \Rightarrow \langle o \rangle\)}
+%             \tcc*[l]{** assume oracle \(o\) returns all required messages}
+            
+%             \lpForEach{\((w, g, d) \Leftarrow \langle o \rangle\)}{\((w, g, d) \Rightarrow \langle w \rangle\)}
+%             \(W \gets \emptyset\)
+%         }
+        
+%         \(R \gets \emptyset\)\;
+%         \;
+%         \(b \gets\) \texttt{true}
+        
+%         \lpForEach{\(x \in A\)}{\lIf*{\(v[x].g < i\)}{\(b \gets\) \texttt{false}}}
+%         \lIf{b}{\KwGoto break}\;
+        
+%         \While{\(|R| = 0\)}{\label{line:nmp:recvwhile}
+%             \pForEach{\((x, g, d) \Leftarrow A\)}{\label{line:nmp:recvfor}
+%                 \(v[x] \gets (g,d)\)\;
+%                 \(R \gets R \cup \{x\}\)\;
+%             }
+%         }
+%         \KwGoto loop\;
+%     }
+%     \AlCapSty{\AlCapFnt break:}\;
+    
+%     \;\tcc{Finalisation}
+    
+%     \lpForEach{\(x \in A\)}{\(v[x] \Rightarrow \langle o \rangle\)}
+%     \(z \Leftarrow \langle o \rangle\)\;
+%     \(z \Rightarrow \langle e \rangle\)
+% }
+% \caption[Pseudocode description of the process for an individual \gls{fne} \glsxtrshort{pe} in the asynchronous system]{\label{alg:nmp:pespecific}Pseudocode description of the process for an individual \gls{fne} \gls{pe} in the asynchronous system}
+% \end{algorithm}
+
+\begin{algorithm}
+\DontPrintSemicolon
+\SetKwFunction{Uniq}{uniq}
+\SetKwFunction{Perm}{permutations}
+\SetKwFor{pForEach}{parallel foreach}{do}{endfch}
+% \SetKwBlock{Loop}{loop:}{}
+% \SetKw{KwOr}{or}
+\SetKw{KwAnd}{and}
+\SetKw{KwCons}{cons}
+\SetKw{KwChoose}{choose}
+\KwIn{Set \(E\) of edge subcells, vertices \(V\)}
+\KwOut{A Hamiltonian path \(p'\)}
+\Begin{
+    % \tcc{
+    % \(a \Leftarrow \langle b \rangle\) denotes receiving object \(a\) on channel \(b\)\newline
+    % \(c \Rightarrow \langle d \rangle\) denotes sending object \(c\) on channel \(d\)
+    % }\;
+    
+    \tcc{Initialisation}
+    \(u \gets \KwChoose(v \in V)\)\;
+    \(S \gets s, S' \gets \emptyset\)\;
+    \(s[u] \gets u\), \(s[v] \gets V \setminus u\), \(V \gets \emptyset\)\;
+    % \(R \gets \emptyset\)\;
+    % \(i \Leftarrow \langle e \rangle\)\;
+    
+    % \;\tcc{\Glsentrylong{oq} \emph{and} \Glsentrylong{nm}}
+    
+    \While{\(\exists s[u] \neq \emptyset\)}{
+        \pForEach{\(s \in S\)}{
+            \If{\(\exists e[F][T]\) \KwAnd \(\exists s[u][T]\) \KwAnd \(s[p].\mathit{head} = F\)}{
+                \(s' \gets s\)\;
+                \(s'[p] \gets \KwCons(T, s[p])\)\;
+                \(s'[u] \gets s[u] \setminus T\)\;
+                \(S' \gets S' \cup s'\)
+            }
+        }
+        
+        \(S \gets S'\)\;
+        \(S' \gets \emptyset\)\;
+    }
+    
+    \(s' \gets \KwChoose(s \in S)\)\;
+    \(p' \gets s'[p]\)\;
+    \Return \(p'\)
+    
+    % \Loop{
+    %     \(W \gets \emptyset\)\;
+        
+    %     \pForEach{\((x,y,z,w) \in\) \Perm{\(A\)}}{
+    %         \If{\(x \in R\) \KwAnd \(v[x].g < i\) \KwAnd \(v[x].g \leq v[y].g\) \KwAnd \(v[x].g \leq v[z].g\)}{
+    %             \(W \gets W \cup (w,v[x].g+1, v[x].d \cup v[y].d \cup v[z].d))\)\label{line:nmp:rule3}
+    %         }
+    %     }
+        
+    %     \If{\(W \not= \emptyset\)}{
+    %         \(W \gets\) \Uniq{\(W\)} \tcc*[l]{Multiset to set}
+    %         \;
+    %         \lpForEach{\((w, g, d) \in W\)}{\((w, g, d) \Rightarrow \langle o \rangle\)}
+    %         \tcc*[l]{** assume oracle \(o\) returns all required messages}
+            
+    %         \lpForEach{\((w, g, d) \Leftarrow \langle o \rangle\)}{\((w, g, d) \Rightarrow \langle w \rangle\)}
+    %         \(W \gets \emptyset\)
+    %     }
+        
+    %     \(R \gets \emptyset\)\;
+    %     \;
+    %     \(b \gets\) \texttt{true}
+        
+    %     \lpForEach{\(x \in A\)}{\lIf*{\(v[x].g < i\)}{\(b \gets\) \texttt{false}}}
+    %     \lIf{b}{\KwGoto break}\;
+        
+    %     \While{\(|R| = 0\)}{\label{line:nmp:recvwhile}
+    %         \pForEach{\((x, g, d) \Leftarrow A\)}{\label{line:nmp:recvfor}
+    %             \(v[x] \gets (g,d)\)\;
+    %             \(R \gets R \cup \{x\}\)\;
+    %         }
+    %     }
+    %     \KwGoto loop\;
+    % }
+    % \AlCapSty{\AlCapFnt break:}\;
+    
+    % \;\tcc{Finalisation}
+    
+    % \lpForEach{\(x \in A\)}{\(v[x] \Rightarrow \langle o \rangle\)}
+    % \(z \Leftarrow \langle o \rangle\)\;
+    % \(z \Rightarrow \langle e \rangle\)
+}
+\caption{\label{alg:tsp:hpp}Pseudocode description of the \gls{cps} solution to the \glsfmttext{hpp-glossary}}
+\end{algorithm}
 
 At the beginning of the computation, assume an elementary cell with the skin membrane, and that the set \(E\) of subcells of the form \(E = \cpset{\cpfunc{e}{\cpfunc{f}{i} \, \cpfunc{t}{j}} ~ | ~ i,j \in \mathbb{N}, ~ i \neq j}\) encoding the arcs of the problem digraph is already present inside the skin membrane.  Subcell \(e\) represents an arc; \(f\) the origin vertex; and \(t\) the destination vertex.  Assume further that the subcell \(\cpfunc{v}{\cpfunc{v}{X}, \, \cpfunc{v}{Y} \dots}\), listing the vertices of the problem digraph, is present.  This could be derived from the subcells in \(E\) if required, though.  The system begins in state \(s_1\).
 
