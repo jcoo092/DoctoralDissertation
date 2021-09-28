@@ -8,59 +8,59 @@ In presenting their algorithm to solve the \gls{tsp}, some papers have assumed t
 \noindent
 where \(A_{\mathit{TSP}} = \cpset{c, c', e, f, h, p, p', r, s, t, u, v, z}\).
 
-\begin{algorithm}
-\DontPrintSemicolon
-\SetKwFunction{Uniq}{uniq}
-\SetKwFor{pForEach}{parallel foreach}{do}{endfch}
-% \SetKwBlock{Loop}{loop:}{}
-\SetKw{KwAnd}{and}
-\SetKw{KwCons}{cons}
-\SetKw{KwChoose}{choose}
-\KwIn{Set \(E\) of edge subcells with costs, vertices \(V\)}
-\KwOut{A minimum-cost Hamiltonian cycle \(p'\)}
-\Begin{
+% \begin{algorithm}
+% \DontPrintSemicolon
+% \SetKwFunction{Uniq}{uniq}
+% \SetKwFor{pForEach}{parallel foreach}{do}{endfch}
+% % \SetKwBlock{Loop}{loop:}{}
+% \SetKw{KwAnd}{and}
+% \SetKw{KwCons}{cons}
+% \SetKw{KwChoose}{choose}
+% \KwIn{Set \(E\) of edge subcells with costs, vertices \(V\)}
+% \KwOut{A minimum-cost Hamiltonian cycle \(p'\)}
+% \Begin{
     
-    \tcc{Initialisation}
-    \(r \gets \KwChoose(v \in V)\)\;
-    \(S \gets s, S' \gets \emptyset\)\;
-    \(s[r] \gets r\), \(s[u] \gets \KwCons(r,\cpempty)\), \(s[v] \gets (V \setminus u)\), \(V \gets \emptyset\)\;
-    \;
+%     \tcc{Initialisation}
+%     \(r \gets \KwChoose(v \in V)\)\;
+%     \(S \gets s, S' \gets \emptyset\)\;
+%     \(s[r] \gets r\), \(s[u] \gets \KwCons(r,\cpempty)\), \(s[v] \gets (V \setminus u)\), \(V \gets \emptyset\)\;
+%     \;
     
-    \tcc{Exploration}
-    \While{\(\exists s[u] \neq \emptyset\)}{
-        \pForEach{\(s \in S\)}{
-            \If{\(\exists e[f][t][w]\) \KwAnd \(t \in s[u]\) \KwAnd \(s[p].\mathit{head} = f\)}{
-                \(s' \gets s\)\;
-                \(s'[p] \gets \KwCons(t, s[p])\)\;
-                \(s'[u] \gets s[u] \setminus t\)\;
-                \(s'[c] \gets s'[c] + w\)\;
-                \(S' \gets S' \cup s'\)
-            }
-        }
+%     \tcc{Exploration}
+%     \While{\(\exists s[u] \neq \emptyset\)}{
+%         \pForEach{\(s \in S\)}{
+%             \If{\(\exists e[f][t][w]\) \KwAnd \(t \in s[u]\) \KwAnd \(s[p].\mathit{head} = f\)}{
+%                 \(s' \gets s\)\;
+%                 \(s'[p] \gets \KwCons(t, s[p])\)\;
+%                 \(s'[u] \gets s[u] \setminus t\)\;
+%                 \(s'[c] \gets s'[c] + w\)\;
+%                 \(S' \gets S' \cup s'\)
+%             }
+%         }
         
-        \(S \gets S'\), \(S' \gets \emptyset\)\;
-    }
-    \;
+%         \(S \gets S'\), \(S' \gets \emptyset\)\;
+%     }
+%     \;
     
-    \tcc{Cycle Construction}
-    \(Z \gets \emptyset\)\;
+%     \tcc{Cycle Construction}
+%     \(Z \gets \emptyset\)\;
     
-    \pForEach{\(s \in S\)}{
-        \If{\(s[p].\mathit{head} = r\)}{
-            % \(z \gets s\)\;
-            \(Z \gets Z \cup s\)
-        }
-    }
-    \;
+%     \pForEach{\(s \in S\)}{
+%         \If{\(s[p].\mathit{head} = r\)}{
+%             % \(z \gets s\)\;
+%             \(Z \gets Z \cup s\)
+%         }
+%     }
+%     \;
     
-    \tcc{Minimum Cycle Selection}
-    % \(z' \gets \KwChoose(z \in Z)\)\;
-    \(z' \gets \argmin_{z \in Z} z[w]\)\;
-    \(p' \gets z'[p]\), \(c' \gets z'[w]\)\;
-    \Return \(p'\), \(c'\)
-}
-\caption{\label{alg:tsp:tsp}Pseudocode description of the \gls{cps} solution to the \gls{tsp}}
-\end{algorithm}
+%     \tcc{Minimum Cycle Selection}
+%     % \(z' \gets \KwChoose(z \in Z)\)\;
+%     \(z' \gets \argmin_{z \in Z} z[w]\)\;
+%     \(p' \gets z'[p]\), \(c' \gets z'[w]\)\;
+%     \Return \(p'\), \(c'\)
+% }
+% \caption{\label{alg:tsp:tsp}Pseudocode description of the \gls{cps} solution to the \gls{tsp}}
+% \end{algorithm}
 
 Again the algorithm requires five rules, presented in \cref{ruleset:tsp:tsp}.  The only differences between the rules in \cref{ruleset:tsp:tsp} and \cref{ruleset:tsp:hcp} are the addition of a weight/cost component to the \(e\) and \(s\) subcells, the tracking of costs throughout the process, and the \gls{inhibitor} added to \cpruleref{rule:tsp:tsp:min}, which ensures that the chosen path has minimum cost.
 

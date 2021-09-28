@@ -33,7 +33,7 @@ indicates the application mode, discussed further in \cref{sec:cps:applicationmo
 \smallskip
 \item \textit{out-symbols} are sent to the cell's structural neighbours at the end of the step.
 These symbols are enclosed in angle brackets that indicate 
-their \fxerror{Should this be moved to an ``intra-\gls{tlc} messaging'' section?}{destinations}, abbreviated above as \(\delta\). 
+their destinations, abbreviated above as \(\delta\). 
 The most usual scenarios include: 
 
 \begin{itemize}
@@ -50,8 +50,8 @@ All symbols sent via one \emph{generic rule} to the same destination form one si
 %-------------------------------------------------------
 \subsection{Pattern Matching}
 %-------------------------------------------------------
-\fxerror{Should this be combined with the unification section above?}{Rules are matched against cell contents using the aforementioned \emph{pattern matching},
-which involves the rule's \emph{\gls{lhs}}, \glspl{promoter} and \glspl{inhibitor}.}
+Rules are matched against cell contents using the aforementioned \emph{pattern matching},
+which involves the rule's \emph{\gls{lhs}}, \glspl{promoter} and \glspl{inhibitor}.
 
 Generally, variables have \emph{global rule scope};
 these are assumed to be introduced by \emph{existential} quantifiers preceding the rule

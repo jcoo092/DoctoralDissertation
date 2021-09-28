@@ -1,67 +1,67 @@
 \section{Median Filtering with \glsfmtname{cps}}\label{sec:medianfilter}
 
-\begin{algorithm}
-\DontPrintSemicolon
-\SetKwFunction{KwChoose}{choose}
-\SetKwFor{pForEach}{parallel foreach}{do}{endfch}
-\SetKwBlock{Loop}{loop:}{}
-\SetKw{KwOr}{or}
-\SetKw{KwAnd}{and}
-% \SetKw{KwGoto}{goto}
-\KwIn{Pixel with adjacency set \(A\), own value \(b\)}
-\KwOut{Final median result, \(r\)}
-\Begin{
-    \tcc{
-    \(a \Leftarrow \langle b \rangle\) denotes receiving object \(a\) on channel \(b\)\newline
-    \(c \Rightarrow \langle d \rangle\) denotes sending object \(c\) on channel \(d\)
-    }\;
+% \begin{algorithm}
+% \DontPrintSemicolon
+% \SetKwFunction{KwChoose}{choose}
+% \SetKwFor{pForEach}{parallel foreach}{do}{endfch}
+% \SetKwBlock{Loop}{loop:}{}
+% \SetKw{KwOr}{or}
+% \SetKw{KwAnd}{and}
+% % \SetKw{KwGoto}{goto}
+% \KwIn{Pixel with adjacency set \(A\), own value \(b\)}
+% \KwOut{Final median result, \(r\)}
+% \Begin{
+%     \tcc{
+%     \(a \Leftarrow \langle b \rangle\) denotes receiving object \(a\) on channel \(b\)\newline
+%     \(c \Rightarrow \langle d \rangle\) denotes sending object \(c\) on channel \(d\)
+%     }\;
     
-    \(S \gets \emptyset\), \(T \gets \emptyset\), \(c' \gets 0\)\;
-    \;
+%     \(S \gets \emptyset\), \(T \gets \emptyset\), \(c' \gets 0\)\;
+%     \;
     
-    \tcc{Message Exchange}
-    \pForEach{\(n \in A\)}{
-        \(b \Rightarrow \langle n \rangle\)\;
-        \(e \Leftarrow \langle b \rangle\)\;
-        \(S \gets S \cup s[n + 1][e]\)\;
-        \(T \gets T \cup t[n + 1][e][1]\)\;
-        \(c' \gets c' + 1\)\;
-    }\;
+%     \tcc{Message Exchange}
+%     \pForEach{\(n \in A\)}{
+%         \(b \Rightarrow \langle n \rangle\)\;
+%         \(e \Leftarrow \langle b \rangle\)\;
+%         \(S \gets S \cup s[n + 1][e]\)\;
+%         \(T \gets T \cup t[n + 1][e][1]\)\;
+%         \(c' \gets c' + 1\)\;
+%     }\;
     
-    \tcc{Include Own Value}
-    \(S \gets S \cup s[1][b]\)\;
-    \(T \gets T \cup t[1][b][1]\)\;
-    \(c' \gets c' + 1\)\;
-    \;
+%     \tcc{Include Own Value}
+%     \(S \gets S \cup s[1][b]\)\;
+%     \(T \gets T \cup t[1][b][1]\)\;
+%     \(c' \gets c' + 1\)\;
+%     \;
     
-    \tcc{Compute Median Index}
-    \(c' \gets \left\lceil \frac{c'}{2} \right\rceil\)\;
-    \;
+%     \tcc{Compute Median Index}
+%     \(c' \gets \left\lceil \frac{c'}{2} \right\rceil\)\;
+%     \;
     
-    \tcc{Count Smaller Values}
-    \pForEach{\(t \in T\)}{
-        \pForEach{\(s \in S\)}{
-            \If{\(s[\cpdiscard][e] < t[\cpdiscard][e]\)}{
-                \(t[\cpdiscard][c] \gets t[\cpdiscard][c] + 1\)\;
-            }
-        }
-    }\;
+%     \tcc{Count Smaller Values}
+%     \pForEach{\(t \in T\)}{
+%         \pForEach{\(s \in S\)}{
+%             \If{\(s[\cpdiscard][e] < t[\cpdiscard][e]\)}{
+%                 \(t[\cpdiscard][c] \gets t[\cpdiscard][c] + 1\)\;
+%             }
+%         }
+%     }\;
     
-    \tcc{Count Smaller Labels}
-    \pForEach{\(t \in T\)}{
-        \pForEach{\(s \in S\)}{
-            \If{\(s[i][e] = t[j][e]\) \KwAnd \(i < j\)}{
-                \(t[j][c] \gets t[j][c] + 1\)\;
-            }
-        }
-    }\;
+%     \tcc{Count Smaller Labels}
+%     \pForEach{\(t \in T\)}{
+%         \pForEach{\(s \in S\)}{
+%             \If{\(s[i][e] = t[j][e]\) \KwAnd \(i < j\)}{
+%                 \(t[j][c] \gets t[j][c] + 1\)\;
+%             }
+%         }
+%     }\;
     
-    \tcc{Select Median}
-    \(r \gets \KwChoose(t[c][e] \in T \; | \; t[c] = c')\)\;
-    \Return \(r\)\;
-}
-\caption{\label{alg:median:median}Pseudocode description of the \gls{medianfilter} process for an individual ``pixel'' \gls{tlc}}
-\end{algorithm}
+%     \tcc{Select Median}
+%     \(r \gets \KwChoose(t[c][e] \in T \; | \; t[c] = c')\)\;
+%     \Return \(r\)\;
+% }
+% \caption{\label{alg:median:median}Pseudocode description of the \gls{medianfilter} process for an individual ``pixel'' \gls{tlc}}
+% \end{algorithm}
 
 Each pixel in the image is assigned a corresponding \gls{cps} \gls{tlc}.  Each \gls{tlc} communicates with its neighbours over channels using antiport rules to build a list of all the pixel values in the immediate vicinity, then performs median selection to find the median value and stores it as the final result in a term \(r\).  The windows used to define the neighbourhoods are assumed to be square and centred around the filtered pixel. The rules used here assume destructive filtering, \ie{} the operation is performed only once, and nothing besides the final result needs to be kept.
 
