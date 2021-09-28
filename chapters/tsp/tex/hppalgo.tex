@@ -93,86 +93,38 @@ The algorithm follows a simple approach, essentially a simple maximally parallel
 \SetKwFunction{Perm}{permutations}
 \SetKwFor{pForEach}{parallel foreach}{do}{endfch}
 % \SetKwBlock{Loop}{loop:}{}
-% \SetKw{KwOr}{or}
 \SetKw{KwAnd}{and}
 \SetKw{KwCons}{cons}
 \SetKw{KwChoose}{choose}
 \KwIn{Set \(E\) of edge subcells, vertices \(V\)}
 \KwOut{A Hamiltonian path \(p'\)}
 \Begin{
-    % \tcc{
-    % \(a \Leftarrow \langle b \rangle\) denotes receiving object \(a\) on channel \(b\)\newline
-    % \(c \Rightarrow \langle d \rangle\) denotes sending object \(c\) on channel \(d\)
-    % }\;
     
     \tcc{Initialisation}
-    \(u \gets \KwChoose(v \in V)\)\;
+    \(r \gets \KwChoose(v \in V)\)\;
     \(S \gets s, S' \gets \emptyset\)\;
-    \(s[u] \gets u\), \(s[v] \gets V \setminus u\), \(V \gets \emptyset\)\;
-    % \(R \gets \emptyset\)\;
-    % \(i \Leftarrow \langle e \rangle\)\;
+    \(s[u] \gets \KwCons(r,\cpempty)\), \(s[v] \gets (V \setminus u)\), \(V \gets \emptyset\)\;
+    \;
     
-    % \;\tcc{\Glsentrylong{oq} \emph{and} \Glsentrylong{nm}}
-    
+    \tcc{Exploration}
     \While{\(\exists s[u] \neq \emptyset\)}{
         \pForEach{\(s \in S\)}{
-            \If{\(\exists e[F][T]\) \KwAnd \(\exists s[u][T]\) \KwAnd \(s[p].\mathit{head} = F\)}{
+            \If{\(\exists e[f][t]\) \KwAnd \(t \in s[u]\) \KwAnd \(s[p].\mathit{head} = f\)}{
                 \(s' \gets s\)\;
-                \(s'[p] \gets \KwCons(T, s[p])\)\;
-                \(s'[u] \gets s[u] \setminus T\)\;
+                \(s'[p] \gets \KwCons(t, s[p])\)\;
+                \(s'[u] \gets s[u] \setminus t\)\;
                 \(S' \gets S' \cup s'\)
             }
         }
         
-        \(S \gets S'\)\;
-        \(S' \gets \emptyset\)\;
+        \(S \gets S'\), \(S' \gets \emptyset\)\;
     }
+    \;
     
+    \tcc{Path Selection}
     \(s' \gets \KwChoose(s \in S)\)\;
     \(p' \gets s'[p]\)\;
     \Return \(p'\)
-    
-    % \Loop{
-    %     \(W \gets \emptyset\)\;
-        
-    %     \pForEach{\((x,y,z,w) \in\) \Perm{\(A\)}}{
-    %         \If{\(x \in R\) \KwAnd \(v[x].g < i\) \KwAnd \(v[x].g \leq v[y].g\) \KwAnd \(v[x].g \leq v[z].g\)}{
-    %             \(W \gets W \cup (w,v[x].g+1, v[x].d \cup v[y].d \cup v[z].d))\)\label{line:nmp:rule3}
-    %         }
-    %     }
-        
-    %     \If{\(W \not= \emptyset\)}{
-    %         \(W \gets\) \Uniq{\(W\)} \tcc*[l]{Multiset to set}
-    %         \;
-    %         \lpForEach{\((w, g, d) \in W\)}{\((w, g, d) \Rightarrow \langle o \rangle\)}
-    %         \tcc*[l]{** assume oracle \(o\) returns all required messages}
-            
-    %         \lpForEach{\((w, g, d) \Leftarrow \langle o \rangle\)}{\((w, g, d) \Rightarrow \langle w \rangle\)}
-    %         \(W \gets \emptyset\)
-    %     }
-        
-    %     \(R \gets \emptyset\)\;
-    %     \;
-    %     \(b \gets\) \texttt{true}
-        
-    %     \lpForEach{\(x \in A\)}{\lIf*{\(v[x].g < i\)}{\(b \gets\) \texttt{false}}}
-    %     \lIf{b}{\KwGoto break}\;
-        
-    %     \While{\(|R| = 0\)}{\label{line:nmp:recvwhile}
-    %         \pForEach{\((x, g, d) \Leftarrow A\)}{\label{line:nmp:recvfor}
-    %             \(v[x] \gets (g,d)\)\;
-    %             \(R \gets R \cup \{x\}\)\;
-    %         }
-    %     }
-    %     \KwGoto loop\;
-    % }
-    % \AlCapSty{\AlCapFnt break:}\;
-    
-    % \;\tcc{Finalisation}
-    
-    % \lpForEach{\(x \in A\)}{\(v[x] \Rightarrow \langle o \rangle\)}
-    % \(z \Leftarrow \langle o \rangle\)\;
-    % \(z \Rightarrow \langle e \rangle\)
 }
 \caption{\label{alg:tsp:hpp}Pseudocode description of the \gls{cps} solution to the \glsfmttext{hpp-glossary}}
 \end{algorithm}
@@ -231,8 +183,63 @@ At the beginning of the computation, assume an elementary cell with the skin mem
     \cptermdef{s_3}{Ending state.  The \gls{tlc} transitions to this state when it has selected a Hamiltonian Path, and ceased evolution.}
 \end{description}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{\Glsfmtname{hcp-glossary}}
 Finding a Hamiltonian cycle requires an expansion of the algorithm, specifically to record the initial starting vertex, and ensure that the paths produced also end there.  The modified rules taking account of the changes are presented in \cref{ruleset:tsp:hcp}.
+
+\begin{algorithm}
+\DontPrintSemicolon
+\SetKwFunction{Uniq}{uniq}
+\SetKwFunction{Perm}{permutations}
+\SetKwFor{pForEach}{parallel foreach}{do}{endfch}
+% \SetKwBlock{Loop}{loop:}{}
+\SetKw{KwAnd}{and}
+\SetKw{KwCons}{cons}
+\SetKw{KwChoose}{choose}
+\KwIn{Set \(E\) of edge subcells, vertices \(V\)}
+\KwOut{A Hamiltonian cycle \(p'\)}
+\Begin{
+    
+    \tcc{Initialisation}
+    \(r \gets \KwChoose(v \in V)\)\;
+    \(S \gets s, S' \gets \emptyset\)\;
+    \(s[r] \gets r\), \(s[u] \gets \KwCons(r,\cpempty)\), \(s[v] \gets (V \setminus u)\), \(V \gets \emptyset\)\;
+    \;
+    
+    \tcc{Exploration}
+    \While{\(\exists s[u] \neq \emptyset\)}{
+        \pForEach{\(s \in S\)}{
+            \If{\(\exists e[f][t]\) \KwAnd \(t \in s[u]\) \KwAnd \(s[p].\mathit{head} = f\)}{
+                \(s' \gets s\)\;
+                \(s'[p] \gets \KwCons(t, s[p])\)\;
+                \(s'[u] \gets s[u] \setminus t\)\;
+                \(S' \gets S' \cup s'\)
+            }
+        }
+        
+        \(S \gets S'\), \(S' \gets \emptyset\)\;
+    }
+    \;
+    
+    \tcc{Cycle Construction}
+    \(Z \gets \emptyset\)\;
+    
+    \pForEach{\(s \in S\)}{
+        \If{\(s[p].\mathit{head} = r\)}{
+            % \(z \gets s\)\;
+            \(Z \gets Z \cup s\)
+        }
+    }
+    \;
+    
+    \tcc{Cycle Selection}
+    \(z' \gets \KwChoose(z \in Z)\)\;
+    \(p' \gets z'[p]\)\;
+    \Return \(p'\)
+}
+\caption{\label{alg:tsp:hcp}Pseudocode description of the \gls{cps} solution to the \glsfmttext{hcp-glossary}}
+\end{algorithm}
 
 The major changes to this from the \gls{hpp} algorithm are the addition of an \(r\) subcell to every \(s\) subcell, the change of \cpruleref{rule:tsp:hpp:finish} and the addition of a \cpruleref{rule:tsp:hcp:finish}. The \(r\) subcell stores a vertex -- the \(R\) selected in \cpruleref{rule:tsp:hcp:start} -- to keep track of the starting point of the cycle, where the cycle will also have to end.  This is used by the new \cpruleref{rule:tsp:hcp:makezs}, which instead of outputting a randomly selected path, constructs new \(z\) subcells out of the \(s\) subcells.  These new subcells contain the full path of the cycle, but are only instantiated if there is an \(e\) subcell representing an arc on the graph from the final vertex on the path back to the origin vertex \(R\), by the action of the \gls{promoter}.  Finally, \cpruleref{rule:tsp:hcp:finish} selects at random from one of these new \(z\) subcells and outputs a final path subcell \(p'\).  \cpRuleref{rule:tsp:hcp:finish} runs in exactly-once mode.  Application of this rule takes one step, and the system ends in state \(s_4\), which represents the new termination point of the evolution of the system.
 
