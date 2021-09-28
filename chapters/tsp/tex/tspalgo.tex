@@ -1,9 +1,5 @@
 \section{A \glsfmtname{cps} \glsfmtname{tsp-glossary} Algorithm}\label{sec:tsp:algotsp}
 
-\begin{anfxerror}{Include algo environments}
-Need to include algorithms listing how the TSP and HPP algorithms proceed.
-\end{anfxerror}
-
 The expansion of the \gls{hcp} algorithm to solve the \gls{tsp} is fairly straightforward.  The \gls{tsp} is the \gls{hcp} with weights upon the vertices of the digraph, and the imposition of the additional constraint that the chosen Hamiltonian cycle is one with minimum total weight.  
 
 In presenting their algorithm to solve the \gls{tsp}, some papers have assumed totally connected digraphs, and/or used a Euclidean distance metric to define the weight between two arcs.  Instead, this \cref{sec:tsp:algotsp} assumes a digraph with pre-specified arc weights, which could be derived as a pre-processing step (using Euclidean distances if appropriate).   Further, all weights \(w\) are assumed to be strictly positive integers, i.e. \(\forall w, w \in \mathbb{N}^+\).  Handling the case of negative weights is a remaining open problem.  The algorithm works with digraphs of any level of density so long as at least one Hamiltonian path exists (and could be extended to appropriately handle the case where none exists).  The tuple of the \glspl{cps} implementing this algorithm is shown below:

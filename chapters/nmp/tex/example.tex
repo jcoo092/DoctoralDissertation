@@ -11,7 +11,7 @@ This \lcnamecref{sec:nmp:example} steps through a simple example of the evolutio
     \label{fig:nmp:basicgrid}
 \end{figure}
 
-\fxwarning{From José}{Embodying the unknown processes of the oracle, the data for the received \(v\) terms have been randomly generated for this example and have no particular significance.}
+Embodying the unknown processes of the oracle, the data for the received \(v\) terms have been randomly generated for this example and have no particular significance.
 
 To supply a partial demonstration of the expected operation of the rule(s) which would replace the oracle, the contents of outgoing messages are computed according to the following simple rule: \cpruleinline{\cprule*{s_4}{\cprecv{\cpvw{W}{G}{\cpfunc{d}{A} \; \cpfunc{d}{B}}}{\iota}}{1}{s_5}{\cpsend{\cpvw{W}{G}{AB}}{\iota}}}  This rule merely sums the data received, and returns the newly computed outgoing message to the relevant node.
 
