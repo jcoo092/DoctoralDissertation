@@ -59,59 +59,6 @@
     \tcc{Select Median}
     \(r \gets \KwChoose(t[c][e] \in T \; | \; t[c] = c')\)\;
     \Return \(r\)\;
-    
-    % \(R \gets \emptyset\)\;
-    % \(i \Leftarrow \langle e \rangle\)\;
-    
-    % \tcc*[l]{* assume environment \(e\) sends all of these now}
-    % \pForEach{\((x, 0, d) \Leftarrow \langle e \rangle\)}{
-    %     \(v[x] \gets (0,d)\)\;
-    %     \(R \gets R \cup \{x\}\)
-    % }
-    
-    % \;\tcc{\Glsentrylong{oq} \emph{and} \Glsentrylong{nm}}
-    
-    % \Loop{
-    %     \(W \gets \emptyset\)\;
-        
-    %     \pForEach{\((x,y,z,w) \in\) \Perm{\(A\)}}{
-    %         \If{\(x \in R\) \KwAnd \(v[x].g < i\) \KwAnd \(v[x].g \leq v[y].g\) \KwAnd \(v[x].g \leq v[z].g\)}{
-    %             \(W \gets W \cup (w,v[x].g+1, v[x].d \cup v[y].d \cup v[z].d))\)\label{line:nmp:rule3}
-    %         }
-    %     }
-        
-    %     \If{\(W \not= \emptyset\)}{
-    %         \(W \gets\) \Uniq{\(W\)} \tcc*[l]{Multiset to set}
-    %         \;
-    %         \lpForEach{\((w, g, d) \in W\)}{\((w, g, d) \Rightarrow \langle o \rangle\)}
-    %         \tcc*[l]{** assume oracle \(o\) returns all required messages}
-            
-    %         \lpForEach{\((w, g, d) \Leftarrow \langle o \rangle\)}{\((w, g, d) \Rightarrow \langle w \rangle\)}
-    %         \(W \gets \emptyset\)
-    %     }
-        
-    %     \(R \gets \emptyset\)\;
-    %     \;
-    %     \(b \gets\) \texttt{true}
-        
-    %     \lpForEach{\(x \in A\)}{\lIf*{\(v[x].g < i\)}{\(b \gets\) \texttt{false}}}
-    %     \lIf{b}{\KwGoto break}\;
-        
-    %     \While{\(|R| = 0\)}{\label{line:nmp:recvwhile}
-    %         \pForEach{\((x, g, d) \Leftarrow A\)}{\label{line:nmp:recvfor}
-    %             \(v[x] \gets (g,d)\)\;
-    %             \(R \gets R \cup \{x\}\)\;
-    %         }
-    %     }
-    %     \KwGoto loop\;
-    % }
-    % \AlCapSty{\AlCapFnt break:}\;
-    
-    % \;\tcc{Finalisation}
-    
-    % \lpForEach{\(x \in A\)}{\(v[x] \Rightarrow \langle o \rangle\)}
-    % \(z \Leftarrow \langle o \rangle\)\;
-    % \(z \Rightarrow \langle e \rangle\)
 }
 \caption{\label{alg:median:median}Pseudocode description of the \gls{medianfilter} process for an individual ``pixel'' \gls{tlc}}
 \end{algorithm}
@@ -153,7 +100,7 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
 
 \begin{enumerate}
     \item Receive, through antiport exchange, messages from every connected neighbour and store the values received while sending the current pixel's value back.
-    \item Stores the pixel's own value in the \(s\) functor alongside the messages received from neighbours, since it is also one of the values to consider here.  This runs once messages have been received from all neighbours.
+    \item Stores the pixel's own value in the \(s\) \gls{functor} alongside the messages received from neighbours, since it is also one of the values to consider here.  This runs once messages have been received from all neighbours.
     \item Performs ceiling division by two on the total count of messages received.  The number computed is the midpoint of the count of stored values.  Division by two as a special case does not require an additional rule, unlike for the general case, as seen when computing the mean in \vref{sec:median:mean}.  When the dividend is an even number, there is no remainder.  When the dividend is an odd number, the single \(\cpundig\) remainder works appropriately to round the result to ceiling division.
     \item Along with \cpruleref{rule:medianfilter:diffidx}, this carries out the central part of the \gls{medianfilter}ing process.  All \(t\) terms are compared against all \(s\) terms, and a copy of the unary digit is added to one or the other of them in the index (final) value.  This rule works for when the stored values from each neighbour are different, and thus for each pair, one is strictly greater than the other.
     \item Along with \cpruleref{rule:medianfilter:lessthan}, this carries out the central part of the \gls{medianfilter}ing process.  All \(t\) terms are compared against all \(s\) terms, and a copy of the unary digit is added to one or the other of them in the index (final) value.  There is no guarantee in general that there will not be more than one instance of the same value.  For current purposes, a strict total ordering can be imposed by using the label of the neighbour which sent the value.  Every stored value has a unique label (from a given pixel's perspective) for its originating pixel.  In the case of equal values, the value received from the neighbour with the greater ID gains the unary digit.  This effectively reimposes a strict total ordering on the values, and means that one can be selected correctly as the median.
@@ -238,7 +185,7 @@ Assume each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cp
 \caption{\label{objs:medianfilter:ex5}Objects inside an arbitrary \gls{tlc} at the end of step 5 of the \gls{medianfilter}ing process.}
 \end{cpobjectsfloat}
 
-Assume that an arbitrary exemplar pixel has four neighbours, represented in \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4}}\), and its value is 6, \(\cpfunc{b}{6}\).  The objects present in the \gls{tlc} at the end of every step are listed in \crefrange{objs:medianfilter:ex0}{objs:medianfilter:ex5}, following the format of the examples in \vref{sec:median:stats}.  When \cpruleref{rule:medianfilter:antiport} is applied, the pixel gains four new \(s\) and four new \(t\) functors, \(\cpfuncn{s}{2}{8}\) \& \(\cpfuncnn{t}{2}{8}{1}\), \(\cpfuncn{s}{3}{3}\) \& \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncn{s}{4}{6}\) \& \(\cpfuncnn{t}{4}{6}{1}\), \(\cpfuncn{s}{5}{3}\) \& \(\cpfuncnn{t}{5}{3}{1}\).  \(\cpfunc{c}{0}\) becomes \(\cpfunc{c}{4}\).  \cpRuleref{rule:medianfilter:storeown} adds \(\cpfuncn{s}{1}{6}\) \& \(\cpfuncnn{t}{1}{6}{1}\), and \(\cpfunc{c}{4}\) becomes \(\cpfunc{c}{5}\).
+Assume that an arbitrary exemplar pixel has four neighbours, represented in \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4}}\), and its value is 6, \(\cpfunc{b}{6}\).  The objects present in the \gls{tlc} at the end of every step are listed in \crefrange{objs:medianfilter:ex0}{objs:medianfilter:ex5}, following the format of the examples in \vref{sec:median:stats}.  When \cpruleref{rule:medianfilter:antiport} is applied, the pixel gains four new \(s\) and four new \(t\) \glspl{functor}, \(\cpfuncn{s}{2}{8}\) \& \(\cpfuncnn{t}{2}{8}{1}\), \(\cpfuncn{s}{3}{3}\) \& \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncn{s}{4}{6}\) \& \(\cpfuncnn{t}{4}{6}{1}\), \(\cpfuncn{s}{5}{3}\) \& \(\cpfuncnn{t}{5}{3}{1}\).  \(\cpfunc{c}{0}\) becomes \(\cpfunc{c}{4}\).  \cpRuleref{rule:medianfilter:storeown} adds \(\cpfuncn{s}{1}{6}\) \& \(\cpfuncnn{t}{1}{6}{1}\), and \(\cpfunc{c}{4}\) becomes \(\cpfunc{c}{5}\).
 
 Rules \cpruleref*{rule:medianfilter:halve}, \cpruleref*{rule:medianfilter:lessthan}, and \cpruleref*{rule:medianfilter:diffidx} all now execute at the same step.  \cpRuleref{rule:medianfilter:halve} divides \(c\) by 2, creating \(\cpfunc{c}{3}\).  \cpRuleref{rule:medianfilter:lessthan} compares the \(s\) and \(t\) terms where the pixel (central) value is different, while \cpruleref{rule:medianfilter:diffidx} compares the \(s\) and \(t\) terms where the pixel value is the same.  The operation of \cpruleref{rule:medianfilter:lessthan} alone would produce \(\cpfuncnn{t}{1}{6}{3}\), \(\cpfuncnn{t}{2}{8}{5}\), \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncnn{t}{4}{6}{3}\) and \(\cpfuncnn{t}{5}{3}{1}\).  This is insufficient to choose the median.
 

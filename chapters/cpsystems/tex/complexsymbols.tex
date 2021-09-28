@@ -11,7 +11,7 @@ In \gls{cps}, subcells represent nested labelled data-only \glspl{compartment}
 with no processing power of their own;
 instead, they are acted upon by the rules of their enclosing cells.
 
-Subcells can be either \emph{atoms} or \emph{compound terms}: multisets labelled by \emph{functors} (`functor' is also commonly used as a shorthand for said compound terms).  Atoms, as the name suggests, are indivisible symbols.  They can be of any given type relevant to a system, but are static objects with no other inherent distinctive properties.  Atoms are written simply as the name of the atom's type.  Compound terms are objects that may contain both atoms and other compound terms and are written with the functor's type, followed by opening and closing parentheses, surrounding the encapsulated multiset.\footnote{For legibility, many compound terms in this work have been written with growing parentheses, dependent upon the level of nesting of terms involved.  This typesetting behaviour is not required or even specified as a part of \gls{cps} and can be freely omitted.}
+Subcells can be either \emph{atoms} or \emph{compound terms}: multisets labelled by \emph{\glspl{functor}} (`\gls{functor}' is also commonly used as a shorthand for said compound terms).  Atoms, as the name suggests, are indivisible symbols.  They can be of any given type relevant to a system, but are static objects with no other inherent distinctive properties.  Atoms are written simply as the name of the atom's type.  Compound terms are objects that may contain both atoms and other compound terms and are written with the \gls{functor}'s type, followed by opening and closing parentheses, surrounding the encapsulated multiset.\footnote{For legibility, many compound terms in this work have been written with growing parentheses, dependent upon the level of nesting of terms involved.  This typesetting behaviour is not required or even specified as a part of \gls{cps} and can be freely omitted.}
 
 The basic vocabulary consists of atoms and \emph{variables}, collectively known as \emph{simple symbols}.  \emph{Complex symbols} are similar to Prolog-like \emph{first-order terms}, recursively built from \emph{multisets} of atoms and variables.  Together, complex symbols and simple symbols (atoms, variables) are called \emph{symbols} and can be defined by the following formal grammar:
 
@@ -32,8 +32,8 @@ Atoms are typically denoted by lower case letters (or, occasionally, digits), us
 such as \(a\), \(b\), \(c\), \(\cpundig\). 
 Variables are typically denoted by uppercase letters, 
 such as \(X\), \(Y\), \(Z\).
-\emph{Functors} are term (subcell) labels; here, functors can only be atoms, not variables.  
-\Eg{} an x atom may be written as \(x\), while a compound term labelled by a y functor might be written as \(\cpfunc{y}{a \, xx \, z}\).  When there is more than one of a given atom present, the count is usually written as a superscript, so the earlier compound term would look like \(\cpfunc{y}{a \, x^2 \, z}\).
+\emph{Functors} are term (subcell) labels; here, \glspl{functor} can only be atoms, not variables.  
+\Eg{} an x atom may be written as \(x\), while a compound term labelled by a y \gls{functor} might be written as \(\cpfunc{y}{a \, xx \, z}\).  When there is more than one of a given atom present, the count is usually written as a superscript, so the earlier compound term would look like \(\cpfunc{y}{a \, x^2 \, z}\).
 
 While not strictly necessary, one may also use \emph{anonymous variables} for improved readability, denoted by underscores (``\(\cpdiscard\)'').
 Each underscore occurrence represents a \emph{new} unnamed variable
