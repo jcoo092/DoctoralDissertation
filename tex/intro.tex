@@ -1,50 +1,6 @@
 \chapter{Introduction}
 
-% \pagenumbering{arabic}
-
-% \begin{anfxwarning}{What goes in the intro?}
-% From \url{https://abacus.bates.edu/~ganderso/biology/resources/writing/HTWsections.html}:  ``the Introduction must answer the questions, "What was I studying? Why was it an important question? What did we know about it before I did this study? How will this study advance our knowledge?"''
-
-% See also \url{https://www.thephdproofreaders.com/writing/how-to-write-a-thesis-introduction/} and \url{https://papersowl.com/blog/phd-thesis-introduction}
-% \end{anfxwarning}
-
-% \begin{anfxnote}{More tips}
-% From \url{https://student.unsw.edu.au/introductions}:
-
-% What types of information should you include in your introduction? 
-
-% In the introduction of your thesis, you’ll be trying to do three main things, which are called Moves:
-
-% \begin{itemize}
-%     \item Move 1 establish your territory (say what the topic is about)
-%     \item Move 2 establish a niche (show why there needs to be further research on your topic)
-%     \item Move 3 introduce the current research (make hypotheses; state the research questions)
-% \end{itemize}
-
-% Each Move has a number of stages. Depending on what you need to say in your introduction, you might use one or more stages. Table 1 provides you with a list of the most commonly occurring stages of introductions in Honours theses (colour-coded to show the Moves). You will also find examples of Introductions, divided into stages with sample sentence extracts. Once you’ve looked at Examples 1 and 2, try the exercise that follows.
-
-% Most thesis introductions include SOME (but not all) of the stages listed below. There are variations between different Schools and between different theses, depending on the purpose of the thesis.
-
-% Stages in a thesis introduction
-% \begin{enumerate}
-%     \item state the general topic and give some background
-%     \item provide a review of the literature related to the topic
-%     \item define the terms and scope of the topic
-%     \item outline the current situation
-%     \item evaluate the current situation (advantages/ disadvantages) and identify the gap
-%     \item identify the importance of the proposed research
-%     \item state the research problem/ questions
-%     \item state the research aims and/or research objectives
-%     \item state the hypotheses
-%     \item outline the order of information in the thesis
-%     \item outline the methodology
-% \end{enumerate}
-
-% 1-3 are move 1, 4-5 are move 2 and 6-11 are move 3.
-
-% \end{anfxnote}
-
-There are many problems in computer science which appear amenable to the use of concurrency in their solution, from the standpoint of finding a solution quicker.  There are many more where opportunities for concurrency are less obvious, and where applying concurrent processing is much less straightforward, but which nevertheless can benefit from it.  For example, many problems that arise in image processing, or which can be modelled graphically, fall into one or the other of those categories.  Modelling these problems with a computational model that embraces concurrency at its core can prove beneficial, both in terms of exposing new ways to structure computations on existing computer implementations, \eg{} \cite{GimelFarb2013a,Nicolescu2014b}, and (potentially) in terms of providing blueprints for the efficient use of new hardware implementations in the future.\footnote{One needs only consider the example and future importance of such computing luminaries as Babbage, Lovelace and Boole, all working before a complete working electronic or mechanical computer was created, to see the truth of this.}
+There are many problems in computer science which appear amenable to the use of concurrency in their solution, from the standpoint of finding a solution quicker.  There are many more where opportunities for concurrency are less obvious, and where applying concurrent processing is much less straightforward, but which nevertheless can benefit from it.  For example, many problems that arise in image processing, or which can be modelled graphically, fall into one or the other of those categories.  Modelling these problems with a computational model that embraces concurrency at its core can prove beneficial, both in terms of exposing new ways to structure computations on existing computer implementations, \eg{} \cite{GimelFarb2013a,Nicolescu2014b}, and (potentially) in terms of providing blueprints for the efficient use of new hardware implementations in the future.\footnote{One need only consider the example and future importance of such computing luminaries as Babbage, Lovelace and Boole, all working before a complete working electronic or mechanical computer was created, to see the truth of this.}
 
 This dissertation takes exactly that approach.  Pre-existing problems drawn from the history of computer science are modelled in an inherently concurrent theory of computation, \gls{cps}, seeking the lowest possible theoretical time complexity for each.  Those highly concurrent models are then translated into operative computer programs on current widely available computer hardware.  The theoretical computational model used in this dissertation is \gls{cps} \cite{Nicolescu2018}, one of the branches of the broader field of \gls{mc} (also known as \gls{ps}) \cite{Paun2010b,Paun2002}.  Different hardware, programming languages and techniques have been used in the course of this work, varying based on availability, apparent fit with the relevant \gls{cps} solution, and lessons learned from earlier development.
 
@@ -81,6 +37,6 @@ The \gls{cps} solutions to the \gls{hpp}, \gls{hcp} and \gls{tsp} in \cref{chap:
 
 \Gls{medianfilter}ing is structurally more challenging than many similar \gls{mwt} problems in image processing.  It implies a considerable amount of numerical sorting, and the necessity of preserving the image data prevents the use of typical enhancements to other algorithms, which generally perform a simpler piecewise reduction over the data.  The \glspl{cps} presented in \cref{chap:median} demonstrates conclusively that sufficiently large-scale concurrency can solve the \gls{medianfilter} problem in constant time, however.  The experimental results suggest that current CPUs are far from managing this level of concurrency, though, with the \gls{cml} implementation proving to be by far the slowest --- at minimum 20 times slower than the fastest alternative.
 
-\Cref{chap:nmp} analyses the traditional \gls{gs} approach to \gls{nmp}, where every \gls{pe} waits until every other \gls{pe} has finished exchanging messages before progressing further itself, and an asynchronous alternative where each \gls{pe} sends the next message to each neighbour as soon as it has received the necessary input messages.  From these, an intermediate \gls{ls} approach, where each \gls{pe} waits only for all of its own expected messages to arrive before progressing, naturally arises and is explored also.
+\Cref{chap:nmp} analyses the traditional \gls{gs} approach to \gls{nmp}, where every \gls{pe} waits until every other \gls{pe} has finished exchanging messages before progressing further itself, and an asynchronous alternative where each \gls{pe} sends the next message to each neighbour as soon as it has received the necessary input messages.  From these, an intermediate \gls{ls} approach where each \gls{pe} waits only for all of its own expected messages to arrive before progressing, arises naturally and is explored also.
 
-The behaviour and comparative running times required for each variant are investigated empirically, and it is found that the \gls{ls} method is strictly superior to the \gls{gs} method -- exhibiting the same messaging behaviour but typically running 5-13\% faster -- while the asynchronous method is, in general, roughly 10\% faster again than the \gls{ls} yet computes final results that ordinarily are within roughly 0.1\% of those of the \gls{ls} method.
+The behaviour and comparative running times required for each variant are investigated empirically, and the \gls{ls} method found strictly superior to the \gls{gs} method -- exhibiting the same messaging behaviour but typically running 5-13\% faster -- while the asynchronous method is, in general, roughly 10\% faster again than the \gls{ls} yet computes final results that ordinarily are within roughly 0.1\% of those of the \gls{ls} method.

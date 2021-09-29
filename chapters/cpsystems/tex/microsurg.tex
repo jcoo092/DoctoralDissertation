@@ -43,7 +43,7 @@ To avoid this problem, one may optionally make use of an operation that permits 
         \cppromoter{\cpfunc{c}{d\cpdiscard}}
         \cppromoter{\cpfunc{a}{B}}
     \end{cpruleset}
-    \caption{\label{rules:cps:microsurg}Rules for a destructive multiplication process that requires exactly two steps regardless of the numbers multiplied by using \gls{cps} \glspl{ms}}
+    \caption[Rules for destructive multiplication]{\label{rules:cps:microsurg}Rules for a destructive multiplication process that requires exactly two steps regardless of the numbers multiplied by using \gls{cps} \glspl{ms}}
 \end{cprulesetfloat}
 
 \Cref{rules:cps:microsurg} is an example of three rules using \glspl{ms} that achieve in \emph{two} steps the same destructive multiplication as \cref{rules:cps:slowmulti}, which requires \(D + 1\) steps.  Crucially, the second rule is still \emph{one} rule application, but the insertion of \(B\) into \(e\) happens once for each possible match on the \gls{promoter}.  The use of \(c(d\cpdiscard)\) combined with the maximally parallel rule mode means that the rule will take control of and execute once for each \(d\) atom in the multiset labelled by the \(c\) \gls{functor}.  As such, three lots of \(B\) will be inserted into \(e\) simultaneously while executing this rule.
