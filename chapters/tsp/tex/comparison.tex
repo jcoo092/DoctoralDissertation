@@ -5,7 +5,7 @@
 \subsection{The \glsfmtname{hcp-glossary}}
 
 The \gls{hpp} \& \gls{hcp} have been examined before through the lens of \gls{ps}.  In fact, it was demonstrated relatively early in the history of \gls{ps} that some variants could be used to solve the \gls{hpp} in linear time \cite{Mutyam2001}.  \citeauthor{Jimenez2003} used the \gls{hpp} as an example computation when discussing complexity classes in \gls{ps} \cite{Jimenez2003}. 
-Other work has used various types of \gls{ps} used such as \gls{tlps} \cite{Martin-Vide2003}, \gls{clps} with active membranes \cite{Pan2006,Chen2009}, timed \gls{ps} \cite{Song2013}, \gls{clps} with symport/antiport rules \cite{Orellana-Martin2019a}, ``asynchronous'' \gls{ps} \cite{Tagawa2012} (using a different concept of asynchrony than \cref{sec:back:syncasync}) and \gls{snps} \cite{Xue2013}.
+Other work has used various types of \gls{ps} such as \gls{tlps} \cite{Martin-Vide2003}, \gls{clps} with active membranes \cite{Pan2006,Chen2009}, timed \gls{ps} \cite{Song2013}, \gls{clps} with symport/antiport rules \cite{Orellana-Martin2019a}, ``asynchronous'' \gls{ps} \cite{Tagawa2012} (using a different concept of asynchrony than \cref{sec:back:syncasync}) and \gls{snps} \cite{Xue2013}.
 
 \begin{table}
 \centering
@@ -36,7 +36,7 @@ In \cite{Orellana-Martin2019a}, \citeauthor{Orellana-Martin2019a} describe a sol
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Notably, \cite{Martin-Vide2003} both first introduced \gls{tlps}, and demonstrated that \gls{tlps} could be used to solve the \gls{hpp} in linear time.  The solution output by the described system encodes a Hamiltonian path (or indicates that none exist).  The system is also notable for being relatively compact in terms of rules and symbols, seemingly by using representing the nodes in the graph with one cell each, and using communications between them to describe possible paths.
+Notably, \cite{Martin-Vide2003} both first introduced \gls{tlps}, and demonstrated that \gls{tlps} could be used to solve the \gls{hpp} in linear time.  The solution output by the described system encodes a Hamiltonian path (or indicates that none exist).  The system is also noteworthy for being relatively compact in terms of rules and symbols, seemingly by representing the nodes in the graph with one cell each, and using communications between them to describe possible paths.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -44,7 +44,7 @@ Notably, \cite{Martin-Vide2003} both first introduced \gls{tlps}, and demonstrat
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\citeauthor{Song2013} focused on solving the \gls{hpp} while addressing the assumption of most types of \gls{ps} operate on a global clock, where all \glspl{compartment} evolve at the same time.  They conclude that their system can solve the \gls{hpp} in polynomial time, regardless of the timings involved.  Given that most other systems use rules which are only enabled in the presence of particular objects, it seems doubtful that other systems would fail if every \gls{compartment} in the system did not evolve simultaneously, however.
+\citeauthor{Song2013} \cite{Song2013} focused on solving the \gls{hpp} while addressing the assumption of most types of \gls{ps} operate on a global clock, where all \glspl{compartment} evolve at the same time.  They conclude that their system can solve the \gls{hpp} in polynomial time, regardless of the timings involved.  Given that most other systems use rules which are only enabled in the presence of particular objects, it seems doubtful that other systems would fail if every \gls{compartment} in the system did not evolve simultaneously, however.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -52,7 +52,7 @@ Notably, \cite{Martin-Vide2003} both first introduced \gls{tlps}, and demonstrat
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\citeauthor{Xue2013} used \gls{snps} to solve the \emph{directed} \gls{hpp}, \ie{} the \gls{hpp} when the problem graph is specifically a digraph.  Also unusually compared to many other papers, the authors permit any neuron in the system to be used as an output neuron, whereas other work throughout \gls{mc} typically assumes a specific output \gls{compartment}.  It is unclear if this has any practical impact, however.
+\citeauthor{Xue2013} \cite{Xue2013} used \gls{snps} to solve the \emph{directed} \gls{hpp}, \ie{} the \gls{hpp} when the problem graph is specifically a digraph.  Also unusually compared to many other papers, the authors permit any neuron in the system to be used as an output neuron, whereas other work throughout \gls{mc} typically assumes a specific output \gls{compartment}.  It is unclear if this has any practical impact, however.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -82,7 +82,7 @@ This work & \gls{cps} & 5 & 13 & \bigoh{n}\\
 \label{tab:tsp:algocomp}
 \end{table}
 
-\Cref{tab:tsp:algocomp} summarises key measures about each of the other papers on solving the \gls{tsp} with \gls{mc} that are discussed below.  It includes only those which work wholly in \gls{mc} because it is unclear how to make a meaningful comparison with those which use a hybrid approach, \eg{} \cite{Nishida2006}.  Other systems all require some degree of customisation based on the problem at hand, generally parameterized over the number of nodes or edges in the graph, making it difficult to provide a precise estimate of the number of rules and alphabet size (or even the time complexity).  That does imply, however, that the true numbers of distinct rules and objects required are generally polynomial, not fixed.  This means that \emph{for all other systems besides the current \glspl{cps}, these are underestimates}.  The number of rules and the alphabet size in the \cref{tab:tsp:algocomp} are taken from the distinct rule and symbol definitions listed in each paper.  Both measures have been counted on a good-faith best-effort basis from the included system definitions.
+\Cref{tab:tsp:algocomp} summarises key measures about each of the other papers on solving the \gls{tsp} with \gls{mc} only.  It includes only those which work wholly in \gls{mc} because it is unclear how to make a meaningful comparison with those which use a hybrid approach, \eg{} \cite{Nishida2006}.  Other systems all require some degree of customisation based on the problem at hand, generally parameterized over the number of nodes or edges in the graph, making it difficult to provide a precise estimate of the number of rules and alphabet size (or even the time complexity).  That does imply, however, that the true numbers of distinct rules and objects required are generally polynomial, not fixed.  This means that \emph{for all other systems besides the current \glspl{cps}, these are underestimates}.  The number of rules and the alphabet size in the \cref{tab:tsp:algocomp} are taken from the distinct rule and symbol definitions listed in each paper.  Both measures have been counted on a good-faith best-effort basis from the included system definitions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
