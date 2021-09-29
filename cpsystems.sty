@@ -120,9 +120,10 @@ placement={thbp},]
                   \cprulerefStar%
                   \cprulerefNoStar%
               }
-\newcommand*{\cprulerefNoStar}[1]{\hyperlink{\zref@extract{#1}{cpsystems@ruleslabel}}{rule (\zref{#1})}}
-\newcommand*{\cprulerefStar}[1]{\hyperlink{\zref@extract{#1}{cpsystems@ruleslabel}}{(\zref{#1})}}
-\newcommand*{\cpRuleref}[1]{\hyperlink{\zref@extract{#1}{cpsystems@ruleslabel}}{Rule (\zref{#1})}}
+% \newcommand*{\cprulerefNoStar}[1]{\hyperlink{\zref@extract{#1}{cpsystems@ruleslabel}}{rule (\zref{#1})}}
+\newcommand*{\cprulerefNoStar}[2][]{\hyperlink{\zref@extract{#1}{cpsystems@ruleslabel}}{Rule (\zref{#2}#1)}}
+\newcommand*{\cprulerefStar}[2][]{\hyperlink{\zref@extract{#1}{cpsystems@ruleslabel}}{(\zref{#2}#1)}}
+\newcommand*{\cpRuleref}[2][]{\hyperlink{\zref@extract{#1}{cpsystems@ruleslabel}}{Rule (\zref{#2}#1)}}
 \newcommand{\cpobjectsline}[1]{
 \[#1\]
 }

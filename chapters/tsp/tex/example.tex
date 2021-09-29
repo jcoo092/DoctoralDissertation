@@ -5,15 +5,15 @@
 \begin{figure}
 \centering
 \includegraphics[keepaspectratio,width=1.0\textwidth,height=0.35\textheight]{chapters/tsp/figs/ugraph-figure0}
-\caption{\label{fig:tsp:ugraph}Sample weighted graph G with at least one Hamiltonian Cycle}
+\caption{\label{fig:tsp:ugraph}Sample weighted graph G with at least one Hamiltonian cycle}
 \end{figure}
 
-Consider a digraph G such as that in \cref{fig:tsp:ugraph}.  Ordinarily this would be shown as an undirected graph because all arcs are two-way, but it is presented as an equivalent directed graph so that it more closely matches the input digraphs as described for the \gls{cps} rules described above, specifically regarding the set \(E\) of arc subcells.  A quick examination will show that there is at least one Hamiltonian Cycle in this digraph, and thus there will be at least one Hamiltonian Cycle with the minimum total weight.  \Cref{fig:tsp:utree} is a tree diagram showing the logical progression of the algorithm as applied to this digraph, assuming that vertex 1 is selected as the root of the Hamiltonian Cycle.  Vertices in bold are the ends of the paths with a minimum cost, while vertices in italics are the ends of the paths where there is no arc in the digraph such that a Hamiltonian Cycle can be completed, based on the digraph traversal up to that point.  The arcs are labelled with the cumulative weight of the path taken to reach the lower vertex.
+Consider a digraph G such as that in \cref{fig:tsp:ugraph}.  Ordinarily this would be shown as an undirected graph because all arcs are two-way, but it is presented as an equivalent directed graph so that it more closely matches the input digraphs as described for the \gls{cps} rules described above, specifically regarding the set \(E\) of arc subcells.  A quick examination will show that there is at least one Hamiltonian cycle in this digraph, and thus there will be at least one Hamiltonian cycle with the minimum total weight.  \Cref{fig:tsp:utree} is a tree diagram showing the logical progression of the algorithm as applied to this digraph, assuming that vertex 1 is selected as the root of the Hamiltonian cycle.  Vertices in bold are the ends of the paths with a minimum cost, while vertices in italics are the ends of the paths where there is no arc in the digraph such that a Hamiltonian cycle can be completed, based on the digraph traversal up to that point.  The arcs are labelled with the cumulative weight of the path taken to reach the lower vertex.
 
 \begin{figure}
 \centering
 \includegraphics[keepaspectratio,width=1.0\textwidth,height=0.35\textheight]{chapters/tsp/figs/ugraph-figure1}
-\caption[A tree diagram representing all potential evolutions of the \gls{cps} \glsxtrlong{tsp} algorithm on the graph in \cref{fig:tsp:ugraph}]{\label{fig:tsp:utree}Tree diagram of the algorithm in action on graph G}
+\caption[A tree diagram representing all potential evolutions of the \gls{cps} \glsentrylong{tsp-glossary} algorithm on the graph in \cref{fig:tsp:ugraph}]{\label{fig:tsp:utree}Tree diagram of the \gls{tsp} algorithm in action on graph G}
 \end{figure}
 
 \begin{cpobjectsfloat}
@@ -31,7 +31,7 @@ Consider a digraph G such as that in \cref{fig:tsp:ugraph}.  Ordinarily this wou
 \caption[Starting set of subcells from \cref{fig:tsp:utree}]{\label{objs:tsp:obj1}Set of subcells from G in the skin membrane at the initial state}
 \end{cpobjectsfloat}
 
-The set of subcells contained inside the membrane at various points in the system's evolution are shown in \crefrange{objs:tsp:obj1}{objs:tsp:obj4} (for legibility, when specifying the \(p\) subcells, \cref{objs:tsp:obj4} adopts the compact presentation style for lists set out above in \cref{sec:cps:lists}).  The system starts with the subcells shown in \cref{objs:tsp:obj1}, and the algorithm starts by applying \cpruleref{rule:tsp:tsp:start}, randomly selecting vertex 1 as the starting point of the Hamiltonian Cycle and creating the origin subcell \(\cpfunc{s}{\dots}\) (full details of the contents of the subcells are provided in the figures), as shown in \cref{objs:tsp:obj2}.
+The set of subcells contained inside the membrane at various points in the system's evolution are shown in \crefrange{objs:tsp:obj1}{objs:tsp:obj4} (for legibility, when specifying the \(p\) subcells, \cref{objs:tsp:obj4} adopts the compact presentation style for lists set out above in \cref{sec:cps:lists}).  The system starts with the subcells shown in \cref{objs:tsp:obj1}, and the algorithm starts by applying \cpruleref{rule:tsp:tsp:start}, randomly selecting vertex 1 as the starting point of the Hamiltonian cycle and creating the origin subcell \(\cpfunc{s}{\dots}\) (full details of the contents of the subcells are provided in the figures), as shown in \cref{objs:tsp:obj2}.
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
@@ -41,7 +41,7 @@ The set of subcells contained inside the membrane at various points in the syste
 \caption{\label{objs:tsp:obj2}Set of subcells in the skin membrane after the application of rule one}
 \end{cpobjectsfloat}
 
-Next, \cpruleref{rule:tsp:tsp:explore} is applied, creating the first level of subcells in the exploration tree.  This creates new \(\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{\dots} \, \cpfunc{p}{\cpfunc{h}{\dots} \cpfunc*{p}{\cpfunc{h}{1} \cpfunc*{p}{\cpempty}}} \, \cpfunc{c}{\dots}}\) subcells, representing the potential paths of the cycle after one step.  \cpRuleref{rule:tsp:tsp:clean} concurrently removes the old \(s\) subcells from the system.  \Cref{objs:tsp:obj3} shows the subcells within the \gls{tlc} at the end of this first application of rules \cpruleref*{rule:tsp:tsp:explore} and \cpruleref*{rule:tsp:tsp:clean}.
+Next, \cpruleref{rule:tsp:tsp:explore} is applied, creating the first level of subcells in the exploration tree.  This creates new \(\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{\dots} \, \cpfunc{p}{\cpfunc{h}{\dots} \cpfunc*{p}{\cpfunc{h}{1} \cpfunc*{p}{\cpempty}}} \, \cpfunc{c}{\dots}}\) subcells, representing the potential paths of the cycle after one step.  \cpRuleref{rule:tsp:tsp:clean} concurrently removes the old \(s\) subcells from the system.  \Cref{objs:tsp:obj3} shows the subcells within the \gls{tlc} at the end of this first application of Rules \cpruleref*{rule:tsp:tsp:explore} and \cpruleref*{rule:tsp:tsp:clean}.
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
@@ -80,13 +80,13 @@ While the above example is drawn as a directed graph, to better match with the s
 \begin{figure}
 \centering
 \includegraphics[keepaspectratio,width=1.0\textwidth,height=0.35\textheight]{chapters/tsp/figs/ugraph-figure2}
-\caption{\label{fig:tsp:digraph}Sample weighted digraph H with at least one Hamiltonian Cycle}
+\caption{\label{fig:tsp:digraph}Sample weighted digraph H with at least one Hamiltonian cycle}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[keepaspectratio,width=1.0\textwidth,height=0.35\textheight]{chapters/tsp/figs/ugraph-figure3}
-\caption[Tree diagram of the algorithm's operation on a directed graph]{\label{fig:tsp:dtree}Tree diagram of the algorithm in action on the second, directed graph, H}
+\caption[Tree diagram of the \glsentrylong{tsp-glossary} algorithm's operation on a directed graph]{\label{fig:tsp:dtree}Tree diagram of the \gls{tsp} algorithm in action on the second, directed graph, H}
 \end{figure}
 
 \begin{cpobjectsfloat}
