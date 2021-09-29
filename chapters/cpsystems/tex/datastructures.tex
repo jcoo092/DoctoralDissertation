@@ -3,7 +3,7 @@
 %-----------------------------------------------------------------------------------
 
 This \lcnamecref{sec:cps:datastructures} sketches the design of some high-level data structures, 
-similar to the data structures used in high-level pseudocode or programming languages:
+similar to data structures used in high-level pseudocode or programming languages:
 numbers, relations, functions, associative arrays, lists, trees, strings, 
 together with alternative, more readable notations.
 
@@ -11,7 +11,7 @@ together with alternative, more readable notations.
 \subsection{\label{sec:cps:natnums}Natural Numbers}
 %-------------------------------------------------------
 Natural numbers can be represented via \emph{multisets} containing repeated occurrences of the \emph{same} atom.
-For example, considering that \(\cpundig\) represents an ad hoc unary digit, 
+For example, considering that \(\cpundig\) represents a unary digit, 
 the following complex symbols can be used to describe 
 the contents of a virtual integer \emph{variable} \(a\): 
 \(\cpfunc{a}{\,} = \cpfunc{a}{\cpempty} = \cpfunc{a}{\cpundig^0}\) --- the value of \(a\) is 0;
@@ -19,7 +19,7 @@ the contents of a virtual integer \emph{variable} \(a\):
 
 \lstset{xleftmargin=.5in, xrightmargin=.5in} 
 \begin{lstlisting}
-  $\cpfunc{e}{\cpempty} \equiv \cpfunc{e}{0} \equiv \cpfunc{e}{}$ #\hfill\textsl{empty functor}\enspace#
+  $\cpfunc{e}{\cpempty} \equiv \cpfunc{e}{0} \equiv \cpfunc{e}{\,}$ #\hfill\textsl{empty functor}\enspace#
   $\cpfunc{a}{\cpundig\cpundig\cpundig} \equiv \cpfunc{a}{\cpundig^3} \equiv \cpfunc{a}{3}$ #\hfill\textsl{the number three}\enspace#
 \end{lstlisting}
 
@@ -43,9 +43,9 @@ Here follows a list of simple arithmetic expressions, assignments, and compariso
   $x <  y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X1Y}$ #\hfill\textsl{strictly less than}\enspace#
 \end{lstlisting}
 \noindent
-`Strictly less than' (\(<\)) requires the extra \(1\), because \(Y\) can match on \(\cpempty\).
+`Strictly less than' (\(<\)) requires the extra \(\cpundig\), because \(Y\) can match on \(\cpempty\).
 
-\subsubsection{Less-than and Greater-than in \glsfmtname{promoter} and \glsfmtname{inhibitor}}
+\subsubsection{Less-than and Greater-than in \glsfmtname{promoter}s and \glsfmtname{inhibitor}s}
 
 When dealing with natural numbers\footnote{In fact, this applies to any rule dealing with only a single type of atom, but rules dealing with natural numbers are by far the most common of these.} in rules it is possible to enforce `greater than' and `less than' relationships between variables through the use of sub-multiset specifications in \glspl{promoter} and \glspl{inhibitor}.  For instance, to state that variable \(A\) must be less than or equal to variable \(B\), \ie{} \(A \leq B\), one may write: \(|~ A \subseteq B\).  Or, to state that \(B\) must be strictly less than \(C\), \ie{} \(B < C\), one may write: \(|~ B \subsetneq C\).
 
@@ -61,7 +61,7 @@ Using complex symbols, relation \(r\) can be represented as a \emph{multiset} wi
 where \adhoc{} atoms \(\kappa\) and \(\upsilon\) introduce \emph{domain} and \emph{codomain} values (respectively).
 The items of this multiset may also be aliased by a more expressive notation such as: \(\{ (a \stackrel{r}\rightleftarrows b)\), \((b \stackrel{r}\rightleftarrows c)\), \((a \stackrel{r}\rightleftarrows d)\), \((d \stackrel{r}\rightleftarrows c) \}\).
 
-If the relation is a \emph{functional relation}, this can be emphasised using another operator, such as ``\textsf{mapsto}''. For example, the functional relation 
+If the relation is a \emph{functional relation}, this can be emphasised using another operator, such as \(\mapsto\) (called \textsf{mapsto}). For example, the functional relation 
 \(f = \cpset{ (a, b),\, (b, c),\, (d, c) }\) can be represented by the multiset
 \(\cpset{ \cpfunc{f}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{b}},\, \cpfunc{f}{\cpfunc{\kappa}{b} ~ \cpfunc{\upsilon}{c}},\, \cpfunc{f}{\cpfunc{\kappa}{d} ~ \cpfunc{\upsilon}{c}} }\) or by the more suggestive notation: 
 \(\{ (a \stackrel{f}\mapsto b)\), \((b \stackrel{f}\mapsto c)\), \((d \stackrel{f}\mapsto c) \}\).

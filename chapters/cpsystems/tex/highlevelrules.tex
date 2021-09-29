@@ -50,7 +50,7 @@ All symbols sent via one \emph{generic rule} to the same destination form one si
 %-------------------------------------------------------
 \subsection{Pattern Matching}
 %-------------------------------------------------------
-Rules are matched against cell contents using the aforementioned \emph{pattern matching},
+Rules are matched against \gls{tlc} contents using the aforementioned \emph{pattern matching},
 which involves the rule's \emph{\gls{lhs}}, \glspl{promoter} and \glspl{inhibitor}.
 
 Generally, variables have \emph{global rule scope};
@@ -60,7 +60,7 @@ as further discussed in \vref{sec:cps:prominhi}.
 
 The matching is \emph{valid} only if, after unification/substituting variables by their values, 
 the rule's \emph{\gls{rhs}} contains ground terms only
-(so \emph{no} free variables are injected in the cell or sent to its neighbours),
+(so \emph{no} free variables are injected in the \gls{tlc} or sent to its neighbours),
 as illustrated by the following sample scenario:
 \begin{itemize}
 \item The cell's \emph{current content} includes the \emph{ground term}:\\
@@ -84,7 +84,7 @@ the rule's \gls{rhs} gives the \emph{new content}: \\
 \subsection{\label{sec:cps:prominhi}Promoters and Inhibitors}
 %-------------------------------------------------------
 
-Promoters are objects that \emph{must} be present within the cell for the rule to be applicable but are \emph{not} removed by the rule.  Conversely, \glspl{inhibitor} are objects that \emph{must not} be present for the rule to be applicable, although the rule may create them.  If \glspl{promoter} are present, they are denoted following a \(|\) per \gls{promoter}, and \glspl{inhibitor} by \(\neg\), \eg{} \(|\,\cpfunc{a}{A}\) or \(\neg\,\cpfunc{b}{B}\).  Promoters and \glspl{inhibitor} are traditionally written below the main rule body, but this is not strictly required.  Promoters are typically written first, followed by \glspl{inhibitor}, but this too is not compulsory.  All \glspl{promoter} and \glspl{inhibitor} have equal priority among themselves for a given attempted unification of a rule.
+Promoters are objects that \emph{must} be present within the \gls{tlc} for the rule to be applicable but are \emph{not} removed by the rule.  Conversely, \glspl{inhibitor} are objects that \emph{must not} be present for the rule to be applicable, although the rule may create them.  If \glspl{promoter} are present, they are denoted following a \(|\) per \gls{promoter}, and \glspl{inhibitor} by \(\neg\), \eg{} \(|\,\cpfunc{a}{A}\) or \(\neg\,\cpfunc{b}{B}\).  Promoters and \glspl{inhibitor} are traditionally written below the main rule body, but this is not strictly required.  Promoters are typically written first, followed by \glspl{inhibitor}, but this too is not compulsory.  All \glspl{promoter} and \glspl{inhibitor} have equal priority among themselves for a given attempted unification of a rule.
 
 \lstset{xleftmargin=.5in, xrightmargin=.5in} 
 \begin{lstlisting}
@@ -104,7 +104,7 @@ Semantically, this is equivalent to introducing these variables at the global ru
 but by \emph{universal} quantifiers, after all other global variables;
 introduced by \emph{existential} quantifiers.
 
-As an illustration, consider a cell containing \(\cpfunc{a}{c} ~ \cpfunc{a}{ccc}\) and contrast two rules, 
+As an illustration, consider a \gls{tlc} containing \(\cpfunc{a}{c} ~ \cpfunc{a}{ccc}\) and contrast two rules, 
 containing the following two sample \gls{promoter}/\gls{inhibitor} pairs 
 (for brevity, other rule details are omitted here).
 
@@ -115,7 +115,7 @@ containing the following two sample \gls{promoter}/\gls{inhibitor} pairs
 \end{lstlisting}
 
 These two rules appear very similar, and their \gls{inhibitor} tests share the same expression: 
-\emph{No} \(\cpfunc{a}{X}\) may be present in the cell.
+\emph{No} \(\cpfunc{a}{X}\) may be present in the \gls{tlc}.
 
 Rule (1) uses two global variables, \(X, Y\). 
 According to its \gls{promoter}, \(\cpfunc{a}{cXY}\), these variables can be matched in four different ways:
@@ -128,7 +128,7 @@ Rule (2) uses one global variable, \(Z\), and two local \gls{inhibitor} variable
 According to its \gls{promoter}, \(\cpfunc{a}{cZ}\), variable \(Z\) can be matched in two different ways: 
 (2a) \(Z = \cpempty\); (2b) \(Z = cc\).
 Unification (2a) passes the \gls{inhibitor} test because it only generates one local unification,
-\(X, Y = \cpempty, \cpempty\), and there is NO cell term \(\cpfunc{a}{\,}\).
+\(X, Y = \cpempty, \cpempty\), and there is \emph{no} cell term \(\cpfunc{a}{\,}\).
 Unification (2b) fails the \gls{inhibitor} test because it generates all three following local unifications:
 (2b1) \(X, Y = cc, \cpempty\); (2b2) \(X, Y = \cpempty, cc\); (2b3) \(X, Y = c, c\); 
 and there \emph{is} a cell term corresponding to (2b3), \(\cpfunc{a}{c}\).
@@ -136,7 +136,7 @@ and there \emph{is} a cell term corresponding to (2b3), \(\cpfunc{a}{c}\).
 %-------------------------------------------------------
 \subsection{\label{sec:cps:applicationmodes}Application Modes: Exactly-once and Maximally-parallel}
 %-------------------------------------------------------
-To explain the two rule application modes, \(\cponce\) and \(\cpmaxpar\) (referred to as \emph{exactly-once} and \emph{maximally-parallel} respectively) consider a cell, \(\sigma\), containing three counter-like complex symbols,
+To explain the two rule application modes, \(\cponce\) and \(\cpmaxpar\) (referred to as \emph{exactly-once} and \emph{maximally-parallel} respectively) consider a \gls{tlc}, \(\sigma\), containing three counter-like complex symbols,
 \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^2}\), \(\cpfunc{c}{\cpundig^3}\),
 and the two possible application modes of the following high-level ``decrementing'' rule:
 \vspace{-0.2cm}
@@ -147,10 +147,14 @@ and the two possible application modes of the following high-level ``decrementin
 \vspace{-0.8cm}
 \end{framed}
 
-The \gls{lhs} of rule \(\rho_\beta\), \(\cpfunc{c}{\cpundig \, X}\), can be unified in three different ways,
-to each one of the three \(c\) symbols extant in cell \(\sigma\).
-Conceptually, this rule may be instantiated in three different ways,
-each one tied and applicable to a distinct symbol:
+% The \gls{lhs} of rule \(\rho_\beta\), \(\cpfunc{c}{\cpundig \, X}\), can be unified in three different ways,
+% to each one of the three \(c\) symbols extant in cell \(\sigma\).
+% Conceptually, this rule may be instantiated in three different ways,
+% each one tied and applicable to a distinct symbol:
+Conceptually, the \gls{lhs} of rule \(\rho_\beta\), \(\cpfunc{c}{\cpundig \, X}\), can be unified in three different ways,
+to each one of the three distinct \(c\) compound symbols extant in \gls{tlc} \(\sigma\):
+% Conceptually, this rule may be instantiated in three different ways,
+% each one tied and applicable to a distinct symbol:
 \begin{eqnarray*}
 & (\rho_1)  & ~s_1 ~\cpfunc{c}{\cpundig^2} \rightarrow_{\alpha} s_2 ~\cpfunc{c}{\cpundig},\\
 & (\rho_2)  & ~s_1 ~\cpfunc{c}{\cpundig^2} \rightarrow_{\alpha} s_2 ~\cpfunc{c}{\cpundig},\\
@@ -182,7 +186,7 @@ This type of generic rules allows
 \begin{inparaenum}[(i)]
 \item a reasonably fast parsing and processing of subcomponents; and
 \item algorithm descriptions with \emph{fixed-size alphabets} and \emph{fixed-sized \glspl{ruleset}}, 
-independent of the size of the problem and the number of cells in the system (often \emph{impossible} with only atomic symbols).
+independent of the size of the problem and the number of \glspl{tlc} in the system (often \emph{impossible} with only atomic symbols).
 \end{inparaenum}
 
 %-------------------------------------------------------
@@ -194,7 +198,7 @@ For example, consider the rule
 \[
 s_1 ~ \cpfunc{a}{IJ} ~ \rightarrow_\cpmaxpar ~ s_2 ~ \cpfunc{b}{I} ~ \cpfunc{c}{J},
 \]
-where the cell's contents guarantee that \(I\) and \(J\) 
+where the \gls{tlc}'s contents guarantee that \(I\) and \(J\) 
 only match integers in ranges \([1,n]\) and \([1,m]\), respectively.
 Under these assumptions, 
 this rule is equivalent to the following set of non-generic rules:
