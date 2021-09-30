@@ -4,7 +4,7 @@
 
 \begin{figure}
 \centering
-\includegraphics[keepaspectratio,width=1.0\textwidth,height=0.35\textheight]{chapters/tsp/figs/ugraph-figure0}
+\includegraphics[keepaspectratio,width=1.0\textwidth,height=0.42\textheight]{chapters/tsp/figs/ugraph-figure0}
 \caption{\label{fig:tsp:ugraph}Sample weighted graph G with at least one Hamiltonian cycle}
 \end{figure}
 
@@ -12,7 +12,8 @@ Consider a digraph G such as that in \cref{fig:tsp:ugraph}.  Ordinarily this wou
 
 \begin{figure}
 \centering
-\includegraphics[keepaspectratio,width=1.0\textwidth,height=0.35\textheight]{chapters/tsp/figs/ugraph-figure1}
+% \includegraphics[keepaspectratio,width=1.0\textwidth,height=0.35\textheight]{chapters/tsp/figs/ugraph-figure1}
+\includegraphics[keepaspectratio,width=1.0\textwidth]{chapters/tsp/figs/ugraph-figure1}
 \caption[A tree diagram representing all potential evolutions of the \gls{cps} \glsentrylong{tsp-glossary} algorithm on the graph in \cref{fig:tsp:ugraph}]{\label{fig:tsp:utree}Tree diagram of the \gls{tsp} algorithm in action on graph G}
 \end{figure}
 
@@ -31,7 +32,7 @@ Consider a digraph G such as that in \cref{fig:tsp:ugraph}.  Ordinarily this wou
 \caption[Starting set of subcells from \cref{fig:tsp:utree}]{\label{objs:tsp:obj1}Set of subcells from G in the skin membrane at the initial state}
 \end{cpobjectsfloat}
 
-The set of subcells contained inside the membrane at various points in the system's evolution are shown in \crefrange{objs:tsp:obj1}{objs:tsp:obj4} (for legibility, when specifying the \(p\) subcells, \cref{objs:tsp:obj4} adopts the compact presentation style for lists set out above in \cref{sec:cps:lists}).  The system starts with the subcells shown in \cref{objs:tsp:obj1}, and the algorithm starts by applying \cpruleref{rule:tsp:tsp:start}, randomly selecting vertex 1 as the starting point of the Hamiltonian cycle and creating the origin subcell \(\cpfunc{s}{\dots}\) (full details of the contents of the subcells are provided in the figures), as shown in \cref{objs:tsp:obj2}.
+The set of subcells contained inside the membrane at various points in the system's evolution are shown in \crefrange{objs:tsp:obj1}{objs:tsp:obj4} (for legibility, when specifying the \(p\) subcells, \cref{objs:tsp:obj4} adopts the compact presentation style for lists set out in \cref{sec:cps:lists}).  The system starts with the subcells shown in \cref{objs:tsp:obj1}, and the algorithm starts by applying \cpruleref{rule:tsp:tsp:start}, selecting vertex 1 as the starting point of the Hamiltonian cycle and creating the origin subcell \(\cpfunc{s}{\dots}\) (full details of the contents of the subcells are provided in the figures), as shown in \cref{objs:tsp:obj2}.
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
@@ -53,7 +54,7 @@ Next, \cpruleref{rule:tsp:tsp:explore} is applied, creating the first level of s
 \caption{\label{objs:tsp:obj3}Set of subcells in the skin membrane after a single application of rules three and four}
 \end{cpobjectsfloat}
 
-Eventually, after repeating \cpruleref*{rule:tsp:tsp:explore} and \cpruleref*{rule:tsp:tsp:clean} five times, \cpruleref{rule:tsp:tsp:makezs} becomes applicable.  At this point, \cpruleref{rule:tsp:tsp:makezs} is applied, creating the \(z\) subcells that represent the final arc traversal from another vertex back to the origin vertex, vertex 1.  Finally, \cpruleref{rule:tsp:tsp:min} selects one of those \(z\) subcells with minimum cost as the solution, and outputs the path and cost subcells relating to that cycle.  \Cref{objs:tsp:obj4} outlines the subcells present in the system at this end point.
+Eventually, after repeating \cpruleref*{rule:tsp:tsp:explore} and \cpruleref*{rule:tsp:tsp:clean} four times, \cpruleref{rule:tsp:tsp:makezs} becomes applicable.  At this point, \cpruleref{rule:tsp:tsp:makezs} is applied, creating the \(z\) subcells that represent the final arc traversal from another vertex back to the origin vertex, vertex 1.  Finally, \cpruleref{rule:tsp:tsp:min} selects one of those \(z\) subcells with minimum cost as the solution, and outputs the path and cost subcells relating to that cycle.  \Cref{objs:tsp:obj4} outlines the subcells present in the system at this end point.
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
@@ -66,7 +67,7 @@ Eventually, after repeating \cpruleref*{rule:tsp:tsp:explore} and \cpruleref*{ru
 
 To illustrate the progression of the algorithm through various branches of the exploration tree, consider the following examples, each beginning with the \(\cpfunc{s}{\ldots}\) and set of \(\cpfunc{e}{\ldots}\) subcells illustrated in \cref{objs:tsp:obj2}.
 
-From \(\cpfunc*{s}{\cpfunc{r}{1} ~ \,\cpfunc*{u}{\cpfunc{v}{2}\,\cpfunc{v}{3}\,\cpfunc{v}{4}\,\cpfunc{v}{5}}\, ~ \cpfunc*{p}{\cpfunc{h}{1}\cpfunc{p}{\cpempty}} ~ \,\cpfunc{c}{0}}\), the subcell representing the beginning of the cycle at vertex 1, \cpruleref{rule:tsp:tsp:explore} will create, among others, an \(\cpfunc*{s}{\cpfunc{r}{1} \; \, \\ \allowdisplaybreaks \cpfunc*{u}{\cpfunc{v}{3} \, \cpfunc{v}{4} \, \cpfunc{v}{5}} \; \, \allowdisplaybreaks \cpfunc*{p}{\cpfunc{h}{2} \cpfunc*{p}{\cpfunc{h}{1} \cpfunc{p}{\cpempty}}} \; \, \allowdisplaybreaks \cpfunc{c}{1}}\) subcell representing an arc traversal to vertex 2 with a weight subcell \(\cpfunc{c}{1}\).  In turn, another new subcell, among others, will be derived from this subcell representing a further arc traversal to vertex 4, with a weight subcell of \(\cpfunc{c}{7}\).  This continues for subcells representing traversals to vertices 3 (\(\cpfunc{c}{15}\)) and 5 (\(\cpfunc{c}{20}\)), until finally the latter subcell contains an empty \(u\) subcell.  For this subcell, \cpruleref{rule:tsp:tsp:makezs} finds an \(e\) subcell that connects vertex 5 to \(R\), the root vertex 1, and so creates a \(z\) subcell (the top \(z\) subcell in \cref{objs:tsp:obj4}) containing a \(\cpfunc{p}{\dots}\) subcell representing the traversed path, and a subcell \(\cpfunc{c}{22}\), representing the total cost of the cycle.  This final subcell is potentially selected at random by \cpruleref{rule:tsp:tsp:min}, because 22 is the minimum cost possible in this particular digraph, when starting and finishing at vertex 1.
+From \(\cpfunc*{s}{\cpfunc{r}{1}  \,\cpfunc*{u}{\cpfunc{v}{2}\,\cpfunc{v}{3}\,\cpfunc{v}{4}\,\cpfunc{v}{5}}\,  \cpfunc*{p}{\cpfunc{h}{1}\cpfunc{p}{\cpempty}}  \,\cpfunc{c}{0}}\), the subcell representing the beginning of the cycle at vertex 1, \cpruleref{rule:tsp:tsp:explore} will create, among others, an \(\cpfunc*{s}{\cpfunc{r}{1} \; \, \\ \allowdisplaybreaks \cpfunc*{u}{\cpfunc{v}{3} \, \cpfunc{v}{4} \, \cpfunc{v}{5}} \; \, \allowdisplaybreaks \cpfunc*{p}{\cpfunc{h}{2} \cpfunc*{p}{\cpfunc{h}{1} \cpfunc{p}{\cpempty}}} \; \, \allowdisplaybreaks \cpfunc{c}{1}}\) subcell representing an arc traversal to vertex 2 with a weight subcell \(\cpfunc{c}{1}\).  In turn, another new subcell, among others, will be derived from this subcell representing a further arc traversal to vertex 4, with a weight subcell of \(\cpfunc{c}{7}\).  This continues for subcells representing traversals to vertices 3 (\(\cpfunc{c}{15}\)) and 5 (\(\cpfunc{c}{20}\)), until finally the latter subcell contains an empty \(u\) subcell.  For this subcell, \cpruleref{rule:tsp:tsp:makezs} finds an \(e\) subcell that connects vertex 5 to \(R\), the root vertex 1, and so creates a \(z\) subcell (the top \(z\) subcell in \cref{objs:tsp:obj4}) containing a \(\cpfunc{p}{\dots}\) subcell representing the traversed path, and a subcell \(\cpfunc{c}{22}\), representing the total cost of the cycle.  This final subcell is potentially selected at random by \cpruleref{rule:tsp:tsp:min}, because 22 is the minimum cost possible in this particular digraph, when starting and finishing at vertex 1.
 
 Conversely, another chain of subcell creations will occur as vertex 1 to vertex 5, with \(\cpfunc{c}{2}\), vertex 5 to vertex 4 with \(\cpfunc{c}{9}\), vertex 4 to vertex 2 with weight \(\cpfunc{c}{15}\).  At this point, \(\cpfunc{u}{\cpfunc{v}{3}}\) is non-empty, but there is no \(e\) subcell representing a transition from vertex 2 to vertex 3, so this subcell reaches a `dead-end', and will be removed without further effect by \cpruleref{rule:tsp:tsp:clean}.
 
@@ -75,7 +76,7 @@ Similarly, a progression will occur from vertex 1 to vertex 3 with \(\cpfunc{c}{
 %-------------------------------------------
 
 \subsection{Directed Graph Example}
-While the above example is drawn as a directed graph, to better match with the specification of the edges in the set of subcells \(E\), it was effectively an undirected graph.  To demonstrate that the \gls{tsp} algorithm is at least as effective in the directed case, \cref{fig:tsp:ugraph} was modified to remove some bidirectional arcs.  The modified digraph is presented in \cref{fig:tsp:digraph} and the accompanying exploration tree in \cref{fig:tsp:dtree}.  The updated set of subcells that are inside the skin membrane at the start of the computation are shown in \cref{objs:tsp:obj1d}.  The changes made are that the edges from 1 to 2 and from 5 to 3 have been removed, and the weights between 1 and 3 and 4 and 5 have been partially modified so that they are different in each direction.
+While the above example is drawn as a directed graph, to match better with the specification of the edges in the set of subcells \(E\), it was effectively an undirected graph.  To demonstrate that the \gls{tsp} algorithm is at least as effective in the directed case, \cref{fig:tsp:ugraph} was modified to remove some bidirectional arcs.  The modified digraph is presented in \cref{fig:tsp:digraph} and the accompanying exploration tree in \cref{fig:tsp:dtree}.  The updated set of subcells that are inside the skin membrane at the start of the computation are shown in \cref{objs:tsp:obj1d}.  The changes made are that the edges from 1 to 2 and from 5 to 3 have been removed, and the weights between 1 and 3 and 4 and 5 have been partially modified so that they are different in each direction.
 
 \begin{figure}
 \centering
