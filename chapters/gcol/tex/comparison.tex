@@ -33,7 +33,7 @@ If one chooses to exclude the guards specified, then the longest rule in \cite{G
 
 \subsection{\label{sec:gcol:gcpsol}Other Solutions to the \glsfmtname{gcp-glossary}}
 
-While there have been a reasonable number of publications discussing the 3-colouring problem, there have been surprisingly few which work on the general \gls{gcp}.  It is unclear why this should be the case, but it limits the number of direct comparisons which can be made.  These comparisons (where the proposed solution uses only \gls{ps} concepts) are summarised in \cref{tab:gcol:gcolalgocomp}.
+While there have been a number of publications discussing the 3-colouring problem (\cref{sec:gcol:3colsol}), there have been surprisingly few which work on the general \gls{gcp}.  It is unclear why this should be the case, but it limits the number of direct comparisons which can be made.  These comparisons (where the proposed solution uses only \gls{ps} concepts) are summarised in \cref{tab:gcol:gcolalgocomp}.
 
 \begin{table}
 \centering
@@ -62,7 +62,7 @@ The \(k\)-colouring variant is used for \cref{tab:gcol:gcolalgocomp}, as it is c
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\citeauthor{Andreu-Guzman2020} \cite{Andreu-Guzman2020} employ a hybrid membrane algorithm combined with genetic algorithms (of the style first put forward by \citeauthor{Nishida2006} \cite{Nishida2006}).  They propose a new sub-type of membrane algorithm, called ``Dynamic operators in a One-level Genetic Algorithm \glsfmtname{ps}''.  The authors find that their system overall significantly outperforms an earlier work that used only genetic algorithms, strongly suggesting a definite benefit to using the membrane algorithm approach.
+\citeauthor{Andreu-Guzman2020} \cite{Andreu-Guzman2020} employ a hybrid membrane algorithm combined with genetic algorithms (of the style first put forward by \citeauthor{Nishida2006} \cite{Nishida2006}).  They propose a new sub-type of membrane algorithm, called \emph{Dynamic operators in a One-level Genetic Algorithm \glsfmtname{ps}}.  The authors find that their system overall significantly outperforms an earlier work that used only genetic algorithms, strongly suggesting a definite benefit to using the membrane algorithm approach.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -74,7 +74,7 @@ The \(k\)-colouring variant is used for \cref{tab:gcol:gcolalgocomp}, as it is c
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\citeauthor{Turcanu2012} \cite{Turcanu2012} presented a solution to the 3-colouring problem using a \gls{tlps}. This paper appears to be an adjunct to \cite{Gheorghe2013} and discusses also the \gls{skps} from that paper.  Both solutions were simulated in \gls{mecosim} in order to compare them.  The models were further translated into Event-B \cite{Abrial2010}, and formally verified using the ProB model checker \cite{Leuschel2008} for Rodin \cite{Abrial2010a}.  The authors concluded that both systems can solve the problem, but that the pruning behaviour of the \gls{skps} leads to a comparatively more efficient computer implementation.  They also mentioned that their model checking only worked for relatively small problems, for similar reasons to why the \gls{tsp} solution in \cref{chap:tsp} could only be simulated for relatively small complete graphs.
+\citeauthor{Turcanu2012} \cite{Turcanu2012} presented a solution to the 3-colouring problem using a \gls{tlps}. This paper appears to be an adjunct to \cite{Gheorghe2013} and discusses also the \gls{skps} from that paper.  Both solutions were simulated in \gls{mecosim} in order to compare them.  The models were further translated into Event-B \cite{Abrial2010}, and formally verified using the ProB model checker \cite{Leuschel2008} for Rodin \cite{Abrial2010a}.  The authors concluded that both systems can solve the problem, but that the pruning behaviour of the \gls{skps} leads to a more efficient computer implementation.  They also mentioned that their model checking only worked for relatively small problems, for similar reasons to why the \gls{tsp} solution in \cref{chap:tsp} could only be simulated for relatively small complete graphs.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -86,7 +86,7 @@ The \(k\)-colouring variant is used for \cref{tab:gcol:gcolalgocomp}, as it is c
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\citeauthor{Wang2009} \cite{Wang2009} present another recogniser solution to the 3-colouring decision problem using a \gls{tlps} with \enquote{cell separation}, which they use for the same technique that would ordinarily be called ``cell division'' in \gls{mc}.\footnote{It seems unlikely that the authors are native English speakers, and perhaps not even fluent ones, so this is probably simply a translation issue.}  Their solution seems to require a substantially larger alphabet and \gls{ruleset} (again, as with the other solutions besides the \gls{cps} one presented \cref{sec:gcol:cpsys}, both are actually (semi-)uniform families) than other solutions, but as this paper is much earlier than most others, it seems plausible that the later works built on this one.  The authors also indicate their solution has a time complexity of \bigoh{n + m}, whereas other solutions generally require \bigoh{n}.  That is, the time complexity depends only on the number of nodes in the graph, but this one depends on both the number of nodes and the number of edges.
+\citeauthor{Wang2009} \cite{Wang2009} present another recogniser solution to the 3-colouring decision problem using a \gls{tlps} with \enquote{cell separation}, which they use for the same technique that would ordinarily be called cell division in \gls{mc}.\footnote{It seems unlikely that the authors are native English speakers, and perhaps not even fluent ones, so this is probably simply a translation issue.}  Their solution seems to require a substantially larger alphabet and \gls{ruleset} (again, as with the other solutions besides the \gls{cps} one presented \cref{sec:gcol:cpsys}, both the rules and symbols are uniform families) than other solutions, but as this paper is much earlier than most others, it seems plausible that the later works built on this one.  The authors also indicate their solution has a time complexity of \bigoh{n + m}, whereas other solutions generally require \bigoh{n}.  That is, the time complexity depends only on the number of nodes in the graph, but this one depends on both the number of nodes and the number of edges.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

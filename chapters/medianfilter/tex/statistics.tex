@@ -11,11 +11,11 @@ This section presents and discusses procedures in \gls{cps} for the following fu
     \item Selecting the \(n^{\text{th}}\) (and thus median) element
 \end{itemize}
 
-Leveraging the power of \gls{cps} -- logical pattern matching on associative data objects -- \emph{all} of the presented procedures run in constant time \bigoh{1} and require small, fixed \glspl{ruleset} for all cases.  For brevity, these rules consider only the case of non-empty (multi)sets of natural numbers greater than zero (\(\mathbb{N}^+\)), and their total order (\(\leq\)).  Extensions to handle zero values and empty sets are not complicated, but would inflate \glspl{ruleset} by a few additional rules without adding significant value (although they would not alter the time complexity).
+Leveraging the power of \gls{cps} -- logical pattern matching on associative data objects -- \emph{all} of the presented procedures run in constant time \bigoh{1} and require small, fixed \glspl{ruleset} for all cases.  For brevity, these rules consider only the case of non-empty multisets of natural numbers greater than zero (\(\mathbb{N}^+\)), and their total order (\(\leq\)).  Extensions to handle zero values and empty sets are not complicated, but would inflate \glspl{ruleset} by a few additional rules without adding significant value (although they would not alter the time complexity).
 
-At the start (``step 0'') of each presented operation, assume an arbitrary non-empty set or multiset of \(s\) objects, which each hold an arbitrary number.  For each example with a set, the starting \(s\) terms assumed present are:  \[S_1 = \cpset{\cpfunc{s}{2}, \cpfunc{s}{3}, \cpfunc{s}{5}, \cpfunc{s}{6}, \cpfunc{s}{7}}\]  Likewise, the assumed multiset is \[S_2 = \cpset{\cpfunc{s}{2}, \cpfunc{s}{2}, \cpfunc{s}{3}, \cpfunc{s}{5}, \cpfunc{s}{5}, \cpfunc{s}{6}, \cpfunc{s}{6}, \cpfunc{s}{6}, \cpfunc{s}{7}}\]  In almost all cases, the operations apply equally to sets and multisets, so the examples assume the presence of \(S_2\) inside the \gls{tlc}.  The exceptions to that are in \cref{sec:median:sortsets} and \cref{sec:median:selectsets}, where \(S_1\) is assumed instead, and \cref{sec:median:sortmultisetid} and \cref{sec:median:sortmultisetid}, which use \(S_2\) with an additional datum for each element.  The rules provided are all non-destructive with respect to the multiset \(S\).  Destructive versions are simple to derive from the non-destructive ones, so are omitted.
+At the start (``step 0'') of each presented operation, assume an arbitrary non-empty set or multiset of \(s\) objects, which each hold an arbitrary number.  For each example with a set, the starting \(s\) terms assumed present are:  \[S_1 = \cpset{\cpfunc{s}{2}, \cpfunc{s}{3}, \cpfunc{s}{5}, \cpfunc{s}{6}, \cpfunc{s}{7}}\]  Likewise, the assumed multiset is \[S_2 = \cpset{\cpfunc{s}{2}, \cpfunc{s}{2}, \cpfunc{s}{3}, \cpfunc{s}{5}, \cpfunc{s}{5}, \cpfunc{s}{6}, \cpfunc{s}{6}, \cpfunc{s}{6}, \cpfunc{s}{7}}\]  In almost all cases, the operations apply equally to sets and multisets, so the examples assume the presence of \(S_2\) inside the \gls{tlc}.  The exceptions to that are in \cref{sec:median:sortsets} and \cref{sec:median:selectsets}, where \(S_1\) is assumed instead, and \cref{sec:median:sortmultisetid} and \cref{sec:median:sortmultisetid}, which use \(S_2\) with an additional datum for each element.  The rules provided are all non-destructive with respect to the multiset \(S\).  Destructive versions are simple to derive from the non-destructive ones, and so are omitted.
 
-In all cases, the rules are written so that the final result is found in one or more \(r\) \gls{functor} objects, as appropriate.  Examples of the evolution are given in tabular form immediately after the rules for each operation.  Modified objects are presented with their outermost \gls{functor} in boldface, \eg{} \(\cpfunc{r}{0}\) to \(\mathbf{\cpfunc{r}{4}}\).  Deleted objects are struck out, \eg{} \(\cpfunc{r'}{2}\) to \sout{\(\cpfunc{r'}{2}\)}, and omitted entirely from later steps.
+In all cases, the rules are written so that the final result is found in one or more \(r\) complex terms, as appropriate.  Examples of the evolution are given in tabular form immediately after the rules for each operation.  Modified objects are presented with their outermost \gls{functor} in boldface, \eg{} \(\cpfunc{r}{0}\) to \(\mathbf{\cpfunc{r}{4}}\).  Deleted objects are struck out, \eg{} \(\cpfunc{r'}{2}\) to \sout{\(\cpfunc{r'}{2}\)}, and omitted entirely from later steps.
 
 %%%%%%%%%%%%%%%%%%
 
@@ -252,7 +252,7 @@ Consider \cref{rules:median:mean} and the example in \cref{tab:median:mean}.  Co
 \caption[Example evolution of \cref{rules:median:mean} to find the mean of elements in a multiset]{\label{tab:median:mean}Example evolution of \cref{rules:median:mean} starting on multiset \(S_2\)}
 \end{table}
 
-Rules \cpruleref*{rules:median:mean:4} and \cpruleref*{rules:median:mean:5} perform ceiling integer division.  \cpRuleref{rules:median:mean:4} removes \(C\) copies of the unary digit from \(r\) and adds one copy back to it.  This is repeated as many times as possible, given the number of digits available.  What is left in \(r\) at the end of the step is, in effect, the quotient plus the remainder.  In this example, with a count of nine and a sum of forty-two, the removal can be applied four times, for a total of thirty-six unary digits removed.  Five more are added at the end of the step, meaning a total of eleven remains.  This is not the correct result of ceiling integer division but is the correct quotient (5) plus the remainder (6).  Thus, another copy of the total is kept and divided, without the quotient added back in.  This leaves \cpruleref{rules:median:mean:5} to compute the correct final result by deducting the remainder from the combined quotient and remainder.
+Rules \cpruleref*{rules:median:mean:4} and \cpruleref*{rules:median:mean:5} perform ceiling integer division using \glspl{ms} (see \vref{sec:cps:microsurg}).  \cpRuleref{rules:median:mean:4} removes \(C\) copies of the unary digit from \(r\) and adds one copy back to it.  This is repeated as many times as possible, given the number of digits available.  What is left in \(r\) at the end of the step is, in effect, the quotient plus the remainder.  In this example, with a count of nine and a sum of forty-two, the removal can be applied four times, for a total of thirty-six unary digits removed.  Five more are added at the end of the step, meaning a total of eleven remains.  This is not the correct result of ceiling integer division but is the correct quotient (5) plus the remainder (6).  Thus, another copy of the total is kept and divided, without the quotient added back in.  This leaves \cpruleref{rules:median:mean:5} to compute the correct final result by deducting the remainder from the combined quotient and remainder.
 
 %-----------------------------------------
 \subsubsection{Mode --- \bigoh{1}}  \label{sec:median:mode}
@@ -315,7 +315,7 @@ For example, in the context of \(S_2\), this will be
     \text{Index:}&   &1 &&2 &&3 &&4 &&5 &&6 &&7 &&8 &&9\\
 \end{align*}
 
-\Cref{sec:median:sortsets} \& \cref{sec:median:sortmultisetid} associate each element with the index individually, while \cref{sec:median:sortmultisetrange} groups identical multiset elements into ranges spanning the correct indices.
+\Cref{sec:median:sortsets} \& \cref{sec:median:sortmultisetid} associate each element with the index individually, while \cref{sec:median:sortmultisetrange} groups identical elements into ranges spanning the correct indices.
 
 %-----------------------------------------
 \subsubsection{Sorting Sets --- \bigoh{1}}  \label{sec:median:sortsets}
@@ -403,6 +403,8 @@ Consider \cref{rules:median:sortmultisetrange} and the example in \cref{tab:medi
 
 In this example, 2s are in the index range \([1,3)\), 3s are in \([3,4)\), 5s are in \([4,6)\), 6s are in \([6,9)\) and 7s are in \([9,10)\).  This process can also sort all sets that \cref{sec:median:sortsets} can sort (Rules \cpruleref*{rules:median:sortmultisetrange:1} and \cpruleref*{rules:median:sortmultisetrange:3} here are closely equivalent to those rules), but the current approach includes unnecessary extra information -- every listed range would be only one step wide, so on set \(S_1\) the final result would be \(\cpfuncnn{r}{2}{1}{1}, \cpfuncnn{r}{3}{2}{2},\dots\), \ie{} 2: \([1,2)\), 3: \([2,3) \dots\) -- and require two unnecessary extra steps.
 
+It is as yet unclear how to introduce a strict total ordering, as required to sort elements into specific indices, with \gls{cps} rules when some elements are effectively indistinguishable.  The ranges approach of \cref{sec:median:sortmultisetrange} sidesteps this issue by collapsing elements of equal value into one ordered term.
+
 %-----------------------------------------
 \subsubsection{Sorting Multisets with Unique Identifiers --- \bigoh{1}}\label{sec:median:sortmultisetid}
 %-----------------------------------------
@@ -415,7 +417,7 @@ Sorting a multiset, when accompanied by unique identifiers for every element, re
 Consider \cref{rules:median:sortmultisetid} and the example in \cref{tab:median:sortmultisetid}.  This \gls{ruleset} is an extension of the rules found in \cref{sec:median:sortsets}.  Those rules work only for sets and fail in the presence of more than one of a given element.  In effect, \cref{sec:median:sortsets} seeks to impose a \emph{strict} total ordering and contemplates only the situation where each element in the set is strictly greater than or less than another element (as guaranteed by the definition of a set).  Suppose there \emph{is} some additional information on each element available, in the form of a unique, comparable identifier for each element in the multiset. This can be used to `break ties' between elements of equal value.  In this case, the use of one extra rule suffices to impose a strict total ordering on every element and sort the multiset consistently.  These additional identifiers, included as the first value in \(s\) objects, must themselves be comparable, however.
 \end{proof}
 
-An example of the described unique identifiers can be found in \vref{sec:medianfilter}, where additional information is available based on the origin of each element in the multiset.
+An example of the described unique identifiers can be found in \vref{sec:medianfilter}, where additional information is available based on the origin of each element.
 
 \begin{cprulesetfloat}
 \begin{cpruleset}
@@ -450,13 +452,11 @@ An example of the described unique identifiers can be found in \vref{sec:medianf
 \caption[Example evolution of \cref{rules:median:sortmultisetid} to sort the elements of a multiset, when each element has an accompanying unique comparable identifier]{\label{tab:median:sortmultisetid}Example evolution of \cref{rules:median:sortmultisetid} starting on a modified version of multiset \(S_2\), where each element has been assigned a random unique identifier}
 \end{table}
 
-It is as yet unclear how to introduce a strict total ordering, as required to sort elements into specific indices, with \gls{cps} rules when some elements are effectively indistinguishable.  The ranges approach of \cref{sec:median:sortmultisetrange} sidesteps this issue by collapsing elements of equal value into one ordered term.
-
 %-------------------------------------------------------
 \subsection{Selection}\label{sec:median:selection}
 %-------------------------------------------------------
 
-In this \lcnamecref{sec:median:selection}, assume that there is already a term \(\cpfunc{n}{N}\), where \(N\) is the position in the ordered list desired, \ie{} it denotes the \(n^{\text{th}}\) element.  For the examples, it is assumed to be \(\cpfunc{n}{3}\).  Each of these \glspl{ruleset} uses the corresponding sorting procedure of \cref{sec:median:sorting} and then applies a final selection rule to pick the desired element.  Thus, each \gls{ruleset} requires \(\textsc{sort} + 1\) steps.
+In this \lcnamecref{sec:median:selection}, assume that there is already a term \(\cpfunc{n}{N}\), where \(N\) is the position in the ordered list desired, \ie{} it denotes the \(n^{\text{th}}\) element.  For the examples, it is assumed to be \(\cpfunc{n}{3}\).  Each of these \glspl{ruleset} uses the corresponding sorting procedure of \cref{sec:median:sorting} and then applies a final selection rule to pick the desired element.  Thus, each \gls{ruleset} requires \(\textsf{sort} + 1\) steps.
 
 For simplicity, none of the below systems consider the case when the requested index is outside the range of possible indices for the elements, \ie{} when the requested \(N\) is less than one or greater than the magnitude of the multiset.
 
@@ -575,7 +575,7 @@ Selecting the \(n^{\text{th}}\) element from a multiset in terms of numerical or
 \end{proposition}
 
 \begin{proof}
-Consider \cref{rules:median:selectmultisetid} and the example in \cref{tab:median:selectmultisetid}.  When the extra unique identifiers are available, indexed selection from a multiset is also straightforward. As with \cref{sec:median:selectsets}, almost all the work is performed by the sorting rules of \cref{sec:median:sortmultisetid}, and a trivial selection step is all extra that is needed.
+Consider \cref{rules:median:selectmultisetid} and the example in \cref{tab:median:selectmultisetid}.  When the extra unique identifiers are available, indexed selection from a multiset is also straightforward. As with \cref{sec:median:selectsets}, almost all the work is performed by the sorting rules of \cref{sec:median:sortmultisetid}, and a trivial selection step is all that is needed extra.
 \end{proof}
 
 \begin{cprulesetfloat} \begin{cpruleset}
@@ -626,7 +626,7 @@ The following fundamental statistical operations on numerical sets and multisets
     \item Determining the overall number and counting the frequency of elements.
     \item Computing the sum, mean, and mode over all elements.
     \item Sorting elements.
-    \item Selecting the \(n^{\text{th}}\) (and thus median) element.
+    \item Selecting the \(n^{\text{th}}\) element.
 \end{itemize}
 \end{theorem}
 
@@ -657,13 +657,13 @@ Direct consequence of \crefrange{prop:median:min}{prop:median:selectmultisetid}.
 \caption[Listing of various statistical operations in \gls{cps}]{\label{tab:median:summary}Tabular listing of the various statistical operations in \gls{cps} presented here, the section in which they are described, and the (fixed) number of rules and steps each one requires.}
 \end{table}
 
-Importantly, \emph{none} of these \glspl{ruleset} are uniform or semi-uniform families.  That is, they do not need any form of customisation to a particular problem, nor do they rely on any form of precomputation whatsoever.  All these \glspl{ruleset} can be re-used and combined as is (modulo the appropriate renaming of \glspl{functor}) --- as shown in, \eg{} \cref{rules:median:mode} and \cref{rules:median:selectmultisetrange}.  Their only dependence is on matching the rules with the types of container terms used to store the numbers.
+Importantly, \emph{none} of these \glspl{ruleset} are uniform or semi-uniform families.  That is, they do not need any form of customisation to a particular problem, nor do they rely on any form of precomputation whatsoever.  All these \glspl{ruleset} can be re-used and combined as is (modulo the appropriate renaming of \glspl{functor}) --- as shown in, \eg{} \cref{rules:median:mode} and \cref{rules:median:selectmultisetrange}.  Their only dependence is on matching the rules with the \gls{functor} labels of the terms used to store the numbers.
 
 %-------------------------------------------------------
-\subsection{Comparing the \glsfmtname{cps} Rulesets to Other \glsfmtname{ps} Rules for Sorting}
+\subsection{Comparison of the \glsfmtname{cps} Rulesets to Other \glsfmtname{ps} Rules for Sorting}
 %-------------------------------------------------------
 
-\citeauthor{Ceterchi2010} gave an overview of approaches to sorting in \gls{ps} at the time of their writing \cite{Ceterchi2010}.  They discussed approaches such as Bead Sorting \cite{Arulanandham2002}, which uses a \gls{tlps} and is founded on imitating the concept of an abacus which has been turned on its side, with beads falling towards the bottom due to gravity; Communicative Sorting \cite[Sec. 5.2]{Alhazov2007} which moves numbers between membranes in a \glspl{clps}, such that at the end of the system's evolution, the numbers are sorted in ascending order from the outermost to innermost membranes; and sorting by ``carving'' \cite{Alhazov2007}, where objects in a system are iteratively removed or replaced, and the point where a particular object type is exhausted is taken as a signal that a number has been sorted.  \citeauthor{Maeda2014} also present an approach to sorting in \gls{enps} \cite{Maeda2014}, making use of implementations of logical operations described earlier in that paper.
+\citeauthor{Ceterchi2010} gave an overview of approaches to sorting in \gls{ps} at the time of their writing \cite{Ceterchi2010}.  They discussed approaches such as bead sorting \cite{Arulanandham2002}, which uses a \gls{tlps} and is founded on imitating the concept of an abacus which has been turned on its side, with beads falling towards the bottom due to gravity; communicative sorting \cite[Sec. 5.2]{Alhazov2007} which moves numbers between membranes in a \glspl{clps}, such that at the end of the system's evolution, the numbers are sorted in ascending order from the outermost to innermost membranes; and sorting by ``carving'' \cite{Alhazov2007}, where objects in a system are iteratively removed or replaced, and the point where a particular object type is exhausted is taken as a signal that a number has been sorted.  \citeauthor{Maeda2014} also presented an approach to sorting in \gls{enps} \cite{Maeda2014}, making use of implementations of logical operations described earlier in that paper.
 
 In all these instances, the best results had a linear time complexity in either the number of elements in the multiset to sort, or the size of the largest element.  More recent work on sorting in \gls{ps} has included \cite{Gheorghe2017,Metta2015,Yan2019}.  The best time complexity among the procedures described there comes from \cite[Sec. 3.3]{Gheorghe2017}, which describes a method to sort in constant time (three steps).  \citeauthor{Yan2019} \cite{Yan2019} implemented a parallel quicksort which has a O\((\log n)\) complexity, where \(n\) is the number of elements to sort.  \citeauthor{Metta2015} \cite{Metta2015} do not appear to analyse the time complexity of their systems, but as one of them implements bitonic sort, the best result is likely again O\((\log n)\).
 
@@ -675,6 +675,6 @@ On the measure of time complexity only, \cref{sec:median:sorting} improves on al
 \subsection{Comparing the \glsfmtname{cps} Rulesets with Traditional Parallel Implementations of Sorting Algorithms}
 %-------------------------------------------------------
 
-Of course, the field of \gls{mc} is not the only one to have investigated methods to improve the time complexity of sorting.  Knuth dedicated much of a volume of \textit{The Art of Computer Programming} to sorting \cite{Knuth1998} and is said to have estimated that 25\% of the world's computing resources at one point were dedicated to sorting (quoted in \cite{Powers1991}).  Both \citeauthor{Powers1991} \cite{Powers1991} and \citeauthor{Chlebus1991} \cite{Chlebus1991} presented highly parallel theoretical implementations of quicksort based on concurrent-read concurrent-write parallel random access machines \cite{JaJa2011}.  Meanwhile, Batcher introduced bitonic sort and sorting networks \cite{Akl2011}, useful for implementing a parallel mergesort \cite{Lee1995}.
+Of course, the field of \gls{mc} is not the only one to have investigated methods to improve the time complexity of sorting.  Knuth dedicated much of a volume of \textit{The Art of Computer Programming} to sorting \cite{Knuth1998} and is said to have estimated that 25\% of the world's computing resources at one point were dedicated to sorting (quoted in \cite{Powers1991}).  Both \citeauthor{Powers1991} \cite{Powers1991} and \citeauthor{Chlebus1991} \cite{Chlebus1991} presented highly parallel theoretical implementations of quicksort based on concurrent-read concurrent-write \glspl{pram}.  Meanwhile, Batcher introduced bitonic sort and sorting networks \cite{Akl2011}, useful for implementing a parallel mergesort \cite{Lee1995}.
 
 These works concluded that their time complexity is on the order O\((\log n)\), when \(n\) is the number of elements to sort.  It appears that the main limitation of those methods compared to \cref{sec:median:sorting} is that the comparison operation is only performed between pairs of elements in a single step, while \gls{cps} permits (effectively) an unbounded number of comparisons.  Furthermore, common to all \gls{ps} variants is the specification of computations with \glspl{ruleset}.  Perhaps this makes finding and expressing the inherent parallelism of a problem easier --- the more declarative/less imperative style may allow the exclusion from consideration of irrelevant details and a focus on important ones.
