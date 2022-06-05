@@ -6,14 +6,14 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \begin{anfxerror}{Rejig this}
-% Need to blend this bit into the rest of the chapter somehow.
-% \end{anfxerror}
+\begin{anfxerror}{Rejig this}
+Need to blend this bit into the rest of the chapter somehow.
+\end{anfxerror}
 
 \section{\label{subsec:imgprocpsys}Image Processing and Computer Vision in \glsfmtname{ps}}
-% \begin{anfxwarning}{Some citations to include}
-% \cite{Zhang2012,Yuan2019}
-% \end{anfxwarning}
+\begin{anfxwarning}{Some citations to include}
+\cite{Zhang2012,Yuan2019}
+\end{anfxwarning}
 
 Perhaps owing to the potentially unbounded space and parallelism capacity of \gls{ps}, combined with the embarrassingly parallel nature of many tasks in image processing \& computer vision, the latter have proved to be fertile ground for the former, although not every publication puts its model to the test with a computerised simulation, or if it does, the authors may only provide scant details \cite{Diaz-Pernil2019}.
 
@@ -21,7 +21,7 @@ Perhaps owing to the potentially unbounded space and parallelism capacity of \gl
 
 \citeauthor{Diaz-Pernil2013} \cite{Diaz-Pernil2013} commented that \enquote{\textelp{} commonly \textins{a} parallel algorithm needs to be re-designed with only slight references to the \textins{sequential original}.  \textelp{} the design of a new parallel implementation not inspired by the sequential one allows \textelp{} the proposal of new creative solutions.}  They then demonstrated this fact by designing a new edge detection and segmentation algorithm named `A Graphical P (AGP) segmentator', inspired by the Sobel operator (see \eg{} \cite{Nixon2012}) and using the segmentation method from \cite{Christinal2011}, which they modelled in \gls{tlps}.  The authors implemented their new algorithm on a \gls{gpu} and compared it with an implementation of the \numproduct{3x3} and \numproduct{5x5} Sobel operators, finding that theirs had near-identical runtimes but superior edge detection capabilities.
 
-\citeauthor{Diaz-Pernil2013a} \cite{Diaz-Pernil2013a} further explored modelling classic image processing techniques by implementing \citeauthor{Guo1989}'s binary image skeletonisation technique \cite{Guo1989} with \gls{snps}.  The overall system's rules templates are reasonably simple, but include references to a set \(\mathit{DEL}\) (used as a lookup to determine whether a cell should turn white or stay black) which does not appear to be modelled inside the system, meaning that it is not self-contained.  The authors simulated this system on a \gls{gpu}, but found that their implementation was upwards of twice as slow as another pre-existing implementation.  Confusingly, however, they state that one of the reasons for this is \enquote{that the use of an alphabet with only one object, the spike \(a\), does not fit in the GPU architecture}.  This statement is perplexing, given that spikes can easily be represented as simple integers.  The authors also commented that the synchronous nature of the model is unrealistic, and imposing a global clock upon the system can be problematic.
+\citeauthor{Diaz-Pernil2013a} \cite{Diaz-Pernil2013a} further explored modelling classic image processing techniques by implementing \citeauthor{Guo1989}'s binary image skeletonisation technique \cite{Guo1989} with \gls{snps}.  The overall system's rules templates are reasonably simple, but include references to a set \(\mathit{DEL}\) (used as a lookup to determine whether a cell should turn white or stay black) which does not appear to be modelled inside the system, meaning that it is not self-contained.  The authors simulated this system on a \gls{gpu}, but found that their implementation was upwards of twice as slow as another pre-existing implementation.  Confusingly, however, they state that one of the reasons for this is \enquote{that the use of an alphabet with only one object, the spike \(a\), does not fit in the GPU architecture}.  This statement is perplexing, given that counts of spikes can easily be represented as simple integers.  The authors also commented that the synchronous nature of the model is unrealistic, and imposing a global clock upon the system can be problematic.
 
 \citeauthor{Nicolescu2014} \cite{Nicolescu2014} alternatively applied \gls{cps} to image skeletonisation based on \citeauthor{Guo1989}'s technique \cite{Guo1989}, presenting three forms of a solution: synchronous versions that use multiple or a single \gls{tlc} (essentially the latter replicates the former via the use of subcells), and an asynchronous multi-\gls{tlc} version.  The asynchronous version no longer assumes that all messages are passed between \glspl{tlc} simultaneously and instantaneously, compensating for this by increasing the number of messages used.  This form, while arguably more realistic to modern computers, requires a greater message complexity. A simplified \gls{actor}-based (\vref{subsec:back:actors}) implementation using \fsharp{}'s \texttt{MailboxProcessor} \cite[ch.~11]{Syme2015a} was presented, but no results from running it were reported.
 
@@ -35,6 +35,25 @@ Perhaps owing to the potentially unbounded space and parallelism capacity of \gl
 \input{chapters/medianfilter/tex/cml}
 
 \section{Summary}
-The use of a \gls{cml} approach to image processing was explored in this \lcnamecref{chap:median}, in particular as applied to the \gls{medianfilter} \gls{mwt} operation.  The measured results suggest that it is much worse than using a simple, naïve nested \texttt{for loop}s approach.  The reason for this appears to be related primarily to overhead from the synchronous communications, especially in regard to memory allocations and garbage collections.  This may be an issue with the \gls{cml} style in general, or it may be an issue related to the \gls{cml} library used or the programming of the algorithms tested here.  More work is required to determine this for certain.  \Gls{cml} does appear to provide one advantage, however, in that with larger window sizes it seemingly has the lowest peak space requirement.
+
+Motivated by an interest in representing the \gls{medianfilter} process in \gls{cps}, this \namecref{chap:median} considered the implementation of common statistical operations over natural numbers in \gls{cps}, using \gls{cps}' typical representation of natural numbers via unary arithmetic.  In particular, the following groups of operations on (multi)sets were demonstrated:
+\begin{inparaenum}[(i)]
+\item Choosing the minimum and maximum elements;
+\item Determining the magnitude of a (multi)set, and frequency of occurrence of each element within;
+\item Computing the sum, mean, and mode over the elements;
+\item Sorting the elements numerically (along with necessary extra structure to make the sorting meaningful);
+\item Selecting the \(n^\text{th}\) element of a (multi)set, and thus also determining the median.
+\end{inparaenum}
+
+Most of the operations work identically for both sets and multisets.  In cases where they don't, the difference arises because of meaningful differences in the nature of sets and multisets.  Furthermore, \emph{all} of these operations work in constant time regardless of input size, and all require a fixed number of rules per operation.  These operations also compose well.  Indeed, the operations to compute the mean, mode, and median of a multiset are all formed out of other operations described herein.  Notably, all but the operations to select a minimum and maximum use at least one \gls{ms} in their ruleset.
+
+Each operation was presented alongside a table providing an example evolution of a system with a specific (multi)set as input.  Furthermore, a sample system to perform image \gls{medianfilter}ing, plus application of it to an example image were provided in \cref{sec:median:cpsmedianfilter,sec:median:cpsmedianexample}.  The choice of image median filtering was motivated by two main factors:
+\begin{inparaenum}[(i)]
+\item the embarrassingly parallel nature of many image processing operations;
+\item the clear opportunity to provide a concrete example of the inter-\gls{tlc} communications described in \cref{sec:cps:intertlcmess} and demonstrate further the capabilities of \gls{cps} in implementing a simple but non-trivial image processing task.
+\end{inparaenum}
+As with the systems in \cref{chap:tsp,chap:gcol}, so long as the system has been correctly configured with one \gls{tlc} per image pixel, and each \gls{tlc} knows its neighbours, the entire process requires only one fixed ruleset regardless of the specific image to be filtered.
+
+The use of a \gls{cml} approach to image processing was explored in this \namecref{chap:median}, in particular as applied to the \gls{medianfilter} \gls{mwt} operation.  The design of the \glspl{cps}, with its heavy use of communication, points naturally to the use of \gls{cml} for a simulation.  The measured results suggest that it is much worse than using a simple, naïve nested \texttt{for loop}s approach.  The reason for this appears to be related primarily to overhead from the synchronous communications, especially memory allocations and garbage collections.  This may be an issue with the \gls{cml} style in general, or it may be an issue related to the \gls{cml} library used or the programming of the algorithms tested here.  More work is required to determine this for certain.  \Gls{cml} does appear to provide one advantage, however, in that with larger window sizes, it seemingly has the lowest peak space requirement.
 
 A \gls{cml} approach where a separate \glsxtrlong{pe} is used to represent each pixel largely eliminates the possibility of taking advantage of data-parallel hardware, such as \glspl{gpu} or vector instructions of CPUs.  For situations where vector instructions are applicable, the \gls{cml} approach seems likely to be a poor choice.  It is not clear, however, how well this approach may or may not work for instances where the data types involved are more complex, or where there is a significant level of control flow involved.  Nor has there been any investigation so far into the practicality of assigning multiple pixels to a single \glsxtrlong{pe}.

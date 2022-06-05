@@ -10,28 +10,28 @@ Consider rules of the following \emph{generic} format
 \begin{framed}
 \vspace{-0.6cm}
 \begin{align*}
-\textit{current-state} ~~ \textit{symbols} \dots ~ \rightarrow_\alpha ~ & \textit{target-state} ~~ (\textit{in-symbols}) \dots ~~ \\
- & (\textit{out-symbols})_\delta \dots \\
- & | ~  \textit{\glspl{promoter}} \dots ~~ \neg ~  \textit{\glspl{inhibitor}} \dots
+\textsf{current-state} ~~ \textsf{symbols} \dots ~ \rightarrow_\alpha ~ & \textsf{target-state} ~~ (\textsf{in-symbols}) \dots ~~ \\
+ & (\textsf{out-symbols})_\delta \dots \\
+ & | ~  \textsf{\glspl{promoter}} \dots ~~ \neg ~  \textsf{\glspl{inhibitor}} \dots
 \end{align*}
 \vspace{-0.8cm}
 \end{framed}
 Where:
 \begin{itemize}
-\item \textit{current-state} and \textit{target-state} are atoms or terms;  these are traditionally written in the form \(s_x\) where \(x\) is a sequential numeral (\eg{} \(s_1\), \(s_2\) \etc{}), but any valid ground atom or term as appropriate is permitted.
+\item \textsf{current-state} and \textsf{target-state} are atoms or terms;  these are traditionally written in the form \(s_x\) where \(x\) is a sequential numeral (\eg{} \(s_1\), \(s_2\) \etc{}), but any valid ground atom or term as appropriate is permitted.
 
 \smallskip
-\item \textit{symbols}, \textit{in-symbols}, \textit{\glspl{promoter}} and \textit{\glspl{inhibitor}} are symbols;
+\item \textsf{symbols}, \textsf{in-symbols}, \textsf{\glspl{promoter}} and \textsf{\glspl{inhibitor}} are symbols;
 
 \smallskip
-\item \textit{in-symbols} become available after the end of the current step only, as in traditional \gls{ps}  (one can imagine that these are sent via an \adhoc{} fast \textit{loopback} channel); 
+\item \textsf{in-symbols} become available after the end of the current step only, as in traditional \gls{ps}  (one can imagine that these are sent via an \adhoc{} fast \textsf{loopback} channel); 
 
 \smallskip
 \item subscript \(\alpha\) \(\in\) \(\{\cponce\), \(\cpmaxpar\}\), 
 indicates the application mode, discussed further in \cref{sec:cps:applicationmodes};
 
 \smallskip
-\item \textit{out-symbols} are sent to the cell's structural neighbours at the end of the step.
+\item \textsf{out-symbols} are sent to the cell's structural neighbours at the end of the step.
 These symbols are enclosed in angle brackets that indicate 
 their destinations, abbreviated above as \(\delta\). 
 The most usual scenarios include: 
@@ -88,8 +88,8 @@ Promoters are objects that \emph{must} be present within the \gls{tlc} for the r
 
 \lstset{xleftmargin=.5in, xrightmargin=.5in} 
 \begin{lstlisting}
-  $| ~ \cpfunc{a}{A}$ #\hfill\textsl{\gls{promoter}}\enspace#
-  $\neg ~ \cpfunc{b}{B}$ #\hfill\textsl{\gls{inhibitor}}\enspace#
+  $| ~ \cpfunc{a}{A}$ #\hfill\textsf{\gls{promoter}}\enspace#
+  $\neg ~ \cpfunc{b}{B}$ #\hfill\textsf{\gls{inhibitor}}\enspace#
 \end{lstlisting}
 
 To define additional useful matchings expressively, 

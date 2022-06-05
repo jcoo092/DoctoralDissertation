@@ -1,22 +1,22 @@
 \section{\Glsfmtlong{cml-glossary} Experiment Implementation}
 
-The current state of the art for \gls{medianfilter}ing is quite sophisticated, and algorithms have been developed that are very fast \cite{Sanchez2012,Perrot2014} or can significantly restore an image even at a noise level of over 90\% \cite{Gao2015,Wu2011}.  Such algorithms were not used here because the focus was on comparing the performance of some relatively straightforward implementations.
+The current state of the art for \gls{medianfilter}ing is quite sophisticated, and algorithms have been developed that are very fast \cite{Sanchez2012,Perrot2014} or can significantly restore an image even at a noise level of over \qty{90}{\percent} \cite{Gao2015,Wu2011}.  Such algorithms were not used here because the focus was on comparing the performance of some relatively straightforward implementations.
 
 An implementation of the communicative \gls{medianfilter} was created in \fsharp{}, using the \hopac{}\footnote{\url{https://github.com/hopac/hopac}} \gls{cml} library.  For comparison, two other parallel implementations were created in \fsharp{}, one a naïve implementation that simply uses nested \texttt{for loop}s to operate over the relevant window, and another loosely based on the \gls{medianfilter} algorithm described by \citeauthor{Braunl2001} \cite{Braunl2001}.\footnote{All three implementations, as well as other relevant files and benchmarking results, are available at \url{https://github.com/jcoo092/ivcnz2018}}
 
 \fsharp{} was chosen because of the easy availability of a ready-to-use \gls{cml} library, as well as its relative similarity to \gls{cml}'s original host language,  Standard ML.  Of particular note is that the original \gls{cml} implementation assumed the presence of garbage collection, which \hopac{} also follows.  Faster versions of the other algorithm variants likely could have been implemented in other languages such as C/C++ (perhaps using Halide \cite{Ragan-Kelley2017}), Fortran or Rust, but \fsharp{} was used for all three to retain consistency and comparability.  
 
-All three algorithms were benchmarked using a variety of image and window sizes.  Window sizes of \numproduct{3 x 3}, \numproduct{5 x 5}, \numproduct{7 x 7}, \numproduct{9 x 9} and \numproduct{11 x 11} were measured.  The images used ranged in size from 15 kilopixels to 1.09 megapixels, as detailed in \Cref{tab:median:pixelcounts}.  Larger image sizes were initially attempted, but some runs of the algorithms proved to be prohibitively slow, and so they were abandoned.  Time spent on loading the images from disk and converting them to greyscale was excluded from the benchmarking, so that only the time spent processing them with each algorithm was measured.  The benchmarks were all run using .NET Core 2.1.4 with the 64-bit RyuJit compiler, on a desktop computer with a quad-core Intel i7-7700 processor running at \qty{3.6}{\giga\hertz} and \qty{16}{\giga\byte} of RAM.
+All three algorithms were benchmarked using a variety of image and window sizes.  Window sizes of \numproduct{3 x 3}, \numproduct{5 x 5}, \numproduct{7 x 7}, \numproduct{9 x 9} and \numproduct{11 x 11} were measured.  The images used ranged in size from 15 kilopixels to 1.09 megapixels, as detailed in \Cref{tab:median:pixelcounts}.  Larger image sizes were initially attempted, but some runs of the algorithms proved to be prohibitively slow, and so they were abandoned.  Time spent on loading the images from disk and converting them to greyscale was excluded from the benchmarking, so that only the time spent processing them with each algorithm was measured.  The benchmarks were all run using .NET Core 2.1.4 with the 64-bit RyuJit compiler, on a desktop computer with a quad-core Intel i7-7700 processor running at \qty{3.6}{\giga\hertz} and \qty{16}{\gibi\byte} of RAM.
 
 \begin{table}
 \centering
-\begin{tabular}{@{}lccc@{}}
+\begin{tabular}{@{}lSSS@{}}
 \toprule
 \textbf{Image} & \multicolumn{1}{c}{\textbf{Width (px)}} & \multicolumn{1}{c}{\textbf{Height (px)}} & \multicolumn{1}{c}{\textbf{Total pixels (px)}} \\ \midrule
-very small                         & 150                                     & 100                                      & 15,000                                         \\
-peppers                            & 512                                     & 512                                      & 262,144                                        \\
-small                              & 640                                     & 426                                      & 272,640                                        \\
-medium                             & 1280                                    & 853                                      & 1,091,840                                      \\ \bottomrule
+very small                         & 150                                     & 100                                      & 15 000                                         \\
+peppers                            & 512                                     & 512                                      & 262 144                                        \\
+small                              & 640                                     & 426                                      & 272 640                                        \\
+medium                             & 1 280                                   & 853                                      & 1 091 840                                      \\ \bottomrule
 \end{tabular}
 \caption{List of pixel counts for each image used}
 \label{tab:median:pixelcounts}
@@ -35,18 +35,19 @@ Boundary conditions in all three cases were handled by utilising the \texttt{Opt
 
 It should be noted that in all three instances the specifics of parallel scheduling of the tasks is left up to the .NET or \hopac{} runtimes.  No explicit creation, management or scheduling of threads is performed in the written programs.  Instead, the programs explore different approaches to structuring the computation in code.
 
-\section{Results}
+\section{Experiment Results}
 
-\Crefrange{tab:median:verysmall}{tab:median:medium} show the mean of the benchmarking results of running each algorithm on each of the different images, across the window sizes.  \Crefrange{graph:median:verysmall}{graph:median:medium} are charts visualising the results in the tables.  \Cref{graph:median:cmls} plots the mean runtimes for the \gls{cml} algorithm at each window size for each image.  All the charts use a y axis with a logarithmic scale because it makes a visual comparison easier here.
+\Crefrange{tab:median:verysmall}{tab:median:medium} show the mean of the benchmarking results of running each algorithm on each of the different images, across the window sizes.  \Crefrange{graph:median:verysmall}{graph:median:medium} are charts visualising the results in the tables.  \Cref{graph:median:cmls} plots the mean runtimes for the \gls{cml} algorithm at each window size for each image.  All the charts use a y-axis with a logarithmic scale because it makes a visual comparison easier here.
 
 The naïve algorithm performs the best for every image and window size, while the Bräunl algorithm matches it reasonably closely, though always running a bit more slowly.  Both appear to scale moderately well, roughly doubling in runtime for every increase by 2 of the size of a side of the window, whereas the \gls{cml} algorithm appears to follow an exponential increase in runtime.  The reason for this is not certain, but it appears that the \gls{cml} approach creates considerable pressure on the memory heap, causing frequent slow garbage collections.  These collections do have the benefit of keeping the measured peak memory consumption relatively low, however.
 
-The ratios of the runtimes of the Bräunl and \gls{cml} algorithms compared to the runtime for the naïve algorithm for each image and window size are presented in \cref{tab:median:ratbraun,tab:median:ratcml}.  While the ratios for the Bräunl algorithm worsen for increasing image sizes, they, in fact, improve for larger window sizes on the same image, suggesting that it scales better than the naïve in this regard.  Why that should be is unclear.  No pattern can be discerned for the \gls{cml} algorithm, however, besides that the ratio for the same window size typically grows worse as image size increases.
+The ratios of the runtimes of the Bräunl and \gls{cml} algorithms compared to the runtime for the naïve algorithm for each image and window size are presented in \cref{tab:median:ratbraun,tab:median:ratcml}.  While the ratios for the Bräunl algorithm worsen for increasing image sizes, they, in fact, improve for larger window sizes on the same image, suggesting that it scales better than the naïve one in this regard.  Why that should be is unclear.  No pattern can be discerned for the \gls{cml} algorithm, however, besides that the ratio for the same window size typically grows worse as image size increases.
 
 To provide a rough estimate of the effects of the \gls{medianfilter}ing, a copy of each base image was created with randomly introduced salt \& pepper noise.  \Cref{fig:median:peppers} shows the outputs for the peppers image using a window size of 3, along with the base and noisy images.  None of the algorithms restored the original image perfectly, but all have largely eliminated the noise, at the cost of a slight blurring.  The results for each were measured using the classic peak signal-to-noise ratio formula \cite{Boncelet2005}, and are presented in \crefrange{tab:median:psnrvsmall}{tab:median:psnrmedium}.  The naïve and \gls{cml} algorithms return near-identical results, while Bräunl always falls somewhat short.
 
 \begin{table}
 \centering
+% \begin{tabular}{@{}lrrrrr@{}}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Mean time for each window size (ms)}} \\
@@ -97,9 +98,9 @@ Bräunl                        & 116.782 & 215.573   & 313.114   & 472.517   & 6
 \multicolumn{1}{r}{}                   & \multicolumn{1}{r}{3} & 5         & 7         & 9         & 11        \\ \midrule
 Naïve                                  & 131.111               & 288.343   & 549.600   & 899.563   & 1,361.629 \\
 Bräunl                                 & 589.431
-               & 899.233   & 1,433.22  & 1,933.76  & 2,447.28  \\
-\gls{cml}                                    & 4527.962
-               & 11,006.78 & 21,210.30 & 34,587.35 & 56,196.61 \\ \bottomrule
+               & 899.233   & 1,433.220  & 1,933.760  & 2,447.280  \\
+\gls{cml}                                    & 4,527.962
+               & 11,006.780 & 21,210.300 & 34,587.350 & 56,196.610 \\ \bottomrule
 \end{tabular}
 \end{table}
 
@@ -371,7 +372,7 @@ Naïve	11	medium	1361.629	27.108	31.217	1350.193	1344.088	1	0	131000	4000	1000	1
 
 \begin{table}
 \centering
-\caption[Peak signal-to-noise for the very small image]{Peak signal-to-noise ratio for the very small image (measured in \unit{\decibel})}
+\caption[Peak signal-to-noise for the very small image]{Peak signal-to-noise ratio for the very small image (in \unit{\decibel}) (higher is better)}
 \label{tab:median:psnrvsmall}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
@@ -385,7 +386,7 @@ Naïve                                  & \textbf{27.03} & 21.74          & 18.5
 
 \begin{table}
 \centering
-\caption[Peak signal-to-noise for the peppers image]{Peak signal-to-noise ratio for the peppers image (measured in \unit{\decibel})}
+\caption[Peak signal-to-noise for the peppers image]{Peak signal-to-noise ratio for the peppers image (in \unit{\decibel}) (higher is better)}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Window size}}                                          \\
@@ -399,7 +400,7 @@ Naïve                                  & \textbf{32.79} & \textbf{31.25} & \tex
 
 \begin{table}
 \centering
-\caption[Peak signal-to-noise for the small image]{Peak signal-to-noise ratio for the small image (measured in \unit{\decibel})}
+\caption[Peak signal-to-noise for the small image]{Peak signal-to-noise ratio for the small image (in \unit{\decibel}) (higher is better)}
 \label{tab:median:psnrsmall}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
@@ -413,7 +414,7 @@ Naïve                                  & \textbf{37.83} & \textbf{34.31} & \tex
 
 \begin{table}
 \centering
-\caption[Peak signal-to-noise for the medium image]{Peak signal-to-noise ratio for the medium image (measured in \unit{\decibel})}
+\caption[Peak signal-to-noise for the medium image]{Peak signal-to-noise ratio for the medium image (in \unit{\decibel}) (higher is better)}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
 \multicolumn{1}{c}{\textbf{Algorithm}} & \multicolumn{5}{c}{\textbf{Window size}}                                           \\
@@ -427,17 +428,15 @@ Naïve                                  & \textbf{37.16} & 34.07          & 32.9
 
 Examination of the reported memory statistics (please see the GitHub repository for details) appears to show that the maximum amount of memory allocated during processing for the \gls{cml} algorithm stays roughly constant across window sizes for each image size, and in fact on larger window sizes it is the most memory efficient.  The naïve algorithm quickly grows to consume the most memory at larger window sizes for each image size, suggesting that it likely derives some of its comparative speed at the cost of greater space complexity, while Bräunl sits in the middle.  Conversely, \gls{cml} generates by far the most garbage collection events, which may help explain its relative sluggishness.
 
-\section{Discussion}
+\section{Experiment Discussion}
 
 The algorithms developed and presented here are not necessarily optimal for the purpose.  They largely handle each pixel separately, or combine them into arrays on-the-fly.  This ignores the possibility of exploiting data-parallelism to improve throughput, and instead relies only on the separate CPU cores to provide parallelism.
 
-It is unclear how much the mechanics underlying these implementations (\ie{} the .NET Core and \hopac{} systems) attempt to maximise use of the processor cache.  Efficient use of the cache can contribute significantly to an optimised version of an algorithm outperforming, a simplistic version by an order of magnitude or more \cite{Ragan-Kelley2017}.  No attempt was made manually to ensure good practices, such as tiling or striping (see \eg{} \cite{Midkiff2012}).
+It is unclear how much the mechanics underlying these implementations (\ie{} the .NET Core and \hopac{} systems) attempt to maximise use of the processor cache.  Efficient use of the cache can contribute significantly to an optimised version of an algorithm outperforming a simplistic version by an order of magnitude or more \cite{Ragan-Kelley2017}.  No attempt was made manually to ensure good practices, such as tiling or striping (see \eg{} \cite{Midkiff2012}).
 
 The \gls{cml} approach used in essence instantiates a \glsxtrlong{pe} for each pixel, each of which must be scheduled to run at some point --- concurrent with another \glsxtrlong{pe} in the case of synchronous message passing.  It is possible that this surfeit of separate logical threads may induce excessive switching costs, and perhaps promote wasted time, with threads regularly polling their channel and their neighbours'.  Careful improvements to this and the use of the cache might lead to significant gains in speed.
 
-In terms of the code itself also, \gls{cml} appears to be the worst.  The program requires roughly double the number of lines of the naïve program, and is arguably much less ``clean'' or ``readable''.  Reinterpreting the \gls{medianfilter} in terms of \glsxtrlong{csp} has not yielded a structural improvement nor simplified the programming task.  Combined with the running time results above, this suggests that the \gls{cml} approach is actively counter-productive for implementing \glspl{mwt}, at least when using \hopac{}.
-
-% Basic profiling of the \gls{cml}-based implementation appears to show that more than half of the runtime of the program was spent inside the function for ``giving'' a value over a channel, and functions called by it.  Furthermore, according to this profiling, almost 40\% of the total running time of the algorithm is taken up specifically by low-level memory management functions inside the depths of the .NET Core system.  Considering that some of these functions \fxwarning{ref?}{are written in hand-optimised assembly}, the fact they account for so much of the running time appears to suggest that memory use is poorly handled in the tested implementation.
+In terms of the code itself also, \gls{cml} appears to be the worst.  The program requires roughly double the number of lines of the naïve program, and is arguably much less ``clean'' or ``readable''.  Reinterpreting the \gls{medianfilter} through a message-passing lens has not yielded a structural improvement nor simplified the programming task.  Combined with the running time results above, this suggests that the \gls{cml} approach is actively counter-productive for implementing \glspl{mwt}, at least when using \hopac{}.
 
 Basic profiling of the \gls{cml}-based implementation appears to show that more than half of the runtime of the program was spent inside the function for ``giving'' a value over a channel, and functions called by it.  Furthermore, according to this profiling, almost 40\% of the total running time of the algorithm is taken up specifically by low-level memory management functions inside the depths of the .NET Core system.  Considering that some of these functions are at the very heart of .NET and therefore almost-certainly extremely heavily optimised, the fact they account for so much of the running time appears to suggest that memory use is poorly handled in the tested implementation.
 
@@ -446,6 +445,6 @@ Basic profiling of the \gls{cml}-based implementation appears to show that more 
 \subsection{Experimental Limitations}
 There are two identifiable threats to validity, both regarding the ``quality'' of the programming involved.  .NET Core, as a widely used open-source compiler and runtime system, and which has likely had millions of man-hours invested in it, is presumably of high quality and fast in most cases.  That is not necessarily the case with \hopac{}.  While it is open source, and moderately well-known in the \fsharp{} community, the amount of time spent on optimising it is likely nowhere close to that spent on .NET Core.  Consequently, \hopac{} itself may present significant bottlenecks while performing the \gls{mwt}.
 
-The other threat to validity (as with all performance-focused experiments) is the skill of the end programmer.  The author was new to the \hopac{} library at the start of this work, and inferior design choices may have been made unwittingly.  It was, however, suggested during personal communication with one of the maintainers and fellow users of the \hopac{} library that the \gls{cml} approach simply is poor fit to pixel-wise image processing tasks.
+The other threat to validity (as with all performance-focused experiments) is the skill of the end programmer.  The author was new to the \hopac{} library at the start of this work, and inferior design choices may have been made unwittingly.  It was, however, suggested during personal communication with one of the maintainers and fellow users of the \hopac{} library that the \gls{cml} approach simply is a poor fit to pixel-wise image processing tasks.
 
-Fundamentally, the results achieved here, as with most implementation exercises, succeed or fail in large part on the skill, knowledge and effort of the programmers involved.  The use of other libraries may lead to better results.  Other parallel implementations of \gls{cml} have been created, such as Concurrent Haskell \cite{Chaudhuri2009}, Manticore \cite{Reppy2009a} and Fibers\footnote{\url{https://github.com/wingo/fibers}} for Guile Scheme (although none of these have been maintained for some time now), but have not been assessed for this work.
+Fundamentally, the results achieved here, as with most implementation exercises, depend in part on the skill, knowledge and effort of the programmers involved.  The use of other libraries may lead to better results.  Other parallel implementations of \gls{cml} have been created, such as Concurrent Haskell \cite{Chaudhuri2009}, Manticore \cite{Reppy2009a} and Fibers\footnote{\url{https://github.com/wingo/fibers}} for Guile Scheme (although none of these have been maintained for some time now), but have not been assessed for this work.

@@ -13,18 +13,18 @@ The other key advantages of \gls{cps} are:
 \end{inparaenum}
 
 
-This \lcnamecref{chap:cpsystems} provides an overview of \gls{cps}.  Further presentation of \gls{cps} has appeared most recently in \cite{Nicolescu2018,Henderson2019,Henderson2020,Liu2020,Liu2021}, and it is recommended that the interested reader peruse those too.  While \gls{cps} is transitively bio-inspired through its basis in \gls{ps}, it has not been developed to simulate or model real-world biology.  Instead, it is intended as a useful theoretical model for computation.
+This \namecref{chap:cpsystems} provides an overview of \gls{cps}.  Further presentation of \gls{cps} has appeared most recently in \cite{Nicolescu2018,Henderson2019,Henderson2020,Liu2020,Liu2021}, and it is recommended that the interested reader peruse those too.  While \gls{cps} is transitively bio-inspired through its basis in \gls{ps}, it has not been developed to simulate or model real-world biology.  Instead, it is intended as a useful theoretical model for computation.
 
-% \begin{anfxwarning}{Grammar}
-% Really need to include a formal BNF grammar somewhere in here.
-% \end{anfxwarning}
+\begin{anfxwarning}{Grammar}
+Really need to include a formal BNF grammar somewhere in here.
+\end{anfxwarning}
 
 % --------------------------------------------------
 \section{A Partial History of \glsfmtname{cps}}
 
 Since its inception, \gls{cps} has been studied and applied to various problems in computer science.  Indeed, it originated from the desire to find more expressive ways to present solutions to problems using \gls{mc}.  The root of \gls{cps}' evolution perhaps took seed in \cite{Balanescu2011}, which defined and used higher-level rules that can be seen as the progenitor of the style of rules characteristic of \gls{cps} today (see \vref{sec:cps:genericrules}).  This was followed by \cite{Nicolescu2012}, where variations upon more traditional \gls{ps} were further developed when considering parallel and distributed algorithms in \gls{mc}.
 
-A systematic formalisation of this emerging new \gls{ps} variant was given in \cite{Nicolescu2014a}, which outlined the original basis of some aspects of \gls{cps} described in this \lcnamecref{chap:cpsystems}.  Published contemporaneously with \cite{Nicolescu2014a} was \cite{Nicolescu2014}, which used \gls{cps} to demonstrate an effective implementation of \citeauthor{Guo1989}'s algorithm for ``image skeletonisation'' \cite{Guo1989}.
+A systematic formalisation of this emerging new \gls{ps} variant was given in \cite{Nicolescu2014a}, which outlined the original basis of some aspects of \gls{cps} described in this \namecref{chap:cpsystems}.  Published contemporaneously with \cite{Nicolescu2014a} was \cite{Nicolescu2014}, which used \gls{cps} to demonstrate an effective implementation of \citeauthor{Guo1989}'s algorithm for ``image skeletonisation'' \cite{Guo1989}.
 
 Subsequently, \gls{cps} was applied to a variety of problems, including a structured grid algorithm for region growing in greyscale images \cite{Nicolescu2015}; Byzantine Agreement \cite{Nicolescu2017}; and finding the most common words in a text corpus \cite{Nicolescu2018a}.  Throughout these, \gls{cps} was further refined and propounded.  These new developments were combined and summarised in \cite{Nicolescu2018}, which provided a central reference for the now-crystallised \gls{cps} variant.
 
@@ -34,9 +34,9 @@ Further developments have followed recently, describing \glspl{actor} in \gls{cp
 
 \input{chapters/cpsystems/tex/complexsymbols}
 \input{chapters/cpsystems/tex/highlevelrules}
+\input{chapters/cpsystems/tex/intertlcmessaging}
 \input{chapters/cpsystems/tex/systemdescriptions}
 \input{chapters/cpsystems/tex/microsurg}
-\input{chapters/cpsystems/tex/intertlcmessaging}
 \input{chapters/cpsystems/tex/indexedterms}
 \input{chapters/cpsystems/tex/datastructures}
 

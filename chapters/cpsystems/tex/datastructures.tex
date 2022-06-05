@@ -2,7 +2,7 @@
 \section{Data Structures in \glsfmtname{cps}}\label{sec:cps:datastructures}
 %-----------------------------------------------------------------------------------
 
-This \lcnamecref{sec:cps:datastructures} sketches the design of some high-level data structures, 
+This \namecref{sec:cps:datastructures} sketches the design of some \gls{cps} data structures, 
 similar to data structures used in high-level pseudocode or programming languages:
 numbers, relations, functions, associative arrays, lists, trees, strings, 
 together with alternative, more readable notations.
@@ -19,8 +19,8 @@ the contents of a virtual integer \emph{variable} \(a\):
 
 \lstset{xleftmargin=.5in, xrightmargin=.5in} 
 \begin{lstlisting}
-  $\cpfunc{e}{\cpempty} \equiv \cpfunc{e}{0} \equiv \cpfunc{e}{\,}$ #\hfill\textsl{empty functor}\enspace#
-  $\cpfunc{a}{\cpundig\cpundig\cpundig} \equiv \cpfunc{a}{\cpundig^3} \equiv \cpfunc{a}{3}$ #\hfill\textsl{the number three}\enspace#
+  $\cpfunc{e}{\cpempty} \equiv \cpfunc{e}{0} \equiv \cpfunc{e}{\,}$ #\hfill\textsf{empty functor}\enspace#
+  $\cpfunc{a}{\cpundig\cpundig\cpundig} \equiv \cpfunc{a}{\cpundig^3} \equiv \cpfunc{a}{3}$ #\hfill\textsf{the number three}\enspace#
 \end{lstlisting}
 
 For concise expressions, these number representations may be aliased by their corresponding numbers, \eg{}~\(\cpfunc{a}{\,} \equiv \cpfunc{a}{0}, \cpfunc{b}{\cpundig^3} \equiv \cpfunc{b}{3}\).  Numerical operations are simulated with unary arithmetic \cite{Aman2019,Bonchis2006}.
@@ -35,21 +35,21 @@ Here follows a list of simple arithmetic expressions, assignments, and compariso
   $x = 2$ $\equiv$ $\cpfunc{x}{\cpundig \cpundig}$
   $x = n$ $\equiv$ $\cpfunc{x}{\cpundig^n}$
   
-  $x \leftarrow y \cpmaxpar z$ $\equiv$ $\cpfunc{y}{Y} ~ \cpfunc{z}{Z} ~ \rightarrow ~ \cpfunc{x}{YZ}$ #\hfill\textsl{destructive add}\enspace#
-  $x \leftarrow y + z$ $\equiv$ $ \rightarrow ~ \cpfunc{x}{YZ} ~ \mid ~ \cpfunc{y}{Y} ~ \cpfunc{z}{Z}$ #\hfill\textsl{preserving add}\enspace#
+  $x \leftarrow y \cpmaxpar z$ $\equiv$ $\cpfunc{y}{Y} ~ \cpfunc{z}{Z} ~ \rightarrow ~ \cpfunc{x}{YZ}$ #\hfill\textsf{destructive add}\enspace#
+  $x \leftarrow y + z$ $\equiv$ $ \rightarrow ~ \cpfunc{x}{YZ} ~ \mid ~ \cpfunc{y}{Y} ~ \cpfunc{z}{Z}$ #\hfill\textsf{preserving add}\enspace#
   
-  $x = y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X}$ #\hfill\textsl{equality}\enspace#
-  $x \leq y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{XY}$ #\hfill\textsl{less than or equal to}\enspace#
-  $x <  y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X1Y}$ #\hfill\textsl{strictly less than}\enspace#
+  $x = y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X}$ #\hfill\textsf{equality}\enspace#
+  $x \leq y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{XY}$ #\hfill\textsf{less than or equal to}\enspace#
+  $x <  y$ $\equiv$  $\cpfunc{x}{X} ~\cpfunc{y}{X1Y}$ #\hfill\textsf{strictly less than}\enspace#
 \end{lstlisting}
 \noindent
-`Strictly less than' (\(<\)) requires the extra \(\cpundig\), because \(Y\) can match on \(\cpempty\).
+\textsf{Strictly less than} (\(<\)) requires the extra \(\cpundig\) because \(Y\) can match on \(\cpempty\).
 
 \subsubsection{Less-than and Greater-than in \glsfmtname{promoter}s and \glsfmtname{inhibitor}s}
 
-When dealing with natural numbers\footnote{In fact, this applies to any rule dealing with only a single type of atom, but rules dealing with natural numbers are by far the most common of these.} in rules it is possible to enforce `greater than' and `less than' relationships between variables through the use of sub-multiset specifications in \glspl{promoter} and \glspl{inhibitor}.  For instance, to state that variable \(A\) must be less than or equal to variable \(B\), \ie{} \(A \leq B\), one may write: \(|~ A \subseteq B\).  Or, to state that \(B\) must be strictly less than \(C\), \ie{} \(B < C\), one may write: \(|~ B \subsetneq C\).
+When dealing with natural numbers in rules it is possible to enforce `greater than' and `less than' relationships between variables through the use of sub-multiset specifications in \glspl{promoter} and \glspl{inhibitor}.  For instance, to state that variable \(A\) must be less than or equal to variable \(B\), \ie{} \(A \leq B\), one may write: \(|~ A \subseteq B\).  Or, to state that \(B\) must be strictly less than \(C\), \ie{} \(B < C\), one may write: \(|~ B \subsetneq C\).
 
-These relations hold because all natural numbers are represented by repeated uses of the same object -- the unary digit \(\cpundig\) -- and fewer copies of the same object are always a sub-multiset of the greater multiset.  The use of this is similar to the equality condition introduced in \cref{sec:cps:prominhi}, but works only for variables representing numbers, whereas the equality condition applies to all variables. 
+These relations hold because all natural numbers are represented by repeated uses of the same object -- the unary digit \(\cpundig\) -- and fewer copies of the same object are always a sub-multiset of the greater multiset.  The use of this is similar to the equality condition introduced in \cref{sec:cps:prominhi}, but works only for variables representing numbers,\footnote{In fact, this applies to any rule dealing with only a single type of atom, but rules dealing with natural numbers are by far the most common of these.} whereas the equality condition applies to all variables. 
 
 %-------------------------------------------------------
 \subsection{Relations and Functions}
@@ -58,7 +58,7 @@ Consider the \emph{binary relation} \(r\), as defined by:
 \(r = \{ (a, b),\, (b, c),\, (a, d),\, (d, c) \}\) (which has a diamond-shaped graph). 
 Using complex symbols, relation \(r\) can be represented as a \emph{multiset} with four \(r\) items,
 \(\cpset{ \cpfunc{r}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{b}},\, \cpfunc{r}{\cpfunc{\kappa}{b} ~ \cpfunc{\upsilon}{c}},\, \cpfunc{r}{\cpfunc{\kappa}{a} ~ \cpfunc{\upsilon}{d}},\, \cpfunc{r}{\cpfunc{\kappa}{d} ~ \cpfunc{\upsilon}{c}} }\), 
-where \adhoc{} atoms \(\kappa\) and \(\upsilon\) introduce \emph{domain} and \emph{codomain} values (respectively).
+where \adhoc{} atoms \(\kappa\) and \(\upsilon\) introduce \emph{domain} and \emph{codomain} values, respectively.
 The items of this multiset may also be aliased by a more expressive notation such as: \(\{ (a \stackrel{r}\rightleftarrows b)\), \((b \stackrel{r}\rightleftarrows c)\), \((a \stackrel{r}\rightleftarrows d)\), \((d \stackrel{r}\rightleftarrows c) \}\).
 
 If the relation is a \emph{functional relation}, this can be emphasised using another operator, such as \(\mapsto\) (called \textsf{mapsto}). For example, the functional relation 
@@ -78,7 +78,7 @@ with the following key-value mappings (\ie{} functional relation):
 \(\{ \cpundig \mapsto a; \cpundig^3 \mapsto c; \cpundig^7 \mapsto g \}\). 
 Using complex symbols, array \(x\) can be represented as a multiset with three items,
 \(\cpset{ \cpfunc{x}{\cpfunc{\kappa}{\cpundig}\,\cpfunc{\upsilon}{a}},\, \cpfunc{x}{\cpfunc{\kappa}{\cpundig^3}\,\cpfunc{\upsilon}{c}},\, \cpfunc{x}{\cpfunc{\kappa}{\cpundig^7}\,\cpfunc{\upsilon}{g}} }\), 
-where \adhoc{} atoms \(\kappa\) and \(\upsilon\) introduce keys and values (respectively).
+where \adhoc{} atoms \(\kappa\) and \(\upsilon\) introduce keys and values, respectively.
 This too may be aliased by the more expressive notation
 \(\{ \cpundig \stackrel{x}\mapsto a\), \(\cpundig^3 \stackrel{x}\mapsto c\), \(\cpundig^7 \stackrel{x}\mapsto g \}\).
 
@@ -99,7 +99,7 @@ The notation \(\cpfunc{z}{|}\) is shorthand for \(\cpfunc{z}{\cpfunc{\gamma}{\,}
 %-------------------------------------------------------
 \subsection{Trees}
 %-------------------------------------------------------
-Consider the \emph{binary tree} \(z\), described by the structured expression \\
+Consider the \emph{binary tree} \(z\), described by the structured prefix notation expression 
 \((a, (b), (c, (d), (e)))\), 
 \ie{}~\(z\) points to a root node which has: 
 \begin{inparaenum}[(i)]
@@ -116,6 +116,6 @@ where \adhoc{} atoms \(\phi, \psi\) introduce left and right subtrees, respectiv
 %-------------------------------------------------------
 Consider the \emph{string} \(s = ``abc"\), 
 where \(a\), \(b\), and \(c\) are atoms. 
-Obviously, string \(s\) can be interpreted as the list \(s = [a; b; c]\), \ie{}
+String \(s\) can be interpreted as the list \(s = [a; b; c]\), \ie{}
 string \(s\) can be represented as the complex symbol
 \(\cpfunc{s}{\, \cpfunc{\gamma}{a~\cpfunc{\gamma}{b~\cpfunc*{\gamma}{c~\cpfunc*{\gamma}{}}}}}\), etc.

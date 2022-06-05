@@ -1,7 +1,7 @@
 \section{\label{sec:gcol:cpsys}\glsfmtname{cps} Solution to the \glsfmtname{gcp-glossary}}
 In the \gls{cml} simulation of the problem, most of the work, in fact, is performed by the instantiation of new objects, rather than communication.  Thus, the problem appears to be an excellent fit to the pre-existing formulation of \gls{cps} \cite{Nicolescu2018}.
 
-This solution assumes a graph with at most one edge between nodes (\ie{}. there are not two or more edges between the same two nodes), and that there are no edges leading from a node back to itself.  Further, it takes as given inputs to the process conceptual finite sets \(V \subset \mathbb{N}\) representing the nodes of the graph\footnote{In fact, any finite set of arbitrary symbols could be used, but this discussion is restricted to the natural numbers for ease of reading.}; \(E \subseteq \{(i,j)~|~i, j \in V, i \neq j \}\) representing the edges of the graph; and \(K\) representing the chosen colours, where \(K\) contains whatever representation of the desired colours is considered appropriate.
+This solution assumes a graph with at most one edge between nodes (\ie{}. there are not two or more edges between the same two nodes), and that there are no edges leading from a node back to itself.  Further, it takes as supplied inputs to the process conceptual finite sets \(V \subset \mathbb{N}\) representing the nodes of the graph\footnote{In fact, any finite set of arbitrary symbols could be used, but this discussion is restricted to the natural numbers for ease of reading.}; \(E \subseteq \{(i,j)~|~i, j \in V, i \neq j \}\) representing the edges of the graph; and \(K\) representing the chosen colours, where \(K\) contains whatever representation of the desired colours is considered appropriate.
 
 Based on these definitions, for the purposes of the remainder of this \namecref{chap:gcol}, \(|K|\) is defined to be the number of colours used in the current problem, \(|V|\) the number of nodes in the graph under consideration for the current problem and \(|E|\) the number of edges in the graph.
 
@@ -54,11 +54,17 @@ Note that while this algorithm is guaranteed to return a valid colouring if one 
 \subsection{\label{sec:gcol:sysinit}cP System Initialisation}
 System construction begins with a \gls{tlc} containing the \gls{functor} \(V' = \cpset{\cpfunc{v}{\cpfunc{n}{i}} ~|~i \in V}\), which contains the labels of the nodes in \(V\); a set \(E' \subseteq \cpset{\cpfunc{e}{\cpfunc{n}{i} \, \cpfunc{n}{j}} ~|~(i,j) \in E}\) representing the edges of the graph; a starting node \(\cpfunc{s}{h}\) where \(h \in V\) is an arbitrary node label; and a set \(K' = \cpset{\cpfunc{k}{\kappa} ~|~ \kappa \in K}\) of  the potential colours.  In the case of the three-colour problem, it might look like \(K' = \cpset{\cpfunc{k}{r}, \cpfunc{k}{g}, \cpfunc{k}{b}}\). Using separate colour symbols in this fashion means that the algorithm can operate as a \(|K|\)-colour problem, without any other modification.
 
-While colours are represented here as separate symbols for legibility, they can, in fact, be represented equivalently by natural numbers because each colour symbol is contained within a \(k\) \gls{functor} --- one simply need fill each \gls{functor} with the appropriate number of the counting symbol to represent the desired different colours.  E.g. \(r\) might be represented by one copy of the unary digit, \(\cpundig\), \(g\) by two and \(b\) by three, \ie{}. \(r = \cpfunc{k}{\cpundig}\), \(g = \cpfunc{k}{\cpundig^2}\) and \(b = \cpfunc{k}{\cpundig^3}\).  The same is true of the edges.  This means that, in fact, the system requires no extra symbols in its alphabet to represent the colours and edges of a given problem --- it merely re-uses atoms (see further in \cref{sec:gcol:notation}).
+While colours are represented here as separate symbols for legibility, they can, in fact, be represented equivalently by natural numbers because each colour symbol is contained within a \(k\) \gls{functor} --- one simply need fill each \gls{functor} with the appropriate number of the counting symbol to represent the desired different colours.  E.g. \(r\) might be represented by one copy of the unary digit, \(\cpundig\), \(g\) by two and \(b\) by three, \ie{} \(r = \cpfunc{k}{\cpundig}\), \(g = \cpfunc{k}{\cpundig^2}\) and \(b = \cpfunc{k}{\cpundig^3}\).  The same is true of the edges.  This means that, in fact, the system requires no extra symbols in its alphabet to represent the colours and edges of a given problem --- it merely re-uses atoms (see further in \cref{sec:gcol:notation}).
 
 \subsection{\label{sec:gcol:notation}cP System Definition}
 
-In accordance with the \gls{cps} formal notation of \cref{sec:cps:formaldescriptions}, the \gls{gcp} \glspl{cps} can be formalised as \cptuple{G-Col}{\cpset{\sigma_1}}{\cpset{b, c, e,\allowbreak i,\allowbreak m,\allowbreak n, s, v, k, \cpundig}}{\cpset{O_1}}{\cref{ruleset:gcol:rules}}{\cpset{s_1, s_2, s_3, s_4}}{s_1} where: \(\sigma_1\) is the single \gls{tlc} of the system and \(O_1 = \cpset{\cpfunc{s}{h}} \cup V' \allowbreak \cup E' \allowbreak \cup K'\) is the multiset of initial objects contained within \(\sigma_1\), where \(h\) is an arbitrary member of \(V\).
+In accordance with the \gls{cps} formal notation of \cref{sec:cps:formaldescriptions}, the \gls{gcp} \glspl{cps} can be formalised as
+\cptuple{GCP}{\cpset{\sigma_1}}
+{\cpset{b, c, e, \allowbreak m,\allowbreak n, s, v, k, \cpundig}}
+{\cpset{O_1}}
+{\cref{ruleset:gcol:rules}}
+{\cpset{s_1, s_2, s_3, s_4}}
+{s_1} where: \(\sigma_1\) is the single \gls{tlc} of the system and \(O_1 = \cpset{\cpfunc{s}{h}} \cup V' \allowbreak \cup E' \allowbreak \cup K'\) is the multiset of initial objects contained within \(\sigma_1\), where \(h\) is an arbitrary member of \(V\).
 
 
 \subsection{\label{sec:gcol:rules}Rules}
@@ -86,24 +92,28 @@ In accordance with the \gls{cps} formal notation of \cref{sec:cps:formaldescript
 \caption[\gls{cps} rules for the \glsentrylong{gcp-glossary}]{\label{ruleset:gcol:rules}A completely generic \gls{cps} \gls{ruleset} for solving the \gls{gcp}}
 \end{cprulesetfloat}
 
-The rules are presented in \cref{ruleset:gcol:rules}.  The solution consists of six rules, which are invariant to the graph under consideration, and are listed in \emph{weak priority order}.  They are explained below:
+The rules are presented in \cref{ruleset:gcol:rules}.  The solution consists of six rules in \emph{weak priority order}, which are invariant to the graph under consideration.  They are explained below:
 
 \subsubsection{Description of Rules}
 
 \begin{enumerate}
 \item This rule begins system evolution.  It converts the setup \gls{functor} \(v\) into a \gls{functor} \bo{}, which is used further to instantiate new objects with the possible colourings of the system.  It merely selects the node specified by the supplied \(s\) term, and assigns a colour at random.
 
-The \bo{} object holds an \(i\) \gls{functor} which keeps track of which iteration a given \bo{} belongs to; a multiset of \(m\) \glspl{functor} which track nodes and their assigned colours in a potential solution; and a \(v\) \gls{functor} which continues to track the reducing unexplored nodes of the graph.
+The \bo{} object holds a multiset of \(m\) \glspl{functor} which track nodes and their assigned colours in a potential solution and a \(v\) \gls{functor} which continues to track the reducing unexplored nodes of the graph.
 
-A separate global \(i\) \gls{functor} is also instantiated at this point, which tracks the current iteration number of the system and which is used in later rules.  This rule begins in state \(s_1\) and ends in state \(s_2\).  This rule corresponds to the upper \texttt{Graph Colouring} function in \cref{code:gcol:graphcol}.
+This rule begins in state \(s_1\) and ends in state \(s_2\).  This rule corresponds to the upper \texttt{Graph Colouring} function in \cref{code:gcol:graphcol}.
 
 \item This rule is one of the potential end points of the evolution of the system.  If there are no further remaining nodes to explore, \ie{}. the \bo{} objects have empty \(v\) \glspl{functor}, then one of the \bo{}s is selected at random and the set \(M\) of \(m\) \glspl{functor} within said \bo{} which contain a solution to the colouring problem is output to the environment.  This rule begins in state \(s_2\) and ends in state \(s_3\).  State \(s_3\) is used to indicate to the environment that a solution has been found and the evolution of the system has terminated.  The change in state means that no other rule can be applied if this rule is applied.  This rule corresponds to \crefrange{li:gcol:iflgreaterthanv}{li:gcol:returnsuccess} of the lower \texttt{Graph Colouring} function in \cref{code:gcol:graphcol}.
 
-\item This rule is arguably the heart of the process, and runs in maximally-parallel mode --- meaning that every possible exploration from the currently extant \bo{} objects is performed simultaneously.  In each application, for every pre-existing \bo{} object, new ones are generated with a random colouration assigned to an unexplored node, so long as there exists an edge between those nodes in the graph \emph{and} the selected colours are not the same \emph{and} there does not already exist another \(m\) object within the current \bo{} object that represents another node connected to the newly chosen node with the same colour.  It also increments the iteration counter within the \bo{} object.  This rule begins in state \(s_2\) and ends in state \(s_2\).  This rule corresponds to \crefrange{li:gcol:makebstart}{li:gcol:makebfinish} of the lower \texttt{Graph Colouring} function in \cref{code:gcol:graphcol}.
+\item This rule is arguably the heart of the process, and runs in maximally-parallel mode --- meaning that every possible exploration from the currently extant \bo{} objects is performed simultaneously.  In each application, for every pre-existing \bo{} object, new ones are generated with a random colouration assigned to an unexplored node, so long as there exists an edge between those nodes in the graph \emph{and} the selected colours are not the same \emph{and} there does not already exist another \(m\) object within the current \bo{} object that represents another node connected to the newly chosen node with the same colour.  This rule begins in state \(s_2\) and ends in state \(s_2\).  This rule corresponds to \crefrange{li:gcol:makebstart}{li:gcol:makebfinish} of the lower \texttt{Graph Colouring} function in \cref{code:gcol:graphcol}.
 
 The interaction of the \(v\) objects in the output and the first \gls{promoter} work in the same fashion as \(y \in V \setminus \texttt{Dom}(M)\) in the pseudocode of \cref{code:gcol:graphcol}.  That is, this rule selects an \(n\) inside the given \bo{}'s \(v\), but naturally avoids selecting an \(n\) that is already used in one of the \bo{}'s \(m\)s because they have already been removed from \(v\).
 
-\item This rule is a `cleaning' rule, which removes all extant \bo{} objects with the current iteration count, thus keeping the working space relatively clean.  Recall that in \gls{ps}, rules are applied top-to-bottom in a  weak priority order.  This means that, while this rule will eliminate the \bo{} objects used by \cpruleref{rule:gcol:rules:loop} to instantiate the next generation, said objects will not be eliminated until immediately after the application of \cpruleref{rule:gcol:rules:loop} and thus the two rules do not cause conflicts.  This rule begins in state \(s_2\) and ends in state \(s_2\).
+% \item This rule is a `cleaning' rule, which removes all extant \bo{} objects, thus keeping the working space relatively clean.  Recall that in \gls{ps}, rules are applied top-to-bottom in a  weak priority order.  This means that, while this rule will eliminate the \bo{} objects used by \cpruleref{rule:gcol:rules:loop} to instantiate the next generation, said objects will not be eliminated until immediately after the application of \cpruleref{rule:gcol:rules:loop} and thus the two rules do not cause conflicts.  This rule begins in state \(s_2\) and ends in state \(s_2\).
+
+% The operation of this rule occurs implicitly in the pseudocode, and does not have corresponding lines.  There is no reference to the current set of \bo{}s, \(B\), carried forward into the next call of the pseudocode function.  Instead, \(B\) is replaced with \(B'\) for the next execution of the function, and \(B\) will be cleaned up by the system in whichever way it clears away objects once all references to them have been dropped.
+
+\item This rule is a `cleaning' rule, which removes all extant \bo{} objects, thus keeping the working space relatively clean.  Recall that in \gls{cps}, existing objects are removed, and new objects instantiated at the end of the step, with the net effect that extant objects may be used as promoters, but the new objects may not be used by any rules.  This means that, while this rule will eliminate the \bo{} objects used by \cpruleref{rule:gcol:rules:loop} to instantiate the next generation, said objects will not be eliminated until immediately after the application of \cpruleref{rule:gcol:rules:loop} and thus the two rules do not cause conflicts.  This rule begins in state \(s_2\) and ends in state \(s_2\).
 
 The operation of this rule occurs implicitly in the pseudocode, and does not have corresponding lines.  There is no reference to the current set of \bo{}s, \(B\), carried forward into the next call of the pseudocode function.  Instead, \(B\) is replaced with \(B'\) for the next execution of the function, and \(B\) will be cleaned up by the system in whichever way it clears away objects once all references to them have been dropped.
 
@@ -119,7 +129,7 @@ The operation of this rule occurs implicitly in the pseudocode, and does not hav
 
 \paragraph{Functors}
 \begin{description}
-\cptermdef{b}{Node exploration term.  This is a collection term, which holds information pertaining to the iteration at which the term was generated, the nodes explored so far on this path and the colours assigned to each node, and the remaining unexplored nodes in the graph.}
+\cptermdef{b}{Node exploration term.  This is a collection term, which holds information pertaining to the nodes explored so far on this path and the colours assigned to those nodes, and the remaining unexplored nodes in the graph.}
 \cptermdef{c}{Colouring assignment term.  Records the colour assigned to a node for a particular exploration}
 \cptermdef{e}{Edge node.  Lists two locations in the graph, if they have an edge connecting them.}
 \cptermdef{k}{Colour term.  Stores one of the colours potentially to be used in colouring the graph under study.}
@@ -137,105 +147,88 @@ The operation of this rule occurs implicitly in the pseudocode, and does not hav
 \cptermdef{s_4}{Negative result state.  The system ends in this state if no valid colouring is possible.}
 \end{description}
 
-\subsection{\label{sec:gcol:termination}Termination and Correctness}
-The behaviour of the system in regard to termination and correctness is examined below.  The discussion in this \namecref{sec:gcol:termination} assumes that the number of steps taken is tracked in a variable \(i\).  No such subcell appears in \cref{ruleset:gcol:rules} because the rules make no use of the step number.
-
-\begin{lemma}\label{lemma:gcol:grow}
-All \bo{} objects present in the \gls{tlc} hold a monotonically growing set \(M\) of \(m\) \glspl{functor}, which represent validly coloured partial spanning trees of the whole graph, and at step \(i \leq |V|\) in the evolution of the system, each partial spanning tree will have a length equal to \(i\).
-\end{lemma}
-
-\begin{proof}
-
-At step one, a single \bo{} object will have been created by operation of \cpruleref{rule:gcol:rules:init}.  Contained within this \bo{} object is a single \(m\) \gls{functor}, which pairs a node label with a colour label.  Thus, the size of \(M\), \(|M| = 1\), \(m \in M\).
-
-At step \(i > 1\), any pre-existing \bo{} objects are removed, but are replaced with new \bo{} objects which between them cover all possible valid coloured partial spanning trees rooted at the initial node so far, after adding one further \(m\) object to \(M\), so \(|M| \geq 2\).  Thus, at step two, the extant \bo{} objects will each contain two \(m\) \glspl{functor}, one describing the initial node, and the other describing another node of the graph that has been chosen at random from among those that have an edge in the graph connecting said node to the first node.  By operation of the same rule, the number of node labels contained inside the \(v\) \gls{functor}, itself inside each \bo{} object, will decrease by one, and thus the number of remaining unexplored nodes inside it will be equal to \(|V| - i\).
-
-At step 3, there will be three \(m\) objects inside each \bo{} object, where there are edges in the graph connecting the represented nodes.  Due to the maximally-parallel nature of \cpruleref{rule:gcol:rules:loop}, every possible partial spanning tree of size \(i\) rooted at the initial node will be represented in a \bo{} object at step \(i\).  Assuming that a colouring is possible, the system proceeds in the same fashion for each following step, until step \(i = |V| + 1\) when the \(M\) sets inside the \bo{} objects contain full spanning trees, and the \(v\) \glspl{functor} will be empty.
-
-At that point, \cpruleref{rule:gcol:rules:loop} can no longer be applied (because there will no longer be any \(n\) \glspl{functor} inside the \(v\) \glspl{functor}).  More importantly, \cpruleref{rule:gcol:rules:endsucc}, which enjoys priority under the weak priority ordering, becomes applicable and is thus selected as the rule to apply, ending evolution of the system with one of the \(M\) colouring sets output to the environment.
-
-If a colouring is not possible, then eventually every possible application of \cpruleref{rule:gcol:rules:loop} will be confounded by the \gls{inhibitor}, leading to \cpruleref{rule:gcol:rules:loopclean} removing all \bo{} objects without any more replacing them.  At this point (which can itself potentially occur at step \(i = |V| + 1\), such as in the case of a 4-node complete graph with 3 colours), \cpruleref{rule:gcol:rules:endfail} will terminate evolution of the system.
-\end{proof}
-
-\begin{lemma}\label{lemma:gcol:determin}
-In all cases, evolution of the system proceeds wholly deterministically between the first and final steps, exclusively.
-\end{lemma}
-
-\begin{proof}
-Due to the nature of Rules \cpruleref*{rule:gcol:rules:loop} and \cpruleref*{rule:gcol:rules:loopclean}, which are the only ones applied during the middle steps of the system's evolution, there is essentially no choice made at any point.  Rules \cpruleref*{rule:gcol:rules:loop} and \cpruleref*{rule:gcol:rules:loopclean} make a non-deterministic choice in an individual application of them, but the rules are applied in a maximally parallel fashion, meaning that all possible choices are selected simultaneously.  Thus, all valid choices are explored, while the \gls{inhibitor} ensures that no invalid choices are possible.
-
-
-\cpRuleref{rule:gcol:rules:endfail} is also deterministic.  It applies if and only if none of the earlier rules are applicable.  Further, there is only one possible result from applying \cpruleref{rule:gcol:rules:endfail} -- transitioning the system to state \(s_4\) --, so there is no choice involved in its application.  This means that, in all cases where there is no valid colouring possible, the final step of the system is also deterministic.
-
-\end{proof}
-
-\begin{lemma}\label{lemma:gcol:nondet}
-
-The system is only non-deterministic regarding the choice of the colour of the starting node and the final selection of which valid colouring to send out to the environment, assuming that the evolution of the system finishes in state \(s_3\).
-\end{lemma}
-
-\begin{proof}
-The system is deterministic for all rule applications except the first, and potentially the last, by \cref{lemma:gcol:determin}.  Application of \cpruleref{rule:gcol:rules:init} to start the system is partially non-deterministic, specifically regarding the choice of the initial colour.  Application of \cpruleref{rule:gcol:rules:endsucc} to end the evolution of the system is likewise non-deterministic only in the choice of the set of colourings to send out.
-
-\cpRuleref{rule:gcol:rules:init} uses the pre-selected starting node, encoded in the \(s\) \gls{functor}, to create the first \bo{} object with which to evolve the system.  While that \gls{functor} will be unique by the creation conditions described above,\footnote{Should it be desired, it would be possible to have the system make a random selection between possible starting nodes, simply by starting the system with more than one \(s\) \gls{functor}.  The correctness and termination of the system will be unaffected.} it has a free choice between the available colours.  As the rule is applied exactly once due to its application mode, only one colour is selected, but the specification of the colour \gls{promoter} for \cpruleref{rule:gcol:rules:init} simply states that one of the supplied \(k\) colour objects is used.
-
-While this selection is non-deterministic, it has no impact upon the termination of the evolution of the system, because for the standard \gls{gcp} there is no functional difference between colours.  That is, they do not imbue special properties or behaviours to their marked nodes, they merely label them.  Thus, the colour selected does limit the potential colouring sets that are available at the end by fixing the colour of the starting node, but has no impact upon which rule is applied next.
-
-Finally, as with the selection of a colour in \cpruleref{rule:gcol:rules:init}, the selection of which extant \bo{} object to take the colouring set \(M\) out of and send out to the environment by \cpruleref{rule:gcol:rules:endsucc} is non-deterministic, as \cpruleref{rule:gcol:rules:endsucc} has a free choice in which one it selects.  From its perspective, any \bo{} object with an empty \(v\) \gls{functor} is acceptable.
-\end{proof}
-
-\begin{lemma}\label{lemma:gcol:ending}
-The termination of the evolution of the system by application of \cpruleref{rule:gcol:rules:endsucc} or \cpruleref{rule:gcol:rules:endfail} is also deterministic.
-\end{lemma}
-
-\begin{proof}
-Both \cpruleref{rule:gcol:rules:endsucc} and \cpruleref{rule:gcol:rules:endfail} can only be applied in specific, mutually exclusive circumstances.  In particular, it is only possible to apply \cpruleref{rule:gcol:rules:endsucc} when there is at least one \bo{} object, which additionally must have an empty \(v\) \gls{functor}.  Conversely, \cpruleref{rule:gcol:rules:endfail} may only be applied where there are absolutely no extant \bo{} objects in the system.  The only way \bo{} objects can be removed is by operation of \cpruleref{rule:gcol:rules:loopclean}, which cannot be applied in the same step as either \cpruleref{rule:gcol:rules:endsucc} or \cpruleref{rule:gcol:rules:endfail}, as they have differing final states.  This means that \emph{only} one of \cpruleref{rule:gcol:rules:endsucc} or \cpruleref{rule:gcol:rules:endfail} may be applied during a step when either of them is applied, and both are considered to terminate the evolution of the system.  If there are any \bo{}s with an empty \(v\), then \cpruleref{rule:gcol:rules:endsucc} is applied.  If there are no \bo{}s whatsoever, then \cpruleref{rule:gcol:rules:endfail} is applied.  In all other cases after the first step, Rules \cpruleref*{rule:gcol:rules:loop} and \cpruleref*{rule:gcol:rules:loopclean} are applied.
-\end{proof}
-
-\begin{theorem}
-The evolution of every valid instance of this system (where the system is created in accordance with \cref{sec:gcol:notation}, and \(|V|, |E|, |K| > 0\)) will terminate, either sending a valid colouring out to the environment where a valid colouring is possible, or signalling by its state that no valid colouring is possible.
-\end{theorem}
-
-\begin{proof}
-By \cref{lemma:gcol:determin,lemma:gcol:nondet} the applications of the rules are deterministic in all ways, except the choice of the colour of the starting node, and the choice of the final selected colouring.  Thus, the progression of the system is always deterministic.  By \cref{lemma:gcol:ending}, the evolution of the system is \emph{always} terminated by \cpruleref{rule:gcol:rules:endsucc} when there exist any \bo{} objects with a full set of colourings, or by \cpruleref{rule:gcol:rules:endfail} \emph{only} when no colouring is possible.  A full set of colourings inside a \bo{} is ensured under \cref{lemma:gcol:grow}.
-\end{proof}
-
 \subsection{\label{sec:gcol:complexity}Complexity}
 This \namecref{sec:gcol:complexity} discusses the time and space complexity of the system, with an emphasis on the maximum for each because the minima are highly graph-dependent.
 
 \subsubsection{Time Complexity}
-The \glspl{cps} requires at most \(|V| + 1\) steps, where \(|V|\) is the total number of nodes in the graph.  In the successful case it will require that many, but for graphs where there is no possible \(|K|\)-colouring it may terminate early.
 
-\cpRuleref{rule:gcol:rules:init} requires one application.  Rules \cpruleref*{rule:gcol:rules:endsucc} and \cpruleref*{rule:gcol:rules:endfail} between them require one application.  Rules \cpruleref*{rule:gcol:rules:loop} and \cpruleref*{rule:gcol:rules:loopclean} both require at most \(|V| - 1\) applications, but the applications occur concurrently in all cases because there is no chance for a conflict of states.  In total, that simplifies to at most \(|V| + 1\) steps, giving a time complexity of \bigoh{|V|}.  This holds regardless of the relative sizes of \(K\) and \(V\), as all possible valid colourings are simultaneously explored for a given node.  It is trivial to create a valid colouring when \(|V| \leq |K|\).   When \(|V| > |K|\), \ie{}., the number of nodes in the graph is at least one greater than the number of colours available, the maximally-parallel nature of \cpruleref{rule:gcol:rules:loop} ensures that the running time does not depend on \(|K|\).
+\begin{lemma}\label{lemma:gcol:timecomplexmax}
+The \gls{gcp} \glspl{cps} requires \emph{at most} \(|V| + 1\) steps, where \(|V|\) is the total number of nodes in the graph.
+\end{lemma}
 
-Furthermore, in cases where \(|V| > |K|\) the system requires \emph{a minimum} of \(|K| + 2\) steps before terminating.  At each step up to step \(i = |K|\), it will always be possible to choose a colour that does not conflict with any chosen so far, simply by selecting a colour that has not been used yet.  
+\begin{proof}
+\cpRuleref{rule:gcol:rules:init} requires one application.  Rules \cpruleref*{rule:gcol:rules:endsucc} and \cpruleref*{rule:gcol:rules:endfail} between them require one application.  Rules \cpruleref*{rule:gcol:rules:loop} and \cpruleref*{rule:gcol:rules:loopclean} both require at most \(|V| - 1\) applications, but the applications occur concurrently in all cases because there is no chance for a conflict of states.  In total, that simplifies to at most \(|V| + 1\) steps.  This holds regardless of the relative sizes of \(K\) and \(V\), as all possible valid colourings are simultaneously explored for a given node.  It is trivial to create a valid colouring when \(|V| \leq |K|\).   When \(|V| > |K|\), \ie{}, the number of nodes in the graph is at least one greater than the number of colours available, then the maximally-parallel nature of \cpruleref{rule:gcol:rules:loop} ensures that the running time does not depend on \(|K|\).
+\end{proof}
 
-At step \(i = |K| + 1\), however, in the case of a complete graph, no further \bo{} objects can be created because no matter what colour is selected for the next node, it is guaranteed to conflict with one of the colours selected previously.  This means that \cpruleref{rule:gcol:rules:loopclean} will remove all current \bo{} objects, but \cpruleref{rule:gcol:rules:loop} does not replace them with new ones.  Thus, at the next step, \cpruleref{rule:gcol:rules:endfail} will transition the system to state \(s_4\), signalling to the environment that no colouring is possible, and the evolution of the system will terminate.  As such, a lower bound on the number of steps can be determined as \(|K| + 2\).  Other graphs may require more steps to reach an answer, but as described above, never more than \(|V| + 1\).
+\begin{lemma}\label{lemma:gcol:timecomplexmin}
+The \gls{gcp} \glspl{cps} requires \emph{at least} the minimum of \(|V| + 1\) or \(|K| + 2\) steps, where \(|V|\) is the total number of nodes in the graph and \(K\) the total number of colours in use.
+\end{lemma}
 
-This is consistent with the upper bound, when \(|V|\) is strictly larger than \(|K|\).  \(|V|\) and \(|K|\) are both natural numbers, so the smallest possible difference between them is 1.  Thus, \(|K| + 1\) can be at most equal to \(|V|\), and therefore \(|K| + 2\) at most can be equal to \(|V| + 1\).  I.e.
+\begin{proof}
+Per \cref{lemma:gcol:timecomplexmax}, when \(|V| \leq |K|\) the system will halt after \(|V| + 1\) steps.  In cases where \(|V| > |K|\) the system requires \emph{a minimum} of \(|K| + 2\) steps before terminating.  At each step up to step \(i = |K|\), it will always be possible to choose a colour that does not conflict with any chosen so far, simply by selecting a colour that has not been used yet.  
+
+% At step \(i = |K| + 1\), however, in the case of a complete graph, no further \bo{} objects can be created because, no matter what colour is selected for the next node, it is guaranteed to conflict with one of the colours selected previously.  This means that \cpruleref{rule:gcol:rules:loopclean} will remove all current \bo{} objects, but \cpruleref{rule:gcol:rules:loop} does not replace them with new ones.  Thus, at the next step, \cpruleref{rule:gcol:rules:endfail} will transition the system to state \(s_4\), signalling to the environment that no colouring is possible, and the evolution of the system will terminate.  As such, a lower bound on the number of steps can be determined as \(|K| + 2\).%  Other graphs may require more steps to reach an answer, but as described above, never more than \(|V| + 1\).
+
+In the case of a complete graph, at step \(i = |K| + 1\) no further \bo{} objects can be created; no matter what colour is selected for the next node, it is guaranteed to conflict with one of the colours selected previously.  Consequently, \cpruleref{rule:gcol:rules:loopclean} will remove all current \bo{} objects, but \cpruleref{rule:gcol:rules:loop} does not replace them with new ones.  Thus, at the next step, \cpruleref{rule:gcol:rules:endfail} will transition the system to state \(s_4\), signalling to the environment that no colouring is possible, and the evolution of the system will terminate.  As such, a lower bound on the number of steps can be determined as \(|K| + 2\).%  Other graphs may require more steps to reach an answer, but as described above, never more than \(|V| + 1\).
+\end{proof}
+
+\begin{theorem}\label{theorem:gcol:earlytermination}
+In the successful case the \gls{gcp} \glspl{cps} will always require \(|V| + 1\) steps, but for graphs where there is no possible \(|K|\)-colouring it may terminate early.
+\end{theorem}
+
+\begin{proof}
+This is consistent with the upper bound, when \(|V|\) is strictly larger than \(|K|\).  \(|V|\) and \(|K|\) are both natural numbers, so the smallest possible difference between them is 1.  Thus, \(|K| + 1\) can be at most equal to \(|V|\), and therefore \(|K| + 2\) at most can be equal to \(|V| + 1\).  \Ie{},
 \begin{align*}
     |K| &< |V|\\
     \implies |K| + 1 &\leq |V|\\
     \implies |K| + 2 &\leq |V| + 1
 \end{align*}
+\end{proof}
 
-Thus, the time complexity has an upper bound of \bigoh{|V|}, and a lower bound of \(\Omega(min(|K|, |V|))\).
+\begin{theorem}
+The \gls{gcp} \glspl{cps} has an upper-bound time complexity of \bigoh{|V|} and a lower-bound time complexity of \(\Omega(\min{(|K|, |V|)})\)
+\end{theorem}
+
+\begin{proof}
+Direct consequence of \cref{lemma:gcol:timecomplexmax,lemma:gcol:timecomplexmin,theorem:gcol:earlytermination}.
+\end{proof}
 
 \subsubsection{Space Complexity}
 
-The \emph{theoretical} maximum number of objects that can be present in the system at the end of each step from step 1 onwards is given by \cref{eq:gcol:spacemax} below, which provides an exclusive upper bound.
+% The \emph{theoretical} maximum number of objects that can be present in the system at the end of each step from step 1 onwards is given by \cref{eq:gcol:spacemax} below, which provides an exclusive upper bound.
+
+% \begin{equation}\label{eq:gcol:spacemax}
+%     \textsc{Space}_{\text{max}}(i) = \underbrace{\bigg(\frac{(|V| - 1)!}{(|V| - i)!} \times |K|^{i-1}\bigg)}_{b} + \underbrace{|K|}_{k} + \underbrace{|E|}_{e}
+% \end{equation}
+
+% The underbraces indicate what type of \gls{functor} each part of the above counts inside the \gls{tlc}.  In practice, the system will \emph{never} contain this many objects at once, due to the restriction on creating new \bo{}s where there would be conflicting colours.  For the purposes of the above, \(0!\) (which will occur when \(i = |V|\)) is defined to be equal to 1.
+
+\begin{theorem}
+The maximum number of objects that can be present in the system at the end of each step \(i = 1\) onwards is given by \cref{eq:gcol:spacemax}, which provides an upper bound.
 
 \begin{equation}\label{eq:gcol:spacemax}
-    \textsc{Space}_{\text{max}}(i) = \underbrace{\bigg(\frac{(|V| - 1)!}{(|V| - i)!} \times |K|^{i-1}\bigg)}_{b} + \underbrace{|K|}_{k} + \underbrace{|E|}_{e}
+    \textsc{Space}_{\text{max}}(i) = \underbrace{\bigg(\frac{(|V| - 1)!}{(|V| - i)!} \times |K|^{i-1}\bigg)}_{b} + \underbrace{|K|}_{k} + \underbrace{|E|}_{e} + \underbrace{1}_{t}
 \end{equation}
+\end{theorem}
 
-The underbraces indicate what type of \gls{functor} each part of the above counts inside the \gls{tlc}.  In practice, the system will \emph{never} contain this many objects at once, due to the restriction on creating new \bo{}s where there would be conflicting colours.  For the purposes of the above, \(0!\) (which will occur when \(i = |V|\)) is defined to be equal to 1.
+\begin{proof}
+The underbraces indicate what type of \gls{functor} each part of \cref{eq:gcol:spacemax} counts inside the \gls{tlc} (where \(t\) represents the \gls{tlc} itself).  For the purposes of \cref{eq:gcol:spacemax}, \(0!\) (which will occur when \(i = |V|\)) is defined to be equal to 1.
 
-After the first step, there will always be precisely one \bo{} object in the \gls{tlc}, simply by the operation of \cpruleref{rule:gcol:rules:init}, but in each proceeding step the count will depend on the exact nature of the graph and colour set under consideration.  At the point that \(i = |V| - 1\), for each \bo{} there will be only one possible choice for the next node to explore (as there will only be one \(n\) remaining in each \bo{}'s \(v\)), but each one of those choices can potentially be made with each one of the system's colours, and thus while the ``base'' number of \bo{}s will remain the same between those two steps, the total maximum possible number of \bo{}s will increase by a factor of \(|K|\).
+After the first step, there will always be precisely one \bo{} object in the \gls{tlc}, simply by the operation of \cpruleref{rule:gcol:rules:init}, but in each succeeding step the count will depend on the exact nature of the graph and colour set under consideration.  The true maximum will only be observed for complete graphs, and then only for steps \(i \leq |K| + 1\).
 
-A complete graph gives the upper limit to the number of objects that can exist, because (ignoring the operation of the \gls{inhibitor} in \cpruleref{rule:gcol:rules:loop}) every node can be reached from any other given node, and thus it provides the widest possible search -- any non-complete graph will contain an incomplete set of edges between nodes, disallowing some potential explorations from taking place.  This gives an upper bound on space complexity proportional to the number of nodes and colours in the system under consideration, \ie{}. \(\mathcal{O}(|V||K|)\).  Of course, due to the operation of the \gls{inhibitor} in \cpruleref{rule:gcol:rules:loop}, no more \bo{} objects will be created for a complete graph once \(i > |K|\).
+At the point that \(i = |V| - 1\) and there exists still at least one \bo{}, for each \bo{} there will be only one possible choice for the next node to explore (as there will only be one \(n\) remaining in each \bo{}'s \(v\)).  Each one of those choices can potentially be made with each one of the system's colours, and thus while the “base'' number of \bo{}s will remain the same between those two steps, the total maximum possible number of \bo{}s will increase by a factor of \(|K|\).
 
-\Cref{eq:gcol:wb,eq:gcol:w} provide formulae to calculate the total space requirements of an individual \bo{} and the overall system. These equations assume that the size of a \gls{functor} that contains only atoms, such as the colour \glspl{functor} \(k\) which contain only a given number of the counting atom, is constant regardless of how many atoms it contains.  This is perhaps unrealistic in a real biological system, but is appropriate for computer simulations, where fixed-bit-length representations are likely used to represent the various elements of the system.
+% A complete graph gives the upper limit to the number of objects that can exist because (ignoring the operation of the \gls{inhibitor} in \cpruleref{rule:gcol:rules:loop}) every node can be reached from any other given node, and thus it provides the widest possible search -- any non-complete graph will contain an incomplete set of edges between nodes, disallowing some potential explorations from taking place.  This gives an upper bound on space complexity proportional to the number of nodes and colours in the system under consideration, \ie{}. \(\mathcal{O}(|V||K|)\).  Of course, due to the operation of the \gls{inhibitor} in \cpruleref{rule:gcol:rules:loop}, no more \bo{} objects will be created for a complete graph once \(i > |K|\).
+
+A complete graph gives the upper limit to the number of objects that can exist because (ignoring the operation of the \gls{inhibitor} in \cpruleref{rule:gcol:rules:loop}) every node can be reached from any other given node, and thus it provides the widest possible search -- any non-complete graph will contain an incomplete set of edges between nodes, disallowing some potential explorations from taking place.  This gives an upper bound on space complexity proportional to the number of nodes and colours in the system under consideration, \ie{}. \bigoh{|V| |K|}.
+\end{proof}
+
+\begin{corollary}
+Due to the operation of the \gls{inhibitor} in \cpruleref{rule:gcol:rules:loop}, no more \bo{} objects will be created for a complete graph once \(i > |K|\).  Thus, for problem instances where \(|K| < |V|\), \cref{eq:gcol:spacemax} provides a \emph{theoretical} maximum space complexity for larger values of \(i\).
+\end{corollary}
+
+\begin{remark}
+\Cref{eq:gcol:wb,eq:gcol:w} provide formulae to calculate the total space requirements of an individual \bo{} and the overall system. These equations assume that the size of a \gls{functor} that contains only atoms, such as the colour \glspl{functor} \(k\) which contain only a given number of the counting atom, is constant regardless of how many atoms it contains.  This is perhaps unrealistic in a real biological system, but is appropriate for electronic computer simulations, where fixed-bit-length representations are likely used to represent the various elements of the system.
 
 The size of each \bo{} can be described by \cref{eq:gcol:wb}
 \begin{equation}\label{eq:gcol:wb}
@@ -257,5 +250,68 @@ If all the coefficients are assumed to be equal to 1, then \cref{eq:gcol:wb} sim
 and \cref{eq:gcol:w} to
 
 \begin{equation}
-    S = |K| + |E| + \sum_{b \in B}s_b(b) + 1
+    S = |K| + |E| + 1 + \sum_{b \in B}s_b(b)
 \end{equation}
+\end{remark}
+
+\subsection{\label{sec:gcol:termination}Termination and Correctness}
+The behaviour of the system concerning termination and correctness is examined below.  The discussion in this \namecref{sec:gcol:termination} assumes that the number of steps taken is tracked in a variable \(i\).  No such subcell appears in \cref{ruleset:gcol:rules} because the rules do not need it.
+
+\begin{theorem}\label{theorem:gcol:grow}
+All \bo{} objects present in the \gls{tlc} hold a monotonically growing set \(M\) of \(m\) \glspl{functor}, which represent validly coloured partial spanning trees of the whole graph, and at step \(i \leq \min{(|K|, |V|)}\) in the evolution of the system, each partial spanning tree will have a length equal to \(i\).
+\end{theorem}
+
+\begin{proof}
+
+At step one, a single \bo{} object will have been created by operation of \cpruleref{rule:gcol:rules:init}.  Contained within this \bo{} object is a single \(m\) \gls{functor}, which pairs a node label with a colour label.  Thus, the size of \(M\), \(|M| = 1\), \(m \in M\).
+
+At step \(i > 1\), any pre-existing \bo{} objects are removed, but are replaced with new \bo{} objects which between them cover all possible valid coloured partial spanning trees rooted at the initial node so far, after adding one further \(m\) object to \(M\), so \(|M| \geq 2\).  Thus, at step two, the extant \bo{} objects will each contain two \(m\) \glspl{functor}, one describing the initial node, and the other describing another node of the graph that has been chosen at random from among those that have an edge in the graph connecting said node to the first node.  By operation of the same rule, the number of node labels contained inside the \(v\) \gls{functor}, itself inside each \bo{} object, will decrease by one, and thus the number of remaining unexplored nodes inside it will be equal to \(|V| - i\).
+
+At step 3, there will be three \(m\) objects inside each \bo{} object, where there are edges in the graph connecting the represented nodes.  Due to the maximally-parallel nature of \cpruleref{rule:gcol:rules:loop}, every possible partial spanning tree of size \(i\) rooted at the initial node will be represented in a \bo{} object at step \(i\).  Assuming that a colouring is possible, the system proceeds in the same fashion for each following step, until step \(i = |V| + 1\) when the \(M\) sets inside the \bo{} objects contain full spanning trees, and the \(v\) \glspl{functor} will be empty.
+
+At that point, \cpruleref{rule:gcol:rules:loop} can no longer be applied (because there will no longer be any \(n\) \glspl{functor} inside the \(v\) \glspl{functor}).  More importantly, \cpruleref{rule:gcol:rules:endsucc}, which enjoys priority under the weak priority ordering, becomes applicable and is thus selected as the rule to apply, ending evolution of the system with one of the \(M\) colouring sets output to the environment.
+
+If a colouring is not possible, then eventually every possible application of \cpruleref{rule:gcol:rules:loop} will be confounded by the \gls{inhibitor}, leading to \cpruleref{rule:gcol:rules:loopclean} removing all \bo{} objects without any more replacing them.  At this point (which can itself potentially occur at step \(i = |K| + 1\), such as in the case of a 4-node complete graph with 3 colours), \cpruleref{rule:gcol:rules:endfail} will terminate evolution of the system.
+\end{proof}
+
+\begin{lemma}\label{lemma:gcol:determin}
+In all cases, evolution of the system proceeds wholly deterministically between the first and final steps, exclusively.
+\end{lemma}
+
+\begin{proof}
+Due to the nature of Rules \cpruleref*{rule:gcol:rules:loop} and \cpruleref*{rule:gcol:rules:loopclean}, which are the only ones applied during the middle steps of the system's evolution, there is essentially no choice made at any point.  Rules \cpruleref*{rule:gcol:rules:loop} and \cpruleref*{rule:gcol:rules:loopclean} make a non-deterministic choice in an individual application of them, but the rules are applied in a maximally parallel fashion, meaning that all possible choices are selected simultaneously.  Thus, all valid choices are explored, while the \gls{inhibitor} ensures that no invalid choices are possible.
+
+
+\cpRuleref{rule:gcol:rules:endfail} is also deterministic.  It applies if and only if none of the earlier rules are applicable.  Further, there is only one possible result from applying \cpruleref{rule:gcol:rules:endfail} -- transitioning the system to state \(s_4\) -- so there is no choice involved in its application.  This means that, in all cases where there is no valid colouring possible, the final step of the system is also deterministic.
+
+\end{proof}
+
+\begin{theorem}\label{theorem:gcol:nondet}
+The system is only non-deterministic regarding the choice of the colour of the starting node and the final selection of which valid colouring to send out to the environment, assuming that the evolution of the system finishes in state \(s_3\).
+\end{theorem}
+
+\begin{proof}
+The system is deterministic for all rule applications except the first, and potentially the last, by \cref{lemma:gcol:determin}.  Application of \cpruleref{rule:gcol:rules:init} to start the system is partially non-deterministic, specifically regarding the choice of the initial colour.  Application of \cpruleref{rule:gcol:rules:endsucc} to end the evolution of the system is likewise non-deterministic only in the choice of the set of colourings to send out.
+
+\cpRuleref{rule:gcol:rules:init} uses the pre-selected starting node, encoded in the \(s\) \gls{functor}, to create the first \bo{} object with which to evolve the system.  While that \gls{functor} will be unique by the creation conditions described above,\footnote{Should it be desired, it would be possible to have the system make a random selection between possible starting nodes, simply by starting the system with more than one \(s\) \gls{functor}.  The correctness and termination of the system will be unaffected.} it has a free choice between the available colours.  As the rule is applied exactly once due to its application mode, only one colour is selected, but the specification of the colour \gls{promoter} for \cpruleref{rule:gcol:rules:init} simply states that one of the supplied \(k\) colour objects is used.
+
+While this selection is non-deterministic, it has no impact upon the termination of the evolution of the system because for the standard \gls{gcp} there is no functional difference between colours.  That is, they do not imbue special properties or behaviours to their marked nodes, they merely label them.  Thus, the colour selected does limit the potential colouring sets that are available at the end by fixing the colour of the starting node, but has no impact upon which rule is applied next.
+
+Finally, as with the selection of a colour in \cpruleref{rule:gcol:rules:init}, the selection of which extant \bo{} object whence to take the colouring set \(M\) and send it out to the environment by \cpruleref{rule:gcol:rules:endsucc} is non-deterministic, as \cpruleref{rule:gcol:rules:endsucc} has a free choice in which one it selects.  From its perspective, any \bo{} object with an empty \(v\) \gls{functor} is acceptable.
+\end{proof}
+
+\begin{lemma}\label{lemma:gcol:ending}
+The termination of the evolution of the system by application of \cpruleref{rule:gcol:rules:endsucc} or \cpruleref{rule:gcol:rules:endfail} is also deterministic.
+\end{lemma}
+
+\begin{proof}
+Both \cpruleref{rule:gcol:rules:endsucc} and \cpruleref{rule:gcol:rules:endfail} can only be applied in specific, mutually exclusive circumstances.  In particular, it is only possible to apply \cpruleref{rule:gcol:rules:endsucc} when there is at least one \bo{} object, which additionally must have an empty \(v\) \gls{functor}.  Conversely, \cpruleref{rule:gcol:rules:endfail} may only be applied where there are absolutely no extant \bo{} objects in the system.  The only way \bo{} objects can be removed is by operation of \cpruleref{rule:gcol:rules:loopclean}, which cannot be applied in the same step as either \cpruleref{rule:gcol:rules:endsucc} or \cpruleref{rule:gcol:rules:endfail}, as they have differing final states.  This means that \emph{only} one of \cpruleref{rule:gcol:rules:endsucc} or \cpruleref{rule:gcol:rules:endfail} may be applied during a step when either of them is applied, and both are considered to terminate the evolution of the system.  If there are any \bo{}s with an empty \(v\), then \cpruleref{rule:gcol:rules:endsucc} is applied.  If there are no \bo{}s whatsoever, then \cpruleref{rule:gcol:rules:endfail} is applied.  In all other cases after the first step, Rules \cpruleref*{rule:gcol:rules:loop} and \cpruleref*{rule:gcol:rules:loopclean} are applied.
+\end{proof}
+
+\begin{theorem}
+The evolution of every valid instance of this system (where the system is created in accordance with \cref{sec:gcol:notation}, and \(|V|, |E|, |K| > 0\)) will terminate, either sending a valid colouring out to the environment where a valid colouring is possible, or signalling by its state that no valid colouring is possible.
+\end{theorem}
+
+\begin{proof}
+By \cref{lemma:gcol:determin,theorem:gcol:nondet} the applications of the rules are deterministic in all ways, except the choice of the colour of the starting node, and the choice of the final selected colouring.  Thus, the progression of the system is always deterministic.  By \cref{lemma:gcol:ending}, the evolution of the system is \emph{always} terminated by \cpruleref{rule:gcol:rules:endsucc} when there exist any \bo{} objects with a full set of colourings, or by \cpruleref{rule:gcol:rules:endfail} \emph{only} when no colouring is possible.  A full set of colourings inside a \bo{} is ensured under \cref{theorem:gcol:grow}.
+\end{proof}

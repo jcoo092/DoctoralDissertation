@@ -60,11 +60,13 @@
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{conjecture}[theorem]{Conjecture}
-\crefname{conjecture}{conjecture}{conjectures}
+\crefname{conjecture}{Conjecture}{Conjectures}
 % \begin{anfxerror}
 % Need to remember to come back to this one and set it appropriately - I don't think it should be following the standard newtheorem style
 % \end{anfxerror}
+\theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,3 +78,9 @@
 \newcommand*{\fsharp}{F\nolinebreak\hspace{-.05em}\raisebox{.3ex}{\tiny{\textbf{\#}}}}
 
 \newcommand*{\bigoh}[1]{O(\ensuremath{#1})}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareSIUnit{\pixel}{pixel}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

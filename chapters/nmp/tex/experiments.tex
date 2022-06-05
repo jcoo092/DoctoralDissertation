@@ -1,11 +1,11 @@
 \section{\label{sec:nmp:experiments}Experimental Results}
 
-This \lcnamecref{sec:nmp:experiments} presents the results of a handful of small experiments with short prototype programs, performed to validate \cref{ruleset:nmp:proxspec} and investigate the properties of the \gls{pe}-specific approach to \gls{nmp}.  In particular, these experiments:
+This \namecref{sec:nmp:experiments} presents the results of a handful of small experiments with short prototype programs, performed to validate \cref{ruleset:nmp:proxspec} and investigate the properties of the \gls{pe}-specific approach to \gls{nmp}.  In particular, these experiments:
 \begin{inparaenum}[(i)]
 \item simulated the operation of the \gls{ruleset} without actually passing messages, to verify empirically that \cref{theorem:nmp:-4} holds for an arbitrary \gls{pe};
-\item implemented and benchmarked three variants of the asynchronous \gls{nmp} algorithm operating on a \gls{fne} grid, to assess whether the fully asynchronous version genuinely completes faster on average;
-\item investigated how convergent the variants are;
-\item compared the comparative timings of the variants for when the first, `average' and last \gls{pe} finish their processing.
+\item implemented and benchmarked three variants of the three \gls{nmp} variants operating on a \gls{fne} grid, to assess whether the fully asynchronous version genuinely completes faster on average;
+\item investigated the variants' convergence behaviour;
+\item compared the timings of the variants for when the first, `average' and last \gls{pe} finish their processing.
 \end{inparaenum}
 Source code for the described scripts or programs may be found at \url{https://github.com/jcoo092/NeighbourhoodMessagePassingExperiments}.
 
@@ -26,10 +26,10 @@ Multiple variables besides the variant were used over different runs to explore 
 \item as well as using different delay lengths for different directions.
 \end{inparablank}
 
-
 Running time results were gathered using the \texttt{Stopwatch} class from .NET, which provides access to underlying high-performance operating system time measurement facilities.  The program is instrumented to start the timer immediately before the initialisation of the \glspl{pe}, but \emph{after} reading and parsing the configuration file.  The timer is then stopped immediately after the last \gls{pe} finishes running, when control flow returns to the program's \texttt{main} function.  The total elapsed milliseconds are then printed to the command line.  Numerical results are presented in \crefrange{tab:nmp:simulation8cores}{tab:nmp:simulation48cores}.  The numbers presented in the tables are the mean (rounded to the nearest whole number) of five runs for each variant under each parameter set.
 
-In all instances, the results are from running the program with a maximum generation count of 20 and an oracle delay of approximately one-quarter of a millisecond per message.  The delays over channels were varied between equal delays of \qty{30}{\milli\second}, three channels with \qty{30}{\milli\second} and one with \qty{150}{\milli\second}, and two channels with \qty{30}{\milli\second} and two with \qty{150}{\milli\second}.  The test program was run on three different computers with three different CPUs, each with a different number of physical \& logical cores.  The CPUs were an Intel\textsuperscript{\textregistered} Core\textsuperscript{\texttrademark} i7-7700, with 4 physical/8 logical cores; an Intel\textsuperscript{\textregistered} Core\textsuperscript{\texttrademark} i7-8750H with 6 physical/12 logical cores; and an Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} Silver 4116 with 24 physical/48 logical cores.
+Early testing showed that there was no meaningful difference between variants
+regarding generation count, so in all instances the results are from running the program with a maximum generation count of \num{20} and an oracle delay of approximately one-quarter of a millisecond per message.  The delays over channels were varied between equal delays of \qty{30}{\milli\second}, three channels with \qty{30}{\milli\second} and one with \qty{150}{\milli\second}, and two channels with \qty{30}{\milli\second} and two with \qty{150}{\milli\second}.  The test program was run on three different computers with three different CPUs, each with a different number of physical \& logical cores.  The CPUs were an Intel\textsuperscript{\textregistered} Core\textsuperscript{\texttrademark} i7-7700, with 4 physical/8 logical cores; an Intel\textsuperscript{\textregistered} Core\textsuperscript{\texttrademark} i7-8750H with 6 physical/12 logical cores; and an Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} Silver 4116 with 24 physical/48 logical cores.
 
 \begin{table}
 \centering
@@ -38,10 +38,10 @@ In all instances, the results are from running the program with a maximum genera
 \toprule
 \multicolumn{1}{c|}{\# of}   & \multicolumn{3}{c|}{Equal delays} & \multicolumn{3}{c|}{One longer delay} & \multicolumn{3}{c}{Two longer delays} \\ \cmidrule(l){2-10} 
 \multicolumn{1}{c|}{Proxels} & Global    & Local     & Async     & Global      & Local      & Async      & Global      & Local      & Async      \\ \midrule
-361  & 1,553  & 1,212  & 1,212  & 4,029  & 3,226  & 3,104  & 4,026  & 3,514  & 3,516  \\
-9,801  & 21,012  & 20,442  & 18,865  & 25,976  & 23,281  & 21,311  & 24,282  & 21,410  & 19,679  \\
-89,401  & 192,730  & 192,329  & 174,984  & 225,454  & 219,261  & 200,889  & 222,104  & 216,537  & 200,637  \\
-249,001  & 542,285  & 546,213  & 493,311  & 625,959  & 595,861  & 527,898  & 614,079  & 564,406  & 558,970 \\ \bottomrule
+\num{361}  & \num{1 553}  & \num{1 212}  & \num{1 212}  & \num{4 029}  & \num{3 226}  & \num{3 104}  & \num{4 026}  & \num{3 514}  & \num{3 516}  \\
+\num{9 801}  & \num{21 012}  & \num{20 442}  & \num{18 865}  & \num{25 976}  & \num{23 281}  & \num{21 311}  & \num{24 282}  & \num{21 410}  & \num{19 679}  \\
+\num{89 401}  & \num{192 730}  & \num{192 329}  & \num{174 984}  & \num{225 454}  & \num{219 261}  & \num{200 889}  & \num{222 104}  & \num{216 537}  & \num{200 637}  \\
+\num{249 001}  & \num{542 285}  & \num{546 213}  & \num{493 311}  & \num{625 959}  & \num{595 861}  & \num{527 898}  & \num{614 079}  & \num{564 406}  & \num{558 970} \\ \bottomrule
 \end{tabular}%
 }
 \caption[Mean recorded running times for each \glsxtrlong{nmp} variant on an 8-core CPU]{Mean recorded running times in milliseconds for each \gls{nmp} variant in a simulation, with different sending delay lengths, on a computer with a CPU with 4/8 physical/logical cores}
@@ -55,10 +55,10 @@ In all instances, the results are from running the program with a maximum genera
 \toprule
 \multicolumn{1}{c|}{\# of}   & \multicolumn{3}{c|}{Equal delays} & \multicolumn{3}{c|}{One longer delay} & \multicolumn{3}{c}{Two longer delays} \\ \cmidrule(l){2-10} 
 \multicolumn{1}{c|}{Proxels} & Global    & Local     & Async     & Global      & Local      & Async      & Global      & Local      & Async      \\ \midrule
-361  & 1,457  & 1,186  & 1,148  & 3,875  & 3,229  & 3,096  & 3,918  & 3,471  & 3,493  \\
-9,801  & 15,865  & 15,116  & 14,290  & 18,392  & 15,295  & 14,564  & 18,389  & 15,267  & 14,612  \\
-89,401  & 145,547  & 141,024  & 133,509  & 149,368  & 141,811  & 134,382  & 148,439  & 141,619  & 134,289  \\
-249,001  & 408,463  & 392,901  & 371,576  & 413,106  & 391,907  & 370,683  & 413,224  & 394,115  & 372,556 \\ \bottomrule
+\num{361}  & \num{1 457}  & \num{1 186}  & \num{1 148}  & \num{3 875}  & \num{3 229}  & \num{3 096}  & \num{3 918}  & \num{3 471}  & \num{3 493}  \\
+\num{9 801}  & \num{15 865}  & \num{15 116}  & \num{14 290}  & \num{18 392}  & \num{15 295}  & \num{14 564}  & \num{18 389}  & \num{15 267}  & \num{14 612}  \\
+\num{89 401}  & \num{145 547}  & \num{141 024}  & \num{133 509}  & \num{149 368}  & \num{141 811}  & \num{134 382}  & \num{148 439}  & \num{141 619}  & \num{134 289}  \\
+\num{249 001}  & \num{408 463}  & \num{392 901}  & \num{371 576}  & \num{413 106}  & \num{391 907}  & \num{370 683}  & \num{413 224}  & \num{394 115}  & \num{372 556} \\ \bottomrule
 \end{tabular}%
 }
 \caption[Mean recorded running times for each \glsxtrlong{nmp} variant on a 12-core CPU]{Mean recorded running times in milliseconds for each \gls{nmp} variant in a simulation, with different sending delay lengths, on a computer with a CPU with 6/12 physical/logical cores}
@@ -72,30 +72,30 @@ In all instances, the results are from running the program with a maximum genera
 \toprule
 \multicolumn{1}{c|}{\# of}   & \multicolumn{3}{c|}{Equal delays} & \multicolumn{3}{c|}{One longer delay} & \multicolumn{3}{c}{Two longer delays} \\ \cmidrule(l){2-10} 
 \multicolumn{1}{c|}{Proxels} & Global    & Local     & Async     & Global      & Local      & Async      & Global      & Local      & Async      \\ \midrule
-361  & 1,370  & 1,248  & 1,122  & 3,710  & 3,204  & 3,091  & 3,741  & 3,436  & 3,419  \\
-9,801  & 9,986  & 9,060  & 7,571  & 12,012  & 9,549  & 8,007  & 11,932  & 9,392  & 7,911  \\
-89,401  & 102,718  & 92,817  & 76,583  & 106,166  & 96,293  & 78,341  & 106,984  & 94,060  & 78,025  \\
-249,001  & 296,516  & 255,703  & 215,504  & 299,926  & 265,365  & 215,721  & 298,732  & 263,814  & 216,048 \\ \bottomrule
+\num{361}  & \num{1 370}  & \num{1 248}  & \num{1 122}  & \num{3 710}  & \num{3 204}  & \num{3 091}  & \num{3 741}  & \num{3 436}  & \num{3 419}  \\
+\num{9 801}  & \num{9 986}  & \num{9 060}  & \num{7 571}  & \num{12 012}  & \num{9 549}  & \num{8 007}  & \num{11 932}  & \num{9 392}  & \num{7 911}  \\
+\num{89 401}  & \num{102 718}  & \num{92 817}  & \num{76 583}  & \num{106 166}  & \num{96 293}  & \num{78 341}  & \num{106 984}  & \num{94 060}  & \num{78 025}  \\
+\num{249 001}  & \num{296 516}  & \num{255 703}  & \num{215 504}  & \num{299 926}  & \num{265 365}  & \num{215 721}  & \num{298 732}  & \num{263 814}  & \num{216 048} \\ \bottomrule
 \end{tabular}%
 }
 \caption[Mean recorded running times for each \glsxtrlong{nmp} variant on a 48-core CPU]{Mean recorded running times in milliseconds for each \gls{nmp} variant in a simulation, with different sending delay lengths, on a computer with a CPU with 24/48 physical/logical cores}
 \label{tab:nmp:simulation48cores}
 \end{table}
 
-The data from \crefrange{tab:nmp:simulation8cores}{tab:nmp:simulation48cores} are visualised in \crefrange{fig:nmp:timings8cores}{fig:nmp:timings48cores}, with the variants on the x-axis and milliseconds on the y-axis.  Each figure has four bar charts for the four different grid sizes used.  Each chart compares the \gls{gs}, \gls{ls} and asynchronous variants, both against each other and between the different number of longer channel delays used.  In every figure, the chart layout for the grid sizes (in number of \glspl{pe}) is as follows:
+The data from \crefrange{tab:nmp:simulation8cores}{tab:nmp:simulation48cores} are visualised in \crefrange{fig:nmp:timings8cores}{fig:nmp:timings48cores}, with the variants on the x-axis and milliseconds on the y-axis.  Each figure has four bar charts for the four different grid sizes used, which were \numproduct{19 x 19}, \numproduct{99 x 99}, \numproduct{299 x 299} and \numproduct{499 x 499}, giving total \gls{pe} counts of \num{361}, \num{9 801}, \num{89 401} and \num{249 001} \glspl{pe}, respectively.  Each chart compares the \gls{gs}, \gls{ls} and asynchronous variants, both against each other and between the different numbers of longer channel delays used.  In every figure, the chart layout for the grid sizes (in number of \glspl{pe}) is as follows:
 \begin{inparablank}
-\item top-right, 361;
-\item top-left, 9,801;
-\item bottom-left, 89,401;
-\item bottom-right, 249,001.
+\item top-right, \num{361};
+\item top-left, \num{9 801};
+\item bottom-left, \num{89 401};
+\item bottom-right, \num{249 001}.
 \end{inparablank}
-In each chart, the bar clusters are, from left to right:
+In each chart, the bar clusters are the timings for, from left to right:
 \begin{inparaenum}[a)]
-\item the timings for the experiments when there were equal delays on all channels;
+\item the experiments when there were equal delays on all channels;
 \item the experiments when there was a longer delay on one channel;
 \item and the experiments where there were longer delays on two channels.
 \end{inparaenum}
-Within each bar cluster, in every instance, the bars represent the timings for (from left to right):  the \gls{gs}, \gls{ls} and asynchronous variants.
+Within each bar cluster, in every instance, the bars represent the timings for (from left to right):  the \gls{gs}, \gls{ls} and asynchronous variants.  The y-axes \emph{do not} follow the same scale, however.
 
 \begin{figure}
     \centering
@@ -133,7 +133,7 @@ Within each bar cluster, in every instance, the bars represent the timings for (
                 (Equal,1212) (One,3104) (Two,3516)   
             };
             
-            % 9,801
+            % \num{9 801}
             \nextgroupplot
             \addplot %global
             coordinates {
@@ -148,7 +148,7 @@ Within each bar cluster, in every instance, the bars represent the timings for (
                 (Equal,18865) (One,21311) (Two,19679)   
             };
             
-            % 89,401
+            % \num{89 401}
             \nextgroupplot
             \addplot %global
             coordinates {
@@ -163,7 +163,7 @@ Within each bar cluster, in every instance, the bars represent the timings for (
                 (Equal,174984) (One,200889) (Two,200637)   
             };
             
-            % 249,001
+            % \num{249 001}
             \nextgroupplot
             \addplot %global
             coordinates {
@@ -179,7 +179,7 @@ Within each bar cluster, in every instance, the bars represent the timings for (
             };
         \end{groupplot}
     \end{tikzpicture}
-    \caption[Bar chart visualising the timing differences for the variants on an 8-core CPU]{Bar chart visualising the timing differences for the variants running on a CPU with 8 cores, with different sized grids and differing channel delay lengths.  Each bar cluster goes from left to right with the \gls{gs}, \gls{ls} and asynchronous variants, respectively.  The numbers of \glspl{pe} are:  Top-left: 361;  Top-right:  9,801;  Bottom-left:  89,401;  Bottom-right:  249,001.  See also \cref{tab:nmp:simulation8cores}}
+    \caption[Bar chart visualising the timing differences for the variants on an 8-core CPU]{Bar chart visualising the timing differences for the variants running on a CPU with 8 cores, with different sized grids and differing channel delay lengths.  Each bar cluster goes from left to right with the \gls{gs}, \gls{ls} and asynchronous variants, respectively.  The numbers of \glspl{pe} are:  Top-left: 361;  Top-right:  \num{9 801};  Bottom-left:  \num{89 401};  Bottom-right:  \num{249 001}.  See also \cref{tab:nmp:simulation8cores}}
     \label{fig:nmp:timings8cores}
 \end{figure}
 
@@ -219,7 +219,7 @@ Within each bar cluster, in every instance, the bars represent the timings for (
                 (Equal,1148) (One,3096) (Two,3493)   
             };
             
-            % 9,801
+            % \num{9 801}
             \nextgroupplot
             \addplot %global
             coordinates {
@@ -234,7 +234,7 @@ Within each bar cluster, in every instance, the bars represent the timings for (
                 (Equal,14290) (One,14564) (Two,14612)   
             };
             
-            % 89,401
+            % \num{89 401}
             \nextgroupplot
             \addplot %global
             coordinates {
@@ -249,7 +249,7 @@ Within each bar cluster, in every instance, the bars represent the timings for (
                 (Equal,133509) (One,134382) (Two,134289)   
             };
             
-            % 249,001
+            % \num{249 001}
             \nextgroupplot
             \addplot %global
             coordinates {
@@ -265,7 +265,7 @@ Within each bar cluster, in every instance, the bars represent the timings for (
             };
         \end{groupplot}
     \end{tikzpicture}
-    \caption[Bar chart visualising the timing differences for the variants on a 12-core CPU]{Bar chart visualising the timing differences for the variants running on a CPU with 12 cores, with different sized grids and differing channel delay lengths.  Each bar cluster goes from left to right with the \gls{gs}, \gls{ls} and asynchronous variants, respectively.  The numbers of \glspl{pe} are:  Top-left: 361;  Top-right:  9,801;  Bottom-left:  89,401;  Bottom-right:  249,001.  See also \cref{tab:nmp:simulation12cores}}
+    \caption[Bar chart visualising the timing differences for the variants on a 12-core CPU]{Bar chart visualising the timing differences for the variants running on a CPU with 12 cores, with different sized grids and differing channel delay lengths.  Each bar cluster goes from left to right with the \gls{gs}, \gls{ls} and asynchronous variants, respectively.  The numbers of \glspl{pe} are:  Top-left: 361;  Top-right:  \num{9 801};  Bottom-left:  \num{89 401};  Bottom-right:  \num{249 001}.  See also \cref{tab:nmp:simulation12cores}}
     \label{fig:nmp:timings12cores}
 \end{figure}
 
@@ -305,7 +305,7 @@ Within each bar cluster, in every instance, the bars represent the timings for (
                 (Equal,1122) (One,3091) (Two,3419)   
             };
             
-            % 9,801
+            % \num{9 801}
             \nextgroupplot
             \addplot %global
             coordinates {
@@ -320,7 +320,7 @@ Within each bar cluster, in every instance, the bars represent the timings for (
                 (Equal,7571) (One,8007) (Two,7911)   
             };
             
-            % 89,401
+            % \num{89 401}
             \nextgroupplot
             \addplot %global
             coordinates {
@@ -335,7 +335,7 @@ Within each bar cluster, in every instance, the bars represent the timings for (
                 (Equal,76583) (One,78341) (Two,78025)   
             };
             
-            % 249,001
+            % \num{249 001}
             \nextgroupplot
             \addplot %global
             coordinates {
@@ -351,36 +351,36 @@ Within each bar cluster, in every instance, the bars represent the timings for (
             };
         \end{groupplot}
     \end{tikzpicture}
-    \caption[Bar chart visualising the timing differences for the variants on a 48-core CPU]{Bar chart visualising the timing differences for the variants running on a CPU with 48 cores, with different sized grids and differing channel delay lengths.  Each bar cluster goes from left to right with the \gls{gs}, \gls{ls} and asynchronous variants, respectively.  The numbers of \glspl{pe} are:  Top-left: 361;  Top-right:  9,801;  Bottom-left:  89,401;  Bottom-right:  249,001.  See also \cref{tab:nmp:simulation48cores}}
+    \caption[Bar chart visualising the timing differences for the variants on a 48-core CPU]{Bar chart visualising the timing differences for the variants running on a CPU with 48 cores, with different sized grids and differing channel delay lengths.  Each bar cluster goes from left to right with the \gls{gs}, \gls{ls} and asynchronous variants, respectively.  The numbers of \glspl{pe} are:  Top-left: 361;  Top-right:  \num{9 801};  Bottom-left:  \num{89 401};  Bottom-right:  \num{249 001}.  See also \cref{tab:nmp:simulation48cores}}
     \label{fig:nmp:timings48cores}
 \end{figure}
 
 There appear to be only two consistent trends in these data.  Firstly, in almost all cases, the asynchronous approach was the fastest --- although, in some instances, it was approximately the same as the \gls{ls} case.  Secondly, an increase in the number of cores available appears to favour the asynchronous case.  While in all cases the running time decreased with an increase in the core count, the percentage decrease in running time was always greater for the asynchronous case than the \gls{gs} case, when comparing program execution run time with the same parameters between the 4/8 and 24/48-core CPUs.  Possibly, this latter trend means that the asynchronous version is more scalable with respect to the count of CPU cores, but this has not been investigated thoroughly yet.
 
-Ultimately, however, it seems likely there will be some upper limit on the improvement in running time offered by the asynchronous version.  The dependence upon the receipt of messages for every other neighbour before the preparation of a new outgoing message for the final neighbour ensures that any given \gls{pe} can only get so far ahead of its neighbours before it must wait for them (\ala{} \cref{prop:nmp:3}).
+Ultimately, however, it seems likely there will be some upper limit on the improvement in running time offered by the asynchronous version.  The dependence upon the receipt of messages for every other neighbour before the preparation of a new outgoing message for the final neighbour ensures that any given \gls{pe} can only get so far ahead of its neighbours before it must wait for them (\ala{} \cref{conj:nmp:3}).
 
-The smallest performance difference on the same test between the \gls{gs} and asynchronous cases was on the 6/12-core CPU on a 299×299 \gls{pe} grid and with equal delays on all channels, where the \gls{gs} approach took only approximately 9\% longer than the asynchronous version.  The largest performance difference between the \gls{gs} and asynchronous versions was on the 24/48 cores CPU on a 99×99 \gls{pe} grid and with two longer delays on the channels, where the \gls{gs} approach took roughly 51\% longer.  The precise reason why these were the relative fastest and slowest test runs is unclear.  Across each CPU, the widest differences are seen when using a 99×99 \gls{pe} grid, or a total of 9,801 \glspl{pe}.  Perhaps this is closest to a `sweet spot' where the .NET runtime can best schedule blocked Tasks on each core without becoming overwhelmed by overheads related to their management.
+The smallest performance difference on the same test between the \gls{gs} and asynchronous cases was on the 6/12-core CPU on a \numproduct{299 x 299} \gls{pe} grid and with equal delays on all channels, where the \gls{gs} approach took only approximately \qty{9}{\percent} longer than the asynchronous version.  The largest performance difference between the \gls{gs} and asynchronous versions was on the 24/48-core CPU on a \numproduct{99 x 99} \gls{pe} grid and with two longer delays on the channels, where the \gls{gs} approach took roughly \qty{51}{\percent} longer.  The precise reason why these were the relative fastest and slowest test runs is unclear.  Across each CPU, the widest differences are seen when using a \numproduct{99 x 99} \gls{pe} grid, or a total of \num{9 801} \glspl{pe}.  Perhaps this is closest to a `sweet spot' where the .NET runtime can best schedule blocked Tasks on each core without becoming overwhelmed by overheads related to their management.
 
-Comparing the \gls{gs} and \gls{ls} cases, there is only one experiment where the mean running time for the \gls{ls} variant was higher than for the \gls{gs} case:  The 499×499 grid with equal delays between all channels, running on the 4/8-core CPU.  Even this is close, with only a 3.2\% running time increase.   On many of the other tests, the \gls{ls} version produces a \emph{decrease} in running time of roughly 5-13\%, yet still produces the same answer to the computation at hand (see \cref{sec:nmp:convergence}).  On this basis, it would appear that the \gls{ls} approach could be regarded as strictly superior to and should be favoured over the \gls{gs} variant.
+Comparing the \gls{gs} and \gls{ls} cases, there is only one experiment where the mean running time for the \gls{ls} variant was higher than for the \gls{gs} case:  The \numproduct{499 x 499} grid with equal delays between all channels, running on the 4/8-core CPU.  Even this is close, with only a \qty{3.2}{\percent} running time increase.   On many of the other tests, the \gls{ls} version produces a \emph{decrease} in running time of roughly \qtyrange{5}{13}{\percent}, yet still produces the same answer to the computation at hand (see \cref{sec:nmp:convergence}).  On this basis, it would appear that the \gls{ls} approach could be regarded as strictly superior to and should be favoured over the \gls{gs} variant.
 
 \subsection{\label{sec:nmp:convergence}Convergence}
-Both synchronous variants will produce the same final computed result because the ordering of messages varies only within a single generation, and thus the inputs used to compute new messages will be the same at each round.  Also, \cref{conj:nmp:1} hypothesised that the asynchronous system will tend to produce comparable, but \emph{non-identical}, results to the other two.  The test program used in \cref{sec:nmp:timingexp} was further instrumented to provide output at the end describing the state of each \gls{pe} in the grid to gather evidence regarding the hypothesis.
+Both synchronous variants will produce the same final computed result because the ordering of messages varies only within a single generation, and thus the inputs used to compute new messages will be the same at each round.  Also, \cref{conj:nmp:1} hypothesised that the asynchronous system will tend to produce comparable, but \emph{non-identical}, results to the other two.  The test program used in \cref{sec:nmp:timingexp} was further instrumented to provide output at the end describing the state of each \gls{pe} in the grid to gather evidence regarding this hypothesis.
 
-The grid was divided into quadrants, and each \gls{pe} assigned its own internal value.  \Glspl{pe} in the upper-left quadrant were initialised with a value of 0.0, those in the lower-left and upper-right received 0.5, and those in the lower-right received 1.0.  The value to send out in the next message to each neighbour was computed by averaging the values received from the other three neighbours plus the \gls{pe}'s own internal value.  At the end of each round, \glspl{pe} updated their internal values to the mean of the values most-recently-received from each neighbour (this bears some resemblance to the formula used for \cref{fig:nmp:mean}).
+The grid was divided into quadrants, and each \gls{pe} assigned an internal value.  \Glspl{pe} in the upper-left quadrant were initialised with a value of \num{0.0}, those in the lower-left and upper-right received \num{0.5}, and those in the lower-right received \num{1.0}.  The value for the next message to each neighbour was computed as the mean of the values received from the other three neighbours plus the \gls{pe}'s own internal value.  At the end of each round, \glspl{pe} updated their internal values to the mean of the values most-recently-received from each neighbour (this bears some resemblance to the formula used for \cref{fig:nmp:mean}).
 
-Once messaging finished, every \gls{pe} wrote its ending internal value to a file.  At this point, the values were rounded to two decimal places to account for the inherent numerical instability of typical (\eg{} those of IEEE standard 754 \cite{ieee754,Goldberg1991}) floating-point numbers.  These values were then extracted and compared between runs of variants on the same input configuration.
+Once messaging finished, every \gls{pe} wrote its ending internal value to a file.  At this point, the values were rounded to two decimal places to account for the inherent numerical instability of typical (\eg{} those of IEEE Standard 754 \cite{ieee754,Goldberg1991}) floating-point numbers.  These values were then extracted and compared between runs of variants on the same input configuration.
 
 \subsubsection{Hamming Distance}
-To provide a quick measure of the level of difference between variants, a Hamming distance was computed between \glspl{pe} in the same grid position.  Matched \glspl{pe} with the same value were assigned 0, and matched \glspl{pe} with different values were assigned 1.  The total distance between the two sequences was the total of the assigned values.  \Ie{} the total distance was computed as \[d = \sum_{i = 1}^{i \leq n} a_i \oplus b_i\text{,}
+To provide a quick measure of the level of difference between variants, a Hamming distance was computed between \glspl{pe} in the same grid position.  Matched \glspl{pe} with the same value were assigned \num{0}, and matched \glspl{pe} with different values were assigned 1.  The total distance between the two sequences was the total of the assigned values.  \Ie{} the total distance was computed as \[d = \sum_{i = 1}^{i \leq n} a_i \oplus b_i\text{,}
 \hspace{1.0cm}%
 a_i \oplus b_i = \begin{cases}
     0, & \text{if } a_i = b_i \\
     1, & \text{otherwise}
 \end{cases}
-\] where \(d\) is the Hamming distance, \(n\) is the total number of \glspl{pe} in the grid, \(a_i\) is the \(i^{\text{th}}\) entry in one of the sequences, and \(b_i\) is the \(i^{\text{th}}\) entry in the other sequence.  An average distance between variants was then calculated by dividing the sum by \(n\).  This average provides a rough measure of the level of difference in the final results between variants and is equal to the percentage of the grid's \glspl{pe} with different results between variants.
+\] where \(d\) is the Hamming distance, \(n\) is the total number of \glspl{pe} in the grid, \(a_i\) is the \(i^{\text{th}}\) entry in one of the sequences, and \(b_i\) is the \(i^{\text{th}}\) entry in the other sequence.  An average distance between variants was then calculated by dividing the sum by \(n\).  This average provides a rough measure of the level of difference in the final results between variants and is equivalent to the percentage of the grid's \glspl{pe} with different results between variants.
 
 \paragraph{\Gls{gs} vs \gls{ls}}
-To check that the \gls{gs} and \gls{ls} variants produce the same final result for every \gls{pe}, the results from the two variants were compared using the above formula.  In every instance, the total distance was 0, meaning there was no difference whatsoever.  This appears to confirm that the \gls{gs} and \gls{ls} variants always produce the same final result.
+To check that the \gls{gs} and \gls{ls} variants produce the same final result for every \gls{pe}, the results from the two variants were compared using the above formula.  In every instance, the total distance was \num{0}, meaning there was no difference whatsoever.  This appears to confirm that the \gls{gs} and \gls{ls} variants always produce the same final result.
 
 \paragraph{\Gls{ls} vs asynchronous}
 Knowing that the \gls{gs} and \gls{ls} variants produce the same result, the asynchronous variant was compared against only the \gls{ls} one.  In all cases, the runs with equal delays on all channels produced the smallest distances.  In most cases, the runs with a single unbalanced channel delay produced the largest differences, sometimes more than double that of the runs with two unbalanced channels.  \Crefrange{tab:nmp:hamming8cores}{tab:nmp:hamming48cores} list the total distance scores, and the scores expressed as a percentage of the total \gls{pe} count.
@@ -391,10 +391,10 @@ Knowing that the \gls{gs} and \gls{ls} variants produce the same result, the asy
 \toprule
 \multicolumn{1}{c|}{\# of}   & \multicolumn{2}{c|}{Equal delays} & \multicolumn{2}{c|}{One longer delay} & \multicolumn{2}{c}{Two longer delays} \\ \cmidrule(l){2-7} 
 \multicolumn{1}{c|}{Proxels} & Distance     & Percentage     & Distance      & Percentage      & Distance      & Percentage      \\ \midrule
-361  & 31  & 8.70\% & 233  & 64.49\% & 88  & 24.32\% \\
-9,801  & 76  & 0.77\% & 401  & 4.09\% & 220  & 2.24\% \\
-89,401  & 359  & 0.40\% & 638  & 0.71\% & 607  & 0.68\% \\
-249,001  & 898  & 1.00\% & 1,103  & 1.23\% & 1,454  & 1.63\% \\ \bottomrule
+\num{361}  & \num{31}  & \qty{8.70}{\percent} & \num{233}  & \qty{64.49}{\percent} & \num{88}  & \qty{24.32}{\percent} \\
+\num{9 801}  & \num{76}  & \qty{0.77}{\percent} & \num{401}  & \qty{4.09}{\percent} & \num{220}  & \qty{2.24}{\percent} \\
+\num{89 401}  & \num{359}  & \qty{0.40}{\percent} & \num{638}  & \qty{0.71}{\percent} & \num{607}  & \qty{0.68}{\percent} \\
+\num{249 001}  & \num{898}  & \qty{1.00}{\percent} & \num{1 103}  & \qty{1.23}{\percent} & \num{1 454}  & \qty{1.63}{\percent} \\ \bottomrule
 \end{tabular}%
 % }
 \caption[Mean Hamming distances for \glsxtrshort{pe} ending values between the \gls{ls} and asynchronous variants on an 8-core CPU]{Mean Hamming distances for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 4/8 physical/logical cores}
@@ -407,10 +407,10 @@ Knowing that the \gls{gs} and \gls{ls} variants produce the same result, the asy
 \toprule
 \multicolumn{1}{c|}{\# of}   & \multicolumn{2}{c|}{Equal delays} & \multicolumn{2}{c|}{One longer delay} & \multicolumn{2}{c}{Two longer delays} \\ \cmidrule(l){2-7} 
 \multicolumn{1}{c|}{Proxels} & Distance     & Percentage     & Distance      & Percentage      & Distance      & Percentage      \\ \midrule
-361  & 25  & 6.81\% & 238  & 65.82\% & 74  & 20.39\% \\
-9,801  & 83  & 0.85\% & 557  & 5.68\% & 330  & 3.37\% \\
-89,401  & 277  & 0.31\% & 335  & 0.37\% & 431  & 0.48\% \\
-249,001  & 586  & 0.66\% & 837  & 0.94\% & 1,276  & 1.43\% \\ \bottomrule
+\num{361}  & \num{25}  & \qty{6.81}{\percent} & \num{238}  & \qty{65.82}{\percent} & \num{74}  & \qty{20.39}{\percent} \\
+\num{9 801}  & \num{83}  & \qty{0.85}{\percent} & \num{557}  & \qty{5.68}{\percent} & \num{330}  & \qty{3.37}{\percent} \\
+\num{89 401}  & \num{277}  & \qty{0.31}{\percent} & \num{335}  & \qty{0.37}{\percent} & \num{431}  & \qty{0.48}{\percent} \\
+\num{249 001}  & \num{586}  & \qty{0.66}{\percent} & \num{837}  & \qty{0.94}{\percent} & \num{1 276}  & \qty{1.43}{\percent} \\ \bottomrule
 \end{tabular}%
 % }
 \caption[Mean Hamming distances for \glsxtrshort{pe} ending values between the \gls{ls} and asynchronous variants on a 12-core CPU]{Mean Hamming distances for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 6/12 physical/logical cores}
@@ -423,17 +423,17 @@ Knowing that the \gls{gs} and \gls{ls} variants produce the same result, the asy
 \toprule
 \multicolumn{1}{c|}{\# of}   & \multicolumn{2}{c|}{Equal delays} & \multicolumn{2}{c|}{One longer delay} & \multicolumn{2}{c}{Two longer delays} \\ \cmidrule(l){2-7} 
 \multicolumn{1}{c|}{Proxels} & Distance     & Percentage     & Distance      & Percentage      & Distance      & Percentage      \\ \midrule
-361  & 42  & 11.69\% & 248  & 68.75\% & 116  & 32.08\% \\
-9,801  & 177  & 1.80\% & 1,422  & 14.51\% & 581  & 5.93\% \\
-89,401  & 152  & 0.17\% & 243  & 0.27\% & 229  & 0.26\% \\
-249,001  & 221  & 0.25\% & 367  & 0.41\% & 332  & 0.37\% \\ \bottomrule
+\num{361}  & \num{42}  & \qty{11.69}{\percent} & \num{248}  & \qty{68.75}{\percent} & \num{116}  & \qty{32.08}{\percent} \\
+\num{9 801}  & \num{177}  & \qty{1.80}{\percent} & \num{1 422}  & \qty{14.51}{\percent} & \num{581}  & \qty{5.93}{\percent} \\
+\num{89 401}  & \num{152}  & \qty{0.17}{\percent} & \num{243}  & \qty{0.27}{\percent} & \num{229}  & \qty{0.26}{\percent} \\
+\num{249 001}  & \num{221}  & \qty{0.25}{\percent} & \num{367}  & \qty{0.41}{\percent} & \num{332}  & \qty{0.37}{\percent} \\ \bottomrule
 \end{tabular}%
 % }
 \caption[Mean Hamming distances for \glsxtrshort{pe} ending values between the \gls{ls} and asynchronous variants on a 48-core CPU]{Mean Hamming distances for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 24/48 physical/logical cores}
 \label{tab:nmp:hamming48cores}
 \end{table}
 
-Smaller grids produce smaller absolute distances but greater relative (percentage) distances.  Interestingly, the proportionally lowest scores in all cases were seen on the 299×299 grids.  On the smaller grids, the CPUs with more cores tended to have higher distances but smaller distances on the larger grids.  A convincing explanation for the latter two observations is yet to be found.
+Smaller grids produce smaller absolute distances but greater relative (percentage) distances.  Interestingly, the proportionally lowest scores in almost all cases were seen on the \numproduct{299 x 299} grids.  The CPUs with more cores tended to have larger distances on the smaller grids, but smaller distances on the larger grids.  A convincing explanation for the latter two observations is yet to be found.
 
 \subsubsection{Absolute Difference}
 The Hamming distance gives a clear indication of the proportion of the grid which computed a different result under the \gls{ls} and asynchronous variants, but might under- or over-estimate the significance of those differences.  Using the same output empirical data, the distance was recomputed as the sum of the absolute difference in final \gls{pe} values between variants, \ie{} \( d = \sum_{i = 1}^{i \leq n} |a_i - b_i| \), where \(n\), \(a_i\) and \(b_i\) are the same as above, and \(d\) is the new distance measure.
@@ -444,10 +444,10 @@ The Hamming distance gives a clear indication of the proportion of the grid whic
 \toprule
 \multicolumn{1}{c|}{\# of}   & \multicolumn{2}{c|}{Equal delays} & \multicolumn{2}{c|}{One longer delay} & \multicolumn{2}{c}{Two longer delays} \\ \cmidrule(l){2-7} 
 \multicolumn{1}{c|}{Proxels} & Distance     & Percentage     & Distance      & Percentage      & Distance      & Percentage      \\ \midrule
-361  & 0.314 & 0.150\% & 2.546 & 1.218\% & 0.878 & 0.420\% \\
-9,801  & 0.758 & 0.008\% & 4.008 & 0.041\% & 2.196 & 0.022\% \\
-89,401  & 3.586 & 0.004\% & 6.380 & 0.007\% & 6.072 & 0.007\% \\
-249,001  & 8.984 & 0.004\% & 11.032 & 0.004\% & 14.544 & 0.006\% \\ \bottomrule
+\num{361}  & \num{0.314} & \qty{0.150}{\percent} & \num{2.546} & \qty{1.218}{\percent} & \num{0.878} & \qty{0.420}{\percent} \\
+\num{9 801}  & \num{0.758} & \qty{0.008}{\percent} & \num{4.008} & \qty{0.041}{\percent} & \num{2.196} & \qty{0.022}{\percent} \\
+\num{89 401}  & \num{3.586} & \qty{0.004}{\percent} & \num{6.380} & \qty{0.007}{\percent} & \num{6.072} & \qty{0.007}{\percent} \\
+\num{249 001}  & \num{8.984} & \qty{0.004}{\percent} & \num{11.032} & \qty{0.004}{\percent} & \num{14.544} & \qty{0.006}{\percent} \\ \bottomrule
 \end{tabular}%
 % }
 \caption[Mean sums of absolute differences for \glsxtrshort{pe} ending values between the \gls{ls} and asynchronous variants on an 8-core CPU]{Mean sums of absolute differences for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 4/8 physical/logical cores}
@@ -460,10 +460,10 @@ The Hamming distance gives a clear indication of the proportion of the grid whic
 \toprule
 \multicolumn{1}{c|}{\# of}   & \multicolumn{2}{c|}{Equal delays} & \multicolumn{2}{c|}{One longer delay} & \multicolumn{2}{c}{Two longer delays} \\ \cmidrule(l){2-7} 
 \multicolumn{1}{c|}{Proxels} & Distance     & Percentage     & Distance      & Percentage      & Distance      & Percentage      \\ \midrule
-361  & 0.246 & 0.118\% & 2.712 & 1.297\% & 0.736 & 0.352\% \\
-9,801  & 0.832 & 0.017\% & 5.570 & 0.110\% & 3.304 & 0.065\% \\
-89,401  & 2.770 & 0.006\% & 3.348 & 0.007\% & 4.306 & 0.010\% \\
-249,001  & 5.860 & 0.005\% & 8.366 & 0.007\% & 12.762 & 0.010\% \\ \bottomrule
+\num{361}  & \num{0.246} & \qty{0.118}{\percent} & \num{2.712} & \qty{1.297}{\percent} & \num{0.736} & \qty{0.352}{\percent} \\
+\num{9 801}  & \num{0.832} & \qty{0.017}{\percent} & \num{5.570} & \qty{0.110}{\percent} & \num{3.304} & \qty{0.065}{\percent} \\
+\num{89 401}  & \num{2.770} & \qty{0.006}{\percent} & \num{3.348} & \qty{0.007}{\percent} & \num{4.306} & \qty{0.010}{\percent} \\
+\num{249 001}  & \num{5.860} & \qty{0.005}{\percent} & \num{8.366} & \qty{0.007}{\percent} & \num{12.762} & \qty{0.010}{\percent} \\ \bottomrule
 \end{tabular}%
 % }
 \caption[Mean sums of absolute differences for \glsxtrshort{pe} ending values between the \gls{ls} and asynchronous variants on a 12-core CPU]{Mean sums of absolute differences for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 6/12 physical/logical cores}
@@ -476,28 +476,28 @@ The Hamming distance gives a clear indication of the proportion of the grid whic
 \toprule
 \multicolumn{1}{c|}{\# of}   & \multicolumn{2}{c|}{Equal delays} & \multicolumn{2}{c|}{One longer delay} & \multicolumn{2}{c}{Two longer delays} \\ \cmidrule(l){2-7} 
 \multicolumn{1}{c|}{Proxels} & Distance     & Percentage     & Distance      & Percentage      & Distance      & Percentage      \\ \midrule
-361  & 0.422 & 0.202\% & 2.948 & 1.410\% & 1.158 & 0.554\% \\
-9,801  & 1.766 & 0.035\% & 14.486 & 0.287\% & 5.810 & 0.115\% \\
-89,401  & 1.524 & 0.003\% & 2.432 & 0.005\% & 2.292 & 0.005\% \\
-249,001  & 2.212 & 0.002\% & 3.670 & 0.003\% & 3.324 & 0.003\% \\ \bottomrule
+\num{361}  & \num{0.422} & \qty{0.202}{\percent} & \num{2.948} & \qty{1.410}{\percent} & \num{1.158} & \qty{0.554}{\percent} \\
+\num{9 801}  & \num{1.766} & \qty{0.035}{\percent} & \num{14.486} & \qty{0.287}{\percent} & \num{5.810} & \qty{0.115}{\percent} \\
+\num{89 401}  & \num{1.524} & \qty{0.003}{\percent} & \num{2.432} & \qty{0.005}{\percent} & \num{2.292} & \qty{0.005}{\percent} \\
+\num{249 001}  & \num{2.212} & \qty{0.002}{\percent} & \num{3.670} & \qty{0.003}{\percent} & \num{3.324} & \qty{0.003}{\percent} \\ \bottomrule
 \end{tabular}%
 % }
 \caption[Mean sums of absolute differences for \glsxtrshort{pe} ending values between the \gls{ls} and asynchronous variants on a 48-core CPU]{Mean sums of absolute differences for \gls{pe} ending values between the \gls{ls} and asynchronous variants in a simulation, with different sending delay lengths, on a computer with a CPU with 24/48 physical/logical cores}
 \label{tab:nmp:diffs48cores}
 \end{table}
 
-\Crefrange{tab:nmp:diffs8cores}{tab:nmp:diffs48cores} show the results of computing the absolute differences, both as their sums, and those sums as a percentage of the grid-wide sum of final \gls{pe} values from the \gls{gs}/\gls{ls} processing.  The latter metric conveys the overall magnitude of difference in results.  The results demonstrate that the difference is less than 2\% in all cases, and usually less than one-hundredth of 1\% on larger grids --- supporting \cref{conj:nmp:1}.  This also appears to provide some evidence for \cref{conj:nmp:2}.  It seems unlikely that a difference of under 1\% will have much impact on the `quality' of the final results.
+\Crefrange{tab:nmp:diffs8cores}{tab:nmp:diffs48cores} show the results of computing the absolute differences, both as their sums, and those sums as a percentage of the grid-wide sum of final \gls{pe} values from the \gls{gs}/\gls{ls} processing.  The latter metric conveys the overall magnitude of difference in results.  The results demonstrate that the difference is less than \qty{2}{\percent} in all cases, and usually less than one-hundredth of \qty{1}{\percent} on larger grids --- supporting \cref{conj:nmp:1}.  This also appears to provide some evidence \emph{against} \cref{conj:nmp:2}.  It seems unlikely that a difference of under \qty{1}{\percent} will have much impact on the `quality' of the final results.
 
 \subsection{Progressive Completion of Proxels}
-Conceivably, in some problem domains, valuable information can be gleaned from a partially completed \gls{nmp} process.  With the \gls{ls} and asynchronous variants, given that each \gls{pe} runs independently, they will not necessarily all finish simultaneously.
+Conceivably, in some problem domains, valuable information can be gleaned from a partially completed \gls{nmp} process.  Given that each \gls{pe} runs independently, they will not necessarily all finish simultaneously --- particularly with the \gls{ls} and asynchronous variants.
 
-The \gls{ls} and asynchronous variants provide each \gls{pe} with a greater ability to act as and when appropriate to them, and as shown in \cref{sec:nmp:timingexp} also tend to complete the entire process more quickly.  These factors combined suggest that some \glspl{pe} will complete their respective duties long before the grid as a whole has reached the end.  If so, then problems in the aforementioned domains perhaps do not need to wait until the entire grid has finished before using the computed information or prompting some action.
+The \gls{ls} and asynchronous variants provide each \gls{pe} with a greater ability to act individually as and when appropriate to them, and as shown in \cref{sec:nmp:timingexp} also tend to complete the entire process more quickly.  These factors suggest that some \glspl{pe} might complete their respective duties long before the grid as a whole has reached the end.  If so, then problems in the aforementioned domains perhaps do not need to wait until the entire grid has finished before using the computed information or prompting some action.
 
-To investigate the likelihood of a sizeable proportion of the \glspl{pe} finishing much earlier, the \gls{nmp} program used in \cref{sec:nmp:timingexp,sec:nmp:convergence} was modified so that every \gls{pe} stores the current time elapsed since the start of measurement when it finishes processing.  These times are then written out at the end of all processing along with the other measurements collected.  The measurements were processed to identify the minimum, mean, and maximum completion times for \glspl{pe} on the grid.  \ie{}
+To investigate the likelihood of a sizeable proportion of the \glspl{pe} finishing early, the \gls{nmp} program used in \cref{sec:nmp:timingexp,sec:nmp:convergence} was modified so that every \gls{pe} stores the current time elapsed since the start of measurement when it finishes processing.  These times are then written out at the end of all processing along with the other measurements collected.  The measurements were processed to identify the minimum, mean, and maximum completion times for \glspl{pe} on the grid, \ie{}
 \begin{inparablank}
 \item the number of elapsed milliseconds since the start of the \gls{nmp} process until the first \gls{pe} recorded its completion time;
 \item the arithmetic mean of the completion times across the entire grid;
-\item and, the elapsed milliseconds until the last \gls{pe} to finish recorded its completion time.
+\item and, the elapsed milliseconds until the last \gls{pe}'s completion time.
 \end{inparablank}
 
 \begin{table}
@@ -511,15 +511,15 @@ To investigate the likelihood of a sizeable proportion of the \glspl{pe} finishi
   Max &
   \begin{tabular}[c]{@{}r@{}}Diff min \\ max \%\end{tabular} &
   \begin{tabular}[c]{@{}r@{}}Diff mean \\ max \%\end{tabular} \\ \midrule
-110   & Global & 1,267   & 1,274   & 1,284   & 1.324  & 0.779  \\
-110   & Local  & 320     & 800     & 1,271   & 74.823 & 37.057 \\
-110   & Async  & 365     & 720     & 1,080   & 66.204 & 33.333 \\
-2,550  & Global & 27,247  & 27,528  & 27,861  & 2.204  & 1.195  \\
-2,550  & Local  & 21,710  & 22,939  & 24,051  & 9.733  & 4.624  \\
-2,550  & Async  & 21,962  & 22,743  & 23,518  & 6.616  & 3.295  \\
-10,100 & Global & 103,565 & 104,825 & 106,199 & 2.480  & 1.294  \\
-10,100 & Local  & 98,746  & 101,900 & 103,782 & 4.852  & 1.813  \\
-10,100 & Async  & 98,347  & 100,522 & 100,670 & 2.308  & 0.147  \\ \bottomrule
+\num{110}   & Global & \num{1 267}   & \num{1 274}   & \num{1 284}   & \qty{1.324}{\percent}  & \qty{0.779}{\percent}  \\
+\num{110}   & Local  & \num{320}     & \num{800}     & \num{1 271}   & \qty{74.823}{\percent} & \qty{37.057}{\percent} \\
+\num{110}   & Async  & \num{365}     & \num{720}     & \num{1 080}   & \qty{66.204}{\percent} & \qty{33.333}{\percent} \\
+\num{2 550}  & Global & \num{27 247}  & \num{27 528}  & \num{27 861}  & \qty{2.204}{\percent}  & \qty{1.195}{\percent}  \\
+\num{2 550}  & Local  & \num{21 710}  & \num{22 939}  & \num{24 051}  & \qty{9.733}{\percent}  & \qty{4.624}{\percent}  \\
+\num{2 550}  & Async  & \num{21 962}  & \num{22 743}  & \num{23 518}  & \qty{6.616}{\percent}  & \qty{3.295}{\percent}  \\
+\num{10 100} & Global & \num{103 565} & \num{104 825} & \num{106 199} & \qty{2.480}{\percent}  & \qty{1.294}{\percent}  \\
+\num{10 100} & Local  & \num{98 746}  & \num{101 900} & \num{103 782} & \qty{4.852}{\percent}  & \qty{1.813}{\percent}  \\
+\num{10 100} & Async  & \num{98 347}  & \num{100 522} & \num{100 670} & \qty{2.308}{\percent}  & \qty{0.147}{\percent}  \\ \bottomrule
 \end{tabular}
 \caption[Minimum, average, and maximum processing times on an 8-core CPU]{Minimum, average, and maximum processing times in milliseconds for \glspl{pe} for varying grid sizes, and the difference between the minimum \& maximum times plus the mean \& maximum times expressed as a percentage of the maximum time, running on an 8-core CPU.  See also \cref{fig:nmp:progressivecharts8cores}}
 \label{tab:nmp:progressive8cores}
@@ -536,15 +536,15 @@ To investigate the likelihood of a sizeable proportion of the \glspl{pe} finishi
   Max &
   \begin{tabular}[c]{@{}r@{}}Diff min \\ max \%\end{tabular} &
   \begin{tabular}[c]{@{}r@{}}Diff mean \\ max \%\end{tabular} \\ \midrule
-110   & Global & 1,290  & 1,296  & 1,304  & 1.074  & 0.613  \\
-110   & Local  & 471    & 848    & 1,267  & 62.826 & 33.070 \\
-110   & Async  & 352    & 725    & 1,094  & 67.824 & 33.729 \\
-2,550  & Global & 22,604 & 22,797 & 22,990 & 1.679  & 0.839  \\
-2,550  & Local  & 16,159 & 17,277 & 18,469 & 12.507 & 6.454  \\
-2,550  & Async  & 16,502 & 17,235 & 18,260 & 9.628  & 5.613  \\
-10,100 & Global & 76,548 & 77,319 & 78,105 & 1.993  & 1.006  \\
-10,100 & Local  & 71,256 & 73,009 & 74,145 & 3.896  & 1.532  \\
-10,100 & Async  & 71,148 & 72,484 & 72,701 & 2.136  & 0.298  \\ \bottomrule
+\num{110}   & Global & \num{1 290}  & \num{1 296}  & \num{1 304}  & \qty{1.074}{\percent}  & \qty{0.613}{\percent}  \\
+\num{110}   & Local  & \num{471}    & \num{848}    & \num{1 267}  & \qty{62.826}{\percent} & \qty{33.070}{\percent} \\
+\num{110}   & Async  & \num{352}    & \num{725}    & \num{1 094}  & \qty{67.824}{\percent} & \qty{33.729}{\percent} \\
+\num{2 550}  & Global & \num{22 604} & \num{22 797} & \num{22 990} & \qty{1.679}{\percent}  & \qty{0.839}{\percent}  \\
+\num{2 550}  & Local  & \num{16 159} & \num{17 277} & \num{18 469} & \qty{12.507}{\percent} & \qty{6.454}{\percent}  \\
+\num{2 550}  & Async  & \num{16 502} & \num{17 235} & \num{18 260} & \qty{9.628}{\percent}  & \qty{5.613}{\percent}  \\
+\num{10 100} & Global & \num{76 548} & \num{77 319} & \num{78 105} & \qty{1.993}{\percent}  & \qty{1.006}{\percent}  \\
+\num{10 100} & Local  & \num{71 256} & \num{73 009} & \num{74 145} & \qty{3.896}{\percent}  & \qty{1.532}{\percent}  \\
+\num{10 100} & Async  & \num{71 148} & \num{72 484} & \num{72 701} & \qty{2.136}{\percent}  & \qty{0.298}{\percent}  \\ \bottomrule
 \end{tabular}
 \caption[Minimum, average, and maximum processing times on a 12-core CPU]{Minimum, average, and maximum processing times in milliseconds for \glspl{pe} for varying grid sizes, and the difference between the minimum \& maximum times plus the mean \& maximum times expressed as a percentage of the maximum time, running on a 12-core CPU.  See also \cref{fig:nmp:progressivecharts12cores}}
 \label{tab:nmp:progressive12cores}
@@ -561,25 +561,25 @@ To investigate the likelihood of a sizeable proportion of the \glspl{pe} finishi
   Max &
   \begin{tabular}[c]{@{}r@{}}Diff min \\ max \%\end{tabular} &
   \begin{tabular}[c]{@{}r@{}}Diff mean \\ max \%\end{tabular} \\ \midrule
-110   & Global & 1,474  & 1,477  & 1,482  & 0.540  & 0.337  \\
-110   & Local  & 451    & 915    & 1,364  & 66.935 & 32.918 \\
-110   & Async  & 399    & 792    & 1,124  & 64.502 & 29.537 \\
-2,550  & Global & 12,109 & 12,171 & 12,235 & 1.030  & 0.523  \\
-2,550  & Local  & 6,056  & 7,103  & 8,838  & 31.478 & 19.631 \\
-2,550  & Async  & 6,106  & 6,972  & 8,592  & 28.934 & 18.855 \\
-10,100 & Global & 36,665 & 37,425 & 38,609 & 5.035  & 3.067  \\
-10,100 & Local  & 29,791 & 31,363 & 33,348 & 10.666 & 5.952  \\
-10,100 & Async  & 30,299 & 31,018 & 31,534 & 3.916  & 1.636  \\ \bottomrule
+\num{110}   & Global & \num{1 474}  & \num{1 477}  & \num{1 482}  & \qty{0.540}{\percent}  & \qty{0.337}{\percent}  \\
+\num{110}   & Local  & \num{451}    & \num{915}    & \num{1 364}  & \qty{66.935}{\percent} & \qty{32.918}{\percent} \\
+\num{110}   & Async  & \num{399}    & \num{792}    & \num{1 124}  & \qty{64.502}{\percent} & \qty{29.537}{\percent} \\
+\num{2 550}  & Global & \num{12 109} & \num{12 171} & \num{12 235} & \qty{1.030}{\percent}  & \qty{0.523}{\percent}  \\
+\num{2 550}  & Local  & \num{6 056}  & \num{7 103}  & \num{8 838}  & \qty{31.478}{\percent} & \qty{19.631}{\percent} \\
+\num{2 550}  & Async  & \num{6 106}  & \num{6 972}  & \num{8 592}  & \qty{28.934}{\percent} & \qty{18.855}{\percent} \\
+\num{10 100} & Global & \num{36 665} & \num{37 425} & \num{38 609} & \qty{5.035}{\percent}  & \qty{3.067}{\percent}  \\
+\num{10 100} & Local  & \num{29 791} & \num{31 363} & \num{33 348} & \qty{10.666}{\percent} & \qty{5.952}{\percent}  \\
+\num{10 100} & Async  & \num{30 299} & \num{31 018} & \num{31 534} & \qty{3.916}{\percent}  & \qty{1.636}{\percent}  \\ \bottomrule
 \end{tabular}
 \caption[Minimum, average, and maximum processing times on a 48-core CPU]{Minimum, average, and maximum processing times in milliseconds for \glspl{pe} for varying grid sizes, and the difference between the minimum \& maximum times plus the mean \& maximum times expressed as a percentage of the maximum time, running on a 48-core CPU.  See also \cref{fig:nmp:progressivecharts48cores}}
 \label{tab:nmp:progressive48cores}
 \end{table}
 
-\Crefrange{tab:nmp:progressive8cores}{tab:nmp:progressive48cores} detail the recorded results from the progressive completion measurements across grids of assorted sizes.  Here, grids of \numproduct{11x10}, \numproduct{51x50} and \numproduct{101 x 100} \glspl{pe} were used.  As above, all measurements are presented in milliseconds.  The left-most column in each table is the number of \glspl{pe} in the grid from which the timings were recorded.  The second left-most column lists which variant of the \gls{nmp} system was used for that entry.  The middle three columns record the total processing times for the fastest, average, and slowest \glspl{pe}, respectively.  The right-most two columns express the difference between the times for the fastest and slowest, or the average and slowest, \glspl{pe} respectively.  In these latter two, the differences are expressed as a percentage of the slowest \gls{pe}'s running time.
+\Crefrange{tab:nmp:progressive8cores}{tab:nmp:progressive48cores} detail the recorded results from the progressive completion measurements across grids of assorted sizes.  Here, grids of \numproduct{11 x 10}, \numproduct{51 x 50} and \numproduct{101 x 100} \glspl{pe} were used.  As above, all measurements are presented in milliseconds.  The left-most column in each table is the number of \glspl{pe} in the grid from which the timings were recorded.  The second left-most column lists which variant of the \gls{nmp} system was used for that entry.  The middle three columns record the total processing times for the fastest, average, and slowest \glspl{pe}, respectively.  The right-most two columns express the difference between the times for the fastest and slowest, or the average and slowest, \glspl{pe}, respectively.  In these latter two, the differences are expressed as a percentage of the slowest \gls{pe}'s running time.
 
-As a proportion of the maximum running time, the largest difference between the minimum and maximum running times is seen on the 110 \gls{pe} grid with the 8-core CPU using the \gls{ls} approach, where there is still roughly 75\% of the total time to go when the fastest \gls{pe} finishes.  The largest gap from mean to maximum running times is also observed in the same experiment.  The proportionally smallest difference between minimum and maximum is seen on the 110 \gls{pe} grid with the 48-core CPU using the \gls{gs} approach, where there is just a 0.5\% time difference.  The smallest difference from the mean to the maximum is found on the 10,100 \gls{pe} grid with the 8-core CPU using the asynchronous approach, where there is a 0.14\% difference.  It appears that on smaller grids, the difference in completion time from the fastest to the slowest \glspl{pe} can be significant, but on larger grids it is usually a relatively small quantity compared to the total running time.
+As a proportion of the maximum running time, the largest difference between the minimum and maximum running times is seen on the \num{110} \gls{pe} grid with the 8-core CPU using the \gls{ls} approach, where there is still roughly \qty{7.5}{\percent} of the total time to go when the fastest \gls{pe} finishes.  The largest gap from mean to maximum running times is also observed in the same experiment.  The proportionally smallest difference between minimum and maximum is seen on the \num{110} \gls{pe} grid with the 48-core CPU using the \gls{gs} approach, where there is just a \qty{0.5}{\percent} time difference.  The smallest difference from the mean to the maximum is found on the \num{10 100} \gls{pe} grid with the 8-core CPU using the asynchronous approach, where there is a \qty{0.14}{\percent} difference.  It appears that on smaller grids, the difference in completion time from the fastest to the slowest \glspl{pe} can be significant, but on larger grids it is usually a relatively small quantity compared to the total running time.
 
-In absolute terms, the largest difference between the minimum and maximum running times is observed on the 10,100 \gls{pe} grid with the 8-core CPU, using the \gls{ls} approach, with a gap of \qty{5.036}{\second}.  At \qty{1.985}{\second}, the largest gap from mean to maximum is also seen using the \gls{ls} variant on the 10,100 \gls{pe} grid, but running on the 48-core CPU.  The smallest minimum to maximum gap is \qty{8}{\milli\second}, observed on the 110 \gls{pe} grid with the 48-core CPU and using the \gls{gs} variant.  The shortest mean to maximum gap is seen in the same experiment, at \qty{5}{\milli\second}.
+In absolute terms, the largest difference between the minimum and maximum running times is observed on the \num{10 100} \gls{pe} grid with the 8-core CPU, using the \gls{ls} approach, with a gap of \qty{5.036}{\second}.  At \qty{1.985}{\second}, the largest gap from mean to maximum is also seen using the \gls{ls} variant on the \num{10 100} \gls{pe} grid, but running on the 48-core CPU.  The smallest minimum to maximum gap is \qty{8}{\milli\second}, observed on the \num{110} \gls{pe} grid with the 48-core CPU and using the \gls{gs} variant.  The shortest mean to maximum gap is seen in the same experiment, at \qty{5}{\milli\second}.
 
 \begin{figure}
     \centering
@@ -623,7 +623,7 @@ In absolute terms, the largest difference between the minimum and maximum runnin
     	
     \end{groupplot}
     \end{tikzpicture}
-    \caption[Charts comparing the minimum, mean, and maximum termination times for \glsxtrshort{pe}s on an 8-core CPU]{Charts comparing the minimum, mean, and maximum termination times for \glspl{pe} executing on a CPU with 8 cores, for grids with (from left) 110, 2,550 and 10,100 \glspl{pe}, respectively.  See also \cref{tab:nmp:progressive8cores}}
+    \caption[Charts comparing the minimum, mean, and maximum termination times for \glsxtrshort{pe}s on an 8-core CPU]{Charts comparing the minimum, mean, and maximum termination times for \glspl{pe} executing on a CPU with 8 cores, for grids with (from left) \num{110}, \num{2 550} and \num{10 100} \glspl{pe}, respectively.  See also \cref{tab:nmp:progressive8cores}}
     \label{fig:nmp:progressivecharts8cores}
 \end{figure}
 
@@ -669,7 +669,7 @@ In absolute terms, the largest difference between the minimum and maximum runnin
 	
     \end{groupplot}
     \end{tikzpicture}
-    \caption[Charts comparing the minimum, mean, and maximum termination times for \glsxtrshort{pe}s on a 12-core CPU]{Charts comparing the minimum, mean, and maximum termination times for \glspl{pe} executing on a CPU with 12 cores, for grids with (from left) 110, 2,550 and 10,100 \glspl{pe}, respectively.  See also \cref{tab:nmp:progressive12cores}}
+    \caption[Charts comparing the minimum, mean, and maximum termination times for \glsxtrshort{pe}s on a 12-core CPU]{Charts comparing the minimum, mean, and maximum termination times for \glspl{pe} executing on a CPU with 12 cores, for grids with (from left) \num{110}, \num{2 550} and \num{10 100} \glspl{pe}, respectively.  See also \cref{tab:nmp:progressive12cores}}
     \label{fig:nmp:progressivecharts12cores}
 \end{figure}
 
@@ -716,19 +716,21 @@ In absolute terms, the largest difference between the minimum and maximum runnin
 	
     \end{groupplot}
     \end{tikzpicture}
-    \caption[Charts comparing the minimum, mean, and maximum termination times for \glsxtrshort{pe}s on a 48-core CPU]{Charts comparing the minimum, mean, and maximum termination times for \glspl{pe} executing on a CPU with 48 cores, for grids with (from left) 110, 2,550 and 10,100 \glspl{pe}, respectively.  See also \cref{tab:nmp:progressive48cores}}
+    \caption[Charts comparing the minimum, mean, and maximum termination times for \glsxtrshort{pe}s on a 48-core CPU]{Charts comparing the minimum, mean, and maximum termination times for \glspl{pe} executing on a CPU with 48 cores, for grids with (from left) \num{110}, \num{2 550} and \num{10 100} \glspl{pe}, respectively.  See also \cref{tab:nmp:progressive48cores}}
     \label{fig:nmp:progressivecharts48cores}
 \end{figure}
 
-Visual comparisons of the information listed in \crefrange{tab:nmp:progressive8cores}{tab:nmp:progressive48cores} are shown in \crefrange{fig:nmp:progressivecharts8cores}{fig:nmp:progressivecharts48cores}.  Each figure shows three line charts, which compare the timings (from left) for the grids with 110, 2,550, and 10,100 \glspl{pe}, respectively.  The charts highlight that the size of the gap between the minimum and maximum times for the \gls{gs} approach tend to be much smaller, as clear from the relatively flat slopes of the lines.  For the asynchronous case, while the minimum is usually notably lower than the maximum, the mean often appears to be only slightly earlier than the maximum, which suggests that the latter half of the \glspl{pe} come to a stop quickly.  In the case of the \gls{ls} approach, however, there can be a noticeable difference between all three measurements.
+% Visual comparisons of the information listed in \crefrange{tab:nmp:progressive8cores}{tab:nmp:progressive48cores} are shown in \crefrange{fig:nmp:progressivecharts8cores}{fig:nmp:progressivecharts48cores}.  Each figure shows three line charts, which compare the timings (from left) for the grids with \num{110}, \num{2 550}, and \num{10 100} \glspl{pe}, respectively.  The charts highlight that the size of the gap between the minimum and maximum times for the \gls{gs} approach tend to be much smaller, as clear from the relatively flat slopes of the lines.  For the asynchronous case, while the minimum is usually notably lower than the maximum, the mean often appears to be only slightly earlier than the maximum, which suggests that the latter half of the \glspl{pe} come to a stop quickly.  In the case of the \gls{ls} approach, however, there can be a noticeable difference between all three measurements.
 
-Considering that, in many cases, the \gls{ls} and asynchronous approaches complete entirely before the fastest \gls{pe} finishes in the \gls{gs} process, a significant benefit is already available from using one of the other two, without considering progressive completion.
+Visual comparisons of the information listed in \crefrange{tab:nmp:progressive8cores}{tab:nmp:progressive48cores} are shown in \crefrange{fig:nmp:progressivecharts8cores}{fig:nmp:progressivecharts48cores}.  Each figure shows three line charts, which compare the timings (from left) for the grids with \num{110}, \num{2 550}, and \num{10 100} \glspl{pe}, respectively.  The charts highlight that the size of the gap between the minimum and maximum times for the \gls{gs} approach tend to be much smaller, as clear from the relatively flat slopes of the lines.  The asynchronous systems mostly closely follow the same pattern as the \gls{ls} ones.  It is noticeable, however, that for the largest grid, on all three CPUs, the line segments between the mean and max completions are relatively flat, suggesting that the final \gls{pe} completes only a brief time after the average one.  The reason for this is uncertain, but one hypothesis is that it relates to the release of system resources by the completed \glspl{pe}.  As soon as an asynchronous \gls{pe} completes, its resources can be released, and the system scheduler no longer needs to account for it.  With 10,100 \glspl{pe}, it seems plausible that one or more system resources are over-saturated, or there are too many active threads for the scheduler to handle well.  Therefore, as some \glspl{pe} finish, more resources become available, meaning the next \gls{pe} can complete faster, and so on in a virtuous cycle (at least, until the relevant resources are no longer over-saturated).
 
-Based on these results and those of \autoref{sec:nmp:convergence}, it appears that, in general, the asynchronous approach should be taken as the `default' when an explicit message passing implementation for \gls{nmp} is used.  If the problem domain at hand is one where precisely the same final result as the \gls{gs} variant is essential, then the \gls{ls} variant should be used.  There is no clear reason to prefer the \gls{gs} variant.
+Considering that, often, the \gls{ls} and asynchronous approaches complete entirely before the fastest \gls{pe} finishes in the \gls{gs} process, a significant benefit is already available from using one of the other two, without considering progressive completion.  Assuming the above hypothesis on the reason behind rapid mean-to-max completion for the asynchronous variant is correct, it suggests that, even if the `quality' of the results due to progressive completion are uninteresting, there may still be a practical benefit to be gained from it in simulations of large lattices.  Regardless, effective implementation of real progressive completion for both \gls{cps} and computer programs are further open problems.
+
+Based on these results and those of \autoref{sec:nmp:convergence}, it appears that, in general, the asynchronous approach should be taken as the `default' when an explicit message passing implementation for \gls{nmp} is used.  If the problem domain at hand is one where the exactly same final result as the \gls{gs} variant is essential, then the \gls{ls} variant should be used.  There is no clear reason to prefer the \gls{gs} variant.
 
 \subsection{Experimental Limitations}
-The results above indicate trends that might be drawn, but there are limitations to the data.  These limitations primarily stem from a lack of diversity in the testing.  The experiments were conducted using only one programming language and runtime, \csharp{} on .NET (specifically version 5.0.301 of .NET).  All processors used were Intel x86\_64 processors.  All tests were performed on computers running either Windows 10 or Windows Server 2016.  It seems likely however that similar results will be obtained on other platforms -- there is no clear language, CPU or operating system dependency involved in these experiments -- assuming that due consideration is paid to the granularity of \gls{pe} tasks to processor cores.  Indeed, quite plausibly, more noteworthy results will be seen on platforms that use lightweight tasks.
+The results above indicate trends that might be drawn, but there are limitations to the data.  These limitations primarily stem from a lack of diversity in the testing.  The experiments were conducted using only one programming language and runtime, \csharp{} on .NET (specifically version 5.0.301 of .NET).  All processors used were Intel\textsuperscript{\textregistered} x86\_64 processors.  All tests were performed on computers running either Windows 10 or Windows Server 2016.  It seems likely, however, that similar results will be obtained using other technologies -- there is no obvious basis for undue influence from a programming language, CPU, or operating system in these experiments -- assuming that due consideration is paid to the granularity of \gls{pe} tasks to processor cores.  Indeed, quite plausibly, more noteworthy results will be seen on platforms that use lightweight tasks.
 
-Arguably, too few iterations of each test were performed to consider the results statistically valid,\footnote{The `wall-clock' time required for a single test run on the larger grids was prohibitively long, especially for the CPUs with fewer cores.  Running sufficient iterations to make tests statistically robust was therefore infeasible.} although, usually, the difference between the minimum and maximum running times for each test was at most a few percent.  All timing experiments were performed with a ratio of one \texttt{Task} to one \gls{pe}.  This was a direct correspondence between the \gls{cps} models and the practical implementation, but may be sub-optimal for resource allocation.  A thorough exploration of the right granularity of \glspl{pe} for available processing resources should be made in the future.
+Arguably, too few iterations of each test were performed to consider the results statistically valid,\footnote{The `wall-clock' time required for a single test run on the larger grids was prohibitively long, especially for the CPUs with fewer cores.  Running sufficient iterations to make tests statistically robust was therefore infeasible.} although, usually, the difference between the minimum and maximum running times for each test was at most a few percent.  All timing experiments were performed with a ratio of one \texttt{Task} to one \gls{pe}.  This was a direct correspondence between the \gls{cps} models and the practical implementation, but may be sub-optimal for resource allocation.  A thorough exploration of the right granularity of \glspl{pe} relative to available processing resources should be made in the future.
 
-All experiments were based on \gls{fne} lattices.  The theorems and lemmas described in \cref{sec:nmp:msgprops} hold for lattices of any size neighbourhood, but the performance of \gls{nmp} implementations may (or may not) vary according to the number of neighbours ordinary \glspl{pe} have.  The effect is uncertain at this point.  On the one hand, a higher number of neighbours could force the synchronous variants to become more synchronised relative to the asynchronous variant, which would appear to favour the latter.  On the other hand, the overheads of stepping through the messaging loop more often might outweigh the benefits of the asynchronicity.  The balance between them likely is implementation-dependent.
+All experiments were based on \gls{fne} lattices.  The theorems and lemmas described in \cref{sec:nmp:msgprops} hold for lattices of any size neighbourhood, but the performance of \gls{nmp} implementations may (or may not) vary according to the number of neighbours ordinary \glspl{pe} have.  The effect is uncertain at this point.  On the one hand, a higher number of neighbours could force the synchronous variants to spend even more time waiting for their neighbours than the asynchronous variant, which would favour the latter.  On the other hand, the overhead of stepping through the messaging loop more often might outweigh the benefits of asynchronicity.  The balance between them likely is implementation-dependent.

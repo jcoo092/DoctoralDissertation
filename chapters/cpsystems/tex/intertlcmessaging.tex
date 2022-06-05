@@ -8,9 +8,25 @@ Both sending and receiving use pattern matching.  For the sending case, any \gls
 
 \lstset{xleftmargin=.5in, xrightmargin=.5in} 
 \begin{lstlisting}
-  $\cpsend{\cpfunc{a}{b}}{c}$ #\hfill\textsl{send}\enspace#
-  $\cprecv{\cpfunc{d}{e}}{f}$ #\hfill\textsl{receive}\enspace#
+  $\cpsend{\cpfunc{a}{b}}{c}$ #\hfill\textsf{send}\enspace#
+  $\cprecv{\cpfunc{d}{e}}{f}$ #\hfill\textsf{receive}\enspace#
 \end{lstlisting}
+
+The addition of channels to \glspl{tlc} requires an expansion of the \gls{cps} grammar to express them.  
+
+\begin{framed}
+\vspace{-0.6cm}
+\begin{small}
+\begin{bnf*}
+    \bnfprod*{symbol}{\bnfpn{atom} \bnfor \bnfpn{variable} \bnfor \bnfpn{term} \bnfor \bnfpn{channel}}\\
+    \bnfprod*{term}{\bnfpn{functor} \bnfsp \bnfts{`('} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`)'}}\\
+    \bnfprod*{functor}{\bnfpn{atom}}\\
+    \bnfprod*{argument}{\bnfes \bnfor \bnfsp \bnfpn{symbol} \bnfsp \bnfts{+}}\\
+    \bnfprod*{channel}{\bnfts{`\(\langle\)'} \bnfsp \bnfpn{argument} \bnfts{`\(\rangle\)'}}
+\end{bnf*}
+\end{small}
+\vspace{-0.8cm}
+\end{framed}
 
 %-------------------------------------------------------
 \subsection{\label{sec:cps:antiport}Antiport Communication Rules in \glsfmtname{cps}}
@@ -24,8 +40,8 @@ In the context of \gls{cps}, this means that a given rule must involve receipt o
 
 \lstset{xleftmargin=.5in, xrightmargin=.5in} 
 \begin{lstlisting}
-  $\cpantisend{\cpfunc{a}{b}}{c}$ #\hfill\textsl{antiport send}\enspace#
-  $\cpantirecv{\cpfunc{d}{e}}{f}$ #\hfill\textsl{antiport receive}\enspace#
+  $\cpantisend{\cpfunc{a}{b}}{c}$ #\hfill\textsf{antiport send}\enspace#
+  $\cpantirecv{\cpfunc{d}{e}}{f}$ #\hfill\textsf{antiport receive}\enspace#
 \end{lstlisting}
 
 For example, \cpruleinline{ \cprule*{s_1}{\cpantirecv{\cpfunc{a}{B}}{c} \; \cpfunc{d}{E}}{\cponce}{s_2}{\cpantisend{\cpfunc{d}{E}}{c} \; \cpfunc{a}{B}}} would be valid because the same channel is used on both sides of the rule.

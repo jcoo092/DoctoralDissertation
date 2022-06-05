@@ -2,29 +2,33 @@
 
 \cpresetrulenumber
 
-This \lcnamecref{sec:nmp:systemwide} presents the first \gls{nmp} variant, wherein the entire system evolves as one, and every \gls{pe} executes the same rule(s) simultaneously.  For the entirety of this \lcnamecref{chap:nmp}, assume that all \glspl{pe}, channels, the oracle (\(o\)), and environment (\(e\)) behave correctly and follow their respective protocols, without faults, corruptions, lost messages, \etc{}  This significantly simplifies the presented systems by allowing the omission of error handling concepts and describing only the intended operation.
+This \namecref{sec:nmp:systemwide} presents the first \gls{nmp} variant, wherein the entire system evolves as one, and every \gls{pe} executes the same rule(s) simultaneously.  For the entirety of this \namecref{chap:nmp}, assume that all \glspl{pe}, channels and the oracle (\(o\)) behave correctly and follow their respective protocols, without faults, corruptions, lost messages, \etc{}  This significantly simplifies the presented systems by allowing the omission of error handling concepts and describing only the intended operation.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{chapters/nmp/images/iota_proxels_environment_oracle_v6.pdf}
-    \caption[The communication topology of a \glsxtrlong{nmp} system from the perspective of an arbitrary \glsxtrshort{pe} in a \gls{fne} arrangement]{The communication topology of the system from the perspective of an arbitrary \gls{pe} in a \gls{fne} arrangement.  The oracle is blurred and boxed to represent the fact that it is an abstraction over a problem-specific process that will replace it in application of \gls{nmp}.}
+    \includegraphics[width=0.9\textwidth]{chapters/nmp/images/iota_proxels_oracle_v7.pdf}
+    \caption[The communication topology of a \glsxtrlong{nmp} system from the perspective of an arbitrary \glsxtrshort{pe} in a \gls{fne} arrangement]{The communication topology of the system from the perspective of an arbitrary \gls{pe} in a \gls{fne} arrangement.}
     \label{fig:nmp:iota_proxels_environment_oracle}
 \end{figure}
 
-The layout of the system, from the perspective of an arbitrary \gls{pe}, is depicted in \cref{fig:nmp:iota_proxels_environment_oracle}.  The central circle is the arbitrary \gls{pe} and is labelled with \(\iota\) to represent its ID in the overall system.  It is connected to each neighbour, the environment, and the oracle by two-way channels.  The neighbours themselves are anonymous, but \(\iota\)'s end of each channel is labelled with a number from 1-4, representing the neighbours who are expected to sit above, to the right, below and to the left of the central \gls{pe}, respectively.  The oracle is blurred in \cref{fig:nmp:iota_proxels_environment_oracle}, to reflect that it is a stand-in for an unspecified process that ordinarily would take place \emph{inside} the \gls{pe}.
+The layout of the system, from the perspective of an arbitrary \gls{pe} in a \gls{fne}, is depicted in \cref{fig:nmp:iota_proxels_environment_oracle}.  The central circle is this \gls{pe} and is labelled with \(\iota\) to represent its ID in the overall system.  It is connected to each neighbour and the oracle by two-way channels.  The neighbours themselves are anonymous, but \(\iota\)'s end of each channel is labelled with a number from 1-4, representing the neighbours who are expected to sit above, to the right, below and to the left of the central \gls{pe}, respectively.  The oracle is smaller, blurred and surrounded with a dashed line, to reflect that it is a stand-in for an unspecified process that ordinarily would take place \emph{inside} the \gls{pe}.
 
-In the current approach, each \gls{pe} has \emph{no} direct knowledge of its neighbouring \glspl{pe}.  Instead, it interacts with channels that connect on the other end to those neighbours; the channels interpose between the \glspl{pe}.  Furthermore, each label for a neighbour in a given \gls{pe} is \emph{not} the system's ID for that neighbour, but the \gls{pe}'s label for a connecting channel endpoint.  Nevertheless, as a shortcut, \glspl{pe} will simply be referred to as communicating with their neighbours.  Messages exchanged by \glspl{pe} may be referred to as \emph{\gls{nm} messages}, while messages exchanged with the oracle may be referred to as \emph{\gls{oq} messages}.
+In the current approach, each \gls{pe} has \emph{no} direct knowledge of its neighbouring \glspl{pe}.  Instead, it interacts with channels that connect to those neighbours; the channels interpose between the \glspl{pe}.  Furthermore, each label for a neighbour in a \gls{pe} is \emph{not} the system's ID for that neighbour, but the \gls{pe}'s label for a connecting channel endpoint.  Nevertheless, as a shortcut, \glspl{pe} will simply be referred to as communicating with their neighbours.  Messages exchanged by \glspl{pe} are termed \emph{\gls{nm} messages}, while messages exchanged with an oracle may be referred to as \emph{\gls{oq} messages}.
 
-In the \gls{gs} version, the entire system evolves in lock-step, and thus is always in the same phase and \gls{cps} state.  This follows a basic process, consisting of four conceptually distinct phases, the middle two of which may be repeated.  Specifically, the system proceeds as follows (the rules are listed in \vref{ruleset:nmp:systemwide} and explained in \vref{sec:nmp:systemwide:rulesdesc}):
+In the \gls{gs} version, the entire system evolves in lock-step, and thus is always in the same phase and \gls{cps} state.  The evolution follows a basic process, consisting of three conceptually distinct phases, the first two of which may be repeated.  Specifically, the system proceeds as follows (the rules are listed in \vref{ruleset:nmp:systemwide} and explained in \vref{sec:nmp:systemwide:rulesdesc}):
 
 \begin{enumerate}
-    \item\label{enumitem:nmp:init} Initialisation (Rules \cpruleref*{rule:nmp:systemwide:recvcounter} \& \cpruleref*{rule:nmp:systemwide:recvinput})
+    % \item\label{enumitem:nmp:init} Initialisation (Rules \cpruleref*{rule:nmp:systemwide:recvcounter} \& \cpruleref*{rule:nmp:systemwide:recvinput})
     \item\label{enumitem:nmp:pu} \Gls{oq} (Rules \cpruleref*{rule:nmp:systemwide:loopdecrement}, \cpruleref*{rule:nmp:systemwide:sendtooracle} \& \cpruleref*{rule:nmp:systemwide:recvfromoracle})
     \item\label{enumitem:nmp:nm} \Gls{nm} (rule \cpruleref*{rule:nmp:systemwide:antiport})
-    \item\label{enumitem:nmp:final} Finalisation (Rules \cpruleref*{rule:nmp:systemwide:loopend}, \cpruleref*{rule:nmp:systemwide:oraclefinalise} \& \cpruleref*{rule:nmp:systemwide:end})
+    \item\label{enumitem:nmp:final} \textsf{Finalisation} (Rules \cpruleref*{rule:nmp:systemwide:loopend}, \cpruleref*{rule:nmp:systemwide:oraclefinalise} \& \cpruleref*{rule:nmp:systemwide:end})
 \end{enumerate}
 
-This progression is depicted as a state machine in \cref{fig:nmp:systemwidestatemachine}.  State \(s_1\) covers the initialisation phase; \(s_2\) and \(s_3\) the \gls{oq} phase; \(s_4\) the \gls{nm} phase; and \(s_5\) and \(s_6\) the finalisation phase.  State \(s_7\) is the halting phase of the system's evolution.  In an application of \gls{nmp} phases \ref{enumitem:nmp:init}, \ref{enumitem:nmp:nm} and \ref{enumitem:nmp:final} will not change.  Only phase \ref{enumitem:nmp:pu} would be replaced.  The system's evolution is sketched at a high level in \cref{alg:nmp:systemwide2}.
+% This progression is depicted as a state machine in \cref{fig:nmp:systemwidestatemachine}.  State \(s_1\) covers the initialisation phase; \(s_2\) and \(s_3\) the \gls{oq} phase; \(s_4\) the \gls{nm} phase; and \(s_5\) and \(s_6\) the finalisation phase.  State \(s_7\) is the halting phase of the system's evolution.  In an application of \gls{nmp} phases \ref{enumitem:nmp:init}, \ref{enumitem:nmp:nm} and \ref{enumitem:nmp:final} will not change.  Only phase \ref{enumitem:nmp:pu} would be replaced.  The system's evolution is sketched at a high level in \cref{alg:nmp:systemwide2}.
+
+\Cref{fig:nmp:systemwidestatemachine} depicts this progression as a state machine.  States \(s_1\) and \(s_2\) cover the \gls{oq} phase; \(s_3\) the \gls{nm} phase; and \(s_4\) and \(s_5\) the \textsf{finalisation} phase.  State \(s_6\) is the halting state of the system's evolution.  In an application of \gls{nmp} phases \ref{enumitem:nmp:nm} and \ref{enumitem:nmp:final} will not change.  Only phase \ref{enumitem:nmp:pu} is replaced.  The system's evolution is sketched at a high level in \cref{alg:nmp:systemwide2}.
+
+The \gls{oq} phase is when each \gls{pe} performs its internal computation. As mentioned earlier, these computations are problem-dependent and thus cannot be modelled generically. Instead, this \namecref{chap:nmp} uses communication with an oracle assigned to each \gls{pe} to simulate this aspect of \gls{nmp}. The \gls{nm} phase is the main focus of this work. This is where \glspl{pe} exchange messages with their neighbours, based on data received earlier from other neighbours. The \textsf{finalisation} phase occurs after each \gls{pe} reaches a stopping point. At this point, each \gls{pe} performs a final computation to determine its output for the lattice, incorporating the latest data received from neighbours.
 
 \begin{figure}
     \centering
@@ -35,14 +39,15 @@ This progression is depicted as a state machine in \cref{fig:nmp:systemwidestate
 
 \begin{algorithm}
 \DontPrintSemicolon
-\KwOut{Final result, \(z\), sent to environment \(e\)}
+\KwIn{Iteration counter \(i\) and array \(v\) of initial data}
+\KwOut{Final result \(z\)}
 \SetKwFor{pForEach}{parallel foreach}{do}{endfch}
 \Begin{
-    \tcc{\(a \Leftarrow \langle b \rangle\) denotes receiving object \(a\) on channel \(b\);\newline\(c \Rightarrow \langle d \rangle\) denotes sending object \(c\) on channel \(d\);\newline\(e \Leftrightarrow \langle f \rangle\) denotes antiport exchange, sending \emph{and} receiving (swapping) objects \(e\) on channel \(f\).}\;
+    \tcc{\(\alpha \Leftarrow \langle \beta \rangle\) denotes receiving object \(\alpha\) on channel \(\beta\);\newline\(\gamma \Rightarrow \langle \delta \rangle\) denotes sending object \(\gamma\) on channel \(\delta\);\newline\(\epsilon \Leftrightarrow \langle \phi \rangle\) denotes antiport exchange, sending \emph{and} receiving (swapping) objects \(\epsilon\) on channel \(\phi\).}\;
     
-    \tcc{Initialisation}
-    \(i \Leftarrow \langle e \rangle\)\;
-    \lpForEach{\((x,d) \Leftarrow \langle e \rangle\)}{\(v[x] \gets d\)}\;
+    % \tcc{Initialisation}
+    % \(i \Leftarrow \langle e \rangle\)\;
+    % \lpForEach{\((x,d) \Leftarrow \langle e \rangle\)}{\(v[x] \gets d\)}\;
     
     \While{\(i > 0\)}{
         \tcc{\Glsentrylong{oq}}
@@ -58,107 +63,104 @@ This progression is depicted as a state machine in \cref{fig:nmp:systemwidestate
         \;\tcc{\Glsentrylong{nm}}
         \lpForEach{\(x \in \{1, 2, 3, 4\}\)}{\(v[x] \Leftrightarrow \langle x \rangle\)}
     }
-    \;\tcc{Finalisation}
+    \;\tcc{\textsf{Finalisation}}
     \pForEach{\(x \in \{1, 2, 3, 4\}\)}{
         \(w'[x] \gets v[x]\)\;
         \(w'[x] \Rightarrow \langle o \rangle\)
     }
     \(z \Leftarrow \langle o \rangle\)\;
-    \(z \Rightarrow \langle e \rangle\)
+    % \(z \Rightarrow \langle e \rangle\)
 }
 \caption[Pseudocode of the \glsxtrlong{nmp} process in the \gls{gs} system]{\label{alg:nmp:systemwide2}Pseudocode description of the process for an individual \gls{pe} in the \gls{gs} system}
 \end{algorithm}
 
-Assume before the start of the system's evolution that the correct number of \glspl{pe} are already in place, and they are all empty at the beginning of the system except for appropriate channel endpoints.  Everything else required by each \gls{pe} will be supplied by the environment or oracle, or generated by rules during the \gls{pe}'s evolution.  The rules for the \gls{gs} system are listed in \cref{ruleset:nmp:systemwide} and explained below.  This \lcnamecref{sec:nmp:systemwide} will first define the \gls{gs} \gls{nmp} system, explain the intended operation of the \gls{ruleset}, then describe each of the ground terms used.
+Assume before the start of the system's evolution that the correct number of \glspl{pe} are already in place, and they each contain an appropriately initialised iteration counter and their relevant channel endpoints only.  Everything else required by each \gls{pe} will be supplied by the oracle, or generated by rules during the \gls{pe}'s evolution.  The rules for the \gls{gs} system are listed in \cref{ruleset:nmp:systemwide} and explained in \cref{sec:nmp:systemwide:rulesdesc}.  This \namecref{sec:nmp:systemwide} first defines the \gls{gs} \gls{nmp} system, explains the intended operation of the \gls{ruleset}, then describes each of the ground terms used.
 
 \subsection{System Definition}
 Recall from \cref{sec:cps:formaldescriptions} that a given \gls{cps} implementation can be defined as a 6-tuple:
-% \[
-% \Pi_{cP}(T, A, O, R, S, \bar{s})
-% \]
 
-\cptuple{\text{NMP-GS}}{\cpset{\sigma_1, \dots, \sigma_{\text{max}}}}{A}{\cpset{\emptyset \, | \, t \in T}}{\text{\cref{ruleset:nmp:systemwide}}}{\cpset{s_1, s_2, s_3, s_4, s_5, s_6, s_7}}{s_1}
+\cptuple{\text{NMP-GS}}{\cpset{\sigma_1, \dots, \sigma_{\text{max}}}}{A}{O}{\text{\cref{ruleset:nmp:systemwide}}}{\cpset{s_1, s_2, s_3, s_4, s_5, s_6}}{s_1}
 
-\(T\) is a set of \glspl{tlc}, each representing a single \gls{pe}, numbered from one to the total size of the lattice.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is the set of all terms defined in \cref{sec:nmp:systemwide:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is empty barring appropriate channel endpoints.
+\(T\) is a set of \glspl{tlc}, each representing a single \gls{pe}, numbered from one to the total size of the lattice.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is the set of all terms defined in \cref{sec:nmp:systemwide:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is a generation counter functor \(i\) and its set of initial data \(V\).
 
 \subsection{\label{sec:nmp:systemwide:rulesdesc}Description of Rules}
 
 \begin{cprulesetfloat}
     \begin{cpruleset}
-        % Receive maximum generation counter
-        \cprule[rule:nmp:systemwide:recvcounter]{s_1}{\cprecv{\cpfunc{i}{I}}{e}}{\cponce}{s_2}{\cpfunc{i}{I}}
+        % % Receive maximum generation counter
+        % \cprule[rule:nmp:systemwide:recvcounter]{s_1}{\cprecv{\cpfunc{i}{I}}{e}}{\cponce}{s_2}{\cpfunc{i}{I}}
         
-        % Receive inputs from environment
-        \cprule[rule:nmp:systemwide:recvinput]{s_1}{\cprecv{\cpvq{X}{D}}{e}}{\cpmaxpar}{s_2}{\cpvq{X}{D}}
+        % % Receive inputs from environment
+        % \cprule[rule:nmp:systemwide:recvinput]{s_1}{\cprecv{\cpvq{X}{D}}{e}}{\cpmaxpar}{s_2}{\cpvq{X}{D}}
         
         \\
         
         % Else move to finishing
-        \cprule[rule:nmp:systemwide:loopend]{s_2}{i(\lambda)}{\cponce}{s_5}{}
+        \cprule[rule:nmp:systemwide:loopend]{s_1}{i(\lambda)}{\cponce}{s_4}{}
         
         % Decrement iterator
-        \cprule[rule:nmp:systemwide:loopdecrement]{s_2}{i(I\cpundig)}{\cponce}{s_3}{i(I)}
+        \cprule[rule:nmp:systemwide:loopdecrement]{s_1}{i(I\cpundig)}{\cponce}{s_2}{i(I)}
         
         % Send to oracle
-        \cprule[rule:nmp:systemwide:sendtooracle]{s_2}{\cpvq{X}{D}}{\cpmaxpar}{s_3}{\cpsend{\cpvqw{X}{D}}{o}}
+        \cprule[rule:nmp:systemwide:sendtooracle]{s_1}{\cpvq{X}{D}}{\cpmaxpar}{s_2}{\cpsend{\cpvqw{X}{D}}{o}}
         
         % Receive from oracle
-        \cprule[rule:nmp:systemwide:recvfromoracle]{s_3}{\cprecv{\cpvqw{X}{D}}{o}}{\cpmaxpar}{s_4}{\cpvq{X}{D}}
+        \cprule[rule:nmp:systemwide:recvfromoracle]{s_2}{\cprecv{\cpvqw{X}{D}}{o}}{\cpmaxpar}{s_3}{\cpvq{X}{D}}
         
         \\
         
         % Exchange messages
-        \cprule[rule:nmp:systemwide:antiport]{s_4}{\cpvq{X}{D} & & &\\ & \cpantirecv{\cpvq{\_}{D'}}{X}}{\cpmaxpar}{s_2}{\cpvq{X}{D'} &\\ & & & & \cpantisend{\cpvq{X}{D}}{X}}
+        \cprule[rule:nmp:systemwide:antiport]{s_3}{\cpvq{X}{D} & & &\\ & \cpantirecv{\cpvq{\_}{D'}}{X}}{\cpmaxpar}{s_1}{\cpvq{X}{D'} &\\ & & & & \cpantisend{\cpvq{X}{D}}{X}}
         
         \\
         
         % Send to oracle (finalisation)
-        \cprule[rule:nmp:systemwide:oraclefinalise]{s_5}{\cpvq{X}{D}}{\cpmaxpar}{s_6}{\cpsend{w'\perfectunary{IncreaseHeight}{(}{)}{X}\perfectunary{IncreaseHeight}{(}{)}{D}}{o}}
+        \cprule[rule:nmp:systemwide:oraclefinalise]{s_4}{\cpvq{X}{D}}{\cpmaxpar}{s_5}{\cpsend{w'\perfectunary{IncreaseHeight}{(}{)}{X}\perfectunary{IncreaseHeight}{(}{)}{D}}{o}}
         
-        % Oracle returns results which are immediately emitted to the environment
-        \cprule[rule:nmp:systemwide:end]{s_6}{\cprecv{\cpfunc{z}{Z}}{o}}{\cpundig}{s_7}{\cpsend{\cpfunc{z}{Z}}{e}}
+        % Oracle returns results
+        \cprule[rule:nmp:systemwide:end]{s_5}{\cprecv{\cpfunc{z}{Z}}{o}}{\cpundig}{s_6}{\cpfunc{z}{Z}}
         
     \end{cpruleset}
     \caption[Complete \gls{ruleset} for \gls{gs} \glsxtrlong{nmp}]{\label{ruleset:nmp:systemwide}Complete \gls{ruleset} for \gls{gs} \gls{nmp}, using an oracle to perform update computations}
 \end{cprulesetfloat}
 
 \begin{enumerate}
-    \item Receive \(I\), the maximum generation count or the number of rounds of message passing each \gls{pe} should engage in.\footnote{In general with \gls{nmp} a fixed number of generations is not the only way to determine when \gls{nm} should cease, but other methods tend to be specific to the problem at hand.   Therefore, a generation count is the only one presented here.  It should be applicable no matter the computation performed.}
-    \item Receive from the environment \gls{nm} messages \(v(X)(D)\), being the \gls{pe}'s initial data for its neighbours.
-    \item If \(i\) is empty, continue to the finalisation phase.
+    % \item Receive \(I\), the maximum generation count or the number of rounds of message passing each \gls{pe} should engage in.\footnote{In general with \gls{nmp} a fixed number of generations is not the only way to determine when \gls{nm} should cease, but other methods tend to be specific to the problem at hand.   Therefore, a generation count is the only one presented here.  It should be applicable no matter the computation performed.}
+    % \item Receive from the environment \gls{nm} messages \(v(X)(D)\), being the \gls{pe}'s initial data for its neighbours.
+    \item If \(i\) is empty, continue to the \textsf{finalisation} phase.
     \item Decrement \(i\) when sending \(w\) messages to the oracle for \gls{oq}.
     \item Convert the \(v\) messages into \(w\) messages and send them to the oracle to compute the new messages to send to neighbours.
     \item Receive back new \(w\) objects from the oracle and convert them to \(v\) objects.
-    \item Swap \(v\) messages with each neighbour \(X\), using an antiport channel (see \cref{sec:cps:antiport}).
-    \item Send the \(v\) objects as \(w'\) to the oracle for finalisation computation.
-    \item Receive the final result \(\cpfunc{z}{Z}\) from the oracle and send it to the environment.\footnote{One might wonder why the oracle could not simply emit the final result directly into the environment.  Strictly speaking, that would be reasonable in the context of this system, but bear in mind that the oracle is simply an abstraction over an arbitrary computation, which would take place \emph{inside} the \gls{pe}.}
+    \item Swap \(v\) messages with each neighbour \(X\), using antiport communication (see \cref{sec:cps:antiport}).
+    \item Send the \(v\) objects as \(w'\) to the oracle for \textsf{finalisation} computation.
+    \item Receive the final result \(\cpfunc{z}{Z}\) from the oracle and halt.% and send it to the environment.\footnote{One might wonder why the oracle could not simply emit the final result directly into the environment.  Strictly speaking, that would be reasonable in the context of this system, but bear in mind that the oracle is simply an abstraction over an arbitrary computation, which would take place \emph{inside} the \gls{pe}.}
 \end{enumerate}
 
 \subsection{\label{sec:nmp:systemwide:definitions}Definitions of Terms}
 
 \paragraph{Atoms}
 \begin{description}
-    \cptermdef{e}{The label of the channel used to communicate with the environment.}
+    % \cptermdef{e}{The label of the channel used to communicate with the environment.}
     \cptermdef{o}{The label of the channel used to communicate with the oracle.}
-    \cptermdef{\cpempty}{The \gls{cps} `empty' atom (see \cref{chap:cpsystems}).}
+    \cptermdef{\cpempty}{The \gls{cps} `empty' atom (see \cref{sec:cps:complexsymbols,sec:cps:natnums}).}
 \end{description}
 
 \paragraph{Functors}
 \begin{description}
-    \cptermdef{i}{A generation counter.  Used to count the number of generations of \gls{nm} remaining before moving to the finalisation phase.}
-    \cptermdef{v}{The \(v\) compound terms described in \cref{sec:cps:compoundterms}, which serve as \gls{nm} messages, \emph{except} here the generation counter is omitted because it is unneeded --- the \(i\) counter serves the same purpose.}
+    \cptermdef{i}{A generation counter.  Used to count the number of generations of \gls{nm} remaining before moving to the \textsf{finalisation} phase.}
+    \cptermdef{v}{The \(v\) compound terms described in \cref{sec:cps:compoundterms} \emph{except} without the generation counter --- the \(i\) counter serves the same purpose for the \gls{gs} variant.  These serve as \gls{nm} messages.}
     \cptermdef{w}{The same as the \(v\) terms, but used as messages to the oracle for \gls{oq}.}
-    \cptermdef{w'}{The same as the above \(w\) objects, but marked to indicate to the oracle that they are to be used for finalisation rather than \gls{oq}.}
-    \cptermdef{z}{Final output functor.  Holds the value that is sent to the environment at the last step.}
+    \cptermdef{w'}{The same as the above \(w\) objects, but marked to indicate to the oracle that they are to be used for \textsf{finalisation} rather than \gls{oq}.}
+    \cptermdef{z}{Final output functor.  Holds the result of the \gls{pe}’s computation.}
 \end{description}
 
 \paragraph{States}
 \begin{description}
-    \cptermdef{s_1}{Beginning state.  The \glspl{pe} receive their inputs from the environment.}
-    \cptermdef{s_2}{The opening \gls{oq} phase state, where data are sent to the oracle and the generation counter is decremented.}
-    \cptermdef{s_3}{Data update receipt state. Wherein updated data are received back from the oracle.}
-    \cptermdef{s_4}{\Gls{nm} state.  Messages are swapped with neighbours.}
-    \cptermdef{s_5}{Finalisation phase transition state}
-    \cptermdef{s_6}{Transmission to the oracle for the final result, and awaiting its response.}
-    \cptermdef{s_7}{Receipt of the final result from the oracle and emission into the environment.}
+    % \cptermdef{s_1}{Beginning state.  The \glspl{pe} receive their inputs from the environment.}
+    \cptermdef{s_1}{The opening \gls{oq} phase state, where data are sent to the oracle and the generation counter is decremented.}
+    \cptermdef{s_2}{Data update receipt state. Updated data are received back from the oracle.}
+    \cptermdef{s_3}{\Gls{nm} state.  Messages are swapped with neighbours.}
+    \cptermdef{s_4}{\textsf{Finalisation} phase transition state}
+    \cptermdef{s_5}{State for transmission to the oracle for the final result, and awaiting its response.}
+    \cptermdef{s_6}{State for receipt of the result from the oracle and halting of evolution.}
 \end{description}

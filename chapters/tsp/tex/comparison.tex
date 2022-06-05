@@ -5,7 +5,7 @@
 \subsection{The \glsfmtname{hcp-glossary}}
 
 The \gls{hpp} \& \gls{hcp} have been examined before through the lens of \gls{ps}.  In fact, it was demonstrated relatively early in the history of \gls{ps} that some variants could be used to solve the \gls{hpp} in linear time \cite{Mutyam2001}.  \citeauthor{Jimenez2003} used the \gls{hpp} as an example computation when discussing complexity classes in \gls{ps} \cite{Jimenez2003}. 
-Other work has used various types of \gls{ps} such as \gls{tlps} \cite{Martin-Vide2003}, \gls{clps} with active membranes \cite{Pan2006,Chen2009}, timed \gls{ps} \cite{Song2013}, \gls{clps} with symport/antiport rules \cite{Orellana-Martin2019a}, ``asynchronous'' \gls{ps} \cite{Tagawa2012} (using a different concept of asynchrony than \cref{sec:back:syncasync}) and \gls{snps} \cite{Xue2013}.
+Other work has used various types of \gls{ps} such as \gls{tlps} \cite{Martin-Vide2003}, \gls{clps} with active membranes \cite{Pan2006,Chen2009}, timed \gls{ps} \cite{Song2013}, \gls{clps} with symport/antiport rules \cite{Orellana-Martin2019a}, asynchronous \gls{ps} \cite{Tagawa2012} (using a different concept of asynchrony than \cref{sec:back:syncasync}) and \gls{snps} \cite{Xue2013}.
 
 \begin{table}
 \centering
@@ -40,7 +40,7 @@ Notably, \cite{Martin-Vide2003} both first introduced \gls{tlps}, and demonstrat
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\citeauthor{Pan2006} provided another recognising solution to the \gls{hpp} in \cite{Pan2006}.  The focus of this work was on proving that \gls{clps} with active membranes, but forgoing the use of some types of rules, can still solve the \gls{hpp} in polynomial time by a uniform family of rules.  Importantly, one of the types of rules used, described in \cite{Pan2006} as ``d-separation rules'' do increase the number of membranes in the system, keeping to the tradition of trading off space complexity for time complexity.
+\citeauthor{Pan2006} provided another recognising solution to the \gls{hpp} in \cite{Pan2006}.  The focus of this work was on proving that \gls{clps} with active membranes, sans some types of rules, can still solve the \gls{hpp} in polynomial time by a uniform family of rules.  Importantly, one of the types of rules used, described in \cite{Pan2006} as ``d-separation rules'' do increase the number of membranes in the system, keeping to the tradition of trading off space complexity for time complexity.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -48,7 +48,7 @@ Notably, \cite{Martin-Vide2003} both first introduced \gls{tlps}, and demonstrat
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\citeauthor{Tagawa2012} use an asynchronous \gls{ps} to solve the \gls{hcp} in \cite{Tagawa2012}, though the definition of asynchrony used there is significantly different to that used in this dissertation (see \vref{sec:back:syncasync}).  In the case of \cite{Tagawa2012} asynchrony is used to mean that anywhere from one to all possible rules are applied in parallel at a given step.\footnote{This is an interesting scenario, and possibly more realistic than the usual assumptions underpinning many \gls{ps} variants, but the naming is curious.}  The underlying system excluding asynchronicity appears to be \gls{clps} with active membranes.  The authors conclude that their system can solve the \gls{hcp} (the decision form) between \bigoh{n!} to \bigoh{n^2} steps, dependent on the level of parallelism involved.
+\citeauthor{Tagawa2012} use an asynchronous \glspl{ps} to solve the \gls{hcp} in \cite{Tagawa2012}, though the definition of asynchrony used there is significantly different to that used in this dissertation (see \vref{sec:back:syncasync}).  In the case of \cite{Tagawa2012} asynchrony is used to mean that anywhere from one to all possible rules are applied in parallel at a given step.\footnote{This is an interesting scenario, and possibly closer to biological reality than the usual assumptions underpinning many \gls{ps} variants, but the naming is curious.}  The underlying system excluding asynchronicity appears to be \gls{clps} with active membranes.  The authors conclude that their system can solve the \gls{hcp} (the decision form) between \bigoh{n!} to \bigoh{n^2} steps, dependent on the level of parallelism involved.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -82,13 +82,11 @@ This work & \gls{cps} & 5 & 13 & \bigoh{n}\\
 \label{tab:tsp:algocomp}
 \end{table}
 
-% \Cref{tab:tsp:algocomp} summarises key measures about each of the other papers on solving the \gls{tsp} with \gls{mc} only.  It includes only those which work wholly in \gls{mc} because it is unclear how to make a meaningful comparison with those which use a hybrid approach, \eg{} \cite{Nishida2006}.  These other systems all require some degree of customisation based on the problem at hand, generally parameterized over the number of nodes or edges in the graph, making it difficult to provide a precise estimate of the number of rules and alphabet size (or even the time complexity).  That does imply, however, that the true numbers of distinct rules and objects required are generally polynomial, not fixed.  This means that \emph{for all other systems besides the current \glspl{cps}, these are underestimates}.  The number of rules and the alphabet size in the \cref{tab:tsp:algocomp} are taken from the distinct rule and symbol definitions listed in each paper.  Both measures have been counted on a good-faith best-effort basis from the included system definitions.
-
 \Cref{tab:tsp:algocomp} summarises key measures about each of the other papers on solving the \gls{tsp} with \gls{mc} only.  It includes only those which work wholly in \gls{mc} because it is unclear how to make a meaningful comparison with those which use a hybrid approach, \eg{} \cite{Nishida2006}.  The same caveats for \cref{tab:tsp:hcpalgocomp} apply also to \cref{tab:tsp:algocomp}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In \cite{Guo2017} -- the original inspiration for this \lcnamecref{chap:tsp} -- \citeauthor{Guo2017} specify a \glspl{clps} that builds an exploration tree starting from the root node, conceptually very similar to \cref{fig:tsp:utree,fig:tsp:dtree}.  In fact, the most significant difference between this work and \cite{Guo2017} is the number of rules and number of distinct symbols used.
+In \cite{Guo2017} -- the original inspiration for this \namecref{chap:tsp} -- \citeauthor{Guo2017} specify a \glspl{clps} that builds an exploration tree starting from the root node, conceptually very similar to \cref{fig:tsp:utree,fig:tsp:dtree}.  In fact, the most significant difference between this work and \cite{Guo2017} is the number of rules and number of distinct symbols used.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

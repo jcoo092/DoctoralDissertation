@@ -1,9 +1,9 @@
-\section{\glsfmtname{cps} Hamiltonian path and Cycle Algorithms}\label{sec:tsp:algohpp}
-This \lcnamecref{sec:tsp:algohpp} discusses only digraphs, since all undirected graphs can be represented quite simply as a directed graph with arcs in both directions simulating edges --- this is in fact how undirected graphs are represented in the below algorithm.
+\section{\glsfmtname{cps} Hamiltonian Path and Cycle Algorithms}\label{sec:tsp:algohpp}
+This \namecref{sec:tsp:algohpp} discusses only digraphs, since all undirected graphs can be represented as a directed graph with arcs in both directions simulating edges.
 
 \subsection{Formal System Definitions}
 
-Following the 6-tuple description style of \cref{sec:cps:formaldescriptions}:  \(T = \{1\}\), \ie{} the entire system consists of only one \gls{tlc}.  \(A_{HPP} = \cpset{e, f, h, p, p', s, t, u, v}\), \(A_{HCP} = A_{HPP} \cup \cpset{r, z}\).  \(O = E \cup \cpset{\cpfunc{v}{V}}\) (\(E\) is described further in \cref{sec:tsp:hpp}).  For the \gls{hpp}, \(R\) is the rules in \cref{ruleset:tsp:hpp}, and for the \gls{hcp} it is \cref{ruleset:tsp:hcp}.  For the \gls{hpp} \(S_{HPP} = \cpset{s_1, s_2, s_3}\) and for the \gls{hcp} \(S_{HCP} = S_{HPP} \cup \cpset{s_4}\), and for both \(\Bar{s} = s_1\).
+Following the 6-tuple description style of \cref{sec:cps:formaldescriptions}:  \(T = \{1\}\), \ie{} the entire system consists of only one \gls{tlc}.  \(A_{\mathit{HPP}} = \cpset{e, f, h, p, p', s, t, u, v}\), \(A_{\mathit{HCP}} = A_{\mathit{HPP}} \cup \cpset{r, z}\).  \(O = E \cup \cpset{\cpfunc{v}{V}}\) (\(E\) is described further in \cref{sec:tsp:hpp}).  For the \gls{hpp}, \(R\) is the rules in \cref{ruleset:tsp:hpp}, and for the \gls{hcp} it is \cref{ruleset:tsp:hcp}.  For the \gls{hpp} \(S_{\mathit{HPP}} = \cpset{s_1, s_2, s_3}\) and for the \gls{hcp} \(S_{\mathit{HCP}} = S_{\mathit{HPP}} \cup \cpset{s_4}\), and for both \(\Bar{s} = s_1\).
 
 \cptuple{HPP}{\cpset{1}}{\cpset{e, f, h, p, p', s, t, u, v}}{\cpset{E \cup \cpset{v}}}{\text{\cref{ruleset:tsp:hpp}}}{\cpset{s_1, s_2, s_3}}{s_1}
 
@@ -11,125 +11,38 @@ Following the 6-tuple description style of \cref{sec:cps:formaldescriptions}:  \
 
 \subsection{\Glsfmtname{hpp-glossary}}\label{sec:tsp:hpp}
 
-The algorithm follows a simple approach, essentially a simple maximally parallel breadth-first search of the digraph.  It starts with a \gls{tlc} enclosed by the skin membrane, and populated with subcells describing the problem digraph.  From there, a starting vertex of the problem digraph is randomly selected, and the \gls{tlc} is then populated with the other initial required subcells.  The evolution of the system then proceeds synchronously level-by-level through the different potential paths of the cycle by creating new subcells encoding the digraph traversals up to that point, expanding all possible paths from a given vertex which exclude any of the previously visited vertices.  The algorithm requires a fixed set of \textbf{only four rules}, presented in \cref{ruleset:tsp:hpp}.
+The algorithm, outlined in \cref{alg:tsp:hpp}, follows a simple approach, essentially a maximally parallel breadth-first search of the digraph.  It starts with a \gls{tlc} and populated with subcells describing the problem digraph.  From there, a starting vertex of the problem digraph is randomly selected, and the evolution of the system then proceeds synchronously level-by-level through the different potential paths by creating new subcells encoding the digraph traversals up to that point, expanding all possible paths from a given vertex which exclude any of the previously visited vertices.  The algorithm requires a fixed set of four rules, presented in \cref{ruleset:tsp:hpp}.
 
-% \begin{algorithm}
-% \DontPrintSemicolon
-% \SetKwFunction{Uniq}{uniq}
-% \SetKwFunction{Perm}{permutations}
-% \SetKwFor{pForEach}{parallel foreach}{do}{endfch}
-% \SetKwBlock{Loop}{loop:}{}
-% \SetKw{KwOr}{or}
-% \SetKw{KwAnd}{and}
-% \SetKw{KwGoto}{goto}
-% \KwIn{Adjacency set \(A = \{1,2,3,4\}\)}
-% \KwOut{Final result, \(z\), sent to environment \(e\)}
-% \Begin{
-%     \tcc{
-%     \(a \Leftarrow \langle b \rangle\) denotes receiving object \(a\) on channel \(b\)\newline
-%     \(c \Rightarrow \langle d \rangle\) denotes sending object \(c\) on channel \(d\)
-%     }\;
+\begin{algorithm}
+\DontPrintSemicolon
+\SetKwFunction{Uniq}{uniq}
+\SetKwFor{pForEach}{parallel foreach}{do}{endfch}
+\SetKw{KwVertices}{vertices}
+\SetKw{KwChoose}{choose}
+\KwIn{\(V\) = vertices, \(E\) = edges}
+\KwOut{One Hamiltonian path \(p'\)}
+\Begin{
     
-%     \tcc{Initialisation}
-%     \(R \gets \emptyset\)\;
-%     \(i \Leftarrow \langle e \rangle\)\;
+    \tcc{Initialisation}
+    \(r \gets\) \(\KwChoose(v \in V)\)\;
+    \(S \gets \{ [r] \}\)\;
+    \;
     
-%     \tcc*[l]{* assume environment \(e\) sends all of these now}
-%     \pForEach{\((x, 0, d) \Leftarrow \langle e \rangle\)}{
-%         \(v[x] \gets (0,d)\)\;
-%         \(R \gets R \cup \{x\}\)
-%     }
+    \tcc{Exploration}
     
-%     \;\tcc{\Glsentrylong{oq} \emph{and} \Glsentrylong{nm}}
+    \For(\tcp*[h]{\(N = |V|\)}){\(i = 2\) \KwTo \(N\)}{
+        \(S' \gets \cup_{s \in S} \, { [t \, | \, f \, | \, p] \; | \; [f \, | \, p] \in S, (f,t) \in E, t \not\in \KwVertices(p)}\)\;
+        \(S \gets S'\)\;
+    }
+    \;
     
-%     \Loop{
-%         \(W \gets \emptyset\)\;
-        
-%         \pForEach{\((x,y,z,w) \in\) \Perm{\(A\)}}{
-%             \If{\(x \in R\) \KwAnd \(v[x].g < i\) \KwAnd \(v[x].g \leq v[y].g\) \KwAnd \(v[x].g \leq v[z].g\)}{
-%                 \(W \gets W \cup (w,v[x].g+1, v[x].d \cup v[y].d \cup v[z].d))\)\label{line:nmp:rule3}
-%             }
-%         }
-        
-%         \If{\(W \not= \emptyset\)}{
-%             \(W \gets\) \Uniq{\(W\)} \tcc*[l]{Multiset to set}
-%             \;
-%             \lpForEach{\((w, g, d) \in W\)}{\((w, g, d) \Rightarrow \langle o \rangle\)}
-%             \tcc*[l]{** assume oracle \(o\) returns all required messages}
-            
-%             \lpForEach{\((w, g, d) \Leftarrow \langle o \rangle\)}{\((w, g, d) \Rightarrow \langle w \rangle\)}
-%             \(W \gets \emptyset\)
-%         }
-        
-%         \(R \gets \emptyset\)\;
-%         \;
-%         \(b \gets\) \texttt{true}
-        
-%         \lpForEach{\(x \in A\)}{\lIf*{\(v[x].g < i\)}{\(b \gets\) \texttt{false}}}
-%         \lIf{b}{\KwGoto break}\;
-        
-%         \While{\(|R| = 0\)}{\label{line:nmp:recvwhile}
-%             \pForEach{\((x, g, d) \Leftarrow A\)}{\label{line:nmp:recvfor}
-%                 \(v[x] \gets (g,d)\)\;
-%                 \(R \gets R \cup \{x\}\)\;
-%             }
-%         }
-%         \KwGoto loop\;
-%     }
-%     \AlCapSty{\AlCapFnt break:}\;
-    
-%     \;\tcc{Finalisation}
-    
-%     \lpForEach{\(x \in A\)}{\(v[x] \Rightarrow \langle o \rangle\)}
-%     \(z \Leftarrow \langle o \rangle\)\;
-%     \(z \Rightarrow \langle e \rangle\)
-% }
-% \caption[Pseudocode description of the process for an individual \gls{fne} \glsxtrshort{pe} in the asynchronous system]{\label{alg:nmp:pespecific}Pseudocode description of the process for an individual \gls{fne} \gls{pe} in the asynchronous system}
-% \end{algorithm}
+    \tcc{Path Selection}
+    \(p' \gets\) \(\KwChoose(p \in S)\)\;
+}
+\caption{\label{alg:tsp:hpp}Pseudocode description of the \gls{cps} solution to the \gls{hpp}}
+\end{algorithm}
 
-% \begin{algorithm}
-% \DontPrintSemicolon
-% \SetKwFunction{Uniq}{uniq}
-% \SetKwFunction{Perm}{permutations}
-% \SetKwFor{pForEach}{parallel foreach}{do}{endfch}
-% % \SetKwBlock{Loop}{loop:}{}
-% \SetKw{KwAnd}{and}
-% \SetKw{KwCons}{cons}
-% \SetKw{KwChoose}{choose}
-% \KwIn{Set \(E\) of edge subcells, vertices \(V\)}
-% \KwOut{A Hamiltonian path \(p'\)}
-% \Begin{
-    
-%     \tcc{Initialisation}
-%     \(r \gets \KwChoose(v \in V)\)\;
-%     \(S \gets s, S' \gets \emptyset\)\;
-%     \(s[u] \gets \KwCons(r,\cpempty)\), \(s[v] \gets (V \setminus u)\), \(V \gets \emptyset\)\;
-%     \;
-    
-%     \tcc{Exploration}
-%     \While{\(\exists s[u] \neq \emptyset\)}{
-%         \pForEach{\(s \in S\)}{
-%             \If{\(\exists e[f][t]\) \KwAnd \(t \in s[u]\) \KwAnd \(s[p].\mathit{head} = f\)}{
-%                 \(s' \gets s\)\;
-%                 \(s'[p] \gets \KwCons(t, s[p])\)\;
-%                 \(s'[u] \gets s[u] \setminus t\)\;
-%                 \(S' \gets S' \cup s'\)
-%             }
-%         }
-        
-%         \(S \gets S'\), \(S' \gets \emptyset\)\;
-%     }
-%     \;
-    
-%     \tcc{Path Selection}
-%     \(s' \gets \KwChoose(s \in S)\)\;
-%     \(p' \gets s'[p]\)\;
-%     \Return \(p'\)
-% }
-% \caption{\label{alg:tsp:hpp}Pseudocode description of the \gls{cps} solution to the \gls{hpp}}
-% \end{algorithm}
-
-At the beginning of the computation, assume an elementary cell with the skin membrane, and that the set \(E\) of subcells of the form \(E = \cpset{\cpfunc{e}{\cpfunc{f}{i} \, \cpfunc{t}{j}} ~ | ~ i,j \in \mathbb{N}, ~ i \neq j}\) encoding the arcs of the problem digraph is already present inside the skin membrane.  Subcell \(e\) represents an arc; \(f\) the origin vertex; and \(t\) the destination vertex.  Assume further that the subcell \(\cpfunc{v}{\cpfunc{v}{X}, \, \cpfunc{v}{Y} \dots}\), listing the vertices of the problem digraph, is present.  This could be derived from the subcells in \(E\) if required, though.  The system begins in state \(s_1\).
+At the beginning of the computation, assume an elementary cell with the skin membrane, and that the set \(E\) of subcells of the form \(E = \cpset{\cpfunc{e}{\cpfunc{f}{i} \, \cpfunc{t}{j}} ~ | ~ i,j \in \mathbb{N}, ~ i \neq j}\) encoding the arcs of the problem digraph is already present inside the skin membrane.  Subcell \(e\) represents an arc; \(f\) the origin vertex; and \(t\) the destination vertex.  Assume further that the subcell \(\cpfunc{v}{\cpfunc{v}{X}, \, \cpfunc{v}{Y}, \dots}\), listing the vertices of the problem digraph, is present.  This could be derived from the subcells in \(E\) if required, though.  The system begins in state \(s_1\).
 
 \subsubsection{\label{sec:tsp:hpprules}Description of Rules}
 
@@ -150,10 +63,9 @@ At the beginning of the computation, assume an elementary cell with the skin mem
 \end{cprulesetfloat}
 
 \begin{enumerate}
-    \item \cpRuleref{rule:tsp:hpp:start} begins the computation by selecting an arbitrary vertex \(R\) from the subcell \(v\) to become the starting point of the cycle, and creating the first \(s\) subcell.  The \(s\) subcells represent steps down the tree of the exploration of the digraph (see \cref{fig:tsp:utree} for an example), with the first step representing the selection of the starting vertex \(R\).  Each \(s\) subcell comprises two components: \(u\), a set representing the remaining unexplored vertices in the digraph; and \(p\) which acts as a list (see \cref{sec:cps:lists}), and keeps track of the cycle's path so far.  The \(R\) variable used in this rule represents the root of the computation, which is not used further in this algorithm, but becomes important for the \gls{hcp} and \gls{tsp}.  The rule is applied in exactly-once mode, and the system transitions to state \(s_2\).  Application of this rule takes one step.
+    \item \cpRuleref{rule:tsp:hpp:start} begins the computation by selecting an arbitrary vertex \(R\) from the subcell \(v\) to become the starting point of the cycle, and creating the first \(s\) subcell.  The \(s\) subcells represent steps down the tree of the exploration of the digraph (see \vref{fig:tsp:utree} for an example), with the first step representing the selection of the starting vertex \(R\).  Each \(s\) subcell comprises two components: \(u\), a set representing the remaining unexplored vertices in the digraph; and \(p\) which acts as a list (see \cref{sec:cps:lists}), and keeps track of the cycle's path so far.  The \(R\) variable used in this rule represents the root of the computation, which is not used further in this algorithm, but becomes important for the \gls{hcp} and \gls{tsp}.  The rule is applied in exactly-once mode, and the system transitions to state \(s_2\).  Application of this rule takes one step.
     \item \cpRuleref{rule:tsp:hpp:finish} is essentially the termination check for a \texttt{while} loop.  After \cpruleref{rule:tsp:hpp:clean} has been applied enough times to leave the system only with \(s\) subcells that have no further vertices to explore in their \(u\) subcell (the stopping condition), \cpruleref{rule:tsp:hpp:finish} will select and output a path \(p'\) chosen at random from among those deduced so far.  This rule is applied in exactly-once mode, with the system ending in state \(s_3\).  Application of this rule represents the end of the evolution of the system.
-    \item \cpRuleref{rule:tsp:hpp:explore} is the core of the algorithm.  So long as there are one or more vertex labels remaining in the unexplored vertex subcells \(u\) and a relevant \(e\) subcell available, this rule will be applied to each extant \(s\) subcell, and create new derivative \(s\) subcells that represent another step in the exploration of the digraph/another level in the exploration tree.  The next selected vertex \(T\) for each instantiation will be removed from \(u\) and prepended to \(p\).  This rule is applied in maximally-parallel mode, and the system remains in state \(s_2\).  Application of this rule takes one step per remaining vertex in the digraph, or \(n - 1\) steps in total.
-    % \item \cpRuleref{rule:tsp:hpp:clean} runs concurrently with \cpruleref{rule:tsp:hpp:explore}, and simply removes the extant \(s\) subcells from the system.  Due to the parallel nature of \gls{cps}, where any number of rules can be applied concurrently so long as they do not conflict with each other, this rule can work in conjunction with \cpruleref{rule:tsp:hpp:explore} without issue, because changes to subcells are not performed until the end of the step.  Note that neither Rules \cpruleref*{rule:tsp:hpp:explore} nor \cpruleref*{rule:tsp:hpp:clean} can be applied alongside \cpruleref{rule:tsp:hpp:finish}, because \cpruleref{rule:tsp:hpp:finish} changes the system's state, and therefore application of it conflicts with the latter two rules.  Both later rules are applied at the same time, so that at the end of their application, the new \(s\) subcells have been created, and the pre-existing ones deleted.  Such behaviour naturally eliminates any dead-end paths where there is no arc from the current vertex to an unexplored one.  This rule is applied in maximally-parallel mode, and the system remains in state \(s_2\).  Application of this rule takes one step per vertex in the digraph, or \(n - 1\) steps in total.  These steps are the same ones used for the application of \cpruleref{rule:tsp:hpp:explore}, and occur simultaneously.
+    \item \cpRuleref{rule:tsp:hpp:explore} is the core of the algorithm.  So long as there are one or more vertex labels remaining in the unexplored vertex subcells \(u\) plus a relevant \(e\) subcell available, this rule will be applied to each extant \(s\) subcell, and create new derivative \(s\) subcells that represent another step in the exploration of the digraph/another level in the exploration tree.  The next selected vertex \(T\) for each instantiation will be removed from \(u\) and prepended to \(p\).  This rule is applied in maximally-parallel mode, and the system remains in state \(s_2\).  Application of this rule takes one step per remaining vertex in the digraph, or \(n - 1\) steps in total.
     \item \cpRuleref{rule:tsp:hpp:clean} runs concurrently with \cpruleref{rule:tsp:hpp:explore}, and simply removes the extant \(s\) subcells from the system.  Note that neither Rules \cpruleref*{rule:tsp:hpp:explore} nor \cpruleref*{rule:tsp:hpp:clean} can be applied alongside \cpruleref{rule:tsp:hpp:finish}, because \cpruleref{rule:tsp:hpp:finish} changes the system's state, and therefore application of it conflicts with the latter two rules.  Both later rules are applied at the same time, so that at the end of their application, new \(s\) subcells have been created, and the pre-existing ones deleted.  Such behaviour naturally eliminates any dead-end paths where there is no arc from the current vertex to an unexplored one.  This rule is applied in maximally-parallel mode, and the system remains in state \(s_2\).  Application of this rule takes one step per vertex in the digraph, or \(n - 1\) steps in total.  These steps are the same ones used for the application of \cpruleref{rule:tsp:hpp:explore}, and occur simultaneously.
 \end{enumerate}
 
@@ -163,18 +75,18 @@ As stated above, the \gls{ruleset} assumes that there is a valid path (or cycle 
 
 \paragraph{Atoms}
 \begin{description}
-    \cptermdef{\cpempty}{The standard \gls{cps} `empty' symbol.}
+    \cptermdef{\cpempty}{The standard \gls{cps} \textsf{empty} symbol.}
 \end{description}
 
 \paragraph{Functors}
 \begin{description}
     \cptermdef{e}{Arc term.  Describes an arc in the digraph, using \(f\) and \(t\) subterms.}
-    \cptermdef{f}{Arc start term.  Shows the ``from'' vertex for an arc in the digraph.}
+    \cptermdef{f}{Arc start term.  Shows the \textsf{from} vertex for an arc in the digraph.}
     \cptermdef{h}{List head.  Represents the head of a classic \texttt{cons} linked list \cite{McCarthy1960,Reilly2003,Morris1992}, which is used to track a path explored-so-far in the digraph.}
     \cptermdef{p}{Path term.  Holds a list of vertices traversed so far, in reverse order from the end to the start vertex.}
     \cptermdef{p'}{Final result.  The selected Hamiltonian path is placed into this subcell immediately before the end of the \gls{tlc}'s evolution.}
     \cptermdef{s}{Exploration term.  This term holds a \(p\) subcell describing the path explored so far, and a \(u\) subcell with a set of all vertices yet to be explored on this particular path.}
-    \cptermdef{t}{Arc end term.  Shows the ``to'' vertex for an arc in the digraph.}
+    \cptermdef{t}{Arc end term.  Shows the \textsf{to} vertex for an arc in the digraph.}
     \cptermdef{u}{Unexplored vertices set.  The set of all vertices yet to be visited on the current Hamiltonian path --- one is stored per \(s\) term.}
     \cptermdef{v}{Vertex set.  At the start of evolution, this contains the label of every vertex, as another \(v\) subcell.}
 \end{description}
@@ -190,59 +102,6 @@ As stated above, the \gls{ruleset} assumes that there is a valid path (or cycle 
 
 \subsection{\Glsfmtname{hcp-glossary}}
 Finding a Hamiltonian cycle requires an expansion of the algorithm, specifically to record the initial starting vertex, and ensure that the paths produced also end there.  The modified rules taking account of the changes are presented in \cref{ruleset:tsp:hcp}.
-
-% \begin{algorithm}
-% \DontPrintSemicolon
-% \SetKwFunction{Uniq}{uniq}
-% \SetKwFunction{Perm}{permutations}
-% \SetKwFor{pForEach}{parallel foreach}{do}{endfch}
-% % \SetKwBlock{Loop}{loop:}{}
-% \SetKw{KwAnd}{and}
-% \SetKw{KwCons}{cons}
-% \SetKw{KwChoose}{choose}
-% \KwIn{Set \(E\) of edge subcells, vertices \(V\)}
-% \KwOut{A Hamiltonian cycle \(p'\)}
-% \Begin{
-    
-%     \tcc{Initialisation}
-%     \(r \gets \KwChoose(v \in V)\)\;
-%     \(S \gets s, S' \gets \emptyset\)\;
-%     \(s[r] \gets r\), \(s[u] \gets \KwCons(r,\cpempty)\), \(s[v] \gets (V \setminus u)\), \(V \gets \emptyset\)\;
-%     \;
-    
-%     \tcc{Exploration}
-%     \While{\(\exists s[u] \neq \emptyset\)}{
-%         \pForEach{\(s \in S\)}{
-%             \If{\(\exists e[f][t]\) \KwAnd \(t \in s[u]\) \KwAnd \(s[p].\mathit{head} = f\)}{
-%                 \(s' \gets s\)\;
-%                 \(s'[p] \gets \KwCons(t, s[p])\)\;
-%                 \(s'[u] \gets s[u] \setminus t\)\;
-%                 \(S' \gets S' \cup s'\)
-%             }
-%         }
-        
-%         \(S \gets S'\), \(S' \gets \emptyset\)\;
-%     }
-%     \;
-    
-%     \tcc{Cycle Construction}
-%     \(Z \gets \emptyset\)\;
-    
-%     \pForEach{\(s \in S\)}{
-%         \If{\(s[p].\mathit{head} = r\)}{
-%             % \(z \gets s\)\;
-%             \(Z \gets Z \cup s\)
-%         }
-%     }
-%     \;
-    
-%     \tcc{Cycle Selection}
-%     \(z' \gets \KwChoose(z \in Z)\)\;
-%     \(p' \gets z'[p]\)\;
-%     \Return \(p'\)
-% }
-% \caption{\label{alg:tsp:hcp}Pseudocode description of the \gls{cps} solution to the \gls{hcp}}
-% \end{algorithm}
 
 The major changes to this from the \gls{hpp} algorithm are the addition of an \(r\) subcell to every \(s\) subcell, the change of \cpruleref{rule:tsp:hpp:finish} and the addition of a \cpruleref{rule:tsp:hcp:finish}. The \(r\) subcell stores a vertex -- the \(R\) selected in \cpruleref{rule:tsp:hcp:start} -- to keep track of the starting point of the cycle, where the cycle will also have to end.  This is used by the new \cpruleref{rule:tsp:hcp:makezs} which, instead of outputting a randomly selected path, constructs new \(z\) subcells out of the \(s\) subcells.  These new subcells contain the full path of the cycle, but are only instantiated if there is an \(e\) subcell representing an arc on the graph from the final vertex on the path back to the origin vertex \(R\), by the action of the \gls{promoter}.  Finally, \cpruleref{rule:tsp:hcp:finish} selects at random from one of these new \(z\) subcells and outputs a final path subcell \(p'\).  The system ends in state \(s_4\), which represents the new termination point of the evolution of the system.
 
@@ -271,7 +130,7 @@ The major changes to this from the \gls{hpp} algorithm are the addition of an \(
 
 \begin{enumerate}
     \item Almost identical to \cpruleref{rule:tsp:hpp:start} in \cref{ruleset:tsp:hpp}.  The only difference is that the generated \(s\) subcell also contains an \(r\) subcell.
-    \item This rule is new to this \gls{ruleset}.  When the \(s\) terms have emptied their \(u\) subcells, every vertex on the graph has been explored, and every \(p\) subcell contains a Hamiltonian path.  To make those paths Hamiltonian cycles, another final arc traversal back to the origin vertex is required.  This rule generates \(z\) terms where there is an arc in the digraph from the last vertex on the path back to said origin vertex (stored in an \(r\) subcell in each \(s\) term).  The final Hamiltonian cycle is selected from one of those \(z\) terms.
+    \item This rule is new to this \gls{ruleset}.  When the \(s\) terms have emptied their \(u\) subcells, every vertex on the graph has been explored, and every \(p\) subcell contains a Hamiltonian path.  To make those paths Hamiltonian cycles, another final arc traversal back to the origin vertex is required.  This rule generates \(z\) terms where there is an arc in the digraph from the last vertex on the path back to said origin vertex (stored in the \(r\) subcell inside each \(s\) term).  The final Hamiltonian cycle is selected from one of those \(z\) terms.
     \item Almost identical to \cpruleref{rule:tsp:hpp:explore} in \cref{ruleset:tsp:hpp}.  The only difference is that here the rule accounts for the additional presence of \(r\) subcells inside the \(s\) subcells.
     \item Identical to \cpruleref{rule:tsp:hpp:clean} in \cref{ruleset:tsp:hpp}.
     \item Similar to \cpruleref{rule:tsp:hpp:finish} in \cref{ruleset:tsp:hpp}.  This rule selects a path from a \(z\) object instead of an \(s\) object, but still represents the end of the \gls{tlc}'s evolution.
@@ -292,7 +151,7 @@ The major changes to this from the \gls{hpp} algorithm are the addition of an \(
     \cptermdef{p}{Identical to \(p\) in \cref{ruleset:tsp:hpp}.}
     \cptermdef{p'}{Identical to \(p'\) in \cref{ruleset:tsp:hpp}.}
     \cptermdef{r}{``Root'' term.  This records the selected starting vertex, so that the new \cpruleref{rule:tsp:hcp:makezs} can ensure that the final traversal on the path is a return to the starting vertex.}
-    \cptermdef{s}{Almost identical to \(e\) in \cref{ruleset:tsp:hpp}.  The only difference is that each \(s\) subcell now also contains an \(r\) subcell.}
+    \cptermdef{s}{Almost identical to \(s\) in \cref{ruleset:tsp:hpp}.  The only difference is that each \(s\) subcell now also contains an \(r\) subcell.}
     \cptermdef{t}{Identical to \(t\) in \cref{ruleset:tsp:hpp}.}
     \cptermdef{u}{Identical to \(u\) in \cref{ruleset:tsp:hpp}.}
     \cptermdef{v}{Identical to \(v\) in \cref{ruleset:tsp:hpp}.}
@@ -307,7 +166,7 @@ The major changes to this from the \gls{hpp} algorithm are the addition of an \(
     \cptermdef{s_4}{Identical to \(s_3\) in \cref{ruleset:tsp:hpp}.}
 \end{description}
 
-\subsubsection{Time complexity of the \glsentrytext{hcp} (\glsentrytext{hpp}) algorithm}
+\subsubsection{Time Complexity of the \glsentrytext{hcp} (\glsentrytext{hpp}) Algorithm}
 
 The time complexity of this algorithm can be summarised as Proposition \ref{prop:tsp:runtime}:
 

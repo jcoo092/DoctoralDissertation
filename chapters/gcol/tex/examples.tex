@@ -5,7 +5,7 @@ To demonstrate the operation of the \gls{cps} algorithm in a 3-colouring context
 \begin{figure}
     \centering
     \includegraphics[width=0.4\textwidth]{chapters/gcol/figs/examplegraph1-figure2.pdf}
-    \caption[Example graph with at least one possible three-colouring solution]{Example undirected graph with at least one possible three-colouring solution (in fact, this graph is also potentially 2-colourable, and the \gls{cps} solution might select such a solution).}
+    \caption[Example graph with at least one possible three-colouring solution]{Example undirected graph with at least one possible three-colouring solution (in fact, this graph is also potentially 2-colourable, and the \glspl{cps} might select such a solution).}
     \label{fig:gcol:examplegraph}
 \end{figure}
 
@@ -18,8 +18,13 @@ To demonstrate the operation of the \gls{cps} algorithm in a 3-colouring context
 
 \subsection{Successful Example}
 
-For the graph in \cref{fig:gcol:examplegraph}, begin with a single \gls{tlc} situated in the environment and in state \(s_1\).  From the hypothetical set of nodes \(V = \{1, 2, 3, 4, 5\}\),  derive the functor \[V' = \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}~\cpfunc{n}{5}},\] and the set of objects \[E' = \cpset{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}},~\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{5}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}},~\cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}}}
-,\] representing the edges of the graph, as well as the set of colour objects \(K' = \cpset{\cpfunc{k}{r},~\cpfunc{k}{g},~\cpfunc{k}{b}}\), in this case representing the colours red, green and blue.  These sets of objects are all immediately within the \gls{tlc}, along with \(\cpfunc{s}{1}\) to select node 1 at the beginning of the process, as shown in \cref{objs:gcol:obj1}.
+For the graph in \cref{fig:gcol:examplegraph}, begin with a single \gls{tlc} situated in the environment and in state \(s_1\).  From the hypothetical set of nodes \(V = \{1, 2, 3, 4, 5\}\),  derive the functor
+\[V' = \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}~\cpfunc{n}{5}}.\]
+Define also the object set
+\[E' = \cpset{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}},~\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{5}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}},~\cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}}}\]
+representing the edges of the graph, as well as the set of colour objects
+\(K' = \cpset{\cpfunc{k}{r},~\cpfunc{k}{g},~\cpfunc{k}{b}}\),
+representing in this case the colours red, green and blue.  These sets of objects are all immediately inside the \gls{tlc}, along with \(\cpfunc{s}{1}\) to select node 1 at the beginning of the process, as shown in \cref{objs:gcol:obj1}.
 
 This beginning state, except for the choice of node label inside the \(s\) object, is mandatory, but all following discussion in this subsection is merely one possible execution, due to the non-deterministic selection of colours that occurs during application of \cpruleref{rule:gcol:rules:init} and \cpruleref{rule:gcol:rules:endsucc}.
 
@@ -103,7 +108,7 @@ At the fourth step, many further objects are created, some of which are listed i
 \caption[Example set of objects after the fourth step for \glsentrylong{gcp-glossary} \gls{cps} solution]{\label{objs:gcol:obj4}Set of objects inside the \gls{tlc} after the fourth step for \cref{fig:gcol:examplegraph}.}
 \end{cpobjectsfloat}
 
-Step 5 proceeds analogously.  At the end of step 5 a number of \(b\) objects which contain valid colourings of the whole graph will be present inside the \gls{tlc}.  At the sixth step, \cpruleref{rule:gcol:rules:endsucc} will detect this by the fact that said objects will contain empty \(v\) functors.  For example, \cref{objs:gcol:obj6} shows some of the potential solutions that could be generated, reflecting the state of the system at the end of the fifth step.  In fact, the first potential solution shows that in this case it is possible to completely and validly colour this graph using only two colours.  This solution may or may not be chosen when \cpruleref{rule:gcol:rules:endsucc} is applied.  At the end of the sixth step, \cpruleref{rule:gcol:rules:endsucc} will select one of the possible solutions and emit it to the environment.  The \gls{tlc} will also transition to state \(s_3\), signalling that the process succeeded.
+Step 5 proceeds analogously.  At the end of step 5 a number of \(b\) objects which contain valid colourings of the whole graph will be present inside the \gls{tlc}.  At the sixth step, \cpruleref{rule:gcol:rules:endsucc} will detect this by the fact that said objects will contain empty \(v\) functors.  For example, \cref{objs:gcol:obj6} shows some of the potential solutions that could be generated, reflecting the state of the system at the end of the fifth step.  In fact, the first potential solution shows that in this case it is possible to completely and validly colour this graph using only two colours.  This solution may or may not be chosen when \cpruleref{rule:gcol:rules:endsucc} is applied.  At the sixth step, \cpruleref{rule:gcol:rules:endsucc} will select one of the possible solutions and emit it to the environment.  The \gls{tlc} will also transition to state \(s_3\), signalling that the process succeeded.
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
@@ -205,4 +210,4 @@ Finally, \cref{objs:gcol:objn5} shows the objects in the \gls{tlc} as at the end
 \caption{\label{objs:gcol:objn5}Set of objects inside the \gls{tlc} at the end of step 4, for \cref{fig:gcol:examplegraphnosol}.}
 \end{cpobjectsfloat}
 
-With no \(b\) objects available in the system, at the next step, none of Rules \cpruleref*{rule:gcol:rules:init}-\cpruleref*{rule:gcol:rules:loopclean} will be applicable.  Thus, the first rule selected is \cpruleref{rule:gcol:rules:endfail}, which transitions the \gls{tlc} to state \(s_4\), signalling to the environment that the system has determined that there was no possible valid colouring for the graph using the colours provided and so ceased evolving.
+With no \(b\) objects available in the system, at the next step, none of Rules \cpruleref*{rule:gcol:rules:init}-\cpruleref*{rule:gcol:rules:loopclean} will be applicable.  Thus, the first rule selected is \cpruleref{rule:gcol:rules:endfail}, which transitions the \gls{tlc} to state \(s_4\), signalling to the environment that the system has determined that there was no possible valid colouring for the graph using the colours provided and so halted.
