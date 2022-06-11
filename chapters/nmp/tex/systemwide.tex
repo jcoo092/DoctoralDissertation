@@ -21,14 +21,14 @@ In the \gls{gs} version, the entire system evolves in lock-step, and thus is alw
     % \item\label{enumitem:nmp:init} Initialisation (Rules \cpruleref*{rule:nmp:systemwide:recvcounter} \& \cpruleref*{rule:nmp:systemwide:recvinput})
     \item\label{enumitem:nmp:pu} \Gls{oq} (Rules \cpruleref*{rule:nmp:systemwide:loopdecrement}, \cpruleref*{rule:nmp:systemwide:sendtooracle} \& \cpruleref*{rule:nmp:systemwide:recvfromoracle})
     \item\label{enumitem:nmp:nm} \Gls{nm} (rule \cpruleref*{rule:nmp:systemwide:antiport})
-    \item\label{enumitem:nmp:final} \textsf{Finalisation} (Rules \cpruleref*{rule:nmp:systemwide:loopend}, \cpruleref*{rule:nmp:systemwide:oraclefinalise} \& \cpruleref*{rule:nmp:systemwide:end})
+    \item\label{enumitem:nmp:final} Finalisation (Rules \cpruleref*{rule:nmp:systemwide:loopend}, \cpruleref*{rule:nmp:systemwide:oraclefinalise} \& \cpruleref*{rule:nmp:systemwide:end})
 \end{enumerate}
 
 % This progression is depicted as a state machine in \cref{fig:nmp:systemwidestatemachine}.  State \(s_1\) covers the initialisation phase; \(s_2\) and \(s_3\) the \gls{oq} phase; \(s_4\) the \gls{nm} phase; and \(s_5\) and \(s_6\) the finalisation phase.  State \(s_7\) is the halting phase of the system's evolution.  In an application of \gls{nmp} phases \ref{enumitem:nmp:init}, \ref{enumitem:nmp:nm} and \ref{enumitem:nmp:final} will not change.  Only phase \ref{enumitem:nmp:pu} would be replaced.  The system's evolution is sketched at a high level in \cref{alg:nmp:systemwide2}.
 
-\Cref{fig:nmp:systemwidestatemachine} depicts this progression as a state machine.  States \(s_1\) and \(s_2\) cover the \gls{oq} phase; \(s_3\) the \gls{nm} phase; and \(s_4\) and \(s_5\) the \textsf{finalisation} phase.  State \(s_6\) is the halting state of the system's evolution.  In an application of \gls{nmp} phases \ref{enumitem:nmp:nm} and \ref{enumitem:nmp:final} will not change.  Only phase \ref{enumitem:nmp:pu} is replaced.  The system's evolution is sketched at a high level in \cref{alg:nmp:systemwide2}.
+\Cref{fig:nmp:systemwidestatemachine} depicts this progression as a state machine.  States \(s_1\) and \(s_2\) cover the \gls{oq} phase; \(s_3\) the \gls{nm} phase; and \(s_4\) and \(s_5\) the finalisation phase.  State \(s_6\) is the halting state of the system's evolution.  In an application of \gls{nmp} phases \ref{enumitem:nmp:nm} and \ref{enumitem:nmp:final} will not change.  Only phase \ref{enumitem:nmp:pu} is replaced.  The system's evolution is sketched at a high level in \cref{alg:nmp:systemwide2}.
 
-The \gls{oq} phase is when each \gls{pe} performs its internal computation. As mentioned earlier, these computations are problem-dependent and thus cannot be modelled generically. Instead, this \namecref{chap:nmp} uses communication with an oracle assigned to each \gls{pe} to simulate this aspect of \gls{nmp}. The \gls{nm} phase is the main focus of this work. This is where \glspl{pe} exchange messages with their neighbours, based on data received earlier from other neighbours. The \textsf{finalisation} phase occurs after each \gls{pe} reaches a stopping point. At this point, each \gls{pe} performs a final computation to determine its output for the lattice, incorporating the latest data received from neighbours.
+The \gls{oq} phase is when each \gls{pe} performs its internal computation. As mentioned earlier, these computations are problem-dependent and thus cannot be modelled generically. Instead, this \namecref{chap:nmp} uses communication with an oracle assigned to each \gls{pe} to simulate this aspect of \gls{nmp}. The \gls{nm} phase is the main focus of this work. This is where \glspl{pe} exchange messages with their neighbours, based on data received earlier from other neighbours. The finalisation phase occurs after each \gls{pe} reaches a stopping point. At this point, each \gls{pe} performs a final computation to determine its output for the lattice, incorporating the latest data received from neighbours.
 
 \begin{figure}
     \centering
@@ -63,7 +63,7 @@ The \gls{oq} phase is when each \gls{pe} performs its internal computation. As m
         \;\tcc{\Glsentrylong{nm}}
         \lpForEach{\(x \in \{1, 2, 3, 4\}\)}{\(v[x] \Leftrightarrow \langle x \rangle\)}
     }
-    \;\tcc{\textsf{Finalisation}}
+    \;\tcc{Finalisation}
     \pForEach{\(x \in \{1, 2, 3, 4\}\)}{
         \(w'[x] \gets v[x]\)\;
         \(w'[x] \Rightarrow \langle o \rangle\)
@@ -79,9 +79,9 @@ Assume before the start of the system's evolution that the correct number of \gl
 \subsection{System Definition}
 Recall from \cref{sec:cps:formaldescriptions} that a given \gls{cps} implementation can be defined as a 6-tuple:
 
-\cptuple{\text{NMP-GS}}{\cpset{\sigma_1, \dots, \sigma_{\text{max}}}}{A}{O}{\text{\cref{ruleset:nmp:systemwide}}}{\cpset{s_1, s_2, s_3, s_4, s_5, s_6}}{s_1}
+\cptuplechans{\text{NMP-GS}}{\cpset{\sigma_1, \dots, \sigma_{\text{max}}}}{A}{O}{C}{\text{\cref{ruleset:nmp:systemwide}}}{\cpset{s_1, s_2, s_3, s_4, s_5, s_6}}{s_1}
 
-\(T\) is a set of \glspl{tlc}, each representing a single \gls{pe}, numbered from one to the total size of the lattice.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is the set of all terms defined in \cref{sec:nmp:systemwide:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is a generation counter functor \(i\) and its set of initial data \(V\).
+\(T\) is a set of \glspl{tlc}, each representing a single \gls{pe}, numbered from one to the total size of the lattice.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is the set of all terms defined in \cref{sec:nmp:systemwide:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is a generation counter functor \(i\) and its set of initial data \(V\).  Each \gls{pe}'s set in \(C\) is \(\{1, 2, 3, 4\}\) for any \gls{pe} inside the grid, while those on a border or corner will include one or two fewer entries, respectively, in their set (see also \cref{sec:nmp:ruleslessthanfour} for further discussion of this).
 
 \subsection{\label{sec:nmp:systemwide:rulesdesc}Description of Rules}
 
@@ -127,12 +127,12 @@ Recall from \cref{sec:cps:formaldescriptions} that a given \gls{cps} implementat
 \begin{enumerate}
     % \item Receive \(I\), the maximum generation count or the number of rounds of message passing each \gls{pe} should engage in.\footnote{In general with \gls{nmp} a fixed number of generations is not the only way to determine when \gls{nm} should cease, but other methods tend to be specific to the problem at hand.   Therefore, a generation count is the only one presented here.  It should be applicable no matter the computation performed.}
     % \item Receive from the environment \gls{nm} messages \(v(X)(D)\), being the \gls{pe}'s initial data for its neighbours.
-    \item If \(i\) is empty, continue to the \textsf{finalisation} phase.
+    \item If \(i\) is empty, continue to the finalisation phase.
     \item Decrement \(i\) when sending \(w\) messages to the oracle for \gls{oq}.
     \item Convert the \(v\) messages into \(w\) messages and send them to the oracle to compute the new messages to send to neighbours.
     \item Receive back new \(w\) objects from the oracle and convert them to \(v\) objects.
     \item Swap \(v\) messages with each neighbour \(X\), using antiport communication (see \cref{sec:cps:antiport}).
-    \item Send the \(v\) objects as \(w'\) to the oracle for \textsf{finalisation} computation.
+    \item Send the \(v\) objects as \(w'\) to the oracle for finalisation computation.
     \item Receive the final result \(\cpfunc{z}{Z}\) from the oracle and halt.% and send it to the environment.\footnote{One might wonder why the oracle could not simply emit the final result directly into the environment.  Strictly speaking, that would be reasonable in the context of this system, but bear in mind that the oracle is simply an abstraction over an arbitrary computation, which would take place \emph{inside} the \gls{pe}.}
 \end{enumerate}
 
@@ -147,10 +147,10 @@ Recall from \cref{sec:cps:formaldescriptions} that a given \gls{cps} implementat
 
 \paragraph{Functors}
 \begin{description}
-    \cptermdef{i}{A generation counter.  Used to count the number of generations of \gls{nm} remaining before moving to the \textsf{finalisation} phase.}
+    \cptermdef{i}{A generation counter.  Used to count the number of generations of \gls{nm} remaining before moving to the finalisation phase.}
     \cptermdef{v}{The \(v\) compound terms described in \cref{sec:cps:compoundterms} \emph{except} without the generation counter --- the \(i\) counter serves the same purpose for the \gls{gs} variant.  These serve as \gls{nm} messages.}
     \cptermdef{w}{The same as the \(v\) terms, but used as messages to the oracle for \gls{oq}.}
-    \cptermdef{w'}{The same as the above \(w\) objects, but marked to indicate to the oracle that they are to be used for \textsf{finalisation} rather than \gls{oq}.}
+    \cptermdef{w'}{The same as the above \(w\) objects, but marked to indicate to the oracle that they are to be used for finalisation rather than \gls{oq}.}
     \cptermdef{z}{Final output functor.  Holds the result of the \gls{pe}’s computation.}
 \end{description}
 
@@ -160,7 +160,7 @@ Recall from \cref{sec:cps:formaldescriptions} that a given \gls{cps} implementat
     \cptermdef{s_1}{The opening \gls{oq} phase state, where data are sent to the oracle and the generation counter is decremented.}
     \cptermdef{s_2}{Data update receipt state. Updated data are received back from the oracle.}
     \cptermdef{s_3}{\Gls{nm} state.  Messages are swapped with neighbours.}
-    \cptermdef{s_4}{\textsf{Finalisation} phase transition state}
+    \cptermdef{s_4}{Finalisation phase transition state}
     \cptermdef{s_5}{State for transmission to the oracle for the final result, and awaiting its response.}
     \cptermdef{s_6}{State for receipt of the result from the oracle and halting of evolution.}
 \end{description}

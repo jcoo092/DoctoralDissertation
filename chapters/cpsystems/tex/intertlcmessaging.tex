@@ -8,25 +8,25 @@ Both sending and receiving use pattern matching.  For the sending case, any \gls
 
 \lstset{xleftmargin=.5in, xrightmargin=.5in} 
 \begin{lstlisting}
-  $\cpsend{\cpfunc{a}{b}}{c}$ #\hfill\textsf{send}\enspace#
-  $\cprecv{\cpfunc{d}{e}}{f}$ #\hfill\textsf{receive}\enspace#
+  $\cpsend{\cpfunc{a}{b}}{c}$ #\hfill send \enspace#
+  $\cprecv{\cpfunc{d}{e}}{f}$ #\hfill receive \enspace#
 \end{lstlisting}
 
-The addition of channels to \glspl{tlc} requires an expansion of the \gls{cps} grammar to express them.  
+% The addition of channels to \glspl{tlc} requires an expansion of the \gls{cps} grammar to express them.  
 
-\begin{framed}
-\vspace{-0.6cm}
-\begin{small}
-\begin{bnf*}
-    \bnfprod*{symbol}{\bnfpn{atom} \bnfor \bnfpn{variable} \bnfor \bnfpn{term} \bnfor \bnfpn{channel}}\\
-    \bnfprod*{term}{\bnfpn{functor} \bnfsp \bnfts{`('} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`)'}}\\
-    \bnfprod*{functor}{\bnfpn{atom}}\\
-    \bnfprod*{argument}{\bnfes \bnfor \bnfsp \bnfpn{symbol} \bnfsp \bnfts{+}}\\
-    \bnfprod*{channel}{\bnfts{`\(\langle\)'} \bnfsp \bnfpn{argument} \bnfts{`\(\rangle\)'}}
-\end{bnf*}
-\end{small}
-\vspace{-0.8cm}
-\end{framed}
+% \begin{framed}
+% \vspace{-0.6cm}
+% \begin{small}
+% \begin{bnf*}
+%     \bnfprod*{symbol}{\bnfpn{atom} \bnfor \bnfpn{variable} \bnfor \bnfpn{term} \bnfor \bnfpn{channel}}\\
+%     \bnfprod*{term}{\bnfpn{functor} \bnfsp \bnfts{`('} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`)'}}\\
+%     \bnfprod*{functor}{\bnfpn{atom}}\\
+%     \bnfprod*{argument}{\bnfes \bnfor \bnfsp \bnfpn{symbol} \bnfsp \bnfts{+}}\\
+%     \bnfprod*{channel}{\bnfts{`\(\langle\)'} \bnfsp \bnfpn{argument} \bnfts{`\(\rangle\)'}}
+% \end{bnf*}
+% \end{small}
+% \vspace{-0.8cm}
+% \end{framed}
 
 %-------------------------------------------------------
 \subsection{\label{sec:cps:antiport}Antiport Communication Rules in \glsfmtname{cps}}
@@ -40,8 +40,8 @@ In the context of \gls{cps}, this means that a given rule must involve receipt o
 
 \lstset{xleftmargin=.5in, xrightmargin=.5in} 
 \begin{lstlisting}
-  $\cpantisend{\cpfunc{a}{b}}{c}$ #\hfill\textsf{antiport send}\enspace#
-  $\cpantirecv{\cpfunc{d}{e}}{f}$ #\hfill\textsf{antiport receive}\enspace#
+  $\cpantisend{\cpfunc{a}{b}}{c}$ #\hfill antiport send \enspace#
+  $\cpantirecv{\cpfunc{d}{e}}{f}$ #\hfill antiport receive \enspace#
 \end{lstlisting}
 
 For example, \cpruleinline{ \cprule*{s_1}{\cpantirecv{\cpfunc{a}{B}}{c} \; \cpfunc{d}{E}}{\cponce}{s_2}{\cpantisend{\cpfunc{d}{E}}{c} \; \cpfunc{a}{B}}} would be valid because the same channel is used on both sides of the rule.
@@ -72,3 +72,25 @@ unifications, as in \cref{sec:cps:unification}; or, when there are multiple mess
 which match the pattern of the receiving \gls{tlc}’s receipt rule but because the relevant rule runs in \(\cponce\) mode only one is to be selected.
 
 Determinism in the final result only is known as \emph{confluence}.  This means that, while different evolutions of the system may lead to different intermediate states, the final result will always be the same.  Confluence too must be built into the \gls{ruleset} if it is required.
+
+%-------------------------------------------------------
+\subsection{\label{sec:cps:outsymbols}Out-Symbols}
+%-------------------------------------------------------
+Out-symbols were a previous form of inter-\gls{tlc} communication in \gls{cps}.  Their use has largely ceased, having been superseded by channels, but they are presented here for completeness and posterity.  Perhaps the key difference between the two is that out-symbols assumed connections between \glspl{tlc} whereas channels make those connections explicit.  This included depositing objects into the recipient \gls{tlc} without them taking any action to receive them.
+
+Out-symbols  are sent to the cell's structural neighbours at the end of the step.
+As with communication via channels, the objects to be sent are surrounded with angle brackets.  Unlike channels, however, instead of using \(?\) or \(!\) to indicate communication, a downward arrow \(\downarrow\delta\) shows that the objects are sent to destination(s) \(\delta\).  The intended destination(s) could vary according to the requirements of the system at hand.
+% These symbols are enclosed in angle brackets that indicate their destinations, abbreviated above as \(\delta\). 
+Typical notations include: 
+
+\begin{itemize}
+\item \(\cpoutsymbol{a}{i}\) indicates that \(a\) is sent over outgoing arc \(i\) (unicast); 
+
+\item \(\cpoutsymbol{a}{i,j}\) indicates that \(a\) is sent over outgoing arcs \(i\) and \(j\)(multicast); 
+
+\item \(\cpoutsymbolall{a}\) indicates that \(a\) is sent over all outgoing arcs (broadcast). 
+\end{itemize}
+
+All symbols sent via one \emph{generic rule} to the same destination form one single \emph{message}, and they travel together as one single block (even if the generic rule is applied in mode \(\cpmaxpar\)).
+
+

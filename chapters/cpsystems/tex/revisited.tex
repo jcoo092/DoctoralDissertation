@@ -1,0 +1,98 @@
+%-----------------------------------------------------------------------------------
+\section{\label{sec:cps:termsandrulesrevisited}Symbols And Rules Revisited}
+%-----------------------------------------------------------------------------------
+The expansion of \gls{cps} to include communication between \glspl{tlc} -- either through the use of channels or the out-symbols system -- plus \glspl{ms} introduces new syntactic elements.  Thus, the presentation of terms in \cref{sec:cps:terms} and generic rules in \cref{sec:cps:genericrules} is no longer complete.  This \namecref{sec:cps:termsandrulesrevisited} revisits both and expands them to encompass the new elements.
+
+%-------------------------------------------------------
+\subsection{\label{sec:cps:termssrevisited}Terms Revisited}
+%-------------------------------------------------------
+
+The addition of channels to \glspl{tlc} requires an expansion of the \gls{cps} grammar to express them.  Specifically, the communicand, antiport, communication, out-symbol and \gls{ms} productions are all added as a consequence.
+
+\begin{framed}
+\vspace{-0.6cm}
+\begin{small}
+\begin{bnf*}
+    \bnfprod*{symbol}{\bnfpn{atom} \bnfor \bnfpn{variable} \bnfor \bnfpn{term}}\\
+    \bnfprod*{term}{\bnfpn{functor} \bnfsp \bnfts{`('} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`)'}}\\
+    \bnfprod*{communicand}{\bnfts{`\(\langle\)'} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`\(\rangle\)'}}\\
+    \bnfprod*{functor}{\bnfpn{atom}}\\
+    \bnfprod*{argument}{\bnfes \bnfor \bnfsp \bnfpn{symbol} \bnfsp \bnfts{+}}\\
+    \bnfprod*{channel}{\bnfpn{communicand} \bnfsp \bnfts{`?'} \bnfpn{atom} \bnfor \bnfpn{communicand} \bnfsp \bnfts{`!'} \bnfpn{atom}}\\
+    \bnfprod*{antiport}{\bnfpn{communicand} \bnfsp \bnfts{`??'} \bnfpn{atom} \bnfor \bnfpn{communicand} \bnfsp \bnfts{`!!'} \bnfpn{atom}}\\
+    \bnfprod*{out-symbol}{\bnfpn{communicand} \bnfsp \bnfts{`\(\downarrow\)'} \bnfsp ( \bnfpn{atom} \bnfsp (\bnfts{`,'} \bnfpn{atom})* \bnfor \bnfts{`\(\forall\)'} )}\\
+    \bnfprod*{communication}{\bnfpn{channel} \bnfor \bnfpn{antiport} \bnfor \bnfpn{out-symbol}}\\
+    \bnfprod*{\gls{ms}}{\bnfpn{functor} \bnfsp \bnfts{`\{'} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`\}'}}
+\end{bnf*}
+\end{small}
+\vspace{-0.8cm}
+\end{framed}
+
+%-------------------------------------------------------
+\subsection{\label{sec:cps:genericrulesrevisited}Generic Rules Revisited}
+%-------------------------------------------------------
+
+% Consider rules of the following \emph{generic} format 
+% (called generic because it defines templates involving variables):
+\begin{framed}
+\vspace{-0.6cm}
+\begin{align*}
+ current-state  ~~  symbols  \dots ~ \rightarrow_\alpha ~ &  target-state  ~~ ( in-symbols ) \dots ~~ \\
+ & ( out-symbols )_\delta \dots \\
+ & | ~  \glspl{promoter} \dots ~~ \neg ~  \glspl{inhibitor} \dots
+\end{align*}
+\vspace{-0.8cm}
+\end{framed}
+% Where:
+% \begin{itemize}
+% \item  current-state  and  target-state  are atoms or terms;  these are traditionally written in the form \(s_x\) where \(x\) is a sequential numeral (\eg{} \(s_1\), \(s_2\) \etc{}), but any valid ground atom or term as appropriate is permitted.
+
+% \smallskip
+% \item  symbols,  in-symbols, \glspl{promoter} and \glspl{inhibitor} are symbols;
+
+% \smallskip
+% \item  in-symbols  become available after the end of the current step only, as in traditional \gls{ps}  (one can imagine that these are sent via an \adhoc{} fast  loopback  channel);
+
+% \smallskip
+% \item subscript \(\alpha\) \(\in\) \(\{\cponce\), \(\cpmaxpar\}\), 
+% indicates the application mode, discussed further in \cref{sec:cps:applicationmodes};
+
+% \smallskip
+% \item  out-symbols  are sent to the cell's structural neighbours at the end of the step.
+% These symbols are enclosed in angle brackets that indicate 
+% their destinations, abbreviated above as \(\delta\). 
+% The most usual scenarios include: 
+
+% \begin{itemize}
+% \item \(\cpoutsymbol{a}{i}\) indicates that \(a\) is sent over outgoing arc \(i\) (unicast); 
+
+% \item \(\cpoutsymbol{a}{i,j}\) indicates that \(a\) is sent over outgoing arcs \(i\) and \(j\)(multicast); 
+
+% \item \(\cpoutsymbolall{a}\) indicates that \(a\) is sent over all outgoing arcs (broadcast). 
+% \end{itemize}
+
+% All symbols sent via one \emph{generic rule} to the same destination form one single \emph{message}, and they travel together as one single block (even if the generic rule is applied in mode \(\cpmaxpar\)).
+% \end{itemize}
+
+% \subsection{Grammar Addition}
+% As with the inclusion of communication, \glspl{ms} require an addition to the \gls{cps} grammar:
+
+% \begin{framed}
+% \vspace{-0.6cm}
+% \begin{small}
+% \begin{bnf*}
+%     \bnfprod*{symbol}{\bnfpn{atom} \bnfor \bnfpn{variable} \bnfor \bnfpn{term}}\\
+%     \bnfprod*{term}{\bnfpn{functor} \bnfsp \bnfts{`('} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`)'}}\\
+%     \bnfprod*{communicand}{\bnfts{`\(\langle\)'} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`\(\rangle\)'}}\\
+%     \bnfprod*{functor}{\bnfpn{atom}}\\
+%     \bnfprod*{argument}{\bnfes \bnfor \bnfsp \bnfpn{symbol} \bnfsp \bnfts{+}}\\
+%     \bnfprod*{antiport}{\bnfpn{communicand} \bnfsp \bnfts{`??'} \bnfor \bnfpn{communicand} \bnfsp \bnfts{`!!'}}\\
+%     \bnfprod*{communication}{\bnfpn{communicand} \bnfsp \bnfts{`?'} \bnfor \bnfpn{communicand} \bnfsp \bnfts{`!'} \bnfor \bnfpn{antiport}}\\
+%     \bnfprod*{out-symbol}{\bnfpn{communicand} \bnfsp ( \bnfts{`i'} \bnfsp \bnfts{`,j'}* \bnfor \bnfts{`\(\forall\)'} )}\\
+%     \bnfprod*{\gls{ms}}{\bnfpn{functor} \bnfsp \bnfts{`\{'} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`\}'}}
+% \end{bnf*}
+% \end{small}
+% \vspace{-0.8cm}
+% \end{framed}
+
+It is not reflected in the grammar in \cref{sec:cps:termssrevisited}, but, as described in the relevant sections earlier, certain productions may appear only on the left-hand or right-hand side of the middle arrow of a \gls{cps} rule.  In particular, channels and antiports with a question mark may appear only on the left-hand side, while channels and antiports with an exclamation mark, and all out-symbols may only appear on the right-hand side.  Furthermore, every antiport and every \gls{ms} on the left-hand side must have a matching partner on the right-hand side (and vice versa).

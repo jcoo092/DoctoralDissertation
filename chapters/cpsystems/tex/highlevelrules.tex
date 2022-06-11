@@ -5,46 +5,87 @@
 %-------------------------------------------------------
 \subsection{\label{sec:cps:genericrules}Generic Rules Format}
 %-------------------------------------------------------
+% Consider rules of the following \emph{generic} format 
+% (called generic because it defines templates involving variables):
+% \begin{framed}
+% \vspace{-0.6cm}
+% \begin{align*}
+% \textsf{current-state} ~~ \textsf{symbols} \dots ~ \rightarrow_\alpha ~ & \textsf{target-state} ~~ (\textsf{in-symbols}) \dots ~~ \\
+%  & (\textsf{out-symbols})_\delta \dots \\
+%  & | ~  \textsf{\glspl{promoter}} \dots ~~ \neg ~  \textsf{\glspl{inhibitor}} \dots
+% \end{align*}
+% \vspace{-0.8cm}
+% \end{framed}
+% Where:
+% \begin{itemize}
+% \item \textsf{current-state} and \textsf{target-state} are atoms or terms;  these are traditionally written in the form \(s_x\) where \(x\) is a sequential numeral (\eg{} \(s_1\), \(s_2\) \etc{}), but any valid ground atom or term as appropriate is permitted.
+
+% \smallskip
+% \item \textsf{symbols}, \textsf{in-symbols}, \textsf{\glspl{promoter}} and \textsf{\glspl{inhibitor}} are symbols;
+
+% \smallskip
+% \item \textsf{in-symbols} become available after the end of the current step only, as in traditional \gls{ps}  (one can imagine that these are sent via an \adhoc{} fast \textsf{loopback} channel); 
+
+% \smallskip
+% \item subscript \(\alpha\) \(\in\) \(\{\cponce\), \(\cpmaxpar\}\), 
+% indicates the application mode, discussed further in \cref{sec:cps:applicationmodes};
+
+% \smallskip
+% \item \textsf{out-symbols} are sent to the cell's structural neighbours at the end of the step.
+% These symbols are enclosed in angle brackets that indicate 
+% their destinations, abbreviated above as \(\delta\). 
+% The most usual scenarios include: 
+
+% \begin{itemize}
+% \item \(\cpoutsymbol{a}{i}\) indicates that \(a\) is sent over outgoing arc \(i\) (unicast); 
+
+% \item \(\cpoutsymbol{a}{i,j}\) indicates that \(a\) is sent over outgoing arcs \(i\) and \(j\)(multicast); 
+
+% \item \(\cpoutsymbolall{a}\) indicates that \(a\) is sent over all outgoing arcs (broadcast). 
+% \end{itemize}
+
+% All symbols sent via one \emph{generic rule} to the same destination form one single \emph{message}, and they travel together as one single block (even if the generic rule is applied in mode \(\cpmaxpar\)).
+% \end{itemize}
+
 Consider rules of the following \emph{generic} format 
 (called generic because it defines templates involving variables):
 \begin{framed}
 \vspace{-0.6cm}
 \begin{align*}
-\textsf{current-state} ~~ \textsf{symbols} \dots ~ \rightarrow_\alpha ~ & \textsf{target-state} ~~ (\textsf{in-symbols}) \dots ~~ \\
- & (\textsf{out-symbols})_\delta \dots \\
- & | ~  \textsf{\glspl{promoter}} \dots ~~ \neg ~  \textsf{\glspl{inhibitor}} \dots
+ current-state  ~~  symbols  \dots ~ \rightarrow_\alpha ~ &  target-state  ~~ ( in-symbols ) \dots ~~ \\
+ & | ~  \glspl{promoter} \dots ~~ \neg ~  \glspl{inhibitor} \dots
 \end{align*}
 \vspace{-0.8cm}
 \end{framed}
 Where:
 \begin{itemize}
-\item \textsf{current-state} and \textsf{target-state} are atoms or terms;  these are traditionally written in the form \(s_x\) where \(x\) is a sequential numeral (\eg{} \(s_1\), \(s_2\) \etc{}), but any valid ground atom or term as appropriate is permitted.
+\item  current-state  and  target-state  are atoms or terms;  these are traditionally written in the form \(s_x\) where \(x\) is a sequential numeral (\eg{} \(s_1\), \(s_2\) \etc{}), but any valid ground atom or term as appropriate is permitted.
 
 \smallskip
-\item \textsf{symbols}, \textsf{in-symbols}, \textsf{\glspl{promoter}} and \textsf{\glspl{inhibitor}} are symbols;
+\item  symbols, \glspl{promoter} and \glspl{inhibitor} are symbols;
 
 \smallskip
-\item \textsf{in-symbols} become available after the end of the current step only, as in traditional \gls{ps}  (one can imagine that these are sent via an \adhoc{} fast \textsf{loopback} channel); 
+\item  in-symbols  become available after the end of the current step only, as in traditional \gls{ps}  (one can imagine that these are sent via an \adhoc{} fast  loopback  channel); 
 
 \smallskip
-\item subscript \(\alpha\) \(\in\) \(\{\cponce\), \(\cpmaxpar\}\), 
+\item subscript \(\alpha\), \(\{\cponce\), \(\cpmaxpar\}\), 
 indicates the application mode, discussed further in \cref{sec:cps:applicationmodes};
 
-\smallskip
-\item \textsf{out-symbols} are sent to the cell's structural neighbours at the end of the step.
-These symbols are enclosed in angle brackets that indicate 
-their destinations, abbreviated above as \(\delta\). 
-The most usual scenarios include: 
+% \smallskip
+% \item \textsf{out-symbols} are sent to the cell's structural neighbours at the end of the step.
+% These symbols are enclosed in angle brackets that indicate 
+% their destinations, abbreviated above as \(\delta\). 
+% The most usual scenarios include: 
 
-\begin{itemize}
-\item \(\cpoutsymbol{a}{i}\) indicates that \(a\) is sent over outgoing arc \(i\) (unicast); 
+% \begin{itemize}
+% \item \(\cpoutsymbol{a}{i}\) indicates that \(a\) is sent over outgoing arc \(i\) (unicast); 
 
-\item \(\cpoutsymbol{a}{i,j}\) indicates that \(a\) is sent over outgoing arcs \(i\) and \(j\)(multicast); 
+% \item \(\cpoutsymbol{a}{i,j}\) indicates that \(a\) is sent over outgoing arcs \(i\) and \(j\)(multicast); 
 
-\item \(\cpoutsymbolall{a}\) indicates that \(a\) is sent over all outgoing arcs (broadcast). 
-\end{itemize}
+% \item \(\cpoutsymbolall{a}\) indicates that \(a\) is sent over all outgoing arcs (broadcast). 
+% \end{itemize}
 
-All symbols sent via one \emph{generic rule} to the same destination form one single \emph{message}, and they travel together as one single block (even if the generic rule is applied in mode \(\cpmaxpar\)).
+% All symbols sent via one \emph{generic rule} to the same destination form one single \emph{message}, and they travel together as one single block (even if the generic rule is applied in mode \(\cpmaxpar\)).
 \end{itemize}
 
 %-------------------------------------------------------
@@ -88,8 +129,8 @@ Promoters are objects that \emph{must} be present within the \gls{tlc} for the r
 
 \lstset{xleftmargin=.5in, xrightmargin=.5in} 
 \begin{lstlisting}
-  $| ~ \cpfunc{a}{A}$ #\hfill\textsf{\gls{promoter}}\enspace#
-  $\neg ~ \cpfunc{b}{B}$ #\hfill\textsf{\gls{inhibitor}}\enspace#
+  $| ~ \cpfunc{a}{A}$ #\hfill \gls{promoter} \enspace#
+  $\neg ~ \cpfunc{b}{B}$ #\hfill \gls{inhibitor} \enspace#
 \end{lstlisting}
 
 To define additional useful matchings expressively, 

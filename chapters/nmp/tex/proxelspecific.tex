@@ -86,7 +86,7 @@ As with \cref{sec:nmp:systemwide}, this \namecref{sec:nmp:pespecific} shows the 
     }
     \AlCapSty{\AlCapFnt break:}\;
     
-    \;\tcc{\textsf{Finalisation}}
+    \;\tcc{Finalisation}
     
     \lpForEach{\(x \in A\)}{\(v[x] \Rightarrow \langle o \rangle\)}
     \(z \Leftarrow \langle o \rangle\)\;
@@ -108,7 +108,7 @@ Per the tuple definition from \cref{sec:cps:formaldescriptions}:
 
 % \(T\) is a set of \glspl{tlc}, each representing a single \gls{pe}, numbered sequentially.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is equal to the set of terms defined in \cref{sec:pespecific:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is the appropriate channel endpoints and an adjacency list term \(a\), with contents \(A_t\) listing its neighbours specifically.  Every \gls{pe}'s \gls{ruleset} in \(R\) is either equal to that found in \cref{ruleset:nmp:proxspec}, or one which starts with that \gls{ruleset} as a base.  These latter \glspl{ruleset} drop terms from \cpruleref{rule:nmp:proxspec:makews} to adapt it to the relevant \gls{pe} having fewer than four neighbours (see \cref{sec:nmp:ruleslessthanfour}).
 
-\(T\) is a set of \glspl{tlc}, each representing a single \gls{pe}, numbered sequentially.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is equal to the set of terms defined in \cref{sec:pespecific:definitions}.  Each \gls{pe}’s starting multiset in \(O\) is an adjacency list term \(a\), its maximum generation counter \(i\), its set of starting \(v\) messages and one receipt token per neighbour.  Every \gls{pe}'s \gls{ruleset} in \(R\) is \cref{ruleset:nmp:proxspec}, or one which starts with that \gls{ruleset} as a base.  These latter \glspl{ruleset} drop terms from \cpruleref{rule:nmp:proxspec:makews} to adapt it to the relevant \gls{pe} having fewer than four neighbours (see \cref{sec:nmp:ruleslessthanfour}).
+\(T\) is a set of \glspl{tlc}, each representing a single \gls{pe}, numbered sequentially.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is equal to the set of terms defined in \cref{sec:pespecific:definitions}.  Each \gls{pe}’s starting multiset in \(O\) is an adjacency list term \(a\), its maximum generation counter \(i\), its set of starting \(v\) messages and one receipt token per neighbour.  \(C\) is identical to the set of channel labels defined in \cref{sec:nmp:systemwide}.  Every \gls{pe}'s \gls{ruleset} in \(R\) is \cref{ruleset:nmp:proxspec}, or one which starts with that \gls{ruleset} as a base.  These latter \glspl{ruleset} drop terms from \cpruleref{rule:nmp:proxspec:makews} to adapt it to the relevant \gls{pe} having fewer than four neighbours (see \cref{sec:nmp:ruleslessthanfour}), dependent on their grid position.
 
 \subsection{Description of Rules}
 
