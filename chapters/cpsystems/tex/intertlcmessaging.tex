@@ -12,27 +12,9 @@ Both sending and receiving use pattern matching.  For the sending case, any \gls
   $\cprecv{\cpfunc{d}{e}}{f}$ #\hfill receive \enspace#
 \end{lstlisting}
 
-% The addition of channels to \glspl{tlc} requires an expansion of the \gls{cps} grammar to express them.  
-
-% \begin{framed}
-% \vspace{-0.6cm}
-% \begin{small}
-% \begin{bnf*}
-%     \bnfprod*{symbol}{\bnfpn{atom} \bnfor \bnfpn{variable} \bnfor \bnfpn{term} \bnfor \bnfpn{channel}}\\
-%     \bnfprod*{term}{\bnfpn{functor} \bnfsp \bnfts{`('} \bnfsp \bnfpn{argument} \bnfsp \bnfts{`)'}}\\
-%     \bnfprod*{functor}{\bnfpn{atom}}\\
-%     \bnfprod*{argument}{\bnfes \bnfor \bnfsp \bnfpn{symbol} \bnfsp \bnfts{+}}\\
-%     \bnfprod*{channel}{\bnfts{`\(\langle\)'} \bnfsp \bnfpn{argument} \bnfts{`\(\rangle\)'}}
-% \end{bnf*}
-% \end{small}
-% \vspace{-0.8cm}
-% \end{framed}
-
 %-------------------------------------------------------
 \subsection{\label{sec:cps:antiport}Antiport Communication Rules in \glsfmtname{cps}}
 %-------------------------------------------------------
-
-% Antiport rules \cite{Orellana-Martin2019,Paun2002} allow for the bidirectional exchange of objects between \glspl{compartment} during a single rule execution, with the restriction that objects \emph{must} travel in both directions.  Thus, if one side is only ready to send or receive, rather than both, the rule cannot run at the next step.  An important ramification of this is that it prevents deadlock from both sides of the exchange waiting on the other to send a message.
 
 Antiport rules \cite{Orellana-Martin2019,Paun2002} allow for the bidirectional exchange of objects between \glspl{compartment} during a single rule execution, with the restriction that objects \emph{must} travel in both directions.  Thus, if one side is only ready to send or receive, rather than both, the rule cannot run at the next step.  This avoids deadlock from both sides of the exchange waiting on the other to send a message.
 
@@ -80,7 +62,6 @@ Out-symbols were a previous form of inter-\gls{tlc} communication in \gls{cps}. 
 
 Out-symbols  are sent to the cell's structural neighbours at the end of the step.
 As with communication via channels, the objects to be sent are surrounded with angle brackets.  Unlike channels, however, instead of using \(?\) or \(!\) to indicate communication, a downward arrow \(\downarrow\delta\) shows that the objects are sent to destination(s) \(\delta\).  The intended destination(s) could vary according to the requirements of the system at hand.
-% These symbols are enclosed in angle brackets that indicate their destinations, abbreviated above as \(\delta\). 
 Typical notations include: 
 
 \begin{itemize}

@@ -4,6 +4,7 @@
 
 %% A-M
 \newacronym{bp}{BP}{belief~propagation}
+\newacronym{cham}{CHAM}{chemical abstract machine}
 \newacronym{cp}{CP}{concurrent~propagation}
 \newacronym{csp}{CSP}{communicating sequential processes}
 \newacronym{dpsm}{DPSM}{dynamic~programming \gls{sm}}
@@ -14,7 +15,7 @@
 \newacronym{fps}{FPS}{frames per second}
 \newacronym{gpu}{GPU}{graphics processing unit}
 \newacronym{gpgpu}{GPGPU}{general-purpose \glsxtrshort{gpu}}
-\newacronym{lbp}{LBP}{loopy belief~propagation}
+\newacronym{lbp}{LBP}{loopy \gls{bp}}
 \newacronym{mpbsm}{MPBSM}{message passing-based \gls{sm}}
 \newacronym{mrf}{MRF}{Markov random field}
 \newacronym{mwt}{MWT}{moving window transform}
@@ -33,12 +34,10 @@
 % Combo glossary & acronyms
 
 % A-M
-\newdefacr{blas}{BLAS}{basic linear algebra subprograms}{Basic Linear Algebra Subprograms}{A collection of low-level functions, typically written in Fortran, to perform core linear algebra processes such as vector and matrix addition and multiplication.  The netlib implementation of BLAS is considered the ``reference'' implementation (see \url{https://www.netlib.org/blas/}), but other implementations are available --- in particular, some hardware vendors may produce their own version optimised for their particular hardware, such as Nvidia's cuBLAS.  Many, perhaps most, high-performance mathematical libraries in higher-level programming languages, \eg{} Python's Numpy, make use of a BLAS implementation internally.}
-\newdefacr{cml}{CML}{Concurrent~ML}{Concurrent~ML}{A programming style introduced by John Reppy as an extension of the pre-existing programming language Standard~ML;  specifically, the Standard~ML of New Jersey implementation.  Conceptually, Concurrent~ML has a lot in common with \glsxtrlong{csp}.  Both involve each logical process mostly advancing on its own, but sometimes synchronising with others over channels (see also \vref{fig:back:cml_exchange}).  Concurrent~ML is described in detail in \cite{Reppy2007}.}
+\newdefacr{cml}{CML}{Concurrent~ML}{Concurrent~ML}{A programming style introduced by John Reppy as an extension of the pre-existing programming language Standard~ML.  Conceptually, Concurrent~ML has a lot in common with \glsxtrlong{csp}.  Both involve each logical process mostly advancing on its own, but sometimes synchronising with others over channels (see also \vref{fig:back:cml_exchange}).  Concurrent~ML is described in detail in \cite{Reppy2007}.}
 \newdefacr{gcp}{GCP}{graph colouring problem}{Graph Colouring Problem}{The problem of finding a way to colour the nodes in a graph, such that no adjacent nodes share a colour.  This problem is typically further constrained to using a maximum number of colours for the entire graph, or finding the minimum number of colours required to perform the colouring.}
 \newdefacr{hcp}{HCP}{Hamiltonian cycle problem}{Hamiltonian Cycle Problem}{Closely related to the \glsdesc{hpp}.  In this problem, the Hamiltonian Path must also be a cycle, \ie{} it ends back at the origin node.}
 \newdefacr{hpp}{HPP}{Hamiltonian path problem}{Hamiltonian Path Problem}{The problem of determining whether, for a given graph, there exists a traversal of the graph in which each node is visited exactly once.}
-\newdefacr{lapack}{LAPACK}{linear algebra package}{Linear Algebra Package}{A (relatively) low-level software library for performing more advanced linear algebra processes, such as solving systems of linear equations, or matrix factorizations \eg{} LU, QR and Cholesky Decompositions.  LAPACK is typically built atop \glstext{blas}, meaning that it is highly portable and efficient across different hardware architectures, so long as a good quality \glstext{blas} implementation is available.  There reference implementation of LAPACK can be found at \url{https://www.netlib.org/lapack/} but others are available too.}
 \newdefacr{lhs}{LHS}{left-hand side}{Left-hand Side}{A part of the definition of a \gls{cps} rule.  It is the list of terms which \emph{must} be present and as-yet unused in a rule at the current step, in order for the current rule to be applicable.  All terms appearing here are deleted from the containing cell at the end of the step.}
 
 % N - Z
@@ -62,7 +61,7 @@
 %
 \newglossaryentry{fne}{description={The `standard' neighbourhood arrangement in situations such as \glsxtrlong{lbp}.  When used in reference to a grid, it typically means the other locations in the grid immediately to the left, right, above and below.},text={four-neighbourhood},name={Four-neighbourhood}}
 %
-\newglossaryentry{functor}{description={In the context of \gls{cps}, a functor is the label applied to the delimiters of a complex term.  \Eg{} for \(\cpfunc{a}{\cpfunc{b}{c}}\) both \(a\) and \(b\) are functors, because they are the outer label for their respective inner terms.  ``Functor'' is also sometimes used as a shorthand to refer to the complex term as whole.  Strictly speaking, this is incorrect, but used for convenience nevertheless, as writing \enquote{the complex term denoted by the functor \(a\)} is usually overly verbose.},text={functor},name={Functor}}
+\newglossaryentry{functor}{description={In the context of \gls{cps}, a functor is the label applied to the delimiters of a complex term.  \Eg{} for \(\cpfunc{a}{\cpfunc{b}{c}}\) both \(a\) and \(b\) are functors, because they are the outer label for their respective inner terms.  ``Functor'' is also sometimes used as a shorthand to refer to the complex term as whole.  Strictly speaking, this is incorrect but convenient nevertheless, as writing \enquote{the complex term denoted by the functor \(a\)} is usually overly verbose.},text={functor},name={Functor}}
 %
 \newglossaryentry{gs}{description={In the context of \glsxtrlong{nmp}, this refers to an approach to messaging whereby the entire lattice waits until every \glsxtrshort{pe} in the lattice has finished its messaging for a given generation before proceeding to the next generation.},text={globally-synchronous},name={Globally-synchronous}}
 %
@@ -88,5 +87,5 @@
 \newglossaryentry{ruleset}{text={ruleset},name={Ruleset},description={The rules associated with a particular \gls{compartment} in a given \gls{ps} variant.}}
 \newglossaryentry{sm}{text={stereo~matching},name={Stereo~Matching},description={A family of methods to match points from different images of the same scene to estimate the distance from the capturing cameras to objects in the scene.}}
 \newglossaryentry{snps}{text={spiking neural P~systems},name={Spiking Neural P~Systems},description={Spiking neural P~systems is one of the three main \gls{ps} variants in common use today, and was introduced most recently.  Whereas \gls{clps} is based on intra-cellular chemical interactions, and \gls{tlps} on inter-cellular interactions, spiking neural P~systems is explicitly based on the idea of neurons in the brain interacting via synapses.  In principle, the communication-based nature of spiking neural P~systems makes it closer to \gls{tlps} than \gls{clps}, but unlike those two it uses only a single object in its alphabet, the spike.  This difference can make solutions to some problems more complex, but has the advantage that it makes it (comparatively) easy to implement those solutions with linear algebra operations.}}
-\newglossaryentry{tlc}{text={top-level cell},name={top-level Cell},description={The processing units of \gls{cps}, loosely equivalent to the skin membrane of other P~systems variants.  These are the only objects in the system which have rules and are `active'.  Generally, all other objects present in a system except channels are found inside a top-level cell.}}
+\newglossaryentry{tlc}{text={top-level cell},name={Top-level Cell},description={The processing units of \gls{cps}, loosely equivalent to the skin membrane of other P~systems variants.  These are the only objects in the system which have rules and are `active'.  Generally, all other objects present in a system except channels are found inside a top-level cell.}}
 \newglossaryentry{tlps}{text={tissue-like P~systems},name={Tissue-like P~Systems},description={Tissue-like P~systems is one of the oldest \gls{ps} variants, especially of those still in common use, and is based on the transmission of chemicals between cells via channels in biological tissue (rather than movement of chemicals through membranes within a cell like \gls{clps}).  A notable aspect of tissue-like P~systems is that they often include no ability for the cells to process their own contents.  Instead, all computation arises as a consequence of the communication.},plural={tissue-like P~system}}

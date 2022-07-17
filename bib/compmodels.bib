@@ -212,7 +212,7 @@ pages = {1--12},
 publisher = {ACM},
 title = {{Church Encoding of Data Types Considered Harmful for Implementations}},
 url = {https://dl.acm.org/doi/10.1145/2746325.2746330},
-volume = {01-03-Octo},
+% volume = {01-03-Octo},
 year = {2014}
 }
 
@@ -337,7 +337,7 @@ isbn = {9783642183775},
 pages = {205--219},
 title = {{Joinads: A Retargetable Control-Flow Construct for Reactive, Parallel and Concurrent Programming}},
 url = {http://link.springer.com/10.1007/978-3-642-18378-2_17},
-volume = {6539 LNCS},
+volume = {6539},
 year = {2011}
 }
 
@@ -420,7 +420,7 @@ isbn = {3540440445},
 pages = {268--332},
 title = {{The Join Calculus: A Language for Distributed Mobile Programming}},
 url = {http://www.springerlink.com/content/rytewy8h1d2arnpv/fulltext.pdf http://link.springer.com/10.1007/3-540-45699-6_6},
-volume = {2395 LNCS},
+volume = {2395},
 year = {2002}
 }
 
@@ -522,7 +522,7 @@ pages = {20--31},
 % publisher = {Springer},
 title = {{Propagative Mode in a Lattice-Grain CA: Time Evolution and Timestep Synchronization}},
 url = {http://link.springer.com/10.1007/978-3-642-33350-7_3},
-volume = {7495 LNCS},
+volume = {7495},
 year = {2012},
 % author="D{\'e}s{\'e}rable, Dominique",
 editor="Sirakoulis, Georgios Ch.
@@ -547,4 +547,159 @@ title = {{Information Propagation Algorithms for Consensus Formation in Decentra
 type = {phd},
 url = {https://stars.library.ucf.edu/cgi/viewcontent.cgi?article=2135&context=etd},
 year = {2015}
+}
+
+% @article{Banatre1993,
+%   title={Programming by multiset transformation},
+%   author={Jean-Pierre Ban{\^a}tre and Daniel Le M{\'e}tayer},
+%   journal={Communications of the ACM},
+%   year={1993},
+%   volume={36},
+%   pages={98-111}
+% }
+
+@article{Banatre1993,
+author = {Ban\^{a}tre, Jean-Pierre and Le M\'{e}tayer, Daniel},
+title = {Programming by Multiset Transformation},
+year = {1993},
+% issue_date = {Jan. 1993},
+% publisher = {Association for Computing Machinery},
+% address = {New York, NY, USA},
+volume = {36},
+number = {1},
+issn = {0001-0782},
+url = {https://doi.org/10.1145/151233.151242},
+doi = {10.1145/151233.151242},
+journal = {Commun. ACM},
+month = {1},
+pages = {98–111},
+% numpages = {14},
+keywords = {logical parallelism, nondeterminism, UNITY, locality, GAMMA, program construction}
+}
+
+% @inproceedings{Berry1989,
+% author = {Berry, Gerard and Boudol, Gerard},
+% title = {The Chemical Abstract Machine},
+% year = {1989},
+% isbn = {0897913434},
+% publisher = {Association for Computing Machinery},
+% address = {New York, NY, USA},
+% url = {https://doi.org/10.1145/96709.96717},
+% doi = {10.1145/96709.96717},
+% abstract = {We introduce a new kind of abstract machine based on the chemical metaphor used in the Γ language of Ban\^{a}tre &amp; al. States of a machine are chemical solutions where floating molecules can interact according to reaction rules. Solutions can be stratified by encapsulating subsolutions within membranes that force reactions to occur locally. We illustrate the use of this model by describing the operational semantics of the TCCS and CCS process calculi. We also show how to extract a higher-order concurrent λ-calculus out of the basic concepts of the chemical abstract machine.},
+% booktitle = {Proceedings of the 17th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages},
+% pages = {81–94},
+% numpages = {14},
+% location = {San Francisco, California, USA},
+% series = {POPL '90}
+% }
+
+@article{Berry1992,
+title = {The chemical abstract machine},
+journal = {Theoretical Computer Science},
+volume = {96},
+number = {1},
+pages = {217-248},
+year = {1992},
+issn = {0304-3975},
+doi = {10.1016/0304-3975(92)90185-I},
+url = {https://www.sciencedirect.com/science/article/pii/030439759290185I},
+author = {Gérard Berry and Gérard Boudol},
+abstract = {We introduce a new kind of abstract machine based on the chemical metaphor used in the Γ language of Banâtre and Le Métayer. States of a machine are chemical solutions where floating molecules can interact according to reaction rules. Solutions can be stratified by encapsulating subsolutions within membranes that force reactions to occur locally. We illustrate the use of this model by describing the operational semantics of the TCCS and CCS process calculi and of the fragment of Milner, Parrow and Walker's Calculus of Mobile Processes used by Milner to encode the lambda-calculus. We also give ideas on how to extract a higher-order concurrent λ-calculus out of the basic concepts of the chemical abstract machine.}
+}
+
+@article{Banatre1988,
+title = {A parallel machine for multiset transformation and its programming style},
+journal = {Future Generation Computer Systems},
+volume = {4},
+number = {2},
+pages = {133-144},
+year = {1988},
+issn = {0167-739X},
+doi = {10.1016/0167-739X(88)90012-X},
+url = {https://www.sciencedirect.com/science/article/pii/0167739X8890012X},
+author = {J.-P. Banâtre and A. Coutant and D. {Le Metayer}},
+abstract = {One of the most challenging problems in the field of computing science today concerns the development of software for more and more powerful parallel machines. In order to tackle this issue we present a new paradigm for parallel processing; this model, called Γ, is based on the chemical reaction metaphor: the only data structure is the multiset and the computation can be seen as a succession of chemical reactions consuming elements of the multiset and producing new elements according to specific rules. We detail some examples showing the relevance of this model for AI applications. Furthermore, due to its lack of imperative features, this language can be very naturally implemented in a distributed way. We describe an implementation of Γ on a vector architecture. The advantages of this architecture is that it needs very simple processors (with two ports) and all the processors perform the same job. So we advocate the separation of the design of programs for massively parallel machines into two steps which can be verified in a formal way: the construction of a program with implicit parallelism (Γ-program) and its translation into a network of processes.}
+}
+
+@inbook{Cardelli2005,
+   abstract = {We introduce a family of process calculi with dynamic nested membranes. In contrast to related calculi, including some developed for biological applications, active entities here are tightly coupled to membranes, and can perform interactions on both sides of a membrane. That is, computation happens on the membrane, not inside of it.},
+   author = {Luca Cardelli},
+%   city = {Berlin, Heidelberg},
+   doi = {10.1007/978-3-540-25974-9_24},
+   editor = {Vincent Danos and Vincent Schachter},
+   isbn = {978-3-540-25974-9},
+   booktitle = {Computational Methods in Systems Biology},
+   pages = {257-278},
+   publisher = {Springer Berlin Heidelberg},
+   subtitle = {{Interactions of Biological Membranes}},
+   title = {{Brane Calculi}},
+   url = {http://link.springer.com/10.1007/978-3-540-25974-9_24},
+   year = {2005},
+}
+
+@article{Danos2004,
+   abstract = {A language of formal proteins, the κ-calculus, is introduced. Interactions are modeled at the domain level, bonds are represented by means of shared names, and reactions are required to satisfy a causality requirement of monotonicity. An example of a simplified signalling pathway is introduced to illustrate how standard biological events can be expressed in our protein language. A more comprehensive example, the lactose operon, is also developed, bringing some confidence in the formalism considered as a modeling language. Then a finer-grained concurrent model, the mκ-calculus, is considered, where interactions have to be at most binary. We show how to embed the coarser-grained language in the latter, a property which we call self-assembly. Finally we show how the finer-grained language can itself be encoded in π-calculus, a standard foundational language for concurrency theory.},
+   author = {Vincent Danos and Cosimo Laneve},
+   doi = {10.1016/j.tcs.2004.03.065},
+   issn = {03043975},
+   issue = {1},
+   journal = {Theoretical Computer Science},
+   month = {9},
+   note = {Computational Systems Biology},
+   pages = {69-110},
+   title = {Formal molecular biology},
+   volume = {325},
+   url = {https://linkinghub.elsevier.com/retrieve/pii/S0304397504002336},
+   year = {2004},
+}
+
+@incollection{Boudol1989,
+abstract = {We introduce a calculus for concurrent and communicating processes, which is a direct and simple extension of the $\lambda$-calculus. The communication mechanism we use is that of Milner's calculus CCS: to communicate consists in synchronously sending and receiving a value through a shared port. Then the calculus is parameterized on a given set of port names, which are used in the two primitives for sending and receiving a value — as in the $\lambda$-calculus, a value can be any term. We use two parallel constructs: the first is interleaving, which does not allow communication between agents. The second, called cooperation, is a synchronizing construct which forces two agents to communicate on every port name. We show that the $\lambda$-calculus is a simple sub-calculus of ours: $\lambda$-abstraction is a particular case of reception (on a port named $\lambda$), and application is a particular case of cooperation.},
+author = {Boudol, G{\'{e}}rard},
+booktitle = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+doi = {10.1007/3-540-50939-9_130},
+editor = {D{\'{i}}az, J. and Orejas, F.},
+file = {:D\:/jarak/Documents/Mendeley Desktop/Boudol - 1989 - Towards a lambda-calculus for concurrent and communicating systems.pdf:pdf},
+isbn = {9783540509394},
+% issn = {16113349},
+pages = {149--161},
+title = {{Towards a lambda-calculus for concurrent and communicating systems}},
+url = {http://link.springer.com/10.1007/3-540-50939-9_130},
+volume = {351},
+year = {1989}
+}
+
+
+@incollection{Milner1991,
+abstract = {In process algebras, bisimulation equivalence is typically defined directly in terms of the operational rules of action; it also has an alternative characterisation in terms of a simple modal logic (sometimes called Hennessy-Milner logic. This paper first defines two forms of bisimulation equivalence for the $\Pi$-calculus, a process algebra which allows dynamic reconfiguration among processes; it then explores a family of possible logics, with different modal operators. It is proven that two of these logics characterise the two bisimulation equivalences. Also, the relative expressive power of all the logics is exhibited as a lattice.},
+author = {Milner, Robin and Parrow, Joachim and Walker, David},
+booktitle = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+doi = {10.1007/3-540-54430-5_80},
+editor = {Baeten, J.C.M. and Groote, J.F.},
+file = {:D\:/jarak/Documents/Mendeley Desktop/Milner, Parrow, Walker - 1991 - Modal logics for mobile processes.pdf:pdf},
+isbn = {9783540544302},
+% issn = {16113349},
+pages = {45--60},
+title = {{Modal logics for mobile processes}},
+url = {http://link.springer.com/10.1007/3-540-54430-5_80},
+volume = {527},
+year = {1991}
+}
+
+@article{Unyapoth2001,
+abstract = {This paper addresses the design and verification of infrastructure for mobile computation. In particular, we study language primitives for communication between mobile agents. They can be classified into two groups. At a low level there are location dependent primitives that require a programmer to know the current site of a mobile agent in order to communicate with it. At a high level there are location independent primitives that allow communication with a mobile agent irrespective of any migrations. Implementation of the high level requires delicate distributed infrastructure algorithms. In earlier work with Wojciechowski and Pierce we made the two levels precise as process calculi, allowing such algorithms to be expressed as encodings of the high level into the low level; we built NOMADIC PICT, a distributed programming language for experimenting with such encodings. In this paper we turn to semantics, giving a definition of the core language and proving correctness of an example infrastructure. This requires novel techniques: we develop equivalences that take migration into account, and reasoning principles for agents that are temporarily immobile (eg. waiting on a lock elsewhere in the system). {\textcopyright} 2001 ACM.},
+% address = {New York, NY, USA},
+author = {Unyapoth, Asis and Sewell, Peter},
+doi = {10.1145/373243.360214},
+issn = {03621340},
+journal = {SIGPLAN Notices (ACM Special Interest Group on Programming Languages)},
+month = {3},
+number = {3},
+pages = {116--127},
+% publisher = {Association for Computing Machinery},
+title = {{Nomadic pict: Correct communication infrastructure for mobile computation}},
+url = {https://doi-org.ezproxy.auckland.ac.nz/10.1145/373243.360214 https://dl.acm.org/doi/10.1145/373243.360214},
+volume = {36},
+year = {2001}
 }

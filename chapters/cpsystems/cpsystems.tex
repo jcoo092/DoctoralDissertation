@@ -4,14 +4,6 @@
 
 A key difference from \gls{clps} and \gls{tlps}, however, is that in \gls{cps} \emph{only} the \glspl{tlc} have accompanying rules.  All subcells are merely inert symbolic objects operated upon by the \gls{tlc}'s rules.  These subcells are represented as labelled multisets within the \glspl{tlc}.  \citeauthor{Nicolescu2014a} demonstrated that not only is \gls{cps} capable of performing the same tasks as other \gls{ps} variants, but it also can be used to model standard computer programs \cite{Nicolescu2014a}.
 
-A significant advantage of \gls{cps} over traditional \gls{clps} is a simplification in the specification of complete systems to solve a given problem.  \Gls{clps} (as well as \gls{tlps} and \gls{snps}) typically require the definition of a uniform or semi-uniform family of \glspl{ruleset} customised to the specific instance of the problem at hand, whereas \gls{cps} normally requires only the definition of a fixed (usually much shorter) set of rules that cover all possible instances. As a result, only inputs to the system need to vary to solve different instances of the problem, \eg{} in \cref{chap:tsp} just five fixed rules are necessary to solve any instance of the \gls{tsp}, requiring only customisation of the input objects (in that case, elements describing the vertices and arcs of the digraph).
-
-The other key advantages of \gls{cps} are:
-\begin{inparaenum}[a)]
-\item that it often permits fairly direct, intelligible and brief translations into modern programming languages --- this is experimented with in various ways and with various languages throughout this dissertation; and,
-\item that there appears to be great potential for highly efficient implementations of \gls{cps} algorithms for non-traditional hardware.
-\end{inparaenum}
-
 
 This \namecref{chap:cpsystems} provides an overview of \gls{cps}.  Further presentation of \gls{cps} has appeared most recently in \cite{Nicolescu2018,Henderson2019,Henderson2020,Liu2020,Liu2021}, and it is recommended that the interested reader peruse those too.  While \gls{cps} is transitively bio-inspired through its basis in \gls{ps}, it has not been developed to simulate or model real-world biology.  Instead, it is intended as a useful theoretical model for computation.
 
@@ -30,7 +22,31 @@ Subsequently, \gls{cps} was applied to a variety of problems, including a struct
 
 Further developments have followed recently, describing \glspl{actor} in \gls{cps} \cite{Henderson2019};  solving a PSPACE-complete problem in linear time using \gls{cps} \cite{Henderson2020}; formal verification of \gls{cps} \cite{Liu2020,Liu2021a}; comparing Water Computing with \gls{cps} \cite{Henderson2021}; and an efficient algorithm for carrying out unification \cite{Liu2021} (see \cref{sec:cps:unification}), a missing piece of the puzzle regarding practical implementations.
 
+\subsection{Specific Earlier Publications of this Chapter's Material}
+This \namecref{chap:cpsystems} is believed to be the most comprehensive description of \gls{cps} to date, combining previous disparate work with original material.  As briefly outlined above, material on \gls{cps} has already been published in several articles.  Parts of this \namecref{chap:cpsystems} are new to this work, but other parts have been adapted from those earlier papers.  In particular:
+\begin{itemize}
+    \item \Cref{sec:cps:complexsymbols,sec:cps:highlevelrules,sec:cps:outsymbols,sec:cps:datastructures} were reproduced from \cite{Cooper2019}.
+    \item A version of \cref{sec:cps:formaldescriptions} first appeared in \cite{Cooper2019a}.
+    \item \Cref{sec:median:sortsets} was presented at the International Conference on Membrane Computing 2021 \cite{Cooper2021a}.
+    \item \Cref{sec:cps:intertlcmess}, excluding \cref{sec:cps:outsymbols}, was written for \cite{Cooper2022}.  As were \cref{sec:cps:microsurg,sec:cps:compoundterms}.
+\end{itemize}
+
+Everything else contained in this \namecref{chap:cpsystems} but not mentioned above is original to this dissertation.
+
 % --------------------------------------------------
+
+\section{Advantages of \glsfmtname{cps}}
+A significant advantage of \gls{cps} over traditional \gls{clps} is a simplification in the specification of complete systems to solve a given problem.  \Gls{clps} (as well as \gls{tlps} and \gls{snps}) typically require the definition of a uniform or semi-uniform family of \glspl{ruleset} customised to the specific instance of the problem at hand, whereas \gls{cps} normally requires only the definition of a fixed (usually much shorter) set of rules that cover all possible instances. As a result, only inputs to the system need to vary to solve different instances of the problem, \eg{} in \cref{chap:tsp} just five fixed rules are necessary to solve any instance of the \gls{tsp}, requiring only customisation of the input objects (in that case, elements describing the vertices and arcs of the digraph).
+
+Equivalently, Dijkstra said \blockquote{The purpose of abstracting is not to be vague, but to create a new semantic level in which one can be absolutely precise,} and, moreover, \blockquote{Our intellectual powers are rather geared to master static relations and ... our powers to visualize processes evolving in time are relatively poorly developed. For that reason we should do (as wise programmers aware of our limitations) our utmost to shorten the conceptual gap between the static program and the dynamic process, to make the correspondence between the program (spread out in text space) and the process (spread out in time) as trivial as possible.} (taken from \cite{DijkstraWikiquote}).  These two quotes, while said in other contexts, also neatly sum up some key benefits of \gls{cps}.  The higher-level of \gls{cps} ensures that the systems' creator can concentrate only on details relevant to the matter, and elide organisational aspects that are largely mechanical, which can help said creator \enquote{see the forest for the trees.}  Furthermore, an intelligently constructed \glspl{cps} handles evolution through time near-automatically.  By and large, the designer need only specify the general process to follow in a certain state and the conditions marking a change in process, and delegate further responsibility for carrying those processes out to the \gls{cps} ``runtime'' itself.
+
+The other key advantages of \gls{cps} are:
+\begin{inparaenum}[a)]
+\item that it often permits fairly direct, intelligible and brief translations into modern programming languages --- this is experimented with in various ways and with various languages throughout this dissertation; and,
+\item that there appears to be great potential for highly efficient implementations of \gls{cps} algorithms for non-traditional hardware, though this is unexplored further here.
+\end{inparaenum}
+
+One might reasonably question \emph{how} \gls{cps} provides these claimed benefits.  The key is the use of \emph{variables} \& \emph{unification} and \emph{pattern matching} (all of which are detailed below).  Variables and their unification enable the higher-level specifications of \gls{cps} by deferring the choice of the objects on which a given rule execution shall operate until the moment of execution.  Instead of requiring the designer to specify distinct rules to cover multitudinous possibilities, often a single rule can be made to adapt itself naturally to whatever may exist in the system at a given moment, by substituting those objects in for the variables as required.  Pattern matching is intrinsically linked to the other two, and further raises the level of abstraction.  It enables rules which focus specifically only on the relevant elements of objects present in a system, and ignore anything irrelevant to that context.
 
 \input{chapters/cpsystems/tex/complexsymbols}
 \input{chapters/cpsystems/tex/highlevelrules}
