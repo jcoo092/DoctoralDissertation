@@ -29,7 +29,7 @@ Consider a digraph G such as that in \cref{fig:tsp:ugraph}.  Ordinarily this wou
     
     \cpobjectsline{\cpfunc{v}{\cpfunc{v}{1} \, \cpfunc{v}{2} \, \cpfunc{v}{3} \, \cpfunc{v}{4} \, \cpfunc{v}{5}}}
 \end{cpobjects}
-\caption[Starting set of subcells from \cref{fig:tsp:utree}]{\label{objs:tsp:obj1}Set of subcells from G in the skin membrane at the initial state}
+\caption[Starting set of subcells from \cref{fig:tsp:utree}]{\label{objs:tsp:obj1}Set of subcells from G in the \gls{tlc} at the initial state}
 \end{cpobjectsfloat}
 
 The set of subcells contained inside the membrane at various points in the system's evolution are shown in \crefrange{objs:tsp:obj1}{objs:tsp:obj4} (for legibility, when specifying the \(p\) subcells, \cref{objs:tsp:obj4} adopts the compact presentation style for lists set out in \cref{sec:cps:lists}).  The system starts with the subcells shown in \cref{objs:tsp:obj1},\footnote{Recall that the numbers in the \(w\) \glspl{functor} are a shorthand for the number of copies of the unary digit \(\cpundig\) present within.  \Ie{}, \(\cpfunc{w}{3}\) could be written alternatively as either \(\cpfunc{w}{\cpundig^3}\) or \(\cpfunc{w}{\cpundig\cpundig\cpundig}\).  Given that they are represented here with natural numbers, the contents of \(f\) and \(t\) functors would likely be represented the same way, but since the contents of each represent a specific vertex in the digraph they could be substituted with arbitrary distinct symbols.} and the algorithm starts by applying \cpruleref{rule:tsp:tsp:start}, selecting vertex 1 as the starting point of the Hamiltonian cycle and creating the origin subcell \(\cpfunc{s}{\dots}\) (full details of the contents of the subcells are provided in the figures), as shown in \cref{objs:tsp:obj2}.
@@ -39,7 +39,7 @@ The set of subcells contained inside the membrane at various points in the syste
     \cpobjectsline{\cpfunc{e}{\cpfunc{f}{1}\,\cpfunc{t}{2}\,\cpfunc{w}{1}} \quad \cdots \quad \cpfunc{e}{\cpfunc{f}{5} \, \cpfunc{t}{4} \, \cpfunc{w}{7}}}
     \cpobjectsline{\cpfunc{s}{\cpfunc{r}{1} \; \cpfunc{u}{\cpfunc{v}{2} \, \cpfunc{v}{3} \, \cpfunc{v}{4} \cpfunc{v}{5}} \; \cpfunc*{p}{\cpfunc{h}{1} \cpfunc*{p}{\cpempty}} \; \cpfunc{c}{0}}}
 \end{cpobjects}
-\caption{\label{objs:tsp:obj2}Set of subcells in the skin membrane after the application of rule one}
+\caption{\label{objs:tsp:obj2}Set of subcells in the \gls{tlc} after the application of Rule (1)}
 \end{cpobjectsfloat}
 
 Next, \cpruleref{rule:tsp:tsp:explore} is applied, creating the first level of subcells in the exploration tree.  This creates new \(\cpfunc{s}{\cpfunc{r}{R} \, \cpfunc{u}{\dots} \, \cpfunc{p}{\cpfunc{h}{\dots} \cpfunc*{p}{\cpfunc{h}{1} \cpfunc*{p}{\cpempty}}} \, \cpfunc{c}{\dots}}\) subcells, representing the potential paths of the cycle after one step.  \cpRuleref{rule:tsp:tsp:clean} concurrently removes the old \(s\) subcells from the system.  \Cref{objs:tsp:obj3} shows the subcells within the \gls{tlc} at the end of this first application of Rules \cpruleref*{rule:tsp:tsp:explore} and \cpruleref*{rule:tsp:tsp:clean}.
@@ -51,10 +51,10 @@ Next, \cpruleref{rule:tsp:tsp:explore} is applied, creating the first level of s
     \cpobjectsline{\cpfunc{s}{\cpfunc{r}{1} \; \cpfunc{u}{\cpfunc{v}{2} \, \cpfunc{v}{4} \cpfunc{v}{5}} \; \cpfunc{p}{\cpfunc{h}{3} \cpfunc*{p}{\cpfunc{h}{1} \cpfunc*{p}{\cpempty}}} \; \cpfunc{c}{3}}}
     \cpobjectsline{\cpfunc{s}{\cpfunc{r}{1} \; \cpfunc{u}{\cpfunc{v}{2} \, \cpfunc{v}{3} \cpfunc{v}{4}} \; \cpfunc{p}{\cpfunc{h}{2} \cpfunc*{p}{\cpfunc{h}{5} \cpfunc*{p}{\cpempty}}} \; \cpfunc{c}{2}}}
 \end{cpobjects}
-\caption{\label{objs:tsp:obj3}Set of subcells in the skin membrane after a single application of rules three and four}
+\caption{\label{objs:tsp:obj3}Set of subcells in the \gls{tlc} after a single application of Rules (3) and (4)}
 \end{cpobjectsfloat}
 
-Eventually, after repeating \cpruleref*{rule:tsp:tsp:explore} and \cpruleref*{rule:tsp:tsp:clean} four times, \cpruleref{rule:tsp:tsp:makezs} becomes applicable.  At this point, \cpruleref{rule:tsp:tsp:makezs} is applied, creating the \(z\) subcells that represent the final arc traversal from another vertex back to the origin vertex, vertex 1.  Finally, \cpruleref{rule:tsp:tsp:min} selects one of those \(z\) subcells with minimum cost as the solution, and outputs the path and cost subcells relating to that cycle.  \Cref{objs:tsp:obj4} outlines the subcells present in the system at this end point.
+Eventually, after repeating Rules \cpruleref*{rule:tsp:tsp:explore} and \cpruleref*{rule:tsp:tsp:clean} four times, \cpruleref{rule:tsp:tsp:makezs} becomes applicable.  At this point, \cpruleref{rule:tsp:tsp:makezs} is applied, creating the \(z\) subcells that represent the final arc traversal from another vertex back to the origin vertex, vertex 1.  Finally, \cpruleref{rule:tsp:tsp:min} selects one of those \(z\) subcells with minimum cost as the solution, and outputs the path and cost subcells relating to that cycle.  \Cref{objs:tsp:obj4} outlines the subcells present in the system at this end point.
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}
@@ -62,7 +62,7 @@ Eventually, after repeating \cpruleref*{rule:tsp:tsp:explore} and \cpruleref*{ru
     \cpobjectsline{\cpfunc{z}{\cpfunc{c}{22} \; \cpfunc{p}{1|5|3|4|2|1}} \quad \cdots \quad \cpfunc{z}{\cpfunc{c}{22} \; \cpfunc{p}{1|2|4|3|5|1}}}
     \cpobjectsline{\cpfunc{c'}{22} \quad \cpfunc{p'}{1|5|3|4|2|1}}
 \end{cpobjects}
-\caption[Set of subcells in the skin membrane at completion of the computation]{\label{objs:tsp:obj4}Set of subcells in the skin membrane at completion of the computation, if \cpruleref{rule:tsp:tsp:min} selects the subcell containing the path subcell representing the traversals 1 - 2 - 4 - 3 - 5 - 1.}
+\caption[Set of subcells in the \gls{tlc} at completion of the computation]{\label{objs:tsp:obj4}Set of subcells in the \gls{tlc} at completion of the computation, if \cpruleref{rule:tsp:tsp:min} selects the subcell containing the path subcell representing the traversals 1 - 2 - 4 - 3 - 5 - 1.}
 \end{cpobjectsfloat}
 
 To illustrate the progression of the algorithm through various branches of the exploration tree, consider the following examples, each beginning with the \(\cpfunc{s}{\ldots}\) and set of \(\cpfunc{e}{\ldots}\) subcells illustrated in \cref{objs:tsp:obj2}.
@@ -76,7 +76,7 @@ Similarly, a progression will occur from vertex 1 to vertex 3 with \(\cpfunc{c}{
 %-------------------------------------------
 
 \subsection{Directed Graph Example}
-While the above example is drawn as a directed graph, to match better with the specification of the edges in the set of subcells \(E\), it was effectively an undirected graph.  To demonstrate that the \gls{tsp} algorithm is at least as effective in the directed case, \cref{fig:tsp:ugraph} was modified to remove some bidirectional arcs.  The modified digraph is presented in \cref{fig:tsp:digraph} and the accompanying exploration tree in \cref{fig:tsp:dtree}.  The updated set of subcells that are inside the skin membrane at the start of the computation are shown in \cref{objs:tsp:obj1d}.  The changes made are that the edges from 1 to 2 and from 5 to 3 have been removed, and the weights between 1 and 3 and 4 and 5 have been partially modified so that they are different in each direction.
+While the above example is drawn as a directed graph, to match better with the specification of the edges in the set of subcells \(E\), it was effectively an undirected graph.  To demonstrate that the \gls{tsp} algorithm is at least as effective in the directed case, \cref{fig:tsp:ugraph} was modified to remove some bidirectional arcs.  The modified digraph is presented in \cref{fig:tsp:digraph} and the accompanying exploration tree in \cref{fig:tsp:dtree}.  The updated set of subcells that are inside the \gls{tlc} at the start of the computation are shown in \cref{objs:tsp:obj1d}.  The changes made are that the edges from 1 to 2 and from 5 to 3 have been removed, and the weights between 1 and 3 and 4 and 5 have been partially modified so that they are different in each direction.
 
 \begin{figure}
 \centering
@@ -98,7 +98,7 @@ While the above example is drawn as a directed graph, to match better with the s
     \cpobjectsline{\cpfunc{e}{\cpfunc{f}{5}\,\cpfunc{t}{1}\,\cpfunc{w}{2}} \quad \cpfunc{e}{\cpfunc{f}{5}\,\cpfunc{t}{2}\,\cpfunc{w}{4}} \quad \mathbf{\cpfunc{e}{\mathbf{\cpfunc{f}{5}\,\cpfunc{t}{4}\,\cpfunc{w}{9}}}}}%
     \cpobjectsline{\cpfunc{v}{\cpfunc{v}{1} \, \cpfunc{v}{2} \, \cpfunc{v}{3} \, \cpfunc{v}{4} \, \cpfunc{v}{5}}}
 \end{cpobjects}
-    \caption[Set of subcells from H in the skin membrane at the initial state]{\label{objs:tsp:obj1d}Set of subcells from H in the skin membrane at the initial state (those different from G are in bold)}
+    \caption[Set of subcells from H in the \gls{tlc} at the initial state]{\label{objs:tsp:obj1d}Set of subcells from H in the \gls{tlc} at the initial state (those different from G are in bold)}
 \end{cpobjectsfloat}
 
 These modifications have a significant effect upon the evolution of the system.  There are fewer potential paths through the digraph, which results in the instantiation of fewer subcells, and so the exploration tree is consequently narrower.  Thus, this particular application of the algorithm has a lower maximum space complexity.  Note though that there is absolutely no change in the operation of the algorithm.  The differences in the \(e\) subcells present at the start of the evolution of the system lead to a different result, without any change in the application of the rules.

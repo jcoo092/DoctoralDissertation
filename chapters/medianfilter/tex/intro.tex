@@ -1,7 +1,3 @@
-\begin{anfxerror}
-This intro really needs to do a better job of introducing the \gls{cps} stuff first, before moving on to the image processing bit.
-\end{anfxerror}
-
 Many computer vision and image processing operations have some potential for parallelism.  Indeed, a number of them can be regarded as \emph{embarrassingly parallel}, that is, the process involves a considerable number of independent sub-process steps, and so those steps may safely be performed concurrently.  Some of those algorithms either are explicitly characterised in terms of message passing, such as \gls{sm} with \gls{bp} \cite{Liang2011} or semi-global matching \cite{Drory2014}, or could potentially be viewed as such, \eg{} \glspl{mwt} applied to images.
 
 \Gls{medianfilter}ing \cite[Chap. 3.4.1]{Gimelfarb2018}, \cite{Fisher2016} is a \gls{mwt} operation in image processing used to remove random `salt \& pepper' noise from images.  Such noise is characterised by pixel colouration values at the extreme high and low ends of the range of possible values.  At its simplest, \gls{medianfilter}ing recovers an approximation of the non-noisy image by taking the median of all pixel values in a window around each pixel and creating a new image using said median values for the pixels.

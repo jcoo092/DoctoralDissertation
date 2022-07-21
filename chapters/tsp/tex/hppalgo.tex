@@ -42,7 +42,7 @@ The algorithm, outlined in \cref{alg:tsp:hpp}, follows a simple approach, essent
 \caption{\label{alg:tsp:hpp}Pseudocode description of the \gls{cps} solution to the \gls{hpp}}
 \end{algorithm}
 
-At the beginning of the computation, assume an elementary cell with the skin membrane, and that the set \(E\) of subcells of the form \(E = \cpset{\cpfunc{e}{\cpfunc{f}{i} \, \cpfunc{t}{j}} ~ | ~ i,j \in \mathbb{N}, ~ i \neq j}\) encoding the arcs of the problem digraph is already present inside the skin membrane.  Subcell \(e\) represents an arc; \(f\) the origin vertex; and \(t\) the destination vertex.  Assume further that the subcell \(\cpfunc{v}{\cpfunc{v}{X}, \, \cpfunc{v}{Y}, \dots}\), listing the vertices of the problem digraph, is present.  This could be derived from the subcells in \(E\) if required, though.  The system begins in state \(s_1\).
+At the beginning of the computation, assume an elementary \gls{tlc} with the skin membrane, and that the set \(E\) of subcells of the form \(E = \cpset{\cpfunc{e}{\cpfunc{f}{i} \, \cpfunc{t}{j}} ~ | ~ i,j \in \mathbb{N}, ~ i \neq j}\) encoding the arcs of the problem digraph is already present inside the \gls{tlc}.  Subcell \(e\) represents an arc; \(f\) the origin vertex; and \(t\) the destination vertex.  Assume further that the subcell \(\cpfunc{v}{\cpfunc{v}{X}, \, \cpfunc{v}{Y}, \dots}\), listing the vertices of the problem digraph, is present.  This could be derived from the subcells in \(E\) if required, though.  The system begins in state \(s_1\).
 
 \subsubsection{\label{sec:tsp:hpprules}Description of Rules}
 

@@ -155,7 +155,7 @@ Consider \cref{rules:median:countfreq} and the example in \cref{tab:median:count
 \cprule[rules:median:countfreq:3]{s_3}{\cpfuncnms{r}{R}{\,}}{\cpmaxpar}{s_4}{\cpfuncnms{r}{R}{\cpundig}}
 \cppromoter{\cpfunc{s}{R}}
 \end{cpruleset}
-\caption{\label{rules:median:countfreq}\Gls{ruleset} to count the occurrence frequency of elements in a multiset}
+\caption{\label{rules:median:countfreq}\Gls{ruleset} to count the frequency of elements in a multiset}
 \end{cprulesetfloat}
 
 \begin{table}[htbp]
@@ -169,7 +169,7 @@ Consider \cref{rules:median:countfreq} and the example in \cref{tab:median:count
     
     3 & \(\mathbf{\cpfuncn{r}{2}{2}}\), \(\mathbf{\cpfuncn{r}{3}{1}}\), \(\mathbf{\cpfuncn{r}{5}{2}}\), \(\mathbf{\cpfuncn{r}{6}{3}}\), \(\mathbf{\cpfuncn{r}{7}{1}}\)\\ \hline
 \end{tabular}
-\caption[Example evolution of \cref{rules:median:countfreq} to count the occurrence frequency of elements in a multiset]{\label{tab:median:countfreq}Example evolution of \cref{rules:median:countfreq} starting on multiset \(S_2\)}
+\caption[Example evolution of \cref{rules:median:countfreq} to count the frequency of elements in a multiset]{\label{tab:median:countfreq}Example evolution of \cref{rules:median:countfreq} starting on multiset \(S_2\)}
 \end{table}
 
 \Cref{rules:median:countfreq} works equally well for sets, but the frequency of each element present will be one due to the nature of a set.
@@ -195,7 +195,7 @@ Consider \cref{rules:median:sum} and the example in \cref{tab:median:sum}.  Thes
 \cprule{s_2}{\cpfuncms{r}{\,}}{\cpmaxpar}{s_3}{\cpfuncms{r}{R}}
 \cppromoter{\cpfunc{s}{R}}
 \end{cpruleset}
-\caption{\label{rules:median:sum}\Gls{ruleset} to find the sum of numeric elements in a multiset}
+\caption{\label{rules:median:sum}\Gls{ruleset} to find the sum of a multiset}
 \end{cprulesetfloat}
 
 \begin{table}[htbp]
@@ -207,7 +207,7 @@ Consider \cref{rules:median:sum} and the example in \cref{tab:median:sum}.  Thes
     2 & \(\cpfunc{r}{42}\)\\ \hline
 
 \end{tabular}
-\caption[Example evolution of \cref{rules:median:sum} to find the sum of numeric elements in a multiset]{\label{tab:median:sum}Example evolution of \cref{rules:median:sum} starting on multiset \(S_2\)}
+\caption[Example evolution of \cref{rules:median:sum} to find the sum of a multiset]{\label{tab:median:sum}Example evolution of \cref{rules:median:sum} starting on multiset \(S_2\)}
 \end{table}
 
 %-----------------------------------------
@@ -237,7 +237,7 @@ Consider \cref{rules:median:mean} and the example in \cref{tab:median:mean}.  Co
 
 \cprule[rules:median:mean:5]{s_4}{\cpfunc{r}{QR} \; \cpfunc{r'}{R}}{\cponce}{s_5}{\cpfunc{r}{Q}}
 \end{cpruleset}
-\caption{\label{rules:median:mean}\Gls{ruleset} to find the mean of elements in a multiset}
+\caption{\label{rules:median:mean}\Gls{ruleset} to find the mean of a multiset}
 \end{cprulesetfloat}
 
 \begin{table}[htbp]
@@ -251,7 +251,7 @@ Consider \cref{rules:median:mean} and the example in \cref{tab:median:mean}.  Co
     4 & \(\mathbf{\cpfunc{r}{5}}\), \sout{\(\cpfunc{r'}{6}\)}\\ \hline
 
 \end{tabular}
-\caption[Example evolution of \cref{rules:median:mean} to find the mean of elements in a multiset]{\label{tab:median:mean}Example evolution of \cref{rules:median:mean} starting on multiset \(S_2\)}
+\caption[Example evolution of \cref{rules:median:mean} to find the mean of multiset]{\label{tab:median:mean}Example evolution of \cref{rules:median:mean} starting on multiset \(S_2\)}
 \end{table}
 
 Rules \cpruleref*{rules:median:mean:4} and \cpruleref*{rules:median:mean:5} perform ceiling integer division using \glspl{ms} (see \vref{sec:cps:microsurg}).  \cpRuleref{rules:median:mean:4} removes \(C\) copies of the unary digit from \(r\) and adds one copy back to it.  This is repeated as many times as possible, given the number of digits available.  What is left in \(r\) at the end of the step is, in effect, the quotient plus the remainder.  In this example, with a count of nine and a sum of forty-two, the removal can be applied four times, for a total of thirty-six unary digits removed.  Five more are added at the end of the step, meaning a total of eleven remains.  This is not the correct result of ceiling integer division but is the correct quotient (5) plus the remainder (6).  Thus, another copy of the total is kept and divided, without the quotient added back in.  This leaves \cpruleref{rules:median:mean:5} to compute the correct final result by deducting the remainder from the combined quotient and remainder.
@@ -285,7 +285,7 @@ Consider \cref{rules:median:mode} and the example in \cref{tab:median:mode}.  As
 \cpinhibitor{\cpfuncn{c}{\_}{R\cpundig \_}}
 
 \end{cpruleset}
-\caption{\label{rules:median:mode}\Gls{ruleset} to find the mode of the elements in a multiset}
+\caption{\label{rules:median:mode}\Gls{ruleset} to find the mode of a multiset}
 \end{cprulesetfloat}
 
 \begin{table}[htbp]
@@ -302,7 +302,7 @@ Consider \cref{rules:median:mode} and the example in \cref{tab:median:mode}.  As
     4 & \(\cpfuncn{c}{2}{2}\), \(\cpfuncn{c}{3}{3}\), \(\cpfuncn{c}{5}{2}\), \(\cpfuncn{c}{6}{3}\), \(\cpfuncn{c}{7}{1}\), \(\cpfunc{r}{5}\)\\ \hline
     
 \end{tabular}
-\caption[Example evolution of \cref{rules:median:mode} to find the mode of the elements in a multiset]{\label{tab:median:mode}Example evolution of \cref{rules:median:mode} starting on multiset \(S_2\)}
+\caption[Example evolution of \cref{rules:median:mode} to find the mode of a multiset]{\label{tab:median:mode}Example evolution of \cref{rules:median:mode} starting on multiset \(S_2\)}
 \end{table}
 
 %-------------------------------------------------------
@@ -340,7 +340,7 @@ Consider \cref{rules:median:sortsets} and the example in \cref{tab:median:sortse
 \cppromoter{\cpfunc{s}{X}}
 \cppromoter{X \subsetneq Y}
 \end{cpruleset}
-\caption{\label{rules:median:sortsets}\Gls{ruleset} to sort the elements in a set}
+\caption{\label{rules:median:sortsets}\Gls{ruleset} to sort a set}
 \end{cprulesetfloat}
 
 \begin{table}[htbp]
@@ -352,7 +352,7 @@ Consider \cref{rules:median:sortsets} and the example in \cref{tab:median:sortse
     2 & \(\cpfuncn{r}{2}{1}\), \(\mathbf{\cpfuncn{r}{3}{2}}\), \(\mathbf{\cpfuncn{r}{5}{3}}\), \(\mathbf{\cpfuncn{r}{6}{4}}\), \(\mathbf{\cpfuncn{r}{7}{5}}\)\\ \hline
 
 \end{tabular}
-\caption[Example evolution of \cref{rules:median:sortsets} to sort the elements in a set]{\label{tab:median:sortsets}Example evolution of \cref{rules:median:sortsets} starting on set \(S_1\)}
+\caption[Example evolution of \cref{rules:median:sortsets} to sort a set]{\label{tab:median:sortsets}Example evolution of \cref{rules:median:sortsets} starting on set \(S_1\)}
 \end{table}
 
 %-----------------------------------------
@@ -384,7 +384,7 @@ Consider \cref{rules:median:sortmultisetrange} and the example in \cref{tab:medi
 \cppromoter{\cpfunc{s}{R}}
 
 \end{cpruleset}
-\caption{\label{rules:median:sortmultisetrange}\Gls{ruleset} to sort the elements of a multiset into indexed ranges}
+\caption{\label{rules:median:sortmultisetrange}\Gls{ruleset} to sort a multiset into indexed ranges}
 \end{cprulesetfloat}
 
 \begin{table}[htbp]
@@ -400,7 +400,7 @@ Consider \cref{rules:median:sortmultisetrange} and the example in \cref{tab:medi
     
     4 & \(\mathbf{\cpfuncnn{r}{2}{1}{3}}\), \(\mathbf{\cpfuncnn{r}{3}{3}{4}}\), \(\mathbf{\cpfuncnn{r}{5}{4}{6}}\), \(\mathbf{\cpfuncnn{r}{6}{6}{9}}\), \(\mathbf{\cpfuncnn{r}{7}{9}{10}}\)\\ \hline
 \end{tabular} 
-\caption[Example evolution of \cref{rules:median:sortmultisetrange} to sort the elements of a multiset into indexed ranges]{\label{tab:median:sortmultisetrange}Example evolution of \cref{rules:median:sortmultisetrange} starting on multiset \(S_2\)}
+\caption[Example evolution of \cref{rules:median:sortmultisetrange} to sort a multiset into indexed ranges]{\label{tab:median:sortmultisetrange}Example evolution of \cref{rules:median:sortmultisetrange} starting on multiset \(S_2\)}
 \end{table}
 
 In this example, 2s are in the index range \([1,3)\), 3s are in \([3,4)\), 5s are in \([4,6)\), 6s are in \([6,9)\) and 7s are in \([9,10)\).  This process can also sort all sets that \cref{sec:median:sortsets} can sort (Rules \cpruleref*{rules:median:sortmultisetrange:1} and \cpruleref*{rules:median:sortmultisetrange:3} here are closely equivalent to those rules), but the current approach includes unnecessary extra information -- every listed range would be only one step wide, so on set \(S_1\) the final result would be \(\cpfuncnn{r}{2}{1}{1}, \cpfuncnn{r}{3}{2}{2},\dots\), \ie{} 2: \([1,2)\), 3: \([2,3) \dots\) -- and require two unnecessary extra steps.
@@ -434,7 +434,7 @@ These unique identifiers are used in \cref{sec:median:cpsmedianfilter}, where ad
 \cppromoter{\cpfuncn{s}{I}{X}}
 \cppromoter{I \subsetneq J}
 \end{cpruleset}
-\caption{\label{rules:median:sortmultisetid}\Gls{ruleset} to sort the elements of a multiset, when each element has an accompanying unique comparable identifier}
+\caption{\label{rules:median:sortmultisetid}\Gls{ruleset} to sort a multiset, when each element has an accompanying unique comparable identifier}
 \end{cprulesetfloat}
 
 \begin{table}[htbp]
@@ -451,7 +451,7 @@ These unique identifiers are used in \cref{sec:median:cpsmedianfilter}, where ad
     3 & \(\cpfuncn{s}{8}{2}\), \(\cpfuncn{s}{3}{2}\), \(\cpfuncn{s}{7}{3}\), \(\cpfuncn{s}{5}{5}\), \(\cpfuncn{s}{1}{5}\), \(\cpfuncn{s}{6}{6}\), \(\cpfuncn{s}{2}{6}\), \(\cpfuncn{s}{9}{6}\), \(\cpfuncn{s}{4}{7}\),\\& \(\mathbf{\cpfuncnn{r}{8}{2}{2}}\), \(\cpfuncnn{r}{3}{2}{1}\), \(\cpfuncnn{r}{7}{3}{3}\), \(\mathbf{\cpfuncnn{r}{5}{5}{5}}\), \(\cpfuncnn{r}{1}{5}{4}\), \(\mathbf{\cpfuncnn{r}{6}{6}{7}}\),\\& \(\cpfuncnn{r}{2}{6}{6}\), \(\mathbf{\cpfuncnn{r}{9}{6}{8}}\), \(\cpfuncnn{r}{4}{7}{9}\)\\ \hline
 
 \end{tabular} 
-\caption[Example evolution of \cref{rules:median:sortmultisetid} to sort the elements of a multiset, when each element has an accompanying unique comparable identifier]{\label{tab:median:sortmultisetid}Example evolution of \cref{rules:median:sortmultisetid} starting on a modified version of multiset \(S_2\), where each element has been assigned a random unique identifier}
+\caption[Example evolution of \cref{rules:median:sortmultisetid} to sort a multiset, when each element has an accompanying unique comparable identifier]{\label{tab:median:sortmultisetid}Example evolution of \cref{rules:median:sortmultisetid} starting on a modified version of multiset \(S_2\), where each element has been assigned a random unique identifier}
 \end{table}
 
 %-------------------------------------------------------
@@ -656,7 +656,7 @@ Direct consequence of \crefrange{prop:median:min}{prop:median:selectmultisetid}.
     Selection over Multisets & \ref{sec:median:selectmultisetrange} & 5 & 5 \\ %\hline
     Selection over Multisets with unique identifiers & \ref{sec:median:selectmultisetid} & 4 & 4 \\ \hline
 \end{tabular} 
-\caption[Various statistical operations in \gls{cps}]{\label{tab:median:summary}The various statistical operations in \gls{cps} presented here, the section in which they are described, and the fixed number of rules and steps each one requires.}
+\caption[Summary of statistical operations in \gls{cps}]{\label{tab:median:summary}The various statistical operations in \gls{cps} presented here, the section in which they are described, and the fixed number of rules and steps each one requires.}
 \end{table}
 
 Importantly, \emph{none} of these \glspl{ruleset} are uniform or semi-uniform families.  That is, they do not need any form of customisation to a particular problem, nor do they rely on any form of precomputation whatsoever.  All these \glspl{ruleset} can be re-used and combined as is (modulo appropriate renaming of ground terms) --- as shown in, \eg{} \cref{rules:median:mode} and \cref{rules:median:selectmultisetrange}.  Their only dependence is on matching the rules with the \gls{functor} labels of the terms used to store the numbers.

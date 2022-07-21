@@ -1,6 +1,6 @@
 \section{\label{sec:nmp:analysis}Asynchronous System Analysis}
 
-This \namecref{sec:nmp:analysis} examines and analyses the asynchronous \gls{pe}-specific system of \cref{sec:nmp:pespecific}.  Firstly, it describes and proves several properties about the system, in particular, that the asynchronous system exchanges precisely the same number of \gls{nm} messages as the \gls{gs} system of \cref{sec:nmp:systemwide}.  Then, it states three conjectures about the system, yet to be proven or disproven rigorously, before examining the asynchronous system's complexity from the standpoint of the rules and symbols used.  Lastly, the \namecref{sec:nmp:analysis} discusses some visualisations of the propagation of ``influence'' from one \gls{pe} in a \gls{fne} grid to others, over multiple steps.
+This \namecref{sec:nmp:analysis} examines and analyses the asynchronous \gls{pe}-specific system of \cref{sec:nmp:pespecific}.  Firstly, it describes and proves several properties about the system, in particular, that the asynchronous system exchanges precisely the same number of \gls{nm} messages as the \gls{gs} system of \cref{sec:nmp:globalsync}.  Then, it states three conjectures about the system, yet to be proven or disproven rigorously, before examining the asynchronous system's complexity from the standpoint of the rules and symbols used.  Lastly, the \namecref{sec:nmp:analysis} discusses some visualisations of the propagation of ``influence'' from one \gls{pe} in a \gls{fne} grid to others, over multiple steps.
 
 Recall that the fundamental difference in behaviour between the \gls{gs}, \gls{ls} and asynchronous variants is the timing of when they send out new messages, based on when they have received messages for the previous generation.  Under the \gls{gs} approach, \emph{every} \gls{pe} waits until every other \gls{pe} has received all incoming messages before progressing.  Following the \gls{ls} methodology, each \gls{pe} waits until it has received all of its due incoming messages before proceeding, \emph{but without regard} to any other \gls{pe}.  Lastly, for the asynchronous variant, a \gls{pe} waits only until it has received the \(n - 1\) required messages from the other neighbours of generation \(g\) before sending the appropriate generation \(g + 1\) message to the \(n^\text{th}\) neighbour.
 
@@ -131,7 +131,7 @@ This proves part (\ref{enumitem:nmp:analysis:-1:2}) of the hypothesis.
 
 \begin{theorem}\label{theorem:nmp:-4}
     For the asynchronous system in \cref{sec:nmp:pespecific}, 
-    each \gls{pe} sends and receives the same number of messages as in the \gls{gs} system in \cref{sec:nmp:systemwide} and the \gls{ls} system in \cref{sec:nmp:localsync}.   
+    each \gls{pe} sends and receives the same number of messages as in the \gls{gs} system in \cref{sec:nmp:globalsync} and the \gls{ls} system in \cref{sec:nmp:localsync}.   
     Thus, the system as a whole uses the same number of messages.
 \end{theorem}
 
