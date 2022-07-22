@@ -564,7 +564,7 @@ To complement \cref{tab:median:selectmultisetrange}'s example, consider the appl
 
 \paragraph{\(\mathbf{N = 3}\):}  The possible unifications here are \(L,M = 3,0\); \(L,M = 2,1\); \(L,M = 1,2\); and \(L,M = 0,3\).  There are no \(t\) terms with a lower index of \(2\) or \(0\), so the unifications where \(L = 2\) or \(L = 0\) cannot apply.  In all cases, the upper index must be \emph{at least} one greater than the \(N\) value because the upper indices are exclusive, so here it must be greater than or equal to four.  If \(L = 1\), there is no term \(t\) with the corresponding lower and upper indices, so only \(L = 3\) is still a valid unification here.
 
-When \(L = 3\), and thus the lower index is three, there is indeed a range with the upper index of four.   Hence it is a valid unification in the context of multiset \(S_2\).  Therefore, the result will be \(\cpfunc{r}{3}\).
+When \(L = 3\), and thus, the lower index is three, there is indeed a range with the upper index of four.   Hence, it is a valid unification in the context of multiset \(S_2\).  Therefore, the result will be \(\cpfunc{r}{3}\).
 
 \paragraph{\(\mathbf{N = 7}\):}  Much like the other two cases, while there are a multitude of possible unifications, the upper index must be at least eight, so the lower three ranges are ineligible.  Conversely, the uppermost range does not start until index nine.  \(L = 6\) fits with the correct range of [6,9), however.  Therefore, the correct answer of \(\cpfunc{r}{6}\) is returned.
 
@@ -577,7 +577,7 @@ Selecting the \(n^{\text{th}}\) element from a multiset in terms of numerical or
 \end{proposition}
 
 \begin{proof}
-Consider \cref{rules:median:selectmultisetid} and the example in \cref{tab:median:selectmultisetid}.  When the extra unique identifiers are available, indexed selection from a multiset is also straightforward. As with \cref{sec:median:selectsets}, almost all the work is performed by the sorting rules of \cref{sec:median:sortmultisetid}, and a trivial selection step is all that is needed extra.
+Consider \cref{rules:median:selectmultisetid} and the example in \cref{tab:median:selectmultisetid}.  When the extra unique identifiers are available, indexed selection from a multiset is also straightforward. As with \cref{sec:median:selectsets}, almost all the work is performed by the sorting rules of \cref{sec:median:sortmultisetid}, and a trivial selection step is all else required.
 \end{proof}
 
 \begin{cprulesetfloat} \begin{cpruleset}

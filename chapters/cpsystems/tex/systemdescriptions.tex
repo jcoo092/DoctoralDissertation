@@ -4,16 +4,13 @@
 
 A specific \glspl{cps} can be described by a 7-tuple, as shown below.
 
-% \[
-% \Pi_{cP}(T, A, O, R, S, \bar{s})
 \cptuplechanstemplate{}
-% \]
 
 \(\chi\) is the optional short name given to the specified system --- usually derived from the algorithm at hand, \eg{}, in \cref{chap:tsp} the short name used is \enquote{\(\mathit{TSP}\)};  \(T\) is the set of \glspl{tlc} at the start of the evolution of the system; \(A\) is the alphabet of the system; \(O\) is the set of multisets of initial objects in the \glspl{tlc};  \(C\) is the set of sets of labels for channel endpoints for inter-\gls{tlc} communication that can be found in each \gls{tlc};  \(R\) is the set of \glspl{ruleset} for each \gls{tlc}; \(S\) is the set of possible states of the \glspl{tlc}; and \(\bar{s} \in S\) is the starting state of every \gls{tlc} in the system.\footnote{Historically, many (perhaps most) presented \gls{cps} have used only a single \gls{tlc}.  Thus, any distinction between the state of the \gls{tlc} and the state as a whole has been irrelevant, meaning often times the system overall has been described as having a state, but this is inaccurate.}
 
-Typically in practice, in the case of multiple \glspl{tlc} the same single ruleset \(R\) is used for every \gls{tlc} in the defined system.  In these cases, a single ruleset may be specified, which is assumed to apply to every \gls{tlc}.  Furthermore, strictly speaking, the symbols used to represent the states of the system and channel endpoints' labels are a part of the alphabet of the system.  Ordinarily they are not used for any other purpose besides occasional variable unification in a rule to control with which neighbours a \gls{tlc} might communicate, however, and so their specification is omitted from that of the alphabet \(A\).  \Ie{} if \(A_\alpha\) is the complete alphabet, the alphabet typically presented in the tuple is \( A_\beta = A_\alpha \setminus (S \cup C) \).
+Typically, in practice, in the case of multiple \glspl{tlc} the same single ruleset \(R\) is used for every \gls{tlc} in the defined system.  In these cases, a single ruleset may be specified, which is assumed to apply to every \gls{tlc}.  Furthermore, strictly speaking, the symbols used to represent the states of the system and channel endpoints' labels are a part of the alphabet of the system.  Ordinarily they are not used for any other purpose besides occasional variable unification in a rule to control with which neighbours a \gls{tlc} might communicate, however, and so their specification is omitted from that of the alphabet \(A\).  \Ie{} if \(A_\alpha\) is the complete alphabet, the alphabet typically presented in the tuple is \( A_\beta = A_\alpha \setminus (S \cup C) \).
 
-If there are no channels used in a system (which is likely to occur if an algorithm only uses a single \gls{tlc} to find a solution) then, instead of writing \(\{\emptyset\}\) for \(C\), one may choose to exclude the channels entry entirely.  In this case, the system definition is reduced to a 6-tuple with \(R\), \(S\) and \(\bar{s}\) all shifting one position to the left:
+If there are no channels used in a system (which is likely to occur if an algorithm only uses a single \gls{tlc} to find a solution) then, instead of writing \(\{\emptyset\}\) for \(C\), one may choose to exclude the channels' entry entirely.  In this case, the system definition is reduced to a 6-tuple with \(R\), \(S\) and \(\bar{s}\) all shifting one position to the left:
 
 \cptupletemplate{}
 
