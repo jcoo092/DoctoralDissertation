@@ -81,7 +81,7 @@ Recall from \cref{sec:cps:formaldescriptions} that a given \gls{cps} implementat
 
 \cptuplechans{\text{NMP-GS}}{\cpset{\sigma_1, \dots, \sigma_{\text{max}}}}{A}{O}{C}{\text{\cref{ruleset:nmp:systemwide}}}{\cpset{s_1, s_2, s_3, s_4, s_5, s_6}}{s_1}
 
-\(T\) is a set of \glspl{tlc}, each representing a single \gls{pe}, numbered from one to the total size of the lattice.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is the set of all terms defined in \cref{sec:nmp:globalsync:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is a generation counter functor \(i\) and its set of initial data \(V\).  Each \gls{pe}'s set in \(C\) is \(\{1, 2, 3, 4\}\) for any \gls{pe} inside the grid, while those on a border or corner will include one or two fewer entries, respectively, in their set (see also \cref{sec:nmp:ruleslessthanfour} for further discussion of this).
+\(T\) is a set of \glspl{tlc}, each representing a single \gls{pe}, numbered from one to the total size of the lattice.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is the set of all terms defined in \cref{sec:nmp:globalsync:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is a generation counter \gls{functor} \(i\) and its set of initial data \(V\).  Each \gls{pe}'s set in \(C\) is \(\{1, 2, 3, 4\}\) for any \gls{pe} inside the grid, while those on a border or corner will include one or two fewer entries, respectively, in their set (see also \cref{sec:nmp:ruleslessthanfour} for further discussion of this).
 
 \subsection{\label{sec:nmp:globalsync:rulesdesc}Description of Rules}
 
@@ -145,13 +145,13 @@ Recall from \cref{sec:cps:formaldescriptions} that a given \gls{cps} implementat
     \cptermdef{\cpempty}{The \gls{cps} `empty' atom (see \cref{sec:cps:complexsymbols,sec:cps:natnums}).}
 \end{description}
 
-\paragraph{Functors}
+\paragraph{\Glspl{functor}}
 \begin{description}
     \cptermdef{i}{A generation counter.  Used to count the number of generations of \gls{nm} remaining before moving to the finalisation phase.}
     \cptermdef{v}{The \(v\) compound terms described in \cref{sec:cps:compoundterms} \emph{except} without the generation counter --- the \(i\) counter serves the same purpose for the \gls{gs} variant.  These serve as \gls{nm} messages.}
     \cptermdef{w}{The same as the \(v\) terms, but used as messages to the oracle for \gls{oq}.}
     \cptermdef{w'}{The same as the above \(w\) objects, but marked to indicate to the oracle that they are to be used for finalisation rather than \gls{oq}.}
-    \cptermdef{z}{Final output functor.  Holds the result of the \gls{pe}’s computation.}
+    \cptermdef{z}{Final output \gls{functor}.  Holds the result of the \gls{pe}’s computation.}
 \end{description}
 
 \paragraph{States}

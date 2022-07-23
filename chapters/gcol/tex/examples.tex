@@ -18,7 +18,7 @@ To demonstrate the operation of the \gls{cps} algorithm in a 3-colouring context
 
 \subsection{Successful Example}
 
-For the graph in \cref{fig:gcol:examplegraph}, begin with a single \gls{tlc} situated in the environment and in state \(s_1\).  From the hypothetical set of nodes \(V = \{1, 2, 3, 4, 5\}\),  derive the functor
+For the graph in \cref{fig:gcol:examplegraph}, begin with a single \gls{tlc} situated in the environment and in state \(s_1\).  From the hypothetical set of nodes \(V = \{1, 2, 3, 4, 5\}\),  derive the \gls{functor}
 \[V' = \cpfunc{v}{\cpfunc{n}{1}~\cpfunc{n}{2}~\cpfunc{n}{3}~\cpfunc{n}{4}~\cpfunc{n}{5}}.\]
 Define also the object set
 \[E' = \cpset{\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{2}},~\cpfunc{e}{\cpfunc{n}{1} \, \cpfunc{n}{5}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{3}},~\cpfunc{e}{\cpfunc{n}{2} \, \cpfunc{n}{4}},~\cpfunc{e}{\cpfunc{n}{4} \, \cpfunc{n}{5}}}\]
@@ -108,7 +108,7 @@ At the fourth step, many further objects are created, some of which are listed i
 \caption[Objects in the \gls{tlc} after the fourth step, for \cref{fig:gcol:examplegraph}]{\label{objs:gcol:obj4}Objects in the \gls{tlc} after the fourth step for \cref{fig:gcol:examplegraph}.}
 \end{cpobjectsfloat}
 
-Step 5 proceeds analogously.  At the end of step 5 a number of \(b\) objects which contain valid colourings of the whole graph will be present inside the \gls{tlc}.  At the sixth step, \cpruleref{rule:gcol:rules:endsucc} will detect this by the fact that said objects will contain empty \(v\) functors.  For example, \cref{objs:gcol:obj6} shows some of the potential solutions that could be generated, reflecting the state of the system at the end of the fifth step.  In fact, the first potential solution shows that in this case it is possible to completely and validly colour this graph using only two colours.  This solution may or may not be chosen when \cpruleref{rule:gcol:rules:endsucc} is applied.  At the sixth step, \cpruleref{rule:gcol:rules:endsucc} will select one of the possible solutions and emit it to the environment.  The \gls{tlc} will also transition to state \(s_3\), signalling that the process succeeded.
+Step 5 proceeds analogously.  At the end of step 5 a number of \(b\) objects which contain valid colourings of the whole graph will be present inside the \gls{tlc}.  At the sixth step, \cpruleref{rule:gcol:rules:endsucc} will detect this by the fact that said objects will contain empty \(v\) \glspl{functor}.  For example, \cref{objs:gcol:obj6} shows some of the potential solutions that could be generated, reflecting the state of the system at the end of the fifth step.  In fact, the first potential solution shows that in this case it is possible to completely and validly colour this graph using only two colours.  This solution may or may not be chosen when \cpruleref{rule:gcol:rules:endsucc} is applied.  At the sixth step, \cpruleref{rule:gcol:rules:endsucc} will select one of the possible solutions and emit it to the environment.  The \gls{tlc} will also transition to state \(s_3\), signalling that the process succeeded.
 
 \begin{cpobjectsfloat}
 \begin{cpobjects}

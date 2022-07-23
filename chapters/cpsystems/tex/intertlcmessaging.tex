@@ -18,7 +18,7 @@ Both sending and receiving use pattern matching.  For the sending case, any \gls
 
 Antiport rules \cite{Orellana-Martin2019,Paun2002} allow for the bidirectional exchange of objects between \glspl{compartment} during a single rule execution, with the restriction that objects \emph{must} travel in both directions.  Thus, if one side is only ready to send or receive, rather than both, the rule cannot run at the next step.  This avoids deadlock from both sides of the exchange waiting on the other to send a message.
 
-In the context of \gls{cps}, this means that a given rule must involve receipt over a channel on the left-hand-side, and sending on the \emph{same} channel on the right-hand-side.  To emphasise that the rule requires antiport behaviour, the sending and receiving terms have an extra \(!\) or \(?\), respectively.
+In the context of \gls{cps}, this means that a given rule must involve receipt over a channel on the \gls{lhs}, and sending on the \emph{same} channel on the \gls{rhs}.  To emphasise that the rule requires antiport behaviour, the sending and receiving terms have an extra \(!\) or \(?\), respectively.
 
 \lstset{xleftmargin=.5in, xrightmargin=.5in} 
 \begin{lstlisting}

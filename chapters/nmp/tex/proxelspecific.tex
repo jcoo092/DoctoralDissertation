@@ -192,14 +192,14 @@ Per the tuple definition from \cref{sec:cps:formaldescriptions}:
 \paragraph{Atoms}
 The same as in \cref{sec:nmp:globalsync}.
 
-\paragraph{Functors}
+\paragraph{\Glspl{functor}}
 \begin{description}
-    \cptermdef{a}{Adjacency set.  Lists the neighbours of the \gls{pe} as a set of \(n\) functors.}
+    \cptermdef{a}{Adjacency set.  Lists the neighbours of the \gls{pe} as a set of \(n\) \glspl{functor}.}
     \cptermdef{i}{Maximum generations counter.}
-    \cptermdef{n}{Neighbourhood functor.  Stores the label for one of the channels/neighbours to which the current \gls{pe} is connected.}
+    \cptermdef{n}{Neighbourhood \gls{functor}.  Stores the label for one of the channels/neighbours to which the current \gls{pe} is connected.}
     \cptermdef{r}{Receipt token, showing that a message was recently received from neighbour \(X\).}
     \cptermdef{v}{Serves as both the internal data stores and \gls{nm} messages of the system.  These are the \(v\) compound terms described in \cref{sec:cps:compoundterms}.}
-    \cptermdef{w}{Identical in most respects to \(v\) functors, except used for messaging with the oracle instead of neighbouring \glspl{pe}.  That is, these are \gls{oq}, rather than \gls{nm}, messages.}
+    \cptermdef{w}{Identical in most respects to \(v\) \glspl{functor}, except used for messaging with the oracle instead of neighbouring \glspl{pe}.  That is, these are \gls{oq}, rather than \gls{nm}, messages.}
     \cptermdef{w'}{Identical to \(w\), except marked to indicate to the oracle that the messages sent are to be used for finalisation computations instead of \gls{oq}.}
     \cptermdef{z}{Identical to the \(z\) in \cref{sec:nmp:globalsync}.}
 \end{description}

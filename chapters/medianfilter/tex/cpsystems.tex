@@ -48,7 +48,7 @@ Each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}
 \cptermdef{\cpundig}{\gls{cps} unary digit (see \vref{sec:cps:natnums}).}
 \end{description}
 
-\paragraph{Functors}
+\paragraph{\Glspl{functor}}
 \begin{description}
 \cptermdef{a}{Adjacency list term.  Holds a set of \(n\) terms with the current pixel's names for each of its neighbours.}
 \cptermdef{b}{Pixel value.  Holds the current pixel's own value, to exchange with neighbours and consider later in the \gls{medianfilter}ing process.}
@@ -73,7 +73,7 @@ Each pixel begins with an adjacency set \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}
 
 \section{\label{sec:median:cpsmedianexample}\glsfmtname{cps} Example}
 
-Assume that an arbitrary exemplar pixel has four neighbours, represented in \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4}}\), and its value is 6, \(\cpfunc{b}{6}\).  The objects present in the \gls{tlc} at the end of every step are listed in \crefrange{objs:medianfilter:ex0}{objs:medianfilter:ex5}, with the labels of \emph{changed} functors in boldface.  When \cpruleref{rule:medianfilter:antiport} is applied, the pixel gains four new \(s\) and four new \(t\) \glspl{functor}, \(\cpfuncn{s}{2}{8}\) \& \(\cpfuncnn{t}{2}{8}{1}\), \(\cpfuncn{s}{3}{3}\) \& \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncn{s}{4}{6}\) \& \(\cpfuncnn{t}{4}{6}{1}\), \(\cpfuncn{s}{5}{3}\) \& \(\cpfuncnn{t}{5}{3}{1}\).  \(\cpfunc{c}{0}\) becomes \(\cpfunc{c}{4}\).  \cpRuleref{rule:medianfilter:storeown} adds \(\cpfuncn{s}{1}{6}\) \& \(\cpfuncnn{t}{1}{6}{1}\), and \(\cpfunc{c}{4}\) becomes \(\cpfunc{c}{5}\).
+Assume that an arbitrary exemplar pixel has four neighbours, represented in \(\cpfunc{a}{\cpfunc{n}{1} \, \cpfunc{n}{2} \, \cpfunc{n}{3} \, \cpfunc{n}{4}}\), and its value is 6, \(\cpfunc{b}{6}\).  The objects present in the \gls{tlc} at the end of every step are listed in \crefrange{objs:medianfilter:ex0}{objs:medianfilter:ex5}, with the labels of \emph{changed} \glspl{functor} in boldface.  When \cpruleref{rule:medianfilter:antiport} is applied, the pixel gains four new \(s\) and four new \(t\) \glspl{functor}, \(\cpfuncn{s}{2}{8}\) \& \(\cpfuncnn{t}{2}{8}{1}\), \(\cpfuncn{s}{3}{3}\) \& \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncn{s}{4}{6}\) \& \(\cpfuncnn{t}{4}{6}{1}\), \(\cpfuncn{s}{5}{3}\) \& \(\cpfuncnn{t}{5}{3}{1}\).  \(\cpfunc{c}{0}\) becomes \(\cpfunc{c}{4}\).  \cpRuleref{rule:medianfilter:storeown} adds \(\cpfuncn{s}{1}{6}\) \& \(\cpfuncnn{t}{1}{6}{1}\), and \(\cpfunc{c}{4}\) becomes \(\cpfunc{c}{5}\).
 
 Rules \cpruleref*{rule:medianfilter:halve}, \cpruleref*{rule:medianfilter:lessthan}, and \cpruleref*{rule:medianfilter:diffidx} all now execute at the same step.  \cpRuleref{rule:medianfilter:halve} divides \(c\) by 2, creating \(\cpfunc{c}{3}\).  \cpRuleref{rule:medianfilter:lessthan} compares the \(s\) and \(t\) terms where the pixel (central) value is different, while \cpruleref{rule:medianfilter:diffidx} compares the \(s\) and \(t\) terms where the pixel value is the same.  The operation of \cpruleref{rule:medianfilter:lessthan} alone would produce \(\cpfuncnn{t}{1}{6}{3}\), \(\cpfuncnn{t}{2}{8}{5}\), \(\cpfuncnn{t}{3}{3}{1}\), \(\cpfuncnn{t}{4}{6}{3}\) and \(\cpfuncnn{t}{5}{3}{1}\).  This is insufficient to choose the median.
 

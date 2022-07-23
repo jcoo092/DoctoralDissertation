@@ -123,7 +123,7 @@ The operation of this rule occurs implicitly in the pseudocode, and does not hav
 \cptermdef{\cpempty}{The standard \gls{cps} ``empty'' term symbol.}
 \end{description}
 
-\paragraph{Functors}
+\paragraph{\Glspl{functor}}
 \begin{description}
 \cptermdef{b}{Node exploration term.  This is a collection term, which holds information pertaining to the nodes explored so far on this path and the colours assigned to those nodes, and the remaining unexplored nodes in the graph.}
 \cptermdef{c}{Colouring assignment term.  Records the colour assigned to a node for a particular exploration}
@@ -207,14 +207,14 @@ and \cref{eq:gcol:w} to
 The behaviour of the system in regard to termination and correctness is examined below.  The discussion in this \namecref{sec:gcol:termination} assumes that the number of steps taken is tracked in a variable \(i\).  No such subcell appears in \cref{ruleset:gcol:rules} because the rules make no use of the step number.
 
 \begin{theorem}\label{theorem:gcol:grow}
-All \bo{} objects present in the \gls{tlc} hold a monotonically growing set \(M\) of \(m\) \glspl{functor}, which represent validly coloured partial spanning trees of the whole graph, and at step \(1 \leq i \leq |V|\) in the evolution of the system, each partial spanning tree will have a length equal to \(i\).  Likewise, the magnitude of the set of unexplored node labels in the \(v\) functor decreases monotonically, is equal to \(|V| - i\).
+All \bo{} objects present in the \gls{tlc} hold a monotonically growing set \(M\) of \(m\) \glspl{functor}, which represent validly coloured partial spanning trees of the whole graph, and at step \(1 \leq i \leq |V|\) in the evolution of the system, each partial spanning tree will have a length equal to \(i\).  Likewise, the magnitude of the set of unexplored node labels in the \(v\) \gls{functor} decreases monotonically, is equal to \(|V| - i\).
 \end{theorem}
 
 \begin{proof}
 By induction.
 
 \textbf{Base case:}
-At step \(i = 1\), a single \bo{} object will have been created by operation of \cpruleref{rule:gcol:rules:init}.  Contained within this \bo{} object is a single \(m\) \gls{functor}, which pairs a node label with a colour label.  Thus, the size of \(M\), \(|M| = 1\), \(m \in M\).  By the same rule, the \(v\) functor will be preserved but have one fewer node labels, so the magnitude of the set of labels is \(|V| - 1\).
+At step \(i = 1\), a single \bo{} object will have been created by operation of \cpruleref{rule:gcol:rules:init}.  Contained within this \bo{} object is a single \(m\) \gls{functor}, which pairs a node label with a colour label.  Thus, the size of \(M\), \(|M| = 1\), \(m \in M\).  By the same rule, the \(v\) \gls{functor} will be preserved but have one fewer node labels, so the magnitude of the set of labels is \(|V| - 1\).
 
 \textbf{Induction step:}
 Assume the induction hypothesis holds for step \(n \geq 1\).  Now consider step \(n + 1 \leq |V|\).
@@ -223,7 +223,7 @@ Assume the induction hypothesis holds for step \(n \geq 1\).  Now consider step 
 
 At step \(n + 1\), any pre-existing \bo{} objects are removed by action of \cpruleref{rule:gcol:rules:loopclean}, but are replaced by \cpruleref{rule:gcol:rules:loop} with new \bo{} objects which between them cover all possible valid coloured partial spanning trees rooted at the initial node so far, after adding one further \(m\) object to \(M\), so \(|M|_{n + 1} = |M|_{n} + 1\).  By operation of the same rule, the number of node labels contained inside the \(v\) \gls{functor}, itself inside each \bo{} object, will decrease by one, and thus the number of remaining unexplored nodes inside it will be equal to \(|V| - (n + 1)\).
 
-The addition of one to \(M\) is a function of the \gls{rhs} and first \gls{promoter} of \cpruleref{rule:gcol:rules:loop}.  Through pattern matching, the \gls{promoter} selects exactly one \(m\) functor individually, and the entirety of the (possibly empty) remainder as the variable \(M\).  Those precise two terms then appear again inside the new \bo{} in the \gls{rhs}, along with one further \emph{new} \(m\) functor.  This guarantees that exactly one further \(m\) is added to \(M\).  The reduction of the size of the label set inside the \(v\) functor arises from the same two elements of \cpruleref{rule:gcol:rules:loop}.  A single node label is selected in the \gls{promoter} with the term \(\cpfunc{n}{Y}\), and the (possibly empty) remainder with the variable \(Z\).  The \(Z\) is then placed back into the \(v\) functor in the new \bo{} object, but \emph{not} the label represented by \(Y\), which is instead used in the creation of the new \(m\) functor.
+The addition of one to \(M\) is a function of the \gls{rhs} and first \gls{promoter} of \cpruleref{rule:gcol:rules:loop}.  Through pattern matching, the \gls{promoter} selects exactly one \(m\) \gls{functor} individually, and the entirety of the (possibly empty) remainder as the variable \(M\).  Those precise two terms then appear again inside the new \bo{} in the \gls{rhs}, along with one further \emph{new} \(m\) \gls{functor}.  This guarantees that exactly one further \(m\) is added to \(M\).  The reduction of the size of the label set inside the \(v\) \gls{functor} arises from the same two elements of \cpruleref{rule:gcol:rules:loop}.  A single node label is selected in the \gls{promoter} with the term \(\cpfunc{n}{Y}\), and the (possibly empty) remainder with the variable \(Z\).  The \(Z\) is then placed back into the \(v\) \gls{functor} in the new \bo{} object, but \emph{not} the label represented by \(Y\), which is instead used in the creation of the new \(m\) \gls{functor}.
 
 % At step 3, there will be three \(m\) objects inside each \bo{} object, where there are edges in the graph connecting the represented nodes.  Due to the maximally-parallel nature of \cpruleref{rule:gcol:rules:loop}, every possible partial spanning tree of size \(i\) rooted at the initial node will be represented in a \bo{} object at step \(i\).
 
