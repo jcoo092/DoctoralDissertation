@@ -68,12 +68,7 @@
 \pgfplotsset{compat=1.17}
 \usepgfplotslibrary{external,groupplots}
 
-% The below was taken from https://tex.stackexchange.com/a/82224 to get rid of some warnings with pgfplots when running in draft mode
-\pgfkeys{/pgf/images/include external/.code=\includegraphics{#1}}
-
-% \tikzexternalize[optimize=false]
 \tikzexternalize[optimize command away=\includepdf]
-% \tikzexternalize
 
 % Typeface options — choose one if desired
 % or choose a different typeface to accommmodate character sets
@@ -125,7 +120,6 @@
 %
 \usepackage[
 	bibstyle=ieee, 
-%	citestyle=numeric-comp,
     citestyle=ieee,
 	backend=biber,
 	sorting=nyt,
@@ -164,7 +158,6 @@
 
 \usepackage[acronym]{glossaries-extra}
 \setabbreviationstyle[acronym]{long-short}
-% \glsdisablehyper
 \makeglossaries
 
 \input{tex/newcommands} % Miscellaneous commands I made for use in this dissertation
@@ -186,7 +179,7 @@
 % ====================================================
 % Specify the title page content
 \title{Highly Concurrent Solutions to Graph and Image Processing Problems}
-\subtitle{{\small v0.9.7 compiled on \today}}
+\subtitle{{\small v0.9.8 compiled on \today}}
 \author{James Cooper}
 \degreesought{Doctor of Philosophy}
 \degreediscipline{Computer Science}
@@ -200,9 +193,6 @@
 
 % Abstract, up to 350 words
 \include{tex/abstract} % it's in a separate file
-
-% Dedication (optional)
-% \thesisdedication{This work is dedicated to the interested reader and all those who make use of material presented within.}
 
 % Preface and/or acknowledgements (optional)
 \input{tex/acknowledgements.tex} % it's in a separate file
@@ -287,9 +277,6 @@ Include definitions of promoter and inhibitor in the glossary?
 \backmatter
 
 \cleardoublepage % start afresh on a new page
-
-% \appendixpage* % makes a page to mark beginning of appendices -- currently there are no appendices
-% \input{appendix1}
 
 \printbibliography[title={Works Cited}, heading=bibintoc]
 

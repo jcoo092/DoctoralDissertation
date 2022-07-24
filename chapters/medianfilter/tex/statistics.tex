@@ -268,7 +268,6 @@ Finding the mode of the elements in a multiset requires four steps.
 Consider \cref{rules:median:mode} and the example in \cref{tab:median:mode}.  As with the mean, this process combines other operations:  Counting the frequency of elements (\cref{sec:median:countfreq}) takes three steps, then selecting the element maximum frequency (\cref{sec:median:max}) uses one extra step.  Unlike in \cref{sec:median:mean}, the aforementioned \glspl{ruleset} cannot be used concurrently to reduce the number of steps required because the maximum-finding rule may only fire once the frequency counting process has concluded.
 \end{proof}
 
-% \cpresetrulenumber
 \begin{cprulesetfloat}
 \begin{cpruleset}
 \cprule{s_1}{}{\cpmaxpar}{s_2}{\cpfuncn{c}{C}{\cpempty}}

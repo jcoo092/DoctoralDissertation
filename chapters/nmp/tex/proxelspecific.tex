@@ -1,13 +1,12 @@
 \section{\label{sec:nmp:pespecific}Processing Element-specific Asynchronous Messaging}
-% \cpresetrulenumber
 
 This \namecref{sec:nmp:pespecific} presents a variant of the above system where the rules are applied in a \gls{pe}-specific manner and the \glspl{pe} run \emph{asynchronously} \cite{Balanescu2011,Nicolescu2014}, so that the steps of one \gls{pe} do not necessarily occur contemporaneously with those of another.\footnote{In this form, \gls{nmp} shares some obvious similarities with \Gls{csp} (\cref{subsec:back:csp}), \Glspl{actor} (\cref{subsec:back:actors}) and \Glspl{pram} (\cref{sec:back:othermodels}).}  
 
-At this point, the distinction between an entire system having one state, or each \gls{cps} \gls{tlc} having separate states becomes relevant.  Instead of every \gls{pe} being guaranteed to be in the same state, \glspl{pe} have individual states dictating their operation independently.  The same conceptual phases are kept, though the \gls{oq} and \gls{nm} phases are combined because they now may occur interleaved.  During the \gls{oq} \& \gls{nm} phase, each \gls{pe} independently works through a series of \label{pg:nmp:rounds}\emph{rounds}, as described in \vref{sec:back:syncasync} and \vref{sec:cps:syncasync}. %following the typical idea of a round in theoretical asynchronous systems:  The \gls{pe} receives one or more messages, processes the received messages and updates its internal data, then sends out new messages based on the results.
+At this point, the distinction between an entire system having one state, or each \gls{cps} \gls{tlc} having separate states becomes relevant.  Instead of every \gls{pe} being guaranteed to be in the same state, \glspl{pe} have individual states dictating their operation independently.  The same conceptual phases are kept, though the \gls{oq} and \gls{nm} phases are combined because they now may occur interleaved.  During the \gls{oq} \& \gls{nm} phase, each \gls{pe} independently works through a series of \label{pg:nmp:rounds}\emph{rounds}, as described in \vref{sec:back:syncasync} and \vref{sec:cps:syncasync}.
 
 The most notable change from \cref{sec:nmp:globalsync} is the use of \emph{receipt tokens}.  Receipt tokens record that the \gls{pe} has received a message from a particular neighbour since the last time messages were sent.  This is vital to ensure that the correct number of messages are sent, and sent only after receiving appropriate messages from other neighbours.  Also, initialisation of the \glspl{pe} differs slightly from \cref{sec:nmp:globalsync}.  Along with the channels, each \gls{pe} starts with an adjacency list object, \(\cpfunc{a}{A}\), which holds a copy of the atoms for each neighbour/channel; the iteration counter (now a ``maximum generation counter''); and \(\text{zero}^{\text{th}}\) generation messages.
 
-In the \gls{gs} system, the received messages used to update the outgoing messages could always be assumed to have been sent during the same round as each other.  This is not the case under the asynchronous system, where a message may be sent out (and thus received) as soon as the necessary input messages have been received.  This has the potential for messages to be used out-of-order, where a message from what would have been an earlier `round' is re-used inappropriately.  Thus, these messages are augmented with a round number, termed here a \emph{generation} because each outgoing message is essentially the direct progeny of the messages received at the last generation.  These are equivalent to iterations, but because messages may arrive in different rounds, they must track their progression themselves.%  The data pre-populating the \glspl{pe} are the iteration counter (now a ``maximum generation counter'') and \(\text{zero}^{\text{th}}\) generation messages.%  Each outgoing message for generation \(n + 1\) is based on the relevant received messages for generation \(n\).
+In the \gls{gs} system, the received messages used to update the outgoing messages could always be assumed to have been sent during the same round as each other.  This is not the case under the asynchronous system, where a message may be sent out (and thus received) as soon as the necessary input messages have been received.  This has the potential for messages to be used out-of-order, where a message from what would have been an earlier `round' is re-used inappropriately.  Thus, these messages are augmented with a round number, termed here a \emph{generation} because each outgoing message is essentially the direct progeny of the messages received at the last generation.  These are equivalent to iterations, but because messages may arrive in different rounds, they must track their progression themselves.
 
 \begin{figure}
     \centering
@@ -15,8 +14,6 @@ In the \gls{gs} system, the received messages used to update the outgoing messag
     \caption[State machine of the progression of the \glsxtrshort{pe}-specific \glsxtrlong{nmp} \gls{cps} rules]{State machine of the progression of the \gls{pe}-specific \gls{nmp} \gls{cps} rules.  The vertices are labelled with the states and the arcs with the rule(s) which cause that transition.}
     \label{fig:nmp:proxelspecificstatemachine}
 \end{figure}
-
-% As with \cref{sec:nmp:globalsync}, this \namecref{sec:nmp:pespecific} shows the progression of the system through its states in \cref{fig:nmp:proxelspecificstatemachine}.  In this system, an \gls{oq} \& \gls{nm} round can be regarded as the steps taken to proceed from state \(s_1\) until reaching \(s_1\) again.  Thus, receiving one or more messages, followed potentially by preparing and sending new messages, forms a round.  The initialisation phase is only Rules \cpruleref*{rule:nmp:proxspec:initcounter} and \cpruleref*{rule:nmp:proxspec:recvinputs}.  The combined \gls{oq} and \gls{nm} phase is made up of Rules \cpruleref*{rule:nmp:proxspec:makews} through \cpruleref*{rule:nmp:proxspec:recvfromneighs}, which involve the receipt of one or more messages with generation \(0 < g \leq I\) from neighbours, then preparation of new messages to send to neighbours through communicating with the oracle and forwarding the results of the oracle's computation to the relevant neighbours.  Lastly, Rules \cpruleref*{rule:nmp:proxspec:finaloracle} and \cpruleref*{rule:nmp:proxspec:end} make up the finalisation phase.
 
 As with \cref{sec:nmp:globalsync}, this \namecref{sec:nmp:pespecific} shows the progression of the system through its states in \cref{fig:nmp:proxelspecificstatemachine}.  In this system, an \gls{oq} \& \gls{nm} round can be regarded as the steps taken to proceed from state \(s_1\) until reaching \(s_1\) again.  Thus, receiving one or more messages, followed potentially by preparing and sending new messages, forms a round.  The combined \gls{oq} and \gls{nm} phase is made up of Rules \cpruleref*{rule:nmp:proxspec:makews}-\cpruleref*{rule:nmp:proxspec:clearrs} \& \cpRuleref{rule:nmp:proxspec:recvfromneighs}, which involve the receipt of one or more messages with generation \(0 < g \leq I\) from neighbours, then preparation of new messages to send to neighbours through communicating with the oracle and forwarding the results of the oracle's computation to the relevant neighbours.  Rules \cpruleref*{rule:nmp:proxspec:movetoend}, \cpruleref*{rule:nmp:proxspec:finaloracle} and \cpruleref*{rule:nmp:proxspec:end} make up the finalisation phase.
 
@@ -37,17 +34,6 @@ As with \cref{sec:nmp:globalsync}, this \namecref{sec:nmp:pespecific} shows the 
     \(\gamma \Rightarrow \langle \delta \rangle\) denotes sending object \(\gamma\) on channel \(\delta\)
     }\;
     
-    % \tcc{Initialisation}
-    % \(R \gets \emptyset\)\;
-    % \(i \Leftarrow \langle e \rangle\)\;
-    
-    % \tcc*[l]{* assume environment \(e\) sends all of these now}
-    % \pForEach{\((x, 0, d) \Leftarrow \langle e \rangle\)}{
-    %     \(v[x] \gets (0,d)\)\;
-    %     \(R \gets R \cup \{x\}\)
-    % }
-    
-    % \;\tcc{\Glsentrylong{oq} \emph{and} \Glsentrylong{nm}}
     \tcc{\Glsentrylong{oq} \emph{and} \Glsentrylong{nm}}
     
     \Loop{
@@ -90,7 +76,6 @@ As with \cref{sec:nmp:globalsync}, this \namecref{sec:nmp:pespecific} shows the 
     
     \lpForEach{\(x \in A\)}{\(v[x] \Rightarrow \langle o \rangle\)}
     \(z \Leftarrow \langle o \rangle\)\;
-    % \(z \Rightarrow \langle e \rangle\)
 }
 \caption[Pseudocode description of the process for an individual \gls{fne} \glsxtrshort{pe} in the asynchronous system]{\label{alg:nmp:pespecific}Pseudocode description of the process for an individual \gls{fne} \gls{pe} in the asynchronous system}
 \end{algorithm}
@@ -106,8 +91,6 @@ Per the tuple definition from \cref{sec:cps:formaldescriptions}:
 
 \cptuple{\text{NMP-Async}}{T}{A}{\cpset{\cpfunc{a}{A_t} \, | \, t \in T}}{\cref{ruleset:nmp:proxspec}}{\cpset{s_1, \dots, s_9}}{s_1}
 
-% \(T\) is a set of \glspl{tlc}, each representing a single \gls{pe}, numbered sequentially.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is equal to the set of terms defined in \cref{sec:pespecific:definitions}.  Each \gls{pe}'s starting multiset in \(O\) is the appropriate channel endpoints and an adjacency list term \(a\), with contents \(A_t\) listing its neighbours specifically.  Every \gls{pe}'s \gls{ruleset} in \(R\) is either equal to that found in \cref{ruleset:nmp:proxspec}, or one which starts with that \gls{ruleset} as a base.  These latter \glspl{ruleset} drop terms from \cpruleref{rule:nmp:proxspec:makews} to adapt it to the relevant \gls{pe} having fewer than four neighbours (see \cref{sec:nmp:ruleslessthanfour}).
-
 \(T\) is a set of \glspl{tlc}, each representing a single \gls{pe}, numbered sequentially.  These numbers correspond to the \(\iota\) of \cref{fig:nmp:iota_proxels_environment_oracle}.  \(A\) is equal to the set of terms defined in \cref{sec:pespecific:definitions}.  Each \gls{pe}’s starting multiset in \(O\) is an adjacency list term \(a\), its maximum generation counter \(i\), its set of starting \(v\) messages and one receipt token per neighbour.  \(C\) is identical to the set of channel labels defined in \cref{sec:nmp:globalsync}.  Every \gls{pe}'s \gls{ruleset} in \(R\) is \cref{ruleset:nmp:proxspec}, or one which starts with that \gls{ruleset} as a base.  These latter \glspl{ruleset} drop terms from \cpruleref{rule:nmp:proxspec:makews} to adapt it to the relevant \gls{pe} having fewer than four neighbours (see \cref{sec:nmp:ruleslessthanfour}), dependent on their grid position.
 
 \subsection{Description of Rules}
@@ -115,15 +98,6 @@ Per the tuple definition from \cref{sec:cps:formaldescriptions}:
 \begin{cprulesetfloat}
     \begin{cpruleset}
     
-        % %%%%%%%%%%%%%  Initialisation  %%%%%%%%%%%%%
-    
-        % % Receive inputs from environment
-        % \cprule[rule:nmp:proxspec:initcounter]{s_1}{\cprecv{\cpfunc{i}{I}}{e}}{\cponce}{s_2}{\cpfunc{i}{I}}
-        
-        % \cprule[rule:nmp:proxspec:recvinputs]{s_1}{\cprecv{\cpvv{X}{\cpempty}{D}}{e}}{\cpmaxpar}{s_2}{\cpvv{X}{\cpempty}{D} & \\ & & & & \cpfunc{r}{X}}
-        
-        % \\
-        
         %%%%%%%%%%%%%  OQ & MP phase  %%%%%%%%%%%%%
         
         \cprule[rule:nmp:proxspec:makews]{s_1}{}{\cpmaxpar}{s_2}{\cpvw{W}{G\cpundig}{\cpfunc{d}{A}\,\cpfunc{d}{B}\,\cpfunc{d}{C}}}
@@ -164,7 +138,6 @@ Per the tuple definition from \cref{sec:cps:formaldescriptions}:
         \cprule[rule:nmp:proxspec:finaloracle]{s_6}{\cpvv{X}{G}{D}}{\cpmaxpar}{s_7}{\cpsend{w'\perfectunary{IncreaseHeight}{(}{)}{X}\perfectunary{IncreaseHeight}{(}{)}{G}\perfectunary{IncreaseHeight}{(}{)}{D}}{o}}
         
         % Oracle returns results which are immediately emitted to the environment
-        % \cprule[rule:nmp:proxspec:end]{s_7}{\cprecv{\cpfunc{z}{Z}}{o}}{\cpundig}{s_8}{\cpsend{\cpfunc{z}{Z}}{e}}
         \cprule[rule:nmp:proxspec:end]{s_7}{\cprecv{\cpfunc{z}{Z}}{o}}{\cpundig}{s_8}{\cpfunc{z}{Z}}
         
     \end{cpruleset}
@@ -172,8 +145,6 @@ Per the tuple definition from \cref{sec:cps:formaldescriptions}:
 \end{cprulesetfloat}
 
 \begin{enumerate}
-    % \item Receive the \(\cpfunc{i}{I}\) input from the environment.
-    % \item Receive \(\cpvv{X}{0}{D}\) messages as inputs from the environment.
     \item Consider in turn all receipt tokens \(r\), if any (in any arbitrary order). For \(\cpfunc{r}{k_1}\) and \(\cpvv{k_1}{g_1}{\cpdiscard}\), compare generation number \(g_1\) against the generation numbers of all other current values \(\cpvv{k_j}{g_j}{\cpdiscard}, k_j \in \{k_2, k_3, k_4\} = \{1, 2, 3, 4\} \setminus \{k_1\}\). Without loss of generality, if \(g_1 \leq g_2, g_3\) \emph{and} \(g_1 < I\) (\ie{} the maximum generation count) then create a message \(w\) to send to the oracle for \gls{oq}.  This message contains the data for \(k_1\), \(k_2\) and \(k_3\), which are used by the oracle in computing the new message to send to \(k_4\).  The generation count for this \(w\) message is \(g_1 + 1\).
     \item If there were no \gls{oq} messages generated by \cpruleref{rule:nmp:proxspec:makews}, then move straight to the process of testing for termination and receiving new messages.
     \item If there is more than one \gls{oq} message about a given neighbour, delete all but one of them.  The messages will be identical, but duplicates may arise due to the unification of different neighbours to \(Y\) and \(Z\) in \cpruleref{rule:nmp:proxspec:makews}.
@@ -183,7 +154,6 @@ Per the tuple definition from \cref{sec:cps:formaldescriptions}:
     \item If messages with a generation count equal to \(I\) have been received from every neighbour, transition to the finalisation phase.
     \item Receive a message \(\cpvv{\cpdiscard}{G}{D}\) from neighbour \(X\) and replace the current \(v\) object for \(X\) with it.  The neighbour label contained inside the message is overwritten with the current \gls{pe}'s label for the receiving channel.  Create a receipt token \(\cpfunc{r}{X}\).
     \item Send all the \gls{pe}'s \(v\) messages to the oracle, for the oracle to compute the final result for the \gls{pe}.
-    % \item Receive the computed final result from the oracle and send it to the environment.
     \item Identical to \cpruleref{rule:nmp:systemwide:end} in \cref{ruleset:nmp:systemwide}
 \end{enumerate}
 
@@ -206,7 +176,6 @@ The same as in \cref{sec:nmp:globalsync}.
 
 \paragraph{States}
 \begin{description}
-    % \cptermdef{s_1}{Environmental inputs receipt state.}
     \cptermdef{s_1}{Messaging round starting state.  If it is appropriate for the \gls{pe} to send new messages to its neighbours, then \gls{oq} messages are prepared and the sending process continues.  Otherwise, return to receiving once again.}
     \cptermdef{s_2}{Message send phase, part 1.  Drop any duplicate \gls{oq} messages referring to the same neighbour.   Send \gls{oq} messages to compute new outgoing \gls{nm} messages.}
     \cptermdef{s_3}{Receive the new \gls{nm} messages computed by the oracle, and forward them to the relevant neighbour(s).}

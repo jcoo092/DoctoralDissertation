@@ -1,9 +1,5 @@
 \chapter{\label{chap:conc}Conclusion}
 
-% \begin{anfxerror}{Backwards conclusion}
-% José suggested an approach where you go backwards in the conclusion, starting with the most recent section and eventually reaching the start again.  This, presumably, is for instances where each earlier bit contributes to one or more later bits, and so you say \enquote{we did x, using y that we defined earlier} sort of thing.
-% \end{anfxerror}
-
 As the title suggests, this dissertation has focused on highly concurrent solutions to computing problems.  These are, broadly, considered challenging problems (in the exact case at least) for modern electronic computers, but the high levels of concurrency -- combined with taking advantage of the unbounded memory space of \gls{mc} -- can significantly reduce their time complexity.  Each solution requires either constant or linear time, dependent on a core aspect of the problem.
 
 The specific problems addressed were:
@@ -53,32 +49,11 @@ This work makes the following main contributions:
 
 While this dissertation has explored new areas, it also points to worthwhile future work for \gls{cps}, and creating successful implementations of high concurrency solutions to problems.  A number of the most promising lines of enquiry are described below.
 
-% \subsection{`Faked' Message Passing in Shared Memory}
-% Roughly, most of the message passing involved here is largely, in effect, just handing around pointers to memory locations.  It would seem that the message passing itself places some overhead in the way of that.  Could there be some way to fake the message passing, so that to the program's writer it looks like an actual message passing implementation, but in reality it is just doing normal updates on mutable memory?  This \emph{might} enable the best of both worlds -- programming the algorithms according to their theory, but running in a highly efficient fashion `under-the-hood'.
-
-% None of the below were investigated further, due to a lack of time, but they are obvious next steps to look at.
-
-% It is not too clear how to achieve this (if it is indeed possible), but Rust would appear to be a good language to target for it.  Rust is fairly high-performance by default and enables quite a lot of low-level memory manipulation.  Moreover, its move semantics pretty much fit exactly to the concepts used here, and, on the face of it, its macro system would appear to be a convenient way to abstract over many of the details and provide a message passing façade, while actually doing efficient operations behind that.
-
-% Extended Dataflow Actors?  Or is it Extended Dataflow Architecture?
-
-% See also the Bulk Synchronous Parallel approach.
-
-% It looks like the C++ \texttt{mess} library is intended to be exactly this sort of thing:  \url{https://github.com/LouisCharlesC/mess}.  The developer seems to say that the user gets to write their program in a message-passing fashion, but mess does some clever meta-programming so that there ends up being zero overhead in the end.  Also, absolutely \emph{must} address Halide, and explain why it wasn't pursued here.  Otherwise, that'll be the elephant in the room.
-
-% https://scholar.google.co.nz/scholar?q=related:Z8GZl-HQcSkJ:scholar.google.com/&scioq=A+Static+Mapping+System+for+Logically+Shared+Memory+Parallel+Programs&hl=en&as_sdt=0,5&inst=15360723290749679499
-
-% http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.50.8739&rep=rep1&type=pdf
-
-% https://link.springer.com/chapter/10.1007/BFb0057916
-
-% https://link.springer.com/chapter/10.1007/3-540-63697-8_82
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Unification}
 
-One-way multiset unification frequently occurs in \gls{cps}, with unification used in almost every rule presented \crefrange{chap:tsp}{chap:nmp}.  An efficient algorithm to perform this task would be highly beneficial for creating useful simulations of systems.  For example, the simulations of the \gls{tsp} algorithm written in functional programming languages (see \vref{sec:tsp:simulation}) regularly simply iterate over all relevant objects in the system, even though frequently most will be of little use in a given function call, and so the simulations could benefit from improved unification in practice.  At the time \cref{chap:tsp} was completed, no efficient algorithm for this task was known, but more recently \citeauthor{Liu2021} published \citetitle{Liu2021} \cite{Liu2021}.  Given that the \gls{tsp} simulations are near-direct translations from the \gls{cps} \glspl{ruleset} to sequential programs, they especially should be revisited in light of this development.  %  Given that they hew most closely to a direct translation from \gls{cps}, the \gls{tsp} simulations especially should be revisited in light of this development.
+One-way multiset unification frequently occurs in \gls{cps}, with unification used in almost every rule presented \crefrange{chap:tsp}{chap:nmp}.  An efficient algorithm to perform this task would be highly beneficial for creating useful simulations of systems.  For example, the simulations of the \gls{tsp} algorithm written in functional programming languages (see \vref{sec:tsp:simulation}) regularly simply iterate over all relevant objects in the system, even though frequently most will be of little use in a given function call, and so the simulations could benefit from improved unification in practice.  At the time \cref{chap:tsp} was completed, no efficient algorithm for this task was known, but more recently \citeauthor{Liu2021} published \citetitle{Liu2021} \cite{Liu2021}.  Given that the \gls{tsp} simulations are near-direct translations from the \gls{cps} \glspl{ruleset} to sequential programs, they especially should be revisited in light of this development.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -109,14 +84,6 @@ Given the use of numerous smaller processors sounds remarkably close to the Sing
 It is not yet apparent, however, how best to join execution of \gls{cps} rules with \gls{gpgpu}.  The high levels of messaging and control flow might not fit well with \gls{gpu} architecture and prove to be confounding factors, as \gls{gpu} performance is generally averse to branching.  Further work is required in this space to find an optimal strategy.  In fact, there is almost certainly more efficiency to be extracted from CPUs, too.  Given that it can be used fairly directly for CPUs, \glspl{gpu} and \glspl{fpga}, targeting translation of \gls{cps} \glspl{ruleset} to OpenCL\footnote{\url{https://www.khronos.org/opencl/}} may prove fruitful.
 
 \Gls{mc} overall fundamentally assumes that the processors involved operate differently from current electronic computers.  Modern electronic computers follow a model in which the processor and the memory are distinct, and that data and instructions are shuttled back and forth between the two.\footnote{Indeed, making efficient use of the memory hierarchy tends to be critical to achieving high performance in modern application development.}  All the major forms of \gls{ps}, however, assume essentially that the memory storage \emph{is} the processor, whatever form the \glspl{compartment} take.  This differing theoretical operation suggests that non-standard hardware, such as logic modules and associative memory, may more directly support \gls{mc}.  Investigating this alternative hardware thus appears to be an important line of future research.  Novel approaches \emph{may} prove superior for systems such as \glspl{fpga} and semi-distributed systems like high-performance computing clusters, though that is primarily speculation at this point.
-
-% Researching uses of alternative hardware for \gls{nmp} would be worthwhile because of the potential for large-scale parallelism offered by devices such as \glspl{gpu} and \glspl{fpga}.  A \gls{gpu} implementation of the \gls{nmp} variants, in particular, seems like a promising target for further investigation.  Each \gls{pe} in a \gls{nmp} system likely has small processing requirements individually, but an entire system might have many \glspl{pe}.  The cores on a \gls{gpu} are limited in their capabilities compared to a CPU's cores, but there are many more of them, and modern \glspl{gpu} often comfortably run processes with millions of live threads.  Thus, \gls{nmp} and \glspl{gpu} are potentially a superb match.  The high levels of messaging and control flow, however, might not fit well with \gls{gpu} architecture, as \gls{gpu} performance is generally averse to branching.  Novel approaches \emph{may} prove superior for systems such as \glspl{fpga} and semi-distributed systems like high-performance computing clusters, though that is largely speculation at this point.
-
-% It would appear worthwhile to investigate how to implement a high-performance message passing system atop these hardware alternatives, due to the potential for many more computations per second.  Even better would be to create a heterogeneous system which can take full advantage of the strengths of each hardware type, while overcoming its weaknesses.  Precisely how to achieve efficient implementations on them is unknown.  The fact that OpenCL (and, to some extent at least, OpenACC can be compiled from the same base code to different devices makes it an obvious starting point.%   \fxerror{Note to self}{There has already been at least one publication on implementing \glspl{actor} in OpenCL \fxerror[inline]{[ref]}, suggesting it is possible -- though how well synchronous message passing will work as compared to asynchronous remains to be seen.}
-
-% The use of Full/Empty bits looks highly promising for making message passing more efficient.  It doesn't seem to have any real support in mainstream/commodity hardware, however.  There were Intel's TGX instructions, but they have been taken out of processors again.
-
-% See also \url{https://hastlayer.com/} -- they seem to say that they do relevant stuff on \glspl{fpga}.  Interestingly, they also do unums/posits, apparently.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

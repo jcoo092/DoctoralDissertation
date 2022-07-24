@@ -10,9 +10,6 @@ but without having the full processing power of a complete cell.
 In \gls{cps}, subcells represent nested, labelled, data-only \glspl{compartment}
 with no processing power of their own;
 instead, the rules of their enclosing cells act upon them.
-% instead, they are acted upon by the rules of their enclosing cells.
-
-% Subcells can be either \emph{atoms} or \emph{compound terms}: multisets labelled by \emph{\glspl{functor}} (`\gls{functor}' is also commonly used as a shorthand for said compound terms).  Atoms, as the name suggests, are indivisible symbols.  They can be of any given type relevant to a system, but are static objects with no other inherent distinctive properties.  Atoms are written simply as the name of the atom's type.  Compound terms are objects that may contain both atoms and other compound terms and are written with the \gls{functor}'s type, followed by opening and closing parentheses, surrounding the encapsulated multiset.\footnote{For legibility, many compound terms in this work have been written with growing parentheses, dependent upon the level of nesting of terms involved.  This typesetting behaviour is not required or even specified as a part of \gls{cps} and can be freely omitted.}
 
 %-------------------------------------------------------
 \subsection{\label{sec:cps:terms}Subcells' Symbols} 
@@ -102,18 +99,3 @@ For example:
 \item Matching \(\cpfunc{a}{XY} = \cpfunc{a}{df}\) non-deterministically creates one of the following four sets of unifiers: 
 \(X, Y = \cpempty, df\); \(X, Y = df, \cpempty\); \(X, Y = d, f\); \(X, Y = f, d\). 
 \end{itemize}
-
-% %-----------------------------------------
-% \subsubsection{Performance Note}
-% %-----------------------------------------
-% If the rules avoid any matching non-determinism, 
-% this proposal should not affect the performance of \gls{ps} simulators running on existing machines.
-% Assuming that multisets/bags are already taken care of, \eg{}~via hash-tables,
-% the proposed unification probably adds an almost linear factor.
-% Recall that, in similar contexts (no occurs check needed), 
-% Prolog unification algorithms can run in \(O(n g(n))\) steps,
-% where \(g\) is the inverse Ackermann function.
-% This conjecture must be proven, though, 
-% as the novel presence of multisets may affect the performance.
-
-% % -------------------------------------------------

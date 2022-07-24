@@ -18,13 +18,10 @@ In the current approach, each \gls{pe} has \emph{no} direct knowledge of its nei
 In the \gls{gs} version, the entire system evolves in lock-step, and thus is always in the same phase and \gls{cps} state.  The evolution follows a basic process, consisting of three conceptually distinct phases, the first two of which may be repeated.  Specifically, the system proceeds as follows (the rules are listed in \vref{ruleset:nmp:systemwide} and explained in \vref{sec:nmp:globalsync:rulesdesc}):
 
 \begin{enumerate}
-    % \item\label{enumitem:nmp:init} Initialisation (Rules \cpruleref*{rule:nmp:systemwide:recvcounter} \& \cpruleref*{rule:nmp:systemwide:recvinput})
     \item\label{enumitem:nmp:pu} \Gls{oq} (Rules \cpruleref*{rule:nmp:systemwide:loopdecrement}, \cpruleref*{rule:nmp:systemwide:sendtooracle} \& \cpruleref*{rule:nmp:systemwide:recvfromoracle})
     \item\label{enumitem:nmp:nm} \Gls{nm} (rule \cpruleref*{rule:nmp:systemwide:antiport})
     \item\label{enumitem:nmp:final} Finalisation (Rules \cpruleref*{rule:nmp:systemwide:loopend}, \cpruleref*{rule:nmp:systemwide:oraclefinalise} \& \cpruleref*{rule:nmp:systemwide:end})
 \end{enumerate}
-
-% This progression is depicted as a state machine in \cref{fig:nmp:systemwidestatemachine}.  State \(s_1\) covers the initialisation phase; \(s_2\) and \(s_3\) the \gls{oq} phase; \(s_4\) the \gls{nm} phase; and \(s_5\) and \(s_6\) the finalisation phase.  State \(s_7\) is the halting phase of the system's evolution.  In an application of \gls{nmp} phases \ref{enumitem:nmp:init}, \ref{enumitem:nmp:nm} and \ref{enumitem:nmp:final} will not change.  Only phase \ref{enumitem:nmp:pu} would be replaced.  The system's evolution is sketched at a high level in \cref{alg:nmp:systemwide2}.
 
 \Cref{fig:nmp:systemwidestatemachine} depicts this progression as a state machine.  States \(s_1\) and \(s_2\) cover the \gls{oq} phase; \(s_3\) the \gls{nm} phase; and \(s_4\) and \(s_5\) the finalisation phase.  State \(s_6\) is the halting state of the system's evolution.  In an application of \gls{nmp} phases \ref{enumitem:nmp:nm} and \ref{enumitem:nmp:final} will not change.  Only phase \ref{enumitem:nmp:pu} is replaced.  The system's evolution is sketched at a high level in \cref{alg:nmp:systemwide2}.
 
@@ -44,10 +41,6 @@ The \gls{oq} phase is when each \gls{pe} performs its internal computation. As m
 \SetKwFor{pForEach}{parallel foreach}{do}{endfch}
 \Begin{
     \tcc{\(\alpha \Leftarrow \langle \beta \rangle\) denotes receiving object \(\alpha\) on channel \(\beta\);\newline\(\gamma \Rightarrow \langle \delta \rangle\) denotes sending object \(\gamma\) on channel \(\delta\);\newline\(\epsilon \Leftrightarrow \langle \phi \rangle\) denotes antiport exchange, sending \emph{and} receiving (swapping) objects \(\epsilon\) on channel \(\phi\).}\;
-    
-    % \tcc{Initialisation}
-    % \(i \Leftarrow \langle e \rangle\)\;
-    % \lpForEach{\((x,d) \Leftarrow \langle e \rangle\)}{\(v[x] \gets d\)}\;
     
     \While{\(i > 0\)}{
         \tcc{\Glsentrylong{oq}}
@@ -69,7 +62,6 @@ The \gls{oq} phase is when each \gls{pe} performs its internal computation. As m
         \(w'[x] \Rightarrow \langle o \rangle\)
     }
     \(z \Leftarrow \langle o \rangle\)\;
-    % \(z \Rightarrow \langle e \rangle\)
 }
 \caption[Pseudocode of the \glsxtrlong{nmp} process in the \gls{gs} system]{\label{alg:nmp:systemwide2}Pseudocode description of the process for an individual \gls{pe} in the \gls{gs} system}
 \end{algorithm}
@@ -87,13 +79,6 @@ Recall from \cref{sec:cps:formaldescriptions} that a given \gls{cps} implementat
 
 \begin{cprulesetfloat}
     \begin{cpruleset}
-        % % Receive maximum generation counter
-        % \cprule[rule:nmp:systemwide:recvcounter]{s_1}{\cprecv{\cpfunc{i}{I}}{e}}{\cponce}{s_2}{\cpfunc{i}{I}}
-        
-        % % Receive inputs from environment
-        % \cprule[rule:nmp:systemwide:recvinput]{s_1}{\cprecv{\cpvq{X}{D}}{e}}{\cpmaxpar}{s_2}{\cpvq{X}{D}}
-        
-        \\
         
         % Else move to finishing
         \cprule[rule:nmp:systemwide:loopend]{s_1}{i(\lambda)}{\cponce}{s_4}{}
@@ -125,22 +110,19 @@ Recall from \cref{sec:cps:formaldescriptions} that a given \gls{cps} implementat
 \end{cprulesetfloat}
 
 \begin{enumerate}
-    % \item Receive \(I\), the maximum generation count or the number of rounds of message passing each \gls{pe} should engage in.\footnote{In general with \gls{nmp} a fixed number of generations is not the only way to determine when \gls{nm} should cease, but other methods tend to be specific to the problem at hand.   Therefore, a generation count is the only one presented here.  It should be applicable no matter the computation performed.}
-    % \item Receive from the environment \gls{nm} messages \(v(X)(D)\), being the \gls{pe}'s initial data for its neighbours.
     \item If \(i\) is empty, continue to the finalisation phase.
     \item Decrement \(i\) when sending \(w\) messages to the oracle for \gls{oq}.
     \item Convert the \(v\) messages into \(w\) messages and send them to the oracle to compute the new messages to send to neighbours.
     \item Receive back new \(w\) objects from the oracle and convert them to \(v\) objects.
     \item Swap \(v\) messages with each neighbour \(X\), using antiport communication (see \cref{sec:cps:antiport}).
     \item Send the \(v\) objects as \(w'\) to the oracle for finalisation computation.
-    \item Receive the final result \(\cpfunc{z}{Z}\) from the oracle and halt.% and send it to the environment.\footnote{One might wonder why the oracle could not simply emit the final result directly into the environment.  Strictly speaking, that would be reasonable in the context of this system, but bear in mind that the oracle is simply an abstraction over an arbitrary computation, which would take place \emph{inside} the \gls{pe}.}
+    \item Receive the final result \(\cpfunc{z}{Z}\) from the oracle and halt.
 \end{enumerate}
 
 \subsection{\label{sec:nmp:globalsync:definitions}Definitions of Terms}
 
 \paragraph{Atoms}
 \begin{description}
-    % \cptermdef{e}{The label of the channel used to communicate with the environment.}
     \cptermdef{o}{The label of the channel used to communicate with the oracle.}
     \cptermdef{\cpempty}{The \gls{cps} `empty' atom (see \cref{sec:cps:complexsymbols,sec:cps:natnums}).}
 \end{description}
@@ -156,7 +138,6 @@ Recall from \cref{sec:cps:formaldescriptions} that a given \gls{cps} implementat
 
 \paragraph{States}
 \begin{description}
-    % \cptermdef{s_1}{Beginning state.  The \glspl{pe} receive their inputs from the environment.}
     \cptermdef{s_1}{The opening \gls{oq} phase state, where data are sent to the oracle and the generation counter is decremented.}
     \cptermdef{s_2}{Data update receipt state. Updated data are received back from the oracle.}
     \cptermdef{s_3}{\Gls{nm} state.  Messages are swapped with neighbours.}
